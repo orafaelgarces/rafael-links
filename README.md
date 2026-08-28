@@ -2,7 +2,7 @@
 
 Página pessoal de link-in-bio, servida em `/links`. Site estático de arquivo único (`links/index.html`), sem build, sem dependências — fonte (Satoshi), fotos e logo já estão embutidos no HTML como base64.
 
-A raiz do domínio (`/`) redireciona para `/links` por enquanto (ver `vercel.json`). Quando o site principal estiver pronto, é só apagar esse redirect e colocar o novo site na raiz — `/links` continua funcionando do mesmo jeito.
+A raiz do domínio (`/`) fica livre/sem página por enquanto — reservada pro site principal. Quando ele estiver pronto, é só colocar o conteúdo novo na raiz do repositório — `/links` continua funcionando do mesmo jeito.
 
 ## Deploy
 
