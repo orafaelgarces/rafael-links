@@ -348,11 +348,16 @@
   }
   .stack-row {
     display: flex;
+    align-items: center;
     justify-content: space-between;
     gap: 16px;
     padding: 13px 20px;
     font-size: 0.87rem;
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.15s ease;
   }
+  .stack-row:hover { background: var(--paper-raised-hover); }
   .stack-row + .stack-row { border-top: 1px solid var(--border); }
   .stack-role {
     color: var(--ink-faint);
@@ -360,11 +365,30 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    padding-top: 2px;
     flex: none;
     width: 84px;
   }
-  .stack-item { color: var(--ink); text-align: right; font-weight: 500; }
+  .stack-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    color: var(--ink);
+    text-align: right;
+    font-weight: 500;
+  }
+  .stack-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    flex: none;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--paper-raised-hover);
+  }
+  .stack-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .stack-icon svg { width: 12px; height: 12px; color: var(--ink-soft); }
 
   /* ---------- Reading ---------- */
   .books {
@@ -521,12 +545,12 @@
       <div class="accordion-panel" id="stack-panel">
         <div class="accordion-panel-inner">
           <div class="stack-list">
-            <div class="stack-row"><span class="stack-role" data-i18n="role_machine">Máquina</span><span class="stack-item">MacBook Air M4</span></div>
-            <div class="stack-row"><span class="stack-role" data-i18n="role_monitor">Monitor</span><span class="stack-item">Azorpa 2.5K, 16:10"</span></div>
-            <div class="stack-row"><span class="stack-role" data-i18n="role_mouse">Mouse</span><span class="stack-item">Logitech MX Anywhere 3S</span></div>
-            <div class="stack-row"><span class="stack-role" data-i18n="role_headset">Headset</span><span class="stack-item">Logitech Zone Vibe 300</span></div>
-            <div class="stack-row"><span class="stack-role" data-i18n="role_mousepad">Mousepad</span><span class="stack-item">Logitech Studio Series Grafite</span></div>
-            <div class="stack-row"><span class="stack-role" data-i18n="role_desk">Mesa</span><span class="stack-item" data-i18n="item_desk">Garrafa Modus sempre por perto</span></div>
+            <a class="stack-row" href="https://www.amazon.com.br/dp/B0DZLGGBRN?tag=orafaelgarces-20" target="_blank" rel="noopener sponsored"><span class="stack-role" data-i18n="role_hardware">Hardware</span><span class="stack-item"><span class="stack-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span>MacBook Air M4</span></a>
+            <a class="stack-row" href="https://br.arzopa.com/products/arzopa-z1rc-2k-monitor-portatil-brilliante-qhd-500nits-8bit-tela?variant=45967527444724&country=BR&currency=BRL" target="_blank" rel="noopener"><span class="stack-role" data-i18n="role_monitor">Monitor</span><span class="stack-item"><span class="stack-icon"><img src="data:image/png;base64,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" alt="" loading="lazy"></span><span data-i18n="item_monitor">Azorpa 16" Portátil</span></span></a>
+            <a class="stack-row" href="https://www.amazon.com.br/dp/B0C6K2DH73?tag=orafaelgarces-20" target="_blank" rel="noopener sponsored"><span class="stack-role" data-i18n="role_mouse">Mouse</span><span class="stack-item"><span class="stack-icon"><img src="data:image/png;base64,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" alt="" loading="lazy"></span>MX Anywhere 3S</span></a>
+            <a class="stack-row" href="https://www.amazon.com.br/dp/B0CJT7RXLM?tag=orafaelgarces-20" target="_blank" rel="noopener sponsored"><span class="stack-role" data-i18n="role_headset">Headset</span><span class="stack-item"><span class="stack-icon"><img src="data:image/png;base64,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" alt="" loading="lazy"></span>Zone 300</span></a>
+            <a class="stack-row" href="https://www.amazon.com.br/dp/B09DV56338?tag=orafaelgarces-20" target="_blank" rel="noopener sponsored"><span class="stack-role" data-i18n="role_mousepad">Mousepad</span><span class="stack-item"><span class="stack-icon"><img src="data:image/png;base64,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" alt="" loading="lazy"></span>Studio Series Grafite</span></a>
+            <a class="stack-row" href="https://www.amazon.com.br/dp/B0FXZQ8VKB?tag=orafaelgarces-20" target="_blank" rel="noopener sponsored"><span class="stack-role" data-i18n="role_bottle">Garrafa</span><span class="stack-item"><span data-i18n="item_bottle">Modus Térmica 950ml</span></span></a>
           </div>
         </div>
       </div>
@@ -591,13 +615,14 @@
       behance_sub: "Projetos enquanto o site novo não sai do forno",
       whatsapp_sub: "Resposta rápida, chama pra conversar",
       stack_sub: "O que eu uso no dia a dia",
-      role_machine: "Máquina",
+      role_hardware: "Hardware",
       role_monitor: "Monitor",
+      item_monitor: "Azorpa 16\" Portátil",
       role_mouse: "Mouse",
       role_headset: "Headset",
       role_mousepad: "Mousepad",
-      role_desk: "Mesa",
-      item_desk: "Garrafa Modus sempre por perto",
+      role_bottle: "Garrafa",
+      item_bottle: "Modus Térmica 950ml",
       reading_label: "Lendo agora",
       buy_now: "Compre agora",
       book1_title: "Mostre seu Trabalho!",
@@ -614,13 +639,14 @@
       behance_sub: "Projects while the new site is still in the oven",
       whatsapp_sub: "Quick replies, let's talk",
       stack_sub: "What I use day to day",
-      role_machine: "Machine",
+      role_hardware: "Hardware",
       role_monitor: "Monitor",
+      item_monitor: "Azorpa 16\" Portable",
       role_mouse: "Mouse",
       role_headset: "Headset",
       role_mousepad: "Mousepad",
-      role_desk: "Desk",
-      item_desk: "Modus bottle always nearby",
+      role_bottle: "Bottle",
+      item_bottle: "Modus 950ml Thermal Bottle",
       reading_label: "Currently reading",
       buy_now: "Buy now",
       book1_title: "Show Your Work!",
