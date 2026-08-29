@@ -389,24 +389,28 @@
   }
   .book-cta {
     position: absolute;
-    inset: 0;
-    display: flex;
+    left: 10px;
+    bottom: 10px;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: rgba(10, 11, 13, 0.5);
-    color: #fff;
-    font-size: 0.8rem;
+    gap: 5px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #131720;
+    font-size: 0.72rem;
     font-weight: 600;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transform: translateX(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
     pointer-events: none;
   }
-  .book-cta svg { width: 14px; height: 14px; }
+  .book-cta svg { width: 12px; height: 12px; }
   .book:hover .book-cta,
-  .book:focus-visible .book-cta { opacity: 1; }
+  .book:focus-visible .book-cta { opacity: 1; transform: translateX(0); }
   .book:hover .book-cover,
-  .book:focus-visible .book-cover { transform: scale(1.05); }
+  .book:focus-visible .book-cover { transform: scale(1.03); }
   .book-title { font-weight: 600; font-size: 0.87rem; margin-top: 9px; text-wrap: balance; }
   .book-author { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1px; }
   @media (prefers-reduced-motion: reduce) {
