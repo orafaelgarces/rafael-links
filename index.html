@@ -155,10 +155,6 @@
     position: sticky;
     top: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--paper) 86%, transparent);
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border-bottom: 1px solid var(--border);
   }
   .nav {
     display: grid;
@@ -300,6 +296,59 @@
   .btn-primary { background: var(--accent-gradient); color: var(--accent-ink); }
   .btn-outline { background: transparent; border-color: var(--border); color: var(--ink); }
   .btn-outline:hover { background: var(--paper-raised-hover); }
+
+  /* ---------- Flow buttons ---------- */
+  .btn-flow {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-left: 26px;
+    padding-right: 26px;
+    transition: border-radius 0.5s cubic-bezier(0.23, 1, 0.32, 1), transform 0.15s ease,
+      border-color 0.4s ease, color 0.4s ease;
+  }
+  .btn-flow:hover { border-radius: 14px; }
+  .btn-flow .flow-label {
+    position: relative;
+    z-index: 2;
+    transform: translateX(-10px);
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .btn-flow:hover .flow-label { transform: translateX(10px); }
+  .btn-flow .flow-arrow {
+    position: absolute;
+    top: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    transform: translateY(-50%);
+    z-index: 3;
+    transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.4s ease;
+  }
+  .btn-flow .flow-arrow svg { width: 100%; height: 100%; }
+  .btn-flow .flow-arrow-in { left: -24%; opacity: 0; }
+  .btn-flow:hover .flow-arrow-in { left: 16px; opacity: 1; }
+  .btn-flow .flow-arrow-out { right: 16px; opacity: 1; }
+  .btn-flow:hover .flow-arrow-out { right: -24%; opacity: 0; }
+  .btn-flow .flow-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    z-index: 1;
+    transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1), height 0.6s cubic-bezier(0.19, 1, 0.22, 1),
+      opacity 0.3s ease;
+  }
+  .btn-flow:hover .flow-circle { width: 300px; height: 300px; opacity: 1; }
+  .btn-flow.btn-outline .flow-circle { background: var(--accent-gradient); }
+  .btn-flow.btn-outline:hover { border-color: transparent; color: var(--accent-ink); }
+  .btn-flow.btn-primary .flow-circle { background: var(--ink); }
+  .btn-flow.btn-primary:hover { color: var(--paper); }
 
   /* ---------- Services ---------- */
   .services-grid {
@@ -581,8 +630,18 @@
     <h1>Sua marca não pode ser só mais uma.</h1>
     <p class="sub">Identidade visual e sites com direção clara — pra fazer o seu negócio parecer, e ser, a escolha óbvia.</p>
     <div class="hero-ctas">
-      <a class="btn btn-primary" href="#cases">Ver trabalhos</a>
-      <a class="btn btn-outline" href="https://wa.me/5598982340912" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="btn btn-primary btn-flow" href="#cases">
+        <span class="flow-arrow flow-arrow-in" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="flow-label">Ver trabalhos</span>
+        <span class="flow-circle" aria-hidden="true"></span>
+        <span class="flow-arrow flow-arrow-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+      </a>
+      <a class="btn btn-outline btn-flow" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
+        <span class="flow-arrow flow-arrow-in" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="flow-label">Falar no WhatsApp</span>
+        <span class="flow-circle" aria-hidden="true"></span>
+        <span class="flow-arrow flow-arrow-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+      </a>
     </div>
   </section>
 
@@ -648,7 +707,12 @@
       </a>
       <div class="case-card-more">
         <span>Mais cases a caminho — enquanto isso, dá uma olhada no que já tem no Behance.</span>
-        <a class="btn btn-outline" href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener">Ver perfil no Behance</a>
+        <a class="btn btn-outline btn-flow" href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener">
+          <span class="flow-arrow flow-arrow-in" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          <span class="flow-label">Ver perfil no Behance</span>
+          <span class="flow-circle" aria-hidden="true"></span>
+          <span class="flow-arrow flow-arrow-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        </a>
       </div>
     </div>
   </section>
@@ -672,7 +736,12 @@
     <div class="contact-card">
       <h2>Bora conversar sobre o seu projeto?</h2>
       <p class="sub">Me chama e me conta o que você tem em mente — respondo rápido.</p>
-      <a class="btn btn-primary" href="https://wa.me/5598982340912" target="_blank" rel="noopener">Chamar no WhatsApp</a>
+      <a class="btn btn-primary btn-flow" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
+        <span class="flow-arrow flow-arrow-in" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+        <span class="flow-label">Chamar no WhatsApp</span>
+        <span class="flow-circle" aria-hidden="true"></span>
+        <span class="flow-arrow flow-arrow-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+      </a>
       <div class="social-row">
         <a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener" aria-label="Behance">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg>

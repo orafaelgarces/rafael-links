@@ -117,10 +117,6 @@
     position: sticky;
     top: 0;
     z-index: 40;
-    background: color-mix(in srgb, var(--paper) 86%, transparent);
-    backdrop-filter: blur(14px) saturate(160%);
-    -webkit-backdrop-filter: blur(14px) saturate(160%);
-    border-bottom: 1px solid var(--border);
   }
   .nav {
     display: grid;
@@ -290,6 +286,59 @@
   .btn-outline { background: transparent; border-color: var(--border); color: var(--ink); }
   .btn-outline:hover { background: var(--paper-raised-hover); }
 
+  /* ---------- Flow buttons ---------- */
+  .btn-flow {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-left: 26px;
+    padding-right: 26px;
+    transition: border-radius 0.5s cubic-bezier(0.23, 1, 0.32, 1), transform 0.15s ease,
+      border-color 0.4s ease, color 0.4s ease;
+  }
+  .btn-flow:hover { border-radius: 14px; }
+  .btn-flow .flow-label {
+    position: relative;
+    z-index: 2;
+    transform: translateX(-10px);
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .btn-flow:hover .flow-label { transform: translateX(10px); }
+  .btn-flow .flow-arrow {
+    position: absolute;
+    top: 50%;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    transform: translateY(-50%);
+    z-index: 3;
+    transition: left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), right 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+      opacity 0.4s ease;
+  }
+  .btn-flow .flow-arrow svg { width: 100%; height: 100%; }
+  .btn-flow .flow-arrow-in { left: -24%; opacity: 0; }
+  .btn-flow:hover .flow-arrow-in { left: 16px; opacity: 1; }
+  .btn-flow .flow-arrow-out { right: 16px; opacity: 1; }
+  .btn-flow:hover .flow-arrow-out { right: -24%; opacity: 0; }
+  .btn-flow .flow-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    z-index: 1;
+    transition: width 0.6s cubic-bezier(0.19, 1, 0.22, 1), height 0.6s cubic-bezier(0.19, 1, 0.22, 1),
+      opacity 0.3s ease;
+  }
+  .btn-flow:hover .flow-circle { width: 300px; height: 300px; opacity: 1; }
+  .btn-flow.btn-outline .flow-circle { background: var(--accent-gradient); }
+  .btn-flow.btn-outline:hover { border-color: transparent; color: var(--accent-ink); }
+  .btn-flow.btn-primary .flow-circle { background: var(--ink); }
+  .btn-flow.btn-primary:hover { color: var(--paper); }
+
   .case-ctas {
     display: flex;
     align-items: center;
@@ -387,8 +436,18 @@
   </div>
 
   <div class="case-ctas">
-    <a class="btn btn-primary" href="https://wa.me/5598982340912" target="_blank" rel="noopener">Quero um projeto assim</a>
-    <a class="btn btn-outline" href="https://www.behance.net/gallery/230938631/Loja-MaiPhone-One-Page" target="_blank" rel="noopener">Ver no Behance</a>
+    <a class="btn btn-primary btn-flow" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
+      <span class="flow-arrow flow-arrow-in" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+      <span class="flow-label">Quero um projeto assim</span>
+      <span class="flow-circle" aria-hidden="true"></span>
+      <span class="flow-arrow flow-arrow-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+    </a>
+    <a class="btn btn-outline btn-flow" href="https://www.behance.net/gallery/230938631/Loja-MaiPhone-One-Page" target="_blank" rel="noopener">
+      <span class="flow-arrow flow-arrow-in" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+      <span class="flow-label">Ver no Behance</span>
+      <span class="flow-circle" aria-hidden="true"></span>
+      <span class="flow-arrow flow-arrow-out" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+    </a>
   </div>
 </main>
 
