@@ -268,13 +268,12 @@
   .floating-icon {
     position: absolute;
     opacity: 0;
-    transform: scale(0.5);
     animation: icon-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     animation-delay: calc(var(--i) * 80ms);
     transition: transform 0.4s cubic-bezier(0.34, 1.2, 0.4, 1);
   }
   @keyframes icon-in {
-    to { opacity: 1; transform: scale(1); }
+    to { opacity: 1; }
   }
   .floating-icon-inner {
     display: flex;
