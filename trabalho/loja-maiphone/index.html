@@ -157,31 +157,10 @@
   }
   .nav-menu a:hover { color: var(--pill-text-hover); background: var(--pill-hover-bg); }
   .btn.btn-nav {
-    position: relative;
-    padding: 8px 44px 8px 16px;
+    padding: 9px 18px;
     font-size: 0.78rem;
   }
-  .btn-nav .slide-label {
-    position: relative;
-    display: inline-block;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .btn-nav:hover .slide-label { transform: translateX(11px); }
-  .btn-nav .slide-badge {
-    position: absolute;
-    top: 50%;
-    left: calc(100% - 27px);
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    background: var(--accent-gradient);
-    display: grid;
-    place-items: center;
-    transform: translateY(-50%);
-    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .btn-nav:hover .slide-badge { left: 4px; }
-  .btn-nav .slide-badge svg { width: 12px; height: 12px; color: var(--accent-ink); }
+  .btn-nav .origin-content svg { width: 13px; height: 13px; }
   @media (max-width: 860px) {
     .nav-menu { display: none; }
   }
@@ -327,44 +306,42 @@
     transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
   }
   .btn:hover { transform: translateY(-1px); }
+  .btn:active { transform: translateY(-1px) scale(0.98); }
   .btn-primary { background: var(--ink); color: var(--paper); }
-  .btn-primary:not(.btn-slide):not(.btn-nav):hover { background: var(--accent-gradient); color: var(--accent-ink); }
   .btn-outline { background: transparent; border-color: var(--border); color: var(--ink); }
-  .btn-outline:hover { background: var(--paper-raised-hover); }
 
-  /* ---------- Slide buttons ---------- */
-  .btn-slide {
+  /* ---------- Origin buttons ---------- */
+  .btn-origin {
     position: relative;
-    padding: 10px 50px 10px 20px;
+    clip-path: inset(0 round 999px);
+    padding: 10px 22px;
   }
-  .btn-slide .slide-label {
-    position: relative;
-    display: inline-block;
-    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  .btn-slide:hover .slide-label { transform: translateX(14px); }
-  .btn-slide .slide-badge {
+  .btn-origin .origin-fill {
     position: absolute;
-    top: 50%;
-    left: calc(100% - 31px);
-    width: 26px;
-    height: 26px;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: var(--accent-gradient);
-    display: grid;
-    place-items: center;
-    transform: translateY(-50%);
-    transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    pointer-events: none;
+    transform: translate(var(--origin-x, 50%), var(--origin-y, 50%)) translate(-50%, -50%) scale(0);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .btn-slide:hover .slide-badge { left: 5px; }
-  .btn-slide .slide-badge svg {
-    width: 13px;
-    height: 13px;
-    color: var(--accent-ink);
-    transform: rotate(-45deg);
-    transition: transform 0.35s ease;
+  .btn-origin.is-active .origin-fill {
+    transform: translate(var(--origin-x, 50%), var(--origin-y, 50%)) translate(-50%, -50%) scale(var(--origin-scale, 30));
   }
-  .btn-slide:hover .slide-badge svg { transform: rotate(0deg); }
+  .btn-origin .origin-content {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+  }
+  .btn-origin .origin-content svg { width: 14px; height: 14px; }
+  .btn-origin.is-active .origin-content { color: var(--accent-ink); }
 
   .case-ctas {
     display: flex;
@@ -413,10 +390,11 @@
       <a href="/#sobre">Quem Somos</a>
     </div>
     <div class="nav-right">
-      <a class="btn btn-primary btn-nav" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
-        <span class="slide-label">Agendar diagnóstico</span>
-        <span class="slide-badge" aria-hidden="true">
+      <a class="btn btn-primary btn-nav btn-origin" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
+        <span class="origin-fill" aria-hidden="true"></span>
+        <span class="origin-content">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Agendar diagnóstico
         </span>
       </a>
       <button type="button" class="theme-switch" role="switch" aria-label="Alternar tema claro/escuro">
@@ -468,13 +446,19 @@
   </div>
 
   <div class="case-ctas">
-    <a class="btn btn-primary btn-slide" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
-      <span class="slide-label">Quero um projeto assim</span>
-      <span class="slide-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+    <a class="btn btn-primary btn-origin" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
+      <span class="origin-fill" aria-hidden="true"></span>
+      <span class="origin-content">
+        Quero um projeto assim
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </span>
     </a>
-    <a class="btn btn-outline btn-slide" href="https://www.behance.net/gallery/230938631/Loja-MaiPhone-One-Page" target="_blank" rel="noopener">
-      <span class="slide-label">Ver no Behance</span>
-      <span class="slide-badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+    <a class="btn btn-outline btn-origin" href="https://www.behance.net/gallery/230938631/Loja-MaiPhone-One-Page" target="_blank" rel="noopener">
+      <span class="origin-fill" aria-hidden="true"></span>
+      <span class="origin-content">
+        Ver no Behance
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </span>
     </a>
   </div>
 </main>
@@ -515,4 +499,45 @@
       try { localStorage.setItem('rg_theme', next); } catch (e) {}
     });
   }
+
+  document.querySelectorAll('.btn-origin').forEach(function (btn) {
+    function setOrigin(x, y) {
+      var rect = btn.getBoundingClientRect();
+      var seed = 24;
+      var dx = Math.max(x, rect.width - x);
+      var dy = Math.max(y, rect.height - y);
+      var diameter = 2 * Math.hypot(dx, dy);
+      btn.style.setProperty('--origin-x', x + 'px');
+      btn.style.setProperty('--origin-y', y + 'px');
+      btn.style.setProperty('--origin-scale', (diameter / seed).toFixed(2));
+    }
+    function fromPointer(e) {
+      var rect = btn.getBoundingClientRect();
+      setOrigin(e.clientX - rect.left, e.clientY - rect.top);
+    }
+    function fromCenter() {
+      var rect = btn.getBoundingClientRect();
+      setOrigin(rect.width / 2, rect.height / 2);
+    }
+    btn.addEventListener('pointerenter', function (e) {
+      fromPointer(e);
+      btn.classList.add('is-active');
+    });
+    btn.addEventListener('pointerdown', function (e) {
+      fromPointer(e);
+      btn.classList.add('is-active');
+    });
+    btn.addEventListener('pointerleave', function () {
+      btn.classList.remove('is-active');
+    });
+    btn.addEventListener('focus', function () {
+      if (btn.matches(':focus-visible')) {
+        fromCenter();
+        btn.classList.add('is-active');
+      }
+    });
+    btn.addEventListener('blur', function () {
+      btn.classList.remove('is-active');
+    });
+  });
 </script>
