@@ -1,8 +1,9 @@
-# Rafael Garcês — Links
+# Rafael Garcês — Site
 
-Página pessoal de link-in-bio, servida em `/links`. Site estático de arquivo único (`links/index.html`), sem build, sem dependências — fonte (Satoshi), fotos e logo já estão embutidos no HTML como base64.
+Dois sites estáticos no mesmo repositório, cada um um arquivo único (sem build, sem dependências) — fonte (Satoshi), fotos e logo embutidos no HTML como base64.
 
-A raiz do domínio (`/`) fica livre/sem página por enquanto — reservada pro site principal. Quando ele estiver pronto, é só colocar o conteúdo novo na raiz do repositório — `/links` continua funcionando do mesmo jeito.
+- **`/` (raiz)** — `index.html` — portfólio principal. Ainda em esqueleto: um case real (Loja MaiPhone) + estrutura pronta pra receber os próximos.
+- **`/links`** — `links/index.html` — link-in-bio.
 
 ## Deploy
 
@@ -10,4 +11,7 @@ Hospedado na Vercel, conectado a este repositório no GitHub. Todo push na branc
 
 ## Editar
 
-Basta editar `links/index.html` diretamente e dar commit/push.
+- Portfólio: editar `index.html` na raiz.
+- Links: editar `links/index.html`.
+
+Depois é só commit/push.
