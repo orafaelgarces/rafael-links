@@ -2,8 +2,7 @@
 
 Dois sites estáticos no mesmo repositório, cada um um arquivo único (sem build, sem dependências) — fonte (Satoshi), fotos e logo embutidos no HTML como base64.
 
-- **`/` (raiz)** — `index.html` — portfólio, one page (Soluções, Metodologia, Quem Somos), header fixo com efeito glass.
-- **`/cases`** — `cases/index.html` — galeria de cases. Um case real publicado (Loja MaiPhone) + espaço pronto pra receber os próximos.
+- **`/` (raiz)** — `index.html` — portfólio, one page (Soluções, Metodologia, Cases, Quem Somos), header fixo com efeito glass. Cases aparece como seção com scroll horizontal, cada card abre a página exclusiva do case.
 - **`/trabalho/loja-maiphone`** — página exclusiva do case Loja MaiPhone.
 - **`/links`** — `links/index.html` — link-in-bio.
 
@@ -13,8 +12,8 @@ Hospedado na Vercel, conectado a este repositório no GitHub. Todo push na branc
 
 ## Editar
 
-- Portfólio: editar `index.html` na raiz.
-- Cases: editar `cases/index.html` (galeria) e `trabalho/<slug>/index.html` (cada case).
+- Portfólio e seção de Cases: editar `index.html` na raiz.
+- Cada case: `trabalho/<slug>/index.html`.
 - Links: editar `links/index.html`.
 
 Depois é só commit/push.
