@@ -113,11 +113,20 @@
   }
 
   /* ---------- Nav ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--paper) 86%, transparent);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-bottom: 1px solid var(--border);
+  }
   .nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 22px 0;
+    padding: 18px 0;
   }
   .nav-brand { display: flex; align-items: center; color: var(--ink); }
   .nav-logo { width: 128px; height: auto; }
@@ -152,7 +161,7 @@
     .nav-menu { display: none; }
   }
   @media (max-width: 480px) {
-    .btn-nav { display: none; }
+    .btn.btn-nav { display: none; }
   }
   .controls-pill {
     display: flex;
@@ -307,8 +316,8 @@
   .footer-meta .sep { opacity: 0.5; }
 </style>
 
-<header class="wrap">
-  <nav class="nav">
+<header class="site-header">
+  <nav class="nav wrap">
     <a class="nav-brand" href="/" aria-label="Rafael Garcês">
       <svg class="nav-logo" viewBox="0 0 1334 260" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z" fill="currentColor"/>
@@ -318,10 +327,10 @@
     </a>
     <div class="nav-right">
       <div class="nav-menu">
-        <a href="/#trabalho">Trabalho</a>
-        <a href="/#sobre">Sobre</a>
-        <a href="/#contato">Contato</a>
-        <a href="/links">Links ↗</a>
+        <a href="/#solucoes">Soluções</a>
+        <a href="/#metodologia">Metodologia</a>
+        <a href="/cases/">Cases</a>
+        <a href="/#sobre">Quem Somos</a>
       </div>
       <a class="btn btn-primary btn-nav" href="https://wa.me/5598982340912" target="_blank" rel="noopener">Falar comigo</a>
       <div class="controls-pill">
@@ -335,9 +344,9 @@
 </header>
 
 <main class="wrap">
-  <a class="back-link" href="/#trabalho">
+  <a class="back-link" href="/cases/">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-    Voltar pros trabalhos
+    Voltar pros cases
   </a>
 
   <section class="case-hero">
