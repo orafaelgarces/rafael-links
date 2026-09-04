@@ -553,11 +553,8 @@
   /* ---------- Services ---------- */
   .services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 16px;
-  }
-  @media (max-width: 860px) {
-    .services-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
     .services-grid { grid-template-columns: 1fr; }
@@ -585,19 +582,19 @@
   /* ---------- Method ---------- */
   .method-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
   }
-  @media (max-width: 860px) {
-    .method-grid { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 1000px) {
+    .method-grid { grid-template-columns: 1fr 1fr 1fr; }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 640px) {
     .method-grid { grid-template-columns: 1fr; }
   }
   .method-step {
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 26px 24px;
+    padding: 24px 20px;
     background: var(--paper-raised);
   }
   .method-num {
@@ -607,6 +604,12 @@
     color: var(--ink-faint);
     margin-bottom: 16px;
     font-variant-numeric: tabular-nums;
+  }
+  .method-tag {
+    display: block;
+    font-size: 0.72rem;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
   }
   .method-step h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 8px; }
   .method-step p { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.6; margin: 0; }
@@ -889,20 +892,14 @@
       <div class="floating-icon" style="top:6%;right:28%;--i:5;">
         <div class="floating-icon-inner"><svg viewBox="0 0 24 24" fill="#0055FF" xmlns="http://www.w3.org/2000/svg"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg></div>
       </div>
-      <div class="floating-icon" style="bottom:8%;left:26%;--i:6;">
-        <div class="floating-icon-inner" style="color:var(--ink);"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></div>
-      </div>
-      <div class="floating-icon" style="bottom:12%;right:30%;--i:7;">
-        <div class="floating-icon-inner"><svg viewBox="0 0 24 24" fill="#EA4B71" xmlns="http://www.w3.org/2000/svg"><path d="M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632"/></svg></div>
-      </div>
-      <div class="floating-icon" style="top:42%;left:4%;--i:8;">
+      <div class="floating-icon" style="top:42%;left:4%;--i:6;">
         <div class="floating-icon-inner"><svg viewBox="0 0 256 263" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="20.8617445%" y1="20.6868812%" x2="63.4256086%" y2="44.0710077%" id="supabase-grad-desktop-1"><stop stop-color="#249361" offset="0%"/><stop stop-color="#3ECF8E" offset="100%"/></linearGradient><linearGradient x1="1.99116498%" y1="-13.1584008%" x2="21.4025077%" y2="34.708062%" id="supabase-grad-desktop-2"><stop stop-color="#000000" offset="0%"/><stop stop-color="#000000" stop-opacity="0" offset="100%"/></linearGradient></defs><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill="url(#supabase-grad-desktop-1)"/><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill-opacity="0.2" fill="url(#supabase-grad-desktop-2)"/><path d="M106.399023,4.36908575 C113.11645,-4.09118439 126.736889,0.544432392 126.898746,11.3460249 L127.935901,169.329953 L23.0369844,169.329953 C3.79559007,169.329953 -6.93568494,147.106651 5.02918175,132.037719 L106.399023,4.36908575 Z" fill="#3ECF8E"/></svg></div>
       </div>
     </div>
     <div class="hero-content">
     <span class="status"><span class="dot"></span>Disponível para novos projetos</span>
-    <h1>Sua marca não pode ser só mais uma.</h1>
-    <p class="sub">Identidade visual e sites com direção clara — pra fazer o seu negócio parecer, e ser, a escolha óbvia.</p>
+    <h1>Marca e site que elevam o valor do seu negócio.</h1>
+    <p class="sub">Identidade e presença digital com posicionamento e estratégia — pra comunicar sua essência e sustentar seu valor no mercado.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary btn-origin" href="#cases">
         <span class="origin-fill" aria-hidden="true"></span>
@@ -926,8 +923,6 @@
       <div class="mobile-icon-chip" style="color:var(--ink);"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></div>
       <div class="mobile-icon-chip" style="color:var(--ink);"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="m12 1.608 12 20.784H0Z"/></svg></div>
       <div class="mobile-icon-chip"><svg viewBox="0 0 24 24" fill="#0055FF" xmlns="http://www.w3.org/2000/svg"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg></div>
-      <div class="mobile-icon-chip" style="color:var(--ink);"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></div>
-      <div class="mobile-icon-chip"><svg viewBox="0 0 24 24" fill="#EA4B71" xmlns="http://www.w3.org/2000/svg"><path d="M21.4737 5.6842c-1.1772 0-2.1663.8051-2.4468 1.8947h-2.8955c-1.235 0-2.289.893-2.492 2.111l-.1038.623a1.263 1.263 0 0 1-1.246 1.0555H11.289c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947s-2.1663.8051-2.4467 1.8947H4.973c-.2805-1.0896-1.2696-1.8947-2.4468-1.8947C1.1311 9.4737 0 10.6047 0 12s1.131 2.5263 2.5263 2.5263c1.1772 0 2.1663-.8051 2.4468-1.8947h1.4223c.2804 1.0896 1.2696 1.8947 2.4467 1.8947 1.1772 0 2.1663-.8051 2.4468-1.8947h1.0008a1.263 1.263 0 0 1 1.2459 1.0555l.1038.623c.203 1.218 1.257 2.111 2.492 2.111h.3692c.2804 1.0895 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263c-1.1772 0-2.1664.805-2.4468 1.8947h-.3692a1.263 1.263 0 0 1-1.246-1.0555l-.1037-.623A2.52 2.52 0 0 0 13.9607 12a2.52 2.52 0 0 0 .821-1.4794l.1038-.623a1.263 1.263 0 0 1 1.2459-1.0555h2.8955c.2805 1.0896 1.2696 1.8947 2.4468 1.8947 1.3952 0 2.5263-1.131 2.5263-2.5263s-1.131-2.5263-2.5263-2.5263m0 1.2632a1.263 1.263 0 0 1 1.2631 1.2631 1.263 1.263 0 0 1-1.2631 1.2632 1.263 1.263 0 0 1-1.2632-1.2632 1.263 1.263 0 0 1 1.2632-1.2631M2.5263 10.7368A1.263 1.263 0 0 1 3.7895 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 1.2632 12a1.263 1.263 0 0 1 1.2631-1.2632m6.3158 0A1.263 1.263 0 0 1 10.1053 12a1.263 1.263 0 0 1-1.2632 1.2632A1.263 1.263 0 0 1 7.579 12a1.263 1.263 0 0 1 1.2632-1.2632m10.1053 3.7895a1.263 1.263 0 0 1 1.2631 1.2632 1.263 1.263 0 0 1-1.2631 1.2631 1.263 1.263 0 0 1-1.2632-1.2631 1.263 1.263 0 0 1 1.2632-1.2632"/></svg></div>
       <div class="mobile-icon-chip"><svg viewBox="0 0 256 263" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="20.8617445%" y1="20.6868812%" x2="63.4256086%" y2="44.0710077%" id="supabase-grad-mobile-1"><stop stop-color="#249361" offset="0%"/><stop stop-color="#3ECF8E" offset="100%"/></linearGradient><linearGradient x1="1.99116498%" y1="-13.1584008%" x2="21.4025077%" y2="34.708062%" id="supabase-grad-mobile-2"><stop stop-color="#000000" offset="0%"/><stop stop-color="#000000" stop-opacity="0" offset="100%"/></linearGradient></defs><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill="url(#supabase-grad-mobile-1)"/><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill-opacity="0.2" fill="url(#supabase-grad-mobile-2)"/><path d="M106.399023,4.36908575 C113.11645,-4.09118439 126.736889,0.544432392 126.898746,11.3460249 L127.935901,169.329953 L23.0369844,169.329953 C3.79559007,169.329953 -6.93568494,147.106651 5.02918175,132.037719 L106.399023,4.36908575 Z" fill="#3ECF8E"/></svg></div>
     </div>
     </div>
@@ -942,21 +937,14 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="M3.5 12.5 12 17l8.5-4.5"/><path d="M3.5 16.5 12 21l8.5-4.5"/></svg>
         </span>
         <h3>Marca</h3>
-        <p>Identidade visual, logotipo e direção de marca — a base que faz seu negócio ser reconhecido antes mesmo de alguém ler o nome.</p>
+        <p>Identidade visual, logotipo e posicionamento de marca — a base que faz seu negócio comunicar valor antes mesmo de alguém ler o nome.</p>
       </div>
       <div class="service-card">
         <span class="service-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M3.5 9h17"/><circle cx="6.5" cy="6.75" r="0.6" fill="currentColor" stroke="none"/><circle cx="8.6" cy="6.75" r="0.6" fill="currentColor" stroke="none"/></svg>
         </span>
         <h3>Site</h3>
-        <p>Landing pages, sites institucionais e UI/UX — rápidos, claros e desenhados pra converter, não só pra existir.</p>
-      </div>
-      <div class="service-card">
-        <span class="service-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.2 6h9.6"/><path d="M6.3 8.1 10.7 16"/><path d="M17.7 8.1 13.3 16"/></svg>
-        </span>
-        <h3>Automações</h3>
-        <p>Fluxos com n8n e IA que conectam suas ferramentas — tiram tarefa repetitiva do caminho e liberam tempo pra o que importa.</p>
+        <p>Landing pages, sites institucionais e UI/UX — pensados pra comunicar sua estratégia e converter, não só pra existir.</p>
       </div>
     </div>
   </section>
@@ -966,23 +954,33 @@
     <div class="method-grid">
       <div class="method-step">
         <span class="method-num">01</span>
+        <span class="method-tag">Entender antes de desenhar</span>
         <h3>Briefing</h3>
-        <p>Entender o negócio, o público e o que precisa mudar antes de abrir qualquer ferramenta de design.</p>
+        <p>Negócio, público e o problema real por trás do pedido — pra não gastar tempo desenhando a coisa errada.</p>
       </div>
       <div class="method-step">
         <span class="method-num">02</span>
-        <h3>Direção</h3>
-        <p>Moodboard, paleta e referências — a gente alinha o caminho visual antes de qualquer pixel final.</p>
+        <span class="method-tag">Contexto antes de decisão</span>
+        <h3>Pesquisa</h3>
+        <p>Concorrência, referências e o que já existe no seu mercado — pra cada escolha visual ter um motivo, não só gosto pessoal.</p>
       </div>
       <div class="method-step">
         <span class="method-num">03</span>
-        <h3>Design</h3>
-        <p>Identidade ou telas em produção, com pontos de revisão em conjunto ao longo do caminho.</p>
+        <span class="method-tag">Alinhar antes de produzir</span>
+        <h3>Direção</h3>
+        <p>Moodboard, paleta e caminho visual validados com você antes de qualquer peça final.</p>
       </div>
       <div class="method-step">
         <span class="method-num">04</span>
+        <span class="method-tag">Produção com revisão</span>
+        <h3>Design</h3>
+        <p>Identidade ou telas em produção, com pontos de revisão marcados ao longo do caminho.</p>
+      </div>
+      <div class="method-step">
+        <span class="method-num">05</span>
+        <span class="method-tag">Handoff completo</span>
         <h3>Entrega</h3>
-        <p>Arquivos organizados, site no ar, e suporte depois que o projeto termina.</p>
+        <p>Arquivos organizados, site no ar e suporte pós-lançamento — o projeto só termina quando tudo funciona de verdade.</p>
       </div>
     </div>
   </section>
