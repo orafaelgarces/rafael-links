@@ -578,18 +578,69 @@
   .service-icon svg { width: 20px; height: 20px; }
   .service-card h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px; }
   .service-card p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.6; margin: 0; }
+  .service-deliv {
+    list-style: none;
+    margin: 18px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .service-deliv li {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .service-deliv svg {
+    width: 15px;
+    height: 15px;
+    flex: none;
+    margin-top: 1px;
+    color: var(--ink-faint);
+  }
 
   /* ---------- Method ---------- */
+  .method-tabs {
+    display: inline-flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--paper-raised);
+    margin-bottom: 26px;
+  }
+  .method-tab {
+    border: none;
+    background: transparent;
+    padding: 8px 20px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .method-tab.is-active { background: var(--ink); color: var(--paper); }
   .method-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
   }
+  .method-grid[hidden] { display: none; }
+  .method-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  .method-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
   @media (max-width: 1000px) {
-    .method-grid { grid-template-columns: 1fr 1fr 1fr; }
+    .method-grid.cols-5 { grid-template-columns: 1fr 1fr 1fr; }
+  }
+  @media (max-width: 860px) {
+    .method-grid.cols-4 { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
-    .method-grid { grid-template-columns: 1fr; }
+    .method-grid.cols-4, .method-grid.cols-5 { grid-template-columns: 1fr; }
   }
   .method-step {
     border: 1px solid var(--border);
@@ -880,7 +931,7 @@
       <div class="floating-icon" style="top:14%;right:8%;--i:1;">
         <div class="floating-icon-inner"><svg viewBox="0 0 24 24" fill="#D97757" xmlns="http://www.w3.org/2000/svg"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></div>
       </div>
-      <div class="floating-icon" style="top:68%;left:10%;--i:2;">
+      <div class="floating-icon" style="bottom:10%;left:9%;--i:2;">
         <div class="floating-icon-inner"><svg viewBox="0 0 24 24" fill="#146EF5" xmlns="http://www.w3.org/2000/svg"><path d="m24 4.515-7.658 14.97H9.149l3.205-6.204h-.144C9.566 16.713 5.621 18.973 0 19.485v-6.118s3.596-.213 5.71-2.435H0V4.515h6.417v5.278l.144-.001 2.622-5.277h4.854v5.244h.144l2.72-5.244H24Z"/></svg></div>
       </div>
       <div class="floating-icon" style="bottom:10%;right:9%;--i:3;">
@@ -895,7 +946,7 @@
       <div class="floating-icon" style="top:42%;left:4%;--i:6;">
         <div class="floating-icon-inner"><svg viewBox="0 0 256 263" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="20.8617445%" y1="20.6868812%" x2="63.4256086%" y2="44.0710077%" id="supabase-grad-desktop-1"><stop stop-color="#249361" offset="0%"/><stop stop-color="#3ECF8E" offset="100%"/></linearGradient><linearGradient x1="1.99116498%" y1="-13.1584008%" x2="21.4025077%" y2="34.708062%" id="supabase-grad-desktop-2"><stop stop-color="#000000" offset="0%"/><stop stop-color="#000000" stop-opacity="0" offset="100%"/></linearGradient></defs><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill="url(#supabase-grad-desktop-1)"/><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill-opacity="0.2" fill="url(#supabase-grad-desktop-2)"/><path d="M106.399023,4.36908575 C113.11645,-4.09118439 126.736889,0.544432392 126.898746,11.3460249 L127.935901,169.329953 L23.0369844,169.329953 C3.79559007,169.329953 -6.93568494,147.106651 5.02918175,132.037719 L106.399023,4.36908575 Z" fill="#3ECF8E"/></svg></div>
       </div>
-      <div class="floating-icon" style="bottom:8%;left:26%;--i:7;">
+      <div class="floating-icon" style="top:42%;right:4%;--i:7;">
         <div class="floating-icon-inner" style="color:var(--ink);"><svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></div>
       </div>
     </div>
@@ -942,6 +993,11 @@
         </span>
         <h3>Marca</h3>
         <p>Identidade visual, logotipo e posicionamento de marca — a base que faz seu negócio comunicar valor antes mesmo de alguém ler o nome.</p>
+        <ul class="service-deliv">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Logo e identidade visual completa</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Paleta, tipografia e guia de uso</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Arquivos organizados (SVG, PNG, PDF)</li>
+        </ul>
       </div>
       <div class="service-card">
         <span class="service-icon">
@@ -949,13 +1005,48 @@
         </span>
         <h3>Site</h3>
         <p>Landing pages, sites institucionais e UI/UX — pensados pra comunicar sua estratégia e converter, não só pra existir.</p>
+        <ul class="service-deliv">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Design responsivo, mobile e desktop</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Site publicado e no ar</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Otimizado pra velocidade e SEO básico</li>
+        </ul>
       </div>
     </div>
   </section>
 
   <section id="metodologia" class="reveal">
     <p class="section-label">Metodologia</p>
-    <div class="method-grid">
+    <div class="method-tabs" role="tablist">
+      <button type="button" class="method-tab is-active" data-target="marca">Marca</button>
+      <button type="button" class="method-tab" data-target="site">Site</button>
+    </div>
+    <div class="method-grid cols-4" data-panel="marca">
+      <div class="method-step">
+        <span class="method-num">01</span>
+        <span class="method-tag">Entender antes de posicionar</span>
+        <h3>Imersão</h3>
+        <p>Seu produto, seu mercado e os principais desafios do negócio — pra construir a marca sobre entendimento, não sobre suposição.</p>
+      </div>
+      <div class="method-step">
+        <span class="method-num">02</span>
+        <span class="method-tag">Definir antes de desenhar</span>
+        <h3>Direção Estratégica</h3>
+        <p>A percepção visual ideal pro seu posicionamento — paleta, tom e referência antes de qualquer peça final.</p>
+      </div>
+      <div class="method-step">
+        <span class="method-num">03</span>
+        <span class="method-tag">Desenhar com propósito</span>
+        <h3>Construção Visual</h3>
+        <p>Identidade personalizada, profissional e memorável — aplicada em cada ponto de contato da marca.</p>
+      </div>
+      <div class="method-step">
+        <span class="method-num">04</span>
+        <span class="method-tag">Entregar pronto pra usar</span>
+        <h3>Sistema Final</h3>
+        <p>Estratégia e identidade completas, documentadas e prontas pra aplicar — sem depender de mim pra cada peça nova.</p>
+      </div>
+    </div>
+    <div class="method-grid cols-5" data-panel="site" hidden>
       <div class="method-step">
         <span class="method-num">01</span>
         <span class="method-tag">Entender antes de desenhar</span>
@@ -1221,6 +1312,21 @@
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('is-open')) closeMenu();
+    });
+  })();
+
+  (function () {
+    var tabs = document.querySelectorAll('.method-tab');
+    var panels = document.querySelectorAll('.method-grid[data-panel]');
+    if (!tabs.length) return;
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        panels.forEach(function (panel) {
+          panel.hidden = panel.getAttribute('data-panel') !== tab.getAttribute('data-target');
+        });
+      });
     });
   })();
 </script>
