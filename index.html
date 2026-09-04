@@ -182,9 +182,10 @@
   }
   .site-header.is-scrolled { padding-top: 10px; }
   .nav {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 16px;
     padding-top: 14px;
     padding-bottom: 14px;
     border-radius: 999px;
@@ -209,7 +210,7 @@
   .nav-brand {
     display: flex;
     align-items: center;
-    justify-self: start;
+    flex: none;
     color: var(--ink);
   }
   .nav-logo { width: 108px; height: auto; }
@@ -219,7 +220,6 @@
   .nav-menu {
     display: flex;
     align-items: center;
-    justify-self: center;
     gap: 2px;
     padding: 5px;
     border-radius: 999px;
@@ -248,7 +248,7 @@
     transition: background 0.15s ease, color 0.15s ease;
   }
   .nav-menu a:hover { color: var(--pill-text-hover); background: var(--pill-hover-bg); }
-  .nav-right { grid-column: 3; justify-self: end; }
+  .nav-right { flex: none; }
   .btn.btn-nav {
     padding: 9px 18px;
     font-size: 0.78rem;
