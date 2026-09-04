@@ -553,8 +553,11 @@
   /* ---------- Services ---------- */
   .services-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
+  }
+  @media (max-width: 860px) {
+    .services-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
     .services-grid { grid-template-columns: 1fr; }
@@ -947,6 +950,13 @@
         </span>
         <h3>Site</h3>
         <p>Landing pages, sites institucionais e UI/UX — rápidos, claros e desenhados pra converter, não só pra existir.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="6" r="2.2"/><circle cx="19" cy="6" r="2.2"/><circle cx="12" cy="18" r="2.2"/><path d="M7.2 6h9.6"/><path d="M6.3 8.1 10.7 16"/><path d="M17.7 8.1 13.3 16"/></svg>
+        </span>
+        <h3>Automações</h3>
+        <p>Fluxos com n8n e IA que conectam suas ferramentas — tiram tarefa repetitiva do caminho e liberam tempo pra o que importa.</p>
       </div>
     </div>
   </section>
