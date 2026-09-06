@@ -47,6 +47,7 @@
     --accent: #d3ea55;
     --accent-ink: #10160a;
     --accent-wash: rgba(221, 255, 34, 0.2);
+    --accent-strong: #69781f;
 
     --font: "Satoshi", "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   }
@@ -69,6 +70,7 @@
       --pill-text-hover: #f5f5f7;
       --pill-hover-bg: rgba(255, 255, 255, 0.09);
       --pill-divider: rgba(255, 255, 255, 0.14);
+      --accent-strong: #ddff22;
     }
   }
 
@@ -89,6 +91,7 @@
     --pill-text-hover: #f5f5f7;
     --pill-hover-bg: rgba(255, 255, 255, 0.09);
     --pill-divider: rgba(255, 255, 255, 0.14);
+    --accent-strong: #ddff22;
   }
 
   * { box-sizing: border-box; }
@@ -524,10 +527,22 @@
     letter-spacing: -0.025em;
     line-height: 1.08;
     margin: 0 0 20px;
-    text-wrap: balance;
     max-width: 780px;
     margin-left: auto;
     margin-right: auto;
+  }
+  .hero-rotate { display: inline-flex; align-items: baseline; color: var(--accent-strong); }
+  .hero-rotate-cursor {
+    display: inline-block;
+    margin-left: 2px;
+    animation: hero-cursor-blink 1s step-end infinite;
+  }
+  @keyframes hero-cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-rotate-cursor { animation: none; }
   }
   .hero .sub {
     font-size: clamp(1rem, 2vw, 1.15rem);
@@ -1085,8 +1100,8 @@
     </div>
     <div class="hero-content">
     <span class="status"><span class="dot"></span>Disponível para novos projetos</span>
-    <h1>Marca e site que elevam o valor do seu negócio.</h1>
-    <p class="sub">Identidade e presença digital com posicionamento e estratégia — pra comunicar sua essência e sustentar seu valor no mercado.</p>
+    <h1>Eleve sua marca com<br><span class="hero-rotate"><span class="hero-rotate-text" id="heroRotateText">autoridade</span><span class="hero-rotate-cursor" aria-hidden="true">_</span></span></h1>
+    <p class="sub">Marcas e sites que geram valor real para o seu negócio — pensados pra comunicar sua essência e converter.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary btn-origin" href="#cases">
         <span class="origin-fill" aria-hidden="true"></span>
@@ -1397,6 +1412,41 @@
 
   var footerYearEl = document.getElementById('footerYear');
   if (footerYearEl) footerYearEl.textContent = new Date().getFullYear();
+
+  (function () {
+    var el = document.getElementById('heroRotateText');
+    if (!el) return;
+    var words = ['autoridade', 'consistência', 'posicionamento', 'estratégia'];
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = words[0];
+      return;
+    }
+    var wordIndex = 0, charIndex = 0, deleting = false;
+    function step() {
+      var word = words[wordIndex];
+      if (!deleting) {
+        charIndex++;
+        el.textContent = word.slice(0, charIndex);
+        if (charIndex === word.length) {
+          deleting = true;
+          setTimeout(step, 1500);
+          return;
+        }
+        setTimeout(step, 85);
+      } else {
+        charIndex--;
+        el.textContent = word.slice(0, charIndex);
+        if (charIndex === 0) {
+          deleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          setTimeout(step, 300);
+          return;
+        }
+        setTimeout(step, 40);
+      }
+    }
+    setTimeout(step, 1500);
+  })();
 
   (function () {
     var header = document.querySelector('.site-header');
