@@ -242,15 +242,47 @@
     -webkit-backdrop-filter: none;
   }
   .nav-menu a {
+    position: relative;
     padding: 6px 12px;
     border-radius: 999px;
     font-size: 0.78rem;
     font-weight: 600;
+    letter-spacing: 0.01em;
     white-space: nowrap;
     color: var(--pill-text);
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: background 0.2s ease, color 0.2s ease;
   }
   .nav-menu a:hover { color: var(--pill-text-hover); background: var(--pill-hover-bg); }
+  .nav-menu a.is-active { color: var(--accent-strong); background: var(--pill-hover-bg); }
+  .nav-menu a.is-active::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 38px;
+    height: 16px;
+    transform: translateX(-50%);
+    background: var(--accent-strong);
+    filter: blur(7px);
+    opacity: 0.6;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .nav-menu a.is-active::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    width: 14px;
+    height: 2.5px;
+    transform: translateX(-50%);
+    background: var(--accent-strong);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-menu a { transition: none; }
+  }
   .nav-right { grid-column: 3; justify-self: end; }
   .btn.btn-nav {
     padding: 9px 18px;
@@ -1490,6 +1522,35 @@
   } else {
     reveals.forEach(function (el) { el.classList.add('is-visible'); });
   }
+
+  (function () {
+    var navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
+    if (!navLinks.length || !('IntersectionObserver' in window)) return;
+    var sections = [];
+    navLinks.forEach(function (link) {
+      var id = link.getAttribute('href').slice(1);
+      var section = document.getElementById(id);
+      if (section) sections.push({ id: id, section: section });
+    });
+    if (!sections.length) return;
+
+    function setActive(id) {
+      navLinks.forEach(function (link) {
+        link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+      });
+    }
+
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var match = sections.filter(function (s) { return s.section === entry.target; })[0];
+          if (match) setActive(match.id);
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
+
+    sections.forEach(function (s) { spy.observe(s.section); });
+  })();
 
   document.querySelectorAll('.btn-origin').forEach(function (btn) {
     function setOrigin(x, y) {
