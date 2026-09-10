@@ -568,19 +568,6 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .hero-rotate { display: inline-flex; align-items: baseline; color: var(--accent-strong); }
-  .hero-rotate-cursor {
-    display: inline-block;
-    margin-left: 2px;
-    animation: hero-cursor-blink 1s step-end infinite;
-  }
-  @keyframes hero-cursor-blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero-rotate-cursor { animation: none; }
-  }
   .hero .sub {
     font-size: clamp(1rem, 2vw, 1.15rem);
     color: var(--ink-soft);
@@ -674,6 +661,15 @@
     margin-bottom: 20px;
   }
   .service-icon svg { width: 20px; height: 20px; }
+  .service-eyebrow {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-faint);
+    margin-bottom: 8px;
+  }
   .service-card h3 { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px; }
   .service-card p { color: var(--ink-soft); font-size: 0.92rem; line-height: 1.6; margin: 0; }
   .service-deliv {
@@ -730,15 +726,11 @@
   }
   .method-grid[hidden] { display: none; }
   .method-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
-  .method-grid.cols-5 { grid-template-columns: repeat(5, 1fr); }
-  @media (max-width: 1000px) {
-    .method-grid.cols-5 { grid-template-columns: 1fr 1fr 1fr; }
-  }
   @media (max-width: 860px) {
     .method-grid.cols-4 { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
-    .method-grid.cols-4, .method-grid.cols-5 { grid-template-columns: 1fr; }
+    .method-grid.cols-4 { grid-template-columns: 1fr; }
   }
   .method-step {
     border: 1px solid var(--border);
@@ -816,14 +808,32 @@
   }
   .case-card-footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 18px 22px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 18px 18px 20px;
     border-top: 1px solid var(--border);
   }
   .case-card-footer .name { font-weight: 700; font-size: 1rem; color: var(--ink); }
-  .case-card-footer .cat { font-size: 0.82rem; color: var(--ink-soft); }
+  .case-card-desc { margin: 0; font-size: 0.85rem; line-height: 1.55; color: var(--ink-soft); }
+  .case-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 8px;
+  }
+  .case-card-footer .cat { font-size: 0.8rem; color: var(--ink-soft); white-space: nowrap; }
+  .case-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--accent-strong);
+    white-space: nowrap;
+  }
+  .case-card-cta svg { width: 13px; height: 13px; }
   .case-card-more {
     flex: 0 0 320px;
     scroll-snap-align: start;
@@ -893,6 +903,7 @@
   .about-name { font-size: clamp(1.7rem, 3vw, 2.2rem); font-weight: 700; letter-spacing: -0.01em; margin: 0 0 8px; color: #f5f5f7; }
   .about-role { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-grad-2); margin: 0 0 26px; }
   .about-divider { display: block; width: 56px; height: 2px; background: rgba(245, 245, 247, 0.18); margin-bottom: 26px; }
+  .about-lead { font-size: 1.05rem; line-height: 1.6; color: rgba(245, 245, 247, 0.92); margin: 0 0 26px; }
   .about-bullets { list-style: none; margin: 0 0 30px; padding: 0; display: flex; flex-direction: column; gap: 15px; }
   .about-bullets li { display: flex; gap: 12px; align-items: flex-start; font-size: 0.96rem; line-height: 1.6; color: rgba(245, 245, 247, 0.82); }
   .about-bullets svg { flex: none; width: 17px; height: 17px; margin-top: 2px; color: var(--accent-grad-2); }
@@ -1061,7 +1072,7 @@
         <span class="origin-fill" aria-hidden="true"></span>
         <span class="origin-content">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-          Agendar diagnóstico
+          Iniciar um projeto
         </span>
       </a>
       <button type="button" class="nav-hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -1088,7 +1099,7 @@
   </nav>
   <a class="mobile-menu-cta" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
-    Agendar diagnóstico
+    Iniciar um projeto
   </a>
   <div class="mobile-menu-socials">
     <a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener" aria-label="Behance">
@@ -1137,20 +1148,20 @@
     </div>
     <div class="hero-content">
     <span class="status"><span class="dot"></span>Disponível para novos projetos</span>
-    <h1>Eleve sua marca com<br><span class="hero-rotate"><span class="hero-rotate-text" id="heroRotateText">autoridade</span><span class="hero-rotate-cursor" aria-hidden="true">_</span></span></h1>
-    <p class="sub">Marcas e sites que geram valor real para o seu negócio — pensados pra comunicar sua essência e converter.</p>
+    <h1>Construa uma marca<br>difícil de ignorar.</h1>
+    <p class="sub">Identidades visuais e sites estratégicos para negócios que querem se posicionar melhor, aumentar sua percepção de valor e crescer com consistência.</p>
     <div class="hero-ctas">
       <a class="btn btn-primary btn-origin" href="#cases">
         <span class="origin-fill" aria-hidden="true"></span>
         <span class="origin-content">
-          Ver trabalhos
+          Ver projetos
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </span>
       </a>
       <a class="btn btn-outline btn-origin" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
         <span class="origin-fill" aria-hidden="true"></span>
         <span class="origin-content">
-          Falar no WhatsApp
+          Solicitar orçamento
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </span>
       </a>
@@ -1188,24 +1199,26 @@
         <span class="service-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 20.5 8 12 12.5 3.5 8z"/><path d="M3.5 12.5 12 17l8.5-4.5"/><path d="M3.5 16.5 12 21l8.5-4.5"/></svg>
         </span>
-        <h3>Marca</h3>
-        <p>Identidade visual, logotipo e posicionamento de marca — a base que faz seu negócio comunicar valor antes mesmo de alguém ler o nome.</p>
+        <span class="service-eyebrow">Marca</span>
+        <h3>Identidade para posicionar e diferenciar.</h3>
+        <p>Desenvolvo sistemas de identidade visual que transformam a estratégia do seu negócio em uma presença reconhecível, consistente e profissional.</p>
         <ul class="service-deliv">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Logo e identidade visual completa</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Paleta, tipografia e guia de uso</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Arquivos organizados (SVG, PNG, PDF)</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Logo e sistema de identidade visual</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Paleta, tipografia e direção de uso</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Arquivos finais organizados (SVG, PNG e PDF)</li>
         </ul>
       </div>
       <div class="service-card">
         <span class="service-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4.5" width="17" height="15" rx="3"/><path d="M3.5 9h17"/><circle cx="6.5" cy="6.75" r="0.6" fill="currentColor" stroke="none"/><circle cx="8.6" cy="6.75" r="0.6" fill="currentColor" stroke="none"/></svg>
         </span>
-        <h3>Site</h3>
-        <p>Landing pages, sites institucionais e UI/UX — pensados pra comunicar sua estratégia e converter, não só pra existir.</p>
+        <span class="service-eyebrow">Site</span>
+        <h3>Uma presença digital à altura da sua marca.</h3>
+        <p>Landing pages e sites institucionais pensados para comunicar com clareza, gerar confiança e conduzir o visitante à ação.</p>
         <ul class="service-deliv">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Design responsivo, mobile e desktop</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Site publicado e no ar</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Otimizado pra velocidade e SEO básico</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Design responsivo para desktop e mobile</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Desenvolvimento e publicação do site</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Estrutura otimizada e SEO básico</li>
         </ul>
       </div>
     </div>
@@ -1220,59 +1233,53 @@
     <div class="method-grid cols-4" data-panel="marca">
       <div class="method-step">
         <span class="method-num">01</span>
-        <span class="method-tag">Entender antes de posicionar</span>
-        <h3>Imersão</h3>
-        <p>Seu produto, seu mercado e os principais desafios do negócio — pra construir a marca sobre entendimento, não sobre suposição.</p>
+        <span class="method-tag">Imersão</span>
+        <h3>Entender antes de criar.</h3>
+        <p>Conheço seu negócio, mercado, público e objetivos para entender o que sua marca precisa comunicar — sem decisões baseadas apenas em gosto pessoal.</p>
       </div>
       <div class="method-step">
         <span class="method-num">02</span>
-        <span class="method-tag">Definir antes de desenhar</span>
-        <h3>Direção Estratégica</h3>
-        <p>A percepção visual ideal pro seu posicionamento — paleta, tom e referência antes de qualquer peça final.</p>
+        <span class="method-tag">Direção Estratégica</span>
+        <h3>Definir antes de desenhar.</h3>
+        <p>Transformo o diagnóstico em uma direção clara para o projeto, alinhando referências, personalidade e critérios para orientar toda a construção visual.</p>
       </div>
       <div class="method-step">
         <span class="method-num">03</span>
-        <span class="method-tag">Desenhar com propósito</span>
-        <h3>Construção Visual</h3>
-        <p>Identidade personalizada, profissional e memorável — aplicada em cada ponto de contato da marca.</p>
+        <span class="method-tag">Construção Visual</span>
+        <h3>Dar forma à estratégia.</h3>
+        <p>Desenvolvo a identidade e seus principais elementos para criar um sistema visual coerente, reconhecível e preparado para diferentes aplicações.</p>
       </div>
       <div class="method-step">
         <span class="method-num">04</span>
-        <span class="method-tag">Entregar pronto pra usar</span>
-        <h3>Sistema Final</h3>
-        <p>Estratégia e identidade completas, documentadas e prontas pra aplicar — sem depender de mim pra cada peça nova.</p>
+        <span class="method-tag">Sistema Final</span>
+        <h3>Pronto para usar e crescer.</h3>
+        <p>Organizo e entrego os arquivos, aplicações e orientações necessárias para manter a identidade consistente no dia a dia.</p>
       </div>
     </div>
-    <div class="method-grid cols-5" data-panel="site" hidden>
+    <div class="method-grid cols-4" data-panel="site" hidden>
       <div class="method-step">
         <span class="method-num">01</span>
-        <span class="method-tag">Entender antes de desenhar</span>
-        <h3>Briefing</h3>
-        <p>Negócio, público e o problema real por trás do pedido — pra não gastar tempo desenhando a coisa errada.</p>
+        <span class="method-tag">Diagnóstico</span>
+        <h3>Entender o objetivo.</h3>
+        <p>Analiso seu negócio, público e objetivos para definir o papel do site e o caminho que queremos que o visitante percorra.</p>
       </div>
       <div class="method-step">
         <span class="method-num">02</span>
-        <span class="method-tag">Contexto antes de decisão</span>
-        <h3>Pesquisa</h3>
-        <p>Concorrência, referências e o que já existe no seu mercado — pra cada escolha visual ter um motivo, não só gosto pessoal.</p>
+        <span class="method-tag">Arquitetura</span>
+        <h3>Organizar antes de desenhar.</h3>
+        <p>Estruturo páginas, conteúdos e hierarquia das informações para criar uma experiência simples, clara e fácil de navegar.</p>
       </div>
       <div class="method-step">
         <span class="method-num">03</span>
-        <span class="method-tag">Alinhar antes de produzir</span>
-        <h3>Direção</h3>
-        <p>Moodboard, paleta e caminho visual validados com você antes de qualquer peça final.</p>
+        <span class="method-tag">Interface</span>
+        <h3>Transformar estratégia em experiência.</h3>
+        <p>Desenvolvo uma interface responsiva alinhada à identidade da marca, equilibrando estética, usabilidade e conversão.</p>
       </div>
       <div class="method-step">
         <span class="method-num">04</span>
-        <span class="method-tag">Produção com revisão</span>
-        <h3>Design</h3>
-        <p>Identidade ou telas em produção, com pontos de revisão marcados ao longo do caminho.</p>
-      </div>
-      <div class="method-step">
-        <span class="method-num">05</span>
-        <span class="method-tag">Handoff completo</span>
-        <h3>Entrega</h3>
-        <p>Arquivos organizados, site no ar e suporte pós-lançamento — o projeto só termina quando tudo funciona de verdade.</p>
+        <span class="method-tag">Desenvolvimento</span>
+        <h3>Do layout para o ar.</h3>
+        <p>Desenvolvo, ajusto e publico o projeto para entregar um site funcional, responsivo e pronto para receber seus clientes.</p>
       </div>
     </div>
   </section>
@@ -1287,15 +1294,19 @@
         </div>
         <div class="case-card-footer">
           <span class="name">Loja MaiPhone</span>
-          <span class="cat">One Page · 2024</span>
+          <p class="case-card-desc">Uma experiência digital criada para apresentar os produtos com clareza e fortalecer a presença da marca no ambiente online.</p>
+          <div class="case-card-meta">
+            <span class="cat">Website · UI Design · 2024</span>
+            <span class="case-card-cta">Explorar projeto<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></span>
+          </div>
         </div>
       </a>
       <div class="case-card-more">
-        <span>Mais cases a caminho — enquanto isso, dá uma olhada no que já tem no Behance.</span>
+        <span><strong>Mais projetos.</strong> Veja uma seleção de identidades visuais, sites e outros projetos desenvolvidos para diferentes negócios.</span>
         <a class="btn btn-outline btn-origin" href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener">
           <span class="origin-fill" aria-hidden="true"></span>
           <span class="origin-content">
-            Ver perfil no Behance
+            Ver portfólio completo
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </span>
         </a>
@@ -1312,24 +1323,25 @@
       <div class="about-content">
         <span class="about-badge">Designer</span>
         <h3 class="about-name">Rafael Garcês</h3>
-        <p class="about-role">Designer de marca e produtos digitais</p>
+        <p class="about-role">Designer de marcas e experiências digitais</p>
         <span class="about-divider" aria-hidden="true"></span>
+        <p class="about-lead">Trabalho com negócios que querem deixar de parecer apenas mais uma opção e construir uma presença visual à altura do que entregam.</p>
         <ul class="about-bullets">
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            Baseado em Teresina (PI), atende negócios em qualquer lugar do Brasil.
+            Baseado em Teresina (PI), atendendo projetos em todo o Brasil.
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            Prioriza UX antes de estética — bonito que não funciona é só decoração.
+            Uno clareza estratégica e execução visual para criar soluções que fazem sentido para o negócio — não apenas para o portfólio.
           </li>
           <li>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            Disponível pra projetos freelance ou fulltime.
+            Atuo em projetos de identidade visual e sites, de forma independente ou em parceria com outros profissionais.
           </li>
         </ul>
         <div class="about-logos">
-          <span>V4 Company</span>
+          <span>14 Company</span>
         </div>
         <a class="about-link" href="/links#stack">
           Confira meu setup e o que eu uso
@@ -1341,12 +1353,12 @@
 
   <section id="contato" class="reveal">
     <div class="contact-card">
-      <h2>Bora conversar sobre o seu projeto?</h2>
-      <p class="sub">Me chama e me conta o que você tem em mente — respondo rápido.</p>
+      <h2>Sua marca pode comunicar melhor.</h2>
+      <p class="sub">Se você está construindo um novo negócio ou sente que sua presença atual já não representa o nível da sua empresa, vamos conversar.</p>
       <a class="btn btn-primary btn-origin" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
         <span class="origin-fill" aria-hidden="true"></span>
         <span class="origin-content">
-          Chamar no WhatsApp
+          Quero falar sobre meu projeto
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </span>
       </a>
@@ -1374,11 +1386,11 @@
         <path d="M198.837 211V81.0373H245.616C280.259 81.0373 295.526 94.5424 295.526 116.464C295.526 134.471 284.761 148.759 263.623 152.478C284.565 158.349 294.156 175.573 297.679 206.107C297.679 206.89 298.071 210.021 298.266 211H277.911C277.911 210.413 277.715 207.477 277.715 206.89C274.192 178.705 263.623 160.698 235.634 160.698H218.018V211H198.837ZM218.018 153.848L209.015 144.649H242.876C267.341 144.649 275.758 130.948 275.758 118.225C275.758 104.133 266.95 97.4783 245.42 97.4783H218.018V153.848ZM339.375 213.349C319.411 213.349 307.276 202.388 307.276 186.73C307.276 165.983 322.738 161.285 343.29 156.784C359.144 153.456 368.93 152.478 370.691 146.997V145.823C370.691 138.19 365.015 132.318 350.727 132.318C337.026 132.318 328.61 138.581 328.61 149.15V150.129H309.429C310.016 129.578 326.457 117.051 350.923 117.051C374.606 117.051 388.698 127.62 388.698 150.912V196.712V211H370.496V197.103C364.037 208.064 352.489 213.349 339.375 213.349ZM342.507 198.865C356.208 198.865 369.126 191.819 370.691 173.812V162.264C365.015 166.179 355.033 167.744 346.03 169.897C335.461 172.638 326.653 175.965 326.653 185.947C326.653 193.58 332.329 198.865 342.507 198.865ZM412.719 211V134.862H397.257V118.617H412.719V108.831C412.719 87.8877 418.395 80.0586 437.185 78.8843H452.256V96.304H445.21C432.879 96.304 431.313 97.2826 431.313 110.396V127.62L422.114 118.617H450.103V134.862H431.118V211H412.719ZM485.406 213.349C465.442 213.349 453.307 202.388 453.307 186.73C453.307 165.983 468.769 161.285 489.32 156.784C505.174 153.456 514.961 152.478 516.722 146.997V145.823C516.722 138.19 511.046 132.318 496.758 132.318C483.057 132.318 474.641 138.581 474.641 149.15V150.129H455.46C456.047 129.578 472.488 117.051 496.954 117.051C520.637 117.051 534.729 127.62 534.729 150.912V196.712V211H516.526V197.103C510.067 208.064 498.52 213.349 485.406 213.349ZM488.537 198.865C502.238 198.865 515.156 191.819 516.722 173.812V162.264C511.046 166.179 501.064 167.744 492.061 169.897C481.491 172.638 472.684 175.965 472.684 185.947C472.684 193.58 478.36 198.865 488.537 198.865ZM593.143 212.566C564.762 212.566 547.147 193.776 547.147 165.396C547.147 136.819 566.132 117.051 592.36 117.051C619.566 117.051 635.811 135.254 635.811 164.221V171.267H566.132C567.307 187.121 577.289 197.103 593.143 197.103C608.801 197.103 615.847 189.47 619.37 180.467L636.203 186.926C630.135 200.822 616.826 212.566 593.143 212.566ZM616.239 156.979C615.456 140.93 606.648 132.513 591.968 132.513C577.876 132.513 567.698 141.908 565.741 156.979H616.239ZM649.913 211V79.08H669.094V211H649.913ZM782.902 213.349C747.084 213.349 723.596 187.904 723.596 147.584C723.596 105.307 748.454 78.6885 784.663 78.6885C814.414 78.6885 834.378 93.5638 839.271 123.706L818.915 123.901C815.197 104.329 803.453 96.4997 784.468 96.4997C760.002 96.4997 743.561 115.094 743.561 146.606V148.172C743.561 177.922 759.219 195.929 784.468 195.929C804.432 195.929 819.307 182.62 819.307 162.851V157.958L828.506 164.808H787.208V147.976H839.467V211H822.439V191.232C815.001 205.128 801.104 213.349 782.902 213.349ZM884.697 213.349C864.732 213.349 852.597 202.388 852.597 186.73C852.597 165.983 868.06 161.285 888.611 156.784C904.465 153.456 914.251 152.478 916.013 146.997V145.823C916.013 138.19 910.337 132.318 896.049 132.318C882.348 132.318 873.932 138.581 873.932 149.15V150.129H854.75C855.337 129.578 871.779 117.051 896.244 117.051C919.927 117.051 934.02 127.62 934.02 150.912V196.712V211H915.817V197.103C909.358 208.064 897.81 213.349 884.697 213.349ZM887.828 198.865C901.529 198.865 914.447 191.819 916.013 173.812V162.264C910.337 166.179 900.355 167.744 891.351 169.897C880.782 172.638 871.974 175.965 871.974 185.947C871.974 193.58 877.65 198.865 887.828 198.865ZM952.487 211V118.617H971.472V136.037C974.017 125.272 981.259 117.638 998.483 117.638H1001.22V136.428H992.611C975.974 136.428 971.472 144.649 971.472 163.634V211H952.487ZM1048.42 212.566C1020.82 212.566 1003.21 192.797 1003.21 164.613C1003.21 137.015 1022 117.051 1049.01 117.051C1070.54 117.051 1084.43 128.795 1090.11 146.606L1071.91 152.478C1068.77 140.343 1061.92 133.101 1048.61 133.101C1032.37 133.101 1022.39 145.823 1022.39 164.417V165.2C1022.39 183.402 1031.78 196.516 1048.03 196.516C1063.1 196.516 1069.56 188.883 1072.88 176.161L1090.89 181.837C1084.63 200.431 1070.73 212.566 1048.42 212.566ZM1143.82 212.566C1115.44 212.566 1097.82 193.776 1097.82 165.396C1097.82 136.819 1116.81 117.051 1143.03 117.051C1170.24 117.051 1186.48 135.254 1186.48 164.221V171.267H1116.81C1117.98 187.121 1127.96 197.103 1143.82 197.103C1159.47 197.103 1166.52 189.47 1170.04 180.467L1186.88 186.926C1180.81 200.822 1167.5 212.566 1143.82 212.566ZM1166.91 156.979C1166.13 140.93 1157.32 132.513 1142.64 132.513C1128.55 132.513 1118.37 141.908 1116.41 156.979H1166.91ZM1115.24 104.916L1135.79 76.7313H1151.25L1171.81 104.916H1157.13L1143.62 88.0834L1129.92 104.916H1115.24ZM1236.38 213.544C1218.37 213.544 1204.09 206.107 1195.67 194.167L1212.11 185.555C1217.79 193.776 1227.38 197.886 1237.16 197.886C1247.73 197.886 1254 193.189 1254 185.36C1254 177.139 1242.84 175.378 1228.55 172.246C1211.52 168.723 1196.65 163.047 1196.65 145.236C1196.65 128.99 1212.11 116.66 1231.49 116.66C1248.91 116.66 1262.41 124.489 1271.42 136.428L1254.78 144.453C1249.69 136.624 1241.27 132.122 1231.49 132.122C1221.51 132.122 1215.05 136.819 1215.05 143.866C1215.05 151.695 1221.11 153.065 1237.95 156.392C1254.98 159.72 1272.4 165.787 1272.4 183.99C1272.4 201.018 1257.32 213.544 1236.38 213.544Z" fill="currentColor"/>
         <path d="M1272.96 105.812C1268.36 105.812 1265.91 103.688 1265.2 99.7394H1268.11C1268.66 102.435 1270.1 103.443 1272.88 103.443C1275.33 103.443 1276.77 102.272 1276.77 100.366C1276.77 98.5413 1274.59 98.0511 1271.98 97.561C1268.96 96.9619 1265.83 95.9816 1265.83 92.4961C1265.83 89.3918 1268.44 87.1044 1272.14 87.1044C1276.17 87.1044 1278.82 89.1195 1279.36 93.1224H1276.47C1276.12 90.5083 1274.59 89.4735 1272.12 89.4735C1269.86 89.4735 1268.47 90.6172 1268.47 92.3872C1268.47 94.3206 1270.86 94.729 1273.42 95.2192C1276.39 95.7638 1279.44 96.7168 1279.44 100.23C1279.44 103.524 1277.02 105.812 1272.96 105.812ZM1281.74 105.512V87.4312H1286.31L1291.02 101.836L1296.01 87.4312H1300.42V105.512H1297.8V89.8003L1292.14 105.512H1289.8L1284.38 89.9637V105.512H1281.74Z" fill="currentColor"/>
       </svg>
-      <p>Identidade visual e sites com posicionamento e estratégia, feitos em Teresina (PI) pra negócios em qualquer lugar.</p>
+      <p>Identidades visuais e sites estratégicos para negócios que querem ser percebidos pelo valor que entregam.</p>
       <a class="btn btn-outline btn-origin" href="https://wa.me/5598982340912" target="_blank" rel="noopener">
         <span class="origin-fill" aria-hidden="true"></span>
         <span class="origin-content">
-          Falar no WhatsApp
+          Iniciar um projeto
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </span>
       </a>
@@ -1397,7 +1409,7 @@
       <p class="footer-heading">Contato</p>
       <address class="footer-address">
         <a href="https://wa.me/5598982340912" target="_blank" rel="noopener">+55 98 98234-0912</a>
-        <span>Teresina · PI, Brasil</span>
+        <span>Teresina (PI) · Projetos para todo o Brasil.</span>
       </address>
     </div>
     <div class="footer-col">
@@ -1449,41 +1461,6 @@
 
   var footerYearEl = document.getElementById('footerYear');
   if (footerYearEl) footerYearEl.textContent = new Date().getFullYear();
-
-  (function () {
-    var el = document.getElementById('heroRotateText');
-    if (!el) return;
-    var words = ['autoridade', 'consistência', 'posicionamento', 'estratégia'];
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      el.textContent = words[0];
-      return;
-    }
-    var wordIndex = 0, charIndex = 0, deleting = false;
-    function step() {
-      var word = words[wordIndex];
-      if (!deleting) {
-        charIndex++;
-        el.textContent = word.slice(0, charIndex);
-        if (charIndex === word.length) {
-          deleting = true;
-          setTimeout(step, 1500);
-          return;
-        }
-        setTimeout(step, 85);
-      } else {
-        charIndex--;
-        el.textContent = word.slice(0, charIndex);
-        if (charIndex === 0) {
-          deleting = false;
-          wordIndex = (wordIndex + 1) % words.length;
-          setTimeout(step, 300);
-          return;
-        }
-        setTimeout(step, 40);
-      }
-    }
-    setTimeout(step, 1500);
-  })();
 
   (function () {
     var header = document.querySelector('.site-header');
