@@ -1046,7 +1046,7 @@
       </svg>
     </a>
     <div class="nav-menu">
-      <a href="#solucoes">Soluções</a>
+      <a href="#solucoes" class="is-active">Soluções</a>
       <a href="#metodologia">Metodologia</a>
       <a href="#cases">Cases</a>
       <a href="#sobre">Sobre</a>
@@ -1550,6 +1550,20 @@
     }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
 
     sections.forEach(function (s) { spy.observe(s.section); });
+
+    var firstId = sections[0].id;
+    var firstTop = sections[0].section.getBoundingClientRect().top + window.scrollY;
+    var topTicking = false;
+    function checkTop() {
+      if (window.scrollY < firstTop - 80) setActive(firstId);
+      topTicking = false;
+    }
+    window.addEventListener('scroll', function () {
+      if (!topTicking) {
+        topTicking = true;
+        requestAnimationFrame(checkTop);
+      }
+    });
   })();
 
   document.querySelectorAll('.btn-origin').forEach(function (btn) {
