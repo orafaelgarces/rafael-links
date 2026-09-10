@@ -47,7 +47,7 @@
     --accent: #d3ea55;
     --accent-ink: #10160a;
     --accent-wash: rgba(221, 255, 34, 0.2);
-    --accent-strong: #69781f;
+    --accent-strong: #4d5817;
 
     --font: "Satoshi", "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   }
@@ -215,9 +215,9 @@
     justify-self: start;
     color: var(--ink);
   }
-  .nav-logo { width: 140px; height: auto; }
+  .nav-logo { width: 122px; height: auto; }
   @media (max-width: 360px) {
-    .nav-logo { width: 118px; }
+    .nav-logo { width: 104px; }
   }
   .nav-menu {
     display: flex;
@@ -243,16 +243,17 @@
   }
   .nav-menu a {
     position: relative;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
     white-space: nowrap;
     color: var(--pill-text);
-    transition: background 0.2s ease, color 0.2s ease;
+    transition: color 0.2s ease, background 0.2s ease;
   }
-  .nav-menu a:hover { color: var(--pill-text-hover); background: var(--pill-hover-bg); }
+  .nav-menu a:hover { color: var(--accent-strong); }
   .nav-menu a.is-active { color: var(--accent-strong); background: var(--pill-hover-bg); }
   .nav-menu a.is-active::before {
     content: '';
