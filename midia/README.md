@@ -11,7 +11,11 @@ Especificação:
 - MP4 / H.264, sem áudio
 - Loop perfeito, 4 a 8 segundos
 - Até ~600 KB por arquivo
-- Tons escuros: o texto por cima é branco
+
+Sobre o brilho: o texto por cima é branco e o card tem um véu escuro
+com desfoque na metade de baixo. Vídeos escuros ou de meio-tom ficam
+ótimos. Vídeos muito claros ainda são legíveis, mas o título perde
+folga de contraste — evite branco estourado atrás do texto.
 
 Opcional: `marca.jpg` / `site.jpg` como poster (primeiro frame),
 referenciados no atributo `poster` do `<video>`.
