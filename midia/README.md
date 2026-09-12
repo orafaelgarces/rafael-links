@@ -1,21 +1,12 @@
-# Vídeos dos cards de Soluções
+# Imagens dos cards de Soluções
 
-Coloque aqui:
-
-- `marca.mp4` — card "Marca"
-- `site.mp4` — card "Site"
+- `marca.jpg` — card "Marca"
+- `site.jpg` — card "Site"
 
 Especificação:
 
-- Proporção 4:3 (ex.: 720×540 ou 1080×810)
-- MP4 / H.264, sem áudio
-- Loop perfeito, 4 a 8 segundos
-- Até ~600 KB por arquivo
-
-Sobre o brilho: o texto por cima é branco e o card tem um véu escuro
-com desfoque na metade de baixo. Vídeos escuros ou de meio-tom ficam
-ótimos. Vídeos muito claros ainda são legíveis, mas o título perde
-folga de contraste — evite branco estourado atrás do texto.
-
-Opcional: `marca.jpg` / `site.jpg` como poster (primeiro frame),
-referenciados no atributo `poster` do `<video>`.
+- 1400×600, JPEG
+- A faixa no card é 3.5:1 e usa `object-fit: cover`, então o centro
+  da imagem é o que sempre aparece; as sobras de cima e de baixo dão
+  margem para o recorte em telas diferentes
+- Até ~200 KB por arquivo
