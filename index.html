@@ -46,7 +46,6 @@
     --accent-gradient: linear-gradient(135deg, var(--accent-grad-1), var(--accent-grad-2));
     --accent: #d3ea55;
     --accent-ink: #10160a;
-    --accent-wash: rgba(221, 255, 34, 0.2);
     --accent-strong: #ddff22;
 
     --glass-spec: rgba(255, 255, 255, 0.9);
@@ -532,30 +531,6 @@
   @media (prefers-reduced-motion: reduce) {
     .mobile-icons-track { animation: none; }
     .floating-icon-inner { animation: none; }
-  }
-  .status {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    color: var(--ink-soft);
-    border: 1px solid var(--border);
-    background: var(--paper-raised);
-    padding: 7px 14px;
-    border-radius: 999px;
-    margin-bottom: 28px;
-  }
-  .status .dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--accent-gradient);
-    animation: pulse 2.4s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 0 0 var(--accent-wash); }
-    50% { box-shadow: 0 0 0 6px transparent; }
   }
   .hero h1 {
     font-size: clamp(2.1rem, 6vw, 3.6rem);
@@ -1253,7 +1228,6 @@
       </div>
     </div>
     <div class="hero-content">
-    <span class="status"><span class="dot"></span>Disponível para novos projetos</span>
     <h1>Construa uma marca<br>difícil de ignorar.</h1>
     <p class="sub">Identidades visuais e sites estratégicos para negócios que querem se posicionar melhor, aumentar sua percepção de valor e crescer com consistência.</p>
     <div class="hero-ctas">
