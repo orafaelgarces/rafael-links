@@ -795,14 +795,10 @@
   .reveal.is-visible .method-grid .method-step:nth-child(3) { transition-delay: 0.16s, 0.16s, 0s, 0s; }
   .reveal.is-visible .method-grid .method-step:nth-child(4) { transition-delay: 0.24s, 0.24s, 0s, 0s; }
   @media (hover: hover) {
-    .method-step:hover {
-      border-color: color-mix(in srgb, var(--accent-grad-2) 38%, var(--border));
-      box-shadow: 0 18px 32px -26px var(--glass-drop);
-    }
-    .method-step:hover .method-icon { transform: translateY(-2px); }
+    .method-step:hover { box-shadow: 0 8px 20px -18px var(--glass-drop); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .method-step, .method-icon { transition: none; }
+    .method-step { transition: none; }
   }
   .method-grid.bento .method-step:first-child {
     display: flex;
@@ -835,7 +831,6 @@
       inset 0 -10px 18px -12px var(--glass-shade),
       inset 3px -3px 12px -7px color-mix(in srgb, var(--accent-grad-2) 90%, transparent),
       0 14px 24px -14px var(--glass-drop);
-    transition: transform 0.25s cubic-bezier(0.34, 1.2, 0.4, 1);
   }
   .method-icon::after {
     content: '';
