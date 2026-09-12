@@ -1126,7 +1126,7 @@
       </svg>
     </a>
     <div class="nav-menu">
-      <a href="#solucoes" class="is-active">Soluções</a>
+      <a href="#solucoes">Soluções</a>
       <a href="#metodologia">Metodologia</a>
       <a href="#cases">Cases</a>
       <a href="#sobre">Sobre</a>
@@ -1449,7 +1449,8 @@
       <p class="footer-heading">Contato</p>
       <address class="footer-address">
         <a href="https://wa.me/5598982340912" target="_blank" rel="noopener">+55 98 98234-0912</a>
-        <span>Teresina (PI) · Projetos para todo o Brasil.</span>
+        <a href="mailto:rafaelgarces.adm@gmail.com">rafaelgarces.adm@gmail.com</a>
+        <span>Teresina · PI</span>
       </address>
     </div>
     <div class="footer-col">
@@ -1558,7 +1559,7 @@
 
     function setActive(id) {
       navLinks.forEach(function (link) {
-        link.classList.toggle('is-active', link.getAttribute('href') === '#' + id);
+        link.classList.toggle('is-active', id !== null && link.getAttribute('href') === '#' + id);
       });
     }
 
@@ -1573,11 +1574,10 @@
 
     sections.forEach(function (s) { spy.observe(s.section); });
 
-    var firstId = sections[0].id;
     var firstTop = sections[0].section.getBoundingClientRect().top + window.scrollY;
     var topTicking = false;
     function checkTop() {
-      if (window.scrollY < firstTop - 80) setActive(firstId);
+      if (window.scrollY < firstTop - 80) setActive(null);
       topTicking = false;
     }
     window.addEventListener('scroll', function () {
