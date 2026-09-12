@@ -639,6 +639,14 @@
     border-radius: 20px;
     padding: 30px;
     background: var(--paper-raised);
+    transition: box-shadow 0.25s ease;
+  }
+  @media (hover: hover) {
+    .service-card:hover { box-shadow: 0 8px 20px -18px var(--glass-drop); }
+    .service-card:hover .service-icon { transform: translateY(-2px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .service-card, .service-icon { transition: none; }
   }
   .service-icon {
     position: relative;
@@ -690,6 +698,7 @@
     pointer-events: none;
   }
   .service-icon svg { position: relative; z-index: 1; width: 21px; height: 21px; }
+  .service-icon { transition: transform 0.25s cubic-bezier(0.34, 1.2, 0.4, 1); }
   .service-eyebrow {
     display: block;
     font-size: 0.72rem;
@@ -1464,7 +1473,6 @@
         <a href="#metodologia">Metodologia</a>
         <a href="#cases">Cases</a>
         <a href="#sobre">Sobre</a>
-        <a href="/links">Links</a>
       </nav>
     </div>
     <div class="footer-col">
