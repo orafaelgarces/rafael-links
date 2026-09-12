@@ -645,7 +645,7 @@
   }
   .service-media {
     position: relative;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 2.2 / 1;
     overflow: hidden;
     background: #0b0b0d;
   }
@@ -673,26 +673,18 @@
   .service-deliv {
     list-style: none;
     margin: 18px 0 0;
-    padding-top: 16px;
-    border-top: 1px solid var(--border);
+    padding: 0;
     display: flex;
-    flex-direction: column;
-    gap: 9px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
   .service-deliv li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 0.85rem;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.82rem;
+    line-height: 1.3;
     color: var(--ink-soft);
-    line-height: 1.4;
-  }
-  .service-deliv svg {
-    width: 15px;
-    height: 15px;
-    flex: none;
-    margin-top: 1px;
-    color: var(--ink-faint);
   }
   @media (hover: hover) {
     .service-card:hover { box-shadow: 0 8px 20px -18px var(--glass-drop); }
@@ -1271,9 +1263,9 @@
           <h3>Identidade para posicionar e diferenciar.</h3>
           <p>Desenvolvo sistemas de identidade visual que transformam a estratégia do seu negócio em uma presença reconhecível, consistente e profissional.</p>
           <ul class="service-deliv">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Logo e sistema de identidade visual</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Paleta, tipografia e direção de uso</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Arquivos finais organizados (SVG, PNG e PDF)</li>
+            <li>Logo e sistema de identidade visual</li>
+            <li>Paleta, tipografia e direção de uso</li>
+            <li>Arquivos finais organizados (SVG, PNG e PDF)</li>
           </ul>
         </div>
       </article>
@@ -1289,9 +1281,9 @@
           <h3>Uma presença digital à altura da sua marca.</h3>
           <p>Landing pages e sites institucionais pensados para comunicar com clareza, gerar confiança e conduzir o visitante à ação.</p>
           <ul class="service-deliv">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Design responsivo para desktop e mobile</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Desenvolvimento e publicação do site</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>Estrutura otimizada e SEO básico</li>
+            <li>Design responsivo para desktop e mobile</li>
+            <li>Desenvolvimento e publicação do site</li>
+            <li>Estrutura otimizada e SEO básico</li>
           </ul>
         </div>
       </article>
