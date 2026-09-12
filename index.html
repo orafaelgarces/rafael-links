@@ -52,6 +52,7 @@
     --glass-edge: rgba(255, 255, 255, 0.8);
     --glass-shade: rgba(15, 23, 42, 0.3);
     --glass-drop: rgba(15, 23, 42, 0.45);
+    --grid-line: rgba(19, 23, 32, 0.16);
 
     --font: "Satoshi", "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   }
@@ -79,6 +80,7 @@
       --glass-edge: rgba(255, 255, 255, 0.16);
       --glass-shade: rgba(0, 0, 0, 0.5);
       --glass-drop: rgba(0, 0, 0, 0.6);
+      --grid-line: rgba(245, 245, 247, 0.13);
     }
   }
 
@@ -104,6 +106,7 @@
     --glass-edge: rgba(255, 255, 255, 0.16);
     --glass-shade: rgba(0, 0, 0, 0.5);
     --glass-drop: rgba(0, 0, 0, 0.6);
+    --grid-line: rgba(245, 245, 247, 0.13);
   }
 
   * { box-sizing: border-box; }
@@ -115,6 +118,19 @@
     color: var(--ink);
     font-family: var(--font);
     -webkit-font-smoothing: antialiased;
+  }
+
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--grid-line), transparent 1px),
+      linear-gradient(to bottom, var(--grid-line), transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(ellipse 62% 48% at 50% 38%, #000 0%, transparent 100%);
+    mask-image: radial-gradient(ellipse 62% 48% at 50% 38%, #000 0%, transparent 100%);
   }
 
   a { color: inherit; text-decoration: none; -webkit-tap-highlight-color: transparent; }
@@ -1124,6 +1140,8 @@
   }
 </style>
 
+<div class="grid-bg" aria-hidden="true"></div>
+
 <header class="site-header">
   <nav class="nav wrap">
     <a class="nav-brand" href="#" aria-label="Rafael Garcês">
@@ -1571,29 +1589,23 @@
       });
     }
 
+    var crossing = {};
     var spy = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var match = sections.filter(function (s) { return s.section === entry.target; })[0];
-          if (match) setActive(match.id);
-        }
+        var match = sections.filter(function (s) { return s.section === entry.target; })[0];
+        if (match) crossing[match.id] = entry.isIntersecting;
       });
+      var current = sections.filter(function (s) { return crossing[s.id]; })[0];
+      if (current) {
+        setActive(current.id);
+        return;
+      }
+      // sem seção cruzando: limpa só quando ainda estamos acima da primeira
+      var firstTop = sections[0].section.getBoundingClientRect().top + window.scrollY;
+      if (window.scrollY < firstTop - 80) setActive(null);
     }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
 
     sections.forEach(function (s) { spy.observe(s.section); });
-
-    var firstTop = sections[0].section.getBoundingClientRect().top + window.scrollY;
-    var topTicking = false;
-    function checkTop() {
-      if (window.scrollY < firstTop - 80) setActive(null);
-      topTicking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (!topTicking) {
-        topTicking = true;
-        requestAnimationFrame(checkTop);
-      }
-    });
   })();
 
   document.querySelectorAll('.btn-origin').forEach(function (btn) {
