@@ -473,14 +473,21 @@
   .case-body {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 32px 40px;
+    gap: 20px;
     padding: 64px 0 0;
   }
-  .case-body > div { min-width: 0; }
+  .case-body > div {
+    min-width: 0;
+    padding: 28px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--paper-raised);
+  }
   @media (max-width: 860px) {
     .case-section { padding-top: 48px; }
     .case-section-head { grid-template-columns: 1fr; gap: 12px; align-items: start; }
-    .case-body { grid-template-columns: 1fr; gap: 28px; padding-top: 48px; }
+    .case-body { grid-template-columns: 1fr; gap: 16px; padding-top: 48px; }
+    .case-body > div { padding: 24px; }
   }
   .case-body h2 {
     font-size: var(--text-lead);
@@ -841,15 +848,15 @@
   <div class="case-body">
     <div>
       <h2>O desafio</h2>
-      <p>Criar uma página única, com visual atrativo e foco total em conversão — sem distrair o visitante do objetivo principal: virar lead.</p>
+      <p>Criar uma página única, com visual atrativo e foco total em conversão, sem distrair o visitante do objetivo principal: virar lead.</p>
     </div>
     <div>
       <h2>A solução</h2>
-      <p>Uma estrutura one page com navegação fluida, CTAs estratégicos e informações organizadas pra facilitar a decisão do usuário. O resultado é uma interface responsiva, clara e centrada nos produtos e serviços da marca — pensada pra atrair novos clientes e fortalecer a presença digital da MaiPhone.</p>
+      <p>Uma estrutura one page com navegação fluida, CTAs estratégicos e informações organizadas pra facilitar a decisão do usuário. O resultado é uma interface responsiva, clara e centrada nos produtos e serviços da marca, pensada pra atrair novos clientes e fortalecer a presença digital da MaiPhone.</p>
     </div>
     <div>
       <h2>Direção visual</h2>
-      <p>A estética segue clean e voltada pra tecnologia. A paleta escura com toques de verde transmite inovação e confiança, enquanto a tipografia clara e o layout estratégico garantem uma experiência intuitiva — em sintonia com a identidade moderna e dinâmica da marca.</p>
+      <p>A estética segue clean e voltada pra tecnologia. A paleta escura com toques de verde transmite inovação e confiança, enquanto a tipografia clara e o layout estratégico garantem uma experiência intuitiva, em sintonia com a identidade moderna e dinâmica da marca.</p>
     </div>
   </div>
 
