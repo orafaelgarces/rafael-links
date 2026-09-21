@@ -193,8 +193,8 @@
     display: inline-grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    width: 52px;
-    height: 28px;
+    width: 68px;
+    height: 30px;
     padding: 0;
     border: none;
     border-radius: 999px;
@@ -204,12 +204,10 @@
     transition: transform 0.16s var(--ease-out);
   }
   .theme-switch:active { transform: scale(0.94); }
+  /* Same geometry as .pill-lang-thumb: full cell height, half width, slides exactly one cell */
   .theme-switch-thumb {
     position: absolute;
-    top: 2px;
-    left: 2px;
-    width: calc(50% - 2px);
-    height: calc(100% - 4px);
+    inset: 0 50% 0 0;
     border-radius: 999px;
     background: var(--accent-gradient);
     transform: translateX(100%);
@@ -566,8 +564,6 @@
     @keyframes fadeOnly { to { opacity: 1; } }
   }
   button, input, textarea, select { font-family: var(--font); }
-  .theme-switch { width: 66px; height: 36px; }
-  .theme-switch-thumb { width: 28px; height: 28px; }
   .theme-switch-icon svg { width: 15px; height: 15px; }
 
   /* Shared type scale: Satoshi, sizes grouped by content role. */
