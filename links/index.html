@@ -50,7 +50,7 @@
     --accent-ink: #10160a;
     --accent-wash: rgba(221, 255, 34, 0.2);
 
-    --font: "Satoshi", "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font: "Satoshi", sans-serif;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -521,6 +521,11 @@
   @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; animation: none; }
   }
+  button, input, textarea, select { font-family: var(--font); }
+  .theme-switch { width: 66px; height: 36px; }
+  .theme-switch-thumb { width: 28px; height: 28px; }
+  .theme-switch-icon svg { width: 15px; height: 15px; }
+
 </style>
 
 <div class="page">

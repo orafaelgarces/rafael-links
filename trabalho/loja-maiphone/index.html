@@ -63,7 +63,7 @@
     --accent-ink: #10160a;
     --accent-wash: rgba(221, 255, 34, 0.2);
 
-    --font: "Satoshi", "Outfit", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font: "Satoshi", sans-serif;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -684,6 +684,13 @@
     .btn-origin .origin-fill { display: none; }
     .btn-origin.is-active { background: var(--accent); color: var(--accent-ink); }
   }
+
+  button, input, textarea, select { font-family: var(--font); }
+  .theme-switch { width: 66px; height: 36px; }
+  .theme-switch-thumb { width: 28px; height: 28px; }
+  .theme-switch-icon svg { width: 15px; height: 15px; }
+  .site-header .nav { padding: 10px 12px; }
+  .site-header .nav-brand { margin-left: 8px; }
 
 </style>
 
