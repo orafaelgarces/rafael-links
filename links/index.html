@@ -142,7 +142,7 @@
     background: transparent;
     color: var(--pill-text);
     font-family: inherit;
-    font-size: 0.72rem;
+    font-size: var(--text-label);
     font-weight: 600;
     letter-spacing: 0.02em;
     padding: 7px 12px;
@@ -225,7 +225,7 @@
 
   .name {
     font-weight: 700;
-    font-size: 2rem;
+    font-size: var(--text-section);
     letter-spacing: -0.02em;
     margin: 0;
     text-wrap: balance;
@@ -233,7 +233,7 @@
 
   .tagline {
     color: var(--ink-soft);
-    font-size: 0.98rem;
+    font-size: var(--text-body);
     margin: 0;
   }
 
@@ -261,7 +261,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 0.8rem;
+    font-size: var(--text-meta);
     font-weight: 500;
     color: var(--ink-soft);
     border: 1px solid var(--border);
@@ -287,7 +287,7 @@
 
   /* ---------- Section label ---------- */
   .section-label {
-    font-size: 0.72rem;
+    font-size: var(--text-label);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -325,8 +325,8 @@
   .chip svg { width: 21px; height: 21px; }
 
   .link-body { flex: 1; min-width: 0; }
-  .link-title { font-weight: 600; font-size: 0.98rem; }
-  .link-sub { font-size: 0.83rem; color: var(--ink-soft); margin-top: 1px; }
+  .link-title { font-weight: 600; font-size: var(--text-body); }
+  .link-sub { font-size: var(--text-meta); color: var(--ink-soft); margin-top: 1px; }
 
   .arrow {
     flex: none;
@@ -381,7 +381,7 @@
     justify-content: space-between;
     gap: 16px;
     padding: 13px 20px;
-    font-size: 0.87rem;
+    font-size: var(--text-meta);
     color: inherit;
     text-decoration: none;
     transition: background 0.15s ease;
@@ -390,7 +390,7 @@
   .stack-row + .stack-row { border-top: 1px solid var(--border); }
   .stack-role {
     color: var(--ink-faint);
-    font-size: 0.72rem;
+    font-size: var(--text-label);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -470,7 +470,7 @@
     background: #ffffff;
     color: #131720;
     text-decoration: none;
-    font-size: 0.72rem;
+    font-size: var(--text-label);
     font-weight: 600;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
     opacity: 0;
@@ -486,8 +486,8 @@
   @media (hover: none), (pointer: coarse) {
     .book-cta { opacity: 1; transform: translateX(0); }
   }
-  .book-title { font-weight: 600; font-size: 0.87rem; margin-top: 9px; text-wrap: balance; }
-  .book-author { font-size: 0.8rem; color: var(--ink-soft); margin-top: 1px; }
+  .book-title { font-weight: 600; font-size: var(--text-meta); margin-top: 9px; text-wrap: balance; }
+  .book-author { font-size: var(--text-meta); color: var(--ink-soft); margin-top: 1px; }
   @media (prefers-reduced-motion: reduce) {
     .book-cover, .book-cta { transition: none; }
   }
@@ -506,7 +506,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 0.8rem;
+    font-size: var(--text-meta);
     font-variant-numeric: tabular-nums;
   }
   .footer-meta .sep { opacity: 0.5; }
@@ -525,6 +525,27 @@
   .theme-switch { width: 66px; height: 36px; }
   .theme-switch-thumb { width: 28px; height: 28px; }
   .theme-switch-icon svg { width: 15px; height: 15px; }
+
+  /* Shared type scale: Satoshi, sizes grouped by content role. */
+  :root {
+    --text-label: 0.75rem;
+    --text-meta: 0.875rem;
+    --text-body: 1rem;
+    --text-lead: 1.125rem;
+    --text-card: 1.5rem;
+    --text-section: 2rem;
+    --text-display: 3.5rem;
+  }
+  @media (max-width: 640px) {
+    :root { --text-card: 1.25rem; --text-section: 1.75rem; --text-display: 2.25rem; }
+  }
+
+  body { font-size: var(--text-body); }
+  .btn, .btn.btn-nav, .contact-card .btn, .case-card-cta, .method-tab,
+  .method-tab-highlight span, .nav-menu a { font-size: var(--text-meta); line-height: 1.4; }
+  .section-label, .hero-eyebrow, .service-eyebrow, .footer-heading,
+  .about-role, .contact-eyebrow, .case-meta { font-size: var(--text-label); line-height: 1.5; letter-spacing: 0.07em; }
+  .contact-form input { font-size: var(--text-body); line-height: 1.5; }
 
 </style>
 
