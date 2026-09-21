@@ -1332,7 +1332,7 @@
   /* Separate the idle float from the interruptible full-turn interaction. */
   .hero-art { perspective: 1000px; }
   .hero-float { transform-style: preserve-3d; }
-  .hero-monogram { transform-style: preserve-3d; transition: transform 1100ms var(--ease-in-out); }
+  .hero-monogram { transform-style: preserve-3d; transform: rotateY(0deg) rotateZ(-9deg); transition: transform 1800ms ease; }
   .hero-monogram svg { transform: translateZ(18px); }
   @keyframes hero-float {
     0%, 100% { transform: translateY(0) rotateX(3deg); }
@@ -1342,8 +1342,8 @@
     .hero-float { animation: hero-float 6s var(--ease-in-out) infinite; }
   }
   @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-    .hero-art:hover .hero-monogram { transform: rotateY(360deg) rotateX(12deg) rotateZ(-9deg); }
-    .hero-art:hover .hero-float { animation-play-state: paused; }
+
+
   }
   @media (prefers-reduced-motion: reduce) {
     .hero-float { animation: none; }
@@ -1375,6 +1375,35 @@
     #metodologia .method-grid { transition: none; }
     .social-row a:hover, .social-row a:active { transform: none; }
   }
+
+  .contact-form { max-width: 530px; display: grid; gap: 16px; }
+  .contact-form label { display: grid; gap: 8px; color: #e6e6e9; font-size: 0.8rem; }
+  .contact-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .contact-form input { box-sizing: border-box; width: 100%; min-width: 0; border: 1px solid #535359; border-radius: 12px; padding: 13px 14px; min-height: 48px; font: inherit; font-size: 0.9rem; background: #1d1d20; color: #f5f5f7; }
+  .contact-form input::placeholder { color: #a9a9b0; }
+  .contact-form input:focus-visible { outline: 2px solid #d3ea55; outline-offset: 2px; }
+  .contact-form .btn { justify-self: start; }
+  .contact-form-note { margin: 0; color: #b1b2b9; font-size: 0.75rem; line-height: 1.5; }
+  @media (max-width: 960px) { .contact-fields { grid-template-columns: 1fr; } }
+
+  /* Full cards at rest; discreet controls replace the native scrollbar. */
+  #metodologia .method-grid.bento { grid-auto-columns: calc((100% - 32px) / 3); padding: 2px 0; scrollbar-width: none; scroll-snap-type: x mandatory; }
+  #metodologia .method-grid::-webkit-scrollbar { display: none; }
+  #metodologia .method-grid.has-next { mask-image: linear-gradient(to right, #000 calc(100% - 10px), transparent); }
+  #metodologia .method-grid.has-prev { mask-image: linear-gradient(to right, transparent, #000 10px); }
+  #metodologia .method-grid.has-prev.has-next { mask-image: linear-gradient(to right, transparent, #000 10px, #000 calc(100% - 10px), transparent); }
+  .method-navigation { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 18px; }
+  .method-navigation[hidden] { display: none; }
+  .method-position { font-size: 0.75rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .method-navigation-buttons { display: flex; gap: 8px; }
+  .method-navigation button { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 1px solid var(--border); border-radius: 50%; background: var(--paper); color: var(--ink); font: inherit; font-size: 1.2rem; cursor: pointer; transition: transform 160ms var(--ease-out); }
+  .method-navigation button:disabled { opacity: 0.35; cursor: default; }
+  .method-navigation button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .method-navigation button:not(:disabled):active { transform: scale(0.95); }
+  }
+  @media (max-width: 1100px) { #metodologia .method-grid.bento { grid-auto-columns: calc((100% - 16px) / 2); } }
+  @media (max-width: 540px) { #metodologia .method-grid.bento { grid-auto-columns: 100%; gap: 12px; } }
 
 </style>
 
@@ -1565,7 +1594,7 @@
       <span class="method-tab-highlight" aria-hidden="true"><span>Marca</span><span>Site</span></span>
     </div>
     </div>
-    <p class="method-scroll-hint">Deslize para explorar as 4 etapas.</p>
+    <p class="method-scroll-hint">Da primeira conversa à entrega.</p>
     <div class="method-grid bento" data-panel="marca" role="tabpanel" id="painel-marca" aria-labelledby="aba-marca" tabindex="0">
       <div class="method-step">
         <div class="method-step-head"><span class="method-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6.8"/><path d="m15.5 15.5 5.2 5.2"/></svg></span><span class="method-number" aria-hidden="true">01</span></div>
@@ -1618,6 +1647,13 @@
         <p>Desenvolvo e reviso o site para deixá-lo pronto para publicação.</p>
       </div>
     </div>
+    <div class="method-navigation" hidden>
+      <span class="method-position" aria-live="polite" aria-atomic="true"></span>
+      <div class="method-navigation-buttons">
+        <button type="button" class="method-prev" aria-label="Ver etapas anteriores">←</button>
+        <button type="button" class="method-next" aria-label="Ver próximas etapas">→</button>
+      </div>
+    </div>
   </section>
 
   <section id="sobre" class="reveal">
@@ -1661,13 +1697,15 @@
       <p class="contact-eyebrow">O próximo passo começa com uma conversa</p>
       <h2>Sua marca pode comunicar melhor.</h2>
       <p class="sub">Se você está construindo um novo negócio ou sente que sua presença atual já não representa o nível da sua empresa, vamos conversar.</p>
-      <a class="btn btn-primary btn-origin" href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Gostaria%20de%20conversar%20sobre%20um%20projeto%20para%20meu%20neg%C3%B3cio%20e%20entender%20os%20pr%C3%B3ximos%20passos." target="_blank" rel="noopener">
-        <span class="origin-fill" aria-hidden="true"></span>
-        <span class="origin-content">
-          Quero falar sobre meu projeto
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </span>
-      </a>
+      <form class="contact-form" id="contact-form">
+        <label for="contact-name">Nome<input id="contact-name" name="name" autocomplete="name" placeholder="Como você se chama?" required maxlength="100"></label>
+        <div class="contact-fields">
+          <label for="contact-email">E-mail<input id="contact-email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required maxlength="150"></label>
+          <label for="contact-phone">WhatsApp<input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="(DDD) 99999-9999" required minlength="8" maxlength="25" pattern="[+0-9() .-]{8,25}"></label>
+        </div>
+        <button class="btn btn-primary" type="submit">Continuar no WhatsApp <span aria-hidden="true">↗</span></button>
+        <p class="contact-form-note">Seus dados vão na mensagem. Você revisa e envia pelo WhatsApp.</p>
+      </form>
       </div>
       <div class="contact-art" aria-hidden="true"><img src="/midia/contato-glass-v1.jpg" alt="" width="1254" height="1254" loading="lazy" decoding="async"></div>
     </div>
@@ -2017,5 +2055,63 @@
       track.style.animationPlayState = document.hidden ? 'paused' : '';
     });
     sync();
+  })();
+
+  (function () {
+    var art = document.querySelector('.hero-art');
+    var monogram = document.querySelector('.hero-monogram');
+    var angle = 0;
+    var lastTurn = -Infinity;
+    art.addEventListener('pointerenter', function (e) {
+      if (e.pointerType !== 'mouse' || !matchMedia('(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)').matches) return;
+      if (performance.now() - lastTurn < 1800) return;
+      lastTurn = performance.now();
+      angle += 360;
+      monogram.style.transform = 'rotateY(' + angle + 'deg) rotateZ(-9deg)';
+    });
+    document.querySelector('#contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!this.reportValidity()) return;
+      var data = new FormData(this);
+      var message = 'Olá, Rafael! Gostaria de conversar sobre um projeto.\n\nNome: ' + data.get('name').trim() + '\nE-mail: ' + data.get('email').trim() + '\nWhatsApp: ' + data.get('phone').trim();
+      window.location.assign('https://wa.me/5598982340912?text=' + encodeURIComponent(message));
+    });
+  })();
+
+  (function () {
+    var section = document.querySelector('#metodologia');
+    var panels = Array.from(section.querySelectorAll('[data-panel]'));
+    var nav = section.querySelector('.method-navigation');
+    var prev = nav.querySelector('.method-prev');
+    var next = nav.querySelector('.method-next');
+    var position = nav.querySelector('.method-position');
+    function active() { return panels.find(function (panel) { return !panel.hidden; }); }
+    function update() {
+      var panel = active();
+      var width = panel.firstElementChild.getBoundingClientRect().width;
+      var gap = parseFloat(getComputedStyle(panel).columnGap);
+      var first = Math.round(panel.scrollLeft / (width + gap)) + 1;
+      var count = Math.round((panel.clientWidth + gap) / (width + gap));
+      var max = panel.scrollWidth - panel.clientWidth;
+      prev.disabled = panel.scrollLeft < 4;
+      next.disabled = panel.scrollLeft >= max - 4;
+      panel.classList.toggle('has-prev', !prev.disabled);
+      panel.classList.toggle('has-next', !next.disabled);
+      var label = count === 1 ? 'Etapa ' + first + ' de 4' : 'Etapas ' + first + '–' + Math.min(4, first + count - 1) + ' de 4';
+      if (position.textContent !== label) position.textContent = label;
+    }
+    function move(direction, event) {
+      var panel = active();
+      var step = panel.firstElementChild.getBoundingClientRect().width + parseFloat(getComputedStyle(panel).columnGap);
+      var index = Math.round(panel.scrollLeft / step);
+      panel.scrollTo({left: (index + direction) * step, behavior: event.detail === 0 || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+    }
+    prev.addEventListener('click', function (e) { move(-1, e); });
+    next.addEventListener('click', function (e) { move(1, e); });
+    panels.forEach(function (panel) { panel.addEventListener('scroll', update, {passive: true}); });
+    new MutationObserver(update).observe(section, {subtree: true, attributes: true, attributeFilter: ['hidden']});
+    new ResizeObserver(update).observe(section);
+    nav.hidden = false;
+    update();
   })();
 </script>
