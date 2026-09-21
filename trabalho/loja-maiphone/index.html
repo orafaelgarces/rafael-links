@@ -489,6 +489,59 @@
     .case-body { grid-template-columns: 1fr; gap: 16px; padding-top: 48px; }
     .case-body > div { padding: 24px; }
   }
+  /* ---------- Sistema visual (fichas de tipografia e cores, em HTML) ----------
+     Cores fixas de propósito: são artefatos da marca MaiPhone, não do tema do site. */
+  .spec-grid { display: grid; gap: 20px; }
+  .spec-type {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: 32px 64px;
+    padding: clamp(32px, 5vw, 64px);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: #161616;
+    color: #ffffff;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  .spec-type-name {
+    margin: 0;
+    font-size: clamp(2.4rem, 5vw, 4.25rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .spec-type-weights { margin: 12px 0 0; font-size: 1.05rem; color: #d6d6d6; }
+  .spec-type-weights b { color: #ffffff; }
+  .spec-type-glyphs { display: grid; gap: 28px; margin: 0; font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.5; letter-spacing: 0.01em; }
+  .spec-type-glyphs p { margin: 0; }
+  .spec-colors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .spec-swatch {
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background: var(--sw);
+    color: var(--sw-ink);
+  }
+  .spec-swatch-head { padding: 24px 24px 0; }
+  .spec-swatch-num { display: block; font-size: var(--text-meta); opacity: 0.85; }
+  .spec-swatch-name { display: block; margin-top: 8px; font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em; line-height: 1.15; }
+  .spec-swatch dl { display: grid; gap: 10px; margin: auto 0 0; padding: 32px 24px 24px; font-size: var(--text-meta); }
+  .spec-swatch dt { font-size: var(--text-label); text-transform: uppercase; letter-spacing: 0.06em; opacity: 0.6; }
+  .spec-swatch dd { margin: 2px 0 0; font-variant-numeric: tabular-nums; }
+  .spec-tints { display: grid; grid-template-rows: repeat(3, 44px); }
+  .spec-tints i { display: block; }
+  @media (max-width: 860px) {
+    .spec-type { grid-template-columns: 1fr; gap: 28px; }
+    .spec-type-glyphs { gap: 16px; }
+    .spec-colors { grid-template-columns: 1fr; }
+    .spec-swatch { min-height: 0; }
+    .spec-swatch dl { padding-top: 24px; }
+    .spec-tints { grid-template-rows: repeat(3, 28px); }
+  }
   .case-body h2 {
     font-size: var(--text-lead);
     font-weight: 700;
@@ -859,6 +912,60 @@
       <p>A estética segue clean e voltada pra tecnologia. A paleta escura com toques de verde transmite inovação e confiança, enquanto a tipografia clara e o layout estratégico garantem uma experiência intuitiva, em sintonia com a identidade moderna e dinâmica da marca.</p>
     </div>
   </div>
+
+  <section class="case-section" aria-labelledby="sistema-visual">
+    <p class="section-label">Sistema visual</p>
+    <div class="case-section-head">
+      <h2 id="sistema-visual">Um sistema visual à altura dos produtos.</h2>
+      <p>A direção une contraste, tipografia objetiva e o verde característico da marca para criar uma presença tecnológica, acessível e reconhecível.</p>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-type">
+        <div>
+          <p class="spec-type-name">SF Pro Display</p>
+          <p class="spec-type-weights">Regular, Medium, <b>Bold</b></p>
+        </div>
+        <div class="spec-type-glyphs" aria-label="Amostra de caracteres">
+          <p>a, b, c, d, e, f, g, h, i, j, k, l, m,<br>n, o, p, q, r, s, t, u, v, w, x, y, z</p>
+          <p>A, B, C, D, E, F, G, H, I, J, K, L, M,<br>N, O, P, Q, R, S, T, U, V, W, X, Y, Z</p>
+        </div>
+      </div>
+      <div class="spec-colors">
+        <div class="spec-swatch" style="--sw:#000000; --sw-ink:#ffffff;">
+          <div class="spec-swatch-head">
+            <span class="spec-swatch-num">#01</span>
+            <span class="spec-swatch-name">Black</span>
+          </div>
+          <dl>
+            <div><dt>Hexadecimal</dt><dd>#000000</dd></div>
+            <div><dt>RGB</dt><dd>R:0 G:0 B:0</dd></div>
+          </dl>
+          <span class="spec-tints" aria-hidden="true"><i style="background:#0a0a0a"></i><i style="background:#141414"></i><i style="background:#1f1f1f"></i></span>
+        </div>
+        <div class="spec-swatch" style="--sw:#ffffff; --sw-ink:#111111;">
+          <div class="spec-swatch-head">
+            <span class="spec-swatch-num">#02</span>
+            <span class="spec-swatch-name">White</span>
+          </div>
+          <dl>
+            <div><dt>Hexadecimal</dt><dd>#FFFFFF</dd></div>
+            <div><dt>RGB</dt><dd>R:255 G:255 B:255</dd></div>
+          </dl>
+          <span class="spec-tints" aria-hidden="true"><i style="background:#d0d0d0"></i><i style="background:#a1a1a1"></i><i style="background:#737373"></i></span>
+        </div>
+        <div class="spec-swatch" style="--sw:linear-gradient(160deg, #22b840 0%, #18a32e 55%, #0f8a24 100%); --sw-ink:#ffffff;">
+          <div class="spec-swatch-head">
+            <span class="spec-swatch-num">#03</span>
+            <span class="spec-swatch-name">Green<br>gradient</span>
+          </div>
+          <dl>
+            <div><dt>Hexadecimal</dt><dd>#18A32E</dd></div>
+            <div><dt>RGB</dt><dd>R:24 G:163 B:46</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="case-section" aria-labelledby="pagina-final">
     <p class="section-label">Página completa</p>
