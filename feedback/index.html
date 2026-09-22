@@ -376,6 +376,9 @@
      Web3Forms (https://web3forms.com): cadastre seu e-mail, receba a access key e cole abaixo.
      Enquanto estiver vazia, o envio cai no WhatsApp com as respostas formatadas. */
   var WEB3FORMS_KEY = 'f8afe617-8023-42e8-89e6-3f7f21cd5118';
+  /* Planilha (opcional): URL /exec do Apps Script em feedback/apps-script.gs.
+     Envio paralelo e silencioso; o e-mail continua sendo o canal principal. */
+  var SHEETS_URL = '';
   var WHATSAPP = '5598982340912';
 
   var CSAT_ENDS = ['Muito insatisfeito', 'Muito satisfeito'];
@@ -581,6 +584,25 @@
     return body;
   }
 
+  function payloadPlanilha(d) {
+    var linha = { 'Serviço': d.servico, 'Cliente': d.cliente, 'Nome': d.nome };
+    d.respostas.forEach(function (r) {
+      var v = r.tipo === 'csat' || r.tipo === 'nps' ? (r.valor === '' ? '' : Number(r.valor)) : r.valor;
+      linha[r.texto] = v;
+    });
+    linha['Média CSAT'] = d.media === null ? '' : d.media;
+    linha['NPS'] = d.nps === null ? '' : d.nps;
+    return linha;
+  }
+
+  function enviarPlanilha(d) {
+    if (!SHEETS_URL) return;
+    try {
+      /* no-cors: não lemos a resposta, só disparamos. Apps Script aceita text/plain sem preflight. */
+      fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadPlanilha(d)) }).catch(function () {});
+    } catch (e) {}
+  }
+
   function concluir(d) {
     form.hidden = true;
     document.querySelector('h1').textContent = 'Obrigado, ' + d.nome.split(' ')[0] + '!';
@@ -604,6 +626,8 @@
     if (!validar()) return;
     var d = coletar();
     var btn = document.getElementById('submit');
+
+    enviarPlanilha(d);
 
     if (!WEB3FORMS_KEY) {
       window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(textoWhats(d)), '_blank', 'noopener');
