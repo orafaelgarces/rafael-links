@@ -121,6 +121,9 @@
     text-wrap: balance;
   }
   .lead { color: var(--ink-soft); margin: 0 0 36px; max-width: 46ch; text-wrap: pretty; }
+  .ctx { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: -20px 0 28px; }
+  .ctx span { display: inline-flex; align-items: center; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; font-size: var(--text-meta); font-weight: 600; }
+  .ctx span.svc { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
 
   /* ---------- Cards ---------- */
   .card {
@@ -296,24 +299,25 @@
   <p class="section-label">Feedback</p>
   <h1>Como foi trabalhar comigo?</h1>
   <p class="lead">Leva uns 3 minutos. Suas respostas vão direto pra mim e servem pra melhorar os próximos projetos.</p>
+  <div class="ctx" id="ctx" hidden></div>
 
   <form id="form" novalidate>
     <section class="card">
       <h2>Quem está respondendo</h2>
       <p class="hint">Só pra eu saber de qual projeto é o retorno.</p>
-      <div class="row-2">
+      <div class="row-2" id="quem-row">
         <div class="field">
           <label for="nome">Seu nome</label>
           <input class="input" id="nome" name="nome" type="text" autocomplete="name" required>
         </div>
-        <div class="field">
+        <div class="field" id="cliente-field">
           <label for="cliente">Empresa ou projeto</label>
           <input class="input" id="cliente" name="cliente" type="text" autocomplete="organization" required>
         </div>
       </div>
     </section>
 
-    <section class="card">
+    <section class="card" id="servico-card">
       <h2>Qual serviço você está avaliando?</h2>
       <p class="hint">As perguntas mudam conforme o tipo de trabalho.</p>
       <div class="services" role="radiogroup" aria-label="Serviço avaliado">
@@ -422,10 +426,9 @@
       perguntas: [
         { id: 'mes', tipo: 'mes', texto: 'Mês de referência' },
         { id: 'qualidade', tipo: 'csat', texto: 'Qualidade das peças entregues no mês (estáticos, carrosséis, edições).' },
-        { id: 'identidade', tipo: 'csat', texto: 'Alinhamento das peças com a identidade e o tom da marca.' },
+        { id: 'identidade', tipo: 'csat', texto: 'Alinhamento das peças com a identidade visual da marca.' },
         { id: 'agilidade', tipo: 'csat', texto: 'Agilidade nas entregas e nos ajustes.' },
-        { id: 'volume', tipo: 'csat', texto: 'O volume de entregas atendeu à demanda do mês?' },
-        { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação, briefings e fluxo de aprovação.' },
+        { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação e fluxo de aprovação.' },
         { id: 'proatividade', tipo: 'csat', texto: 'Proatividade e sugestões criativas além do pedido.' },
         { id: 'destaque', tipo: 'texto', texto: 'Qual entrega se destacou neste mês?' },
         { id: 'ajustar', tipo: 'texto', texto: 'O que ajustar para o próximo mês?' },
@@ -437,6 +440,7 @@
   /* Perguntas configuradas na aba "Perguntas" da planilha (via Apps Script).
      As listas acima ficam como padrão caso a API não responda a tempo. */
   var perguntasRemotas = null;
+  var MES_LINK = (function () { var m = new URLSearchParams(location.search).get('mes'); return m && /^\d{4}-\d{2}$/.test(m) ? m : ''; })();
   var carregandoPerguntas = SHEETS_URL
     ? fetch(SHEETS_URL + '?acao=perguntas', { redirect: 'follow' })
         .then(function (r) { return r.json(); })
@@ -446,6 +450,9 @@
               if (SERVICOS[k] && j.perguntas[k].length) SERVICOS[k].perguntas = j.perguntas[k];
             });
             perguntasRemotas = true;
+            /* Chegou depois da primeira pintura: só troca se o cliente ainda não começou a responder */
+            var tocou = qWrap.querySelector('input:checked') || Array.prototype.some.call(qWrap.querySelectorAll('textarea'), function (t) { return t.value.trim(); });
+            if (servicoAtual && !tocou) render(servicoAtual);
           }
         }).catch(function () {})
     : Promise.resolve();
@@ -474,31 +481,20 @@
   function render(servico) {
     var def = SERVICOS[servico];
     if (!def) return;
-    if (perguntasRemotas === null && SHEETS_URL) {
-      servicoAtual = servico;
-      qCard.hidden = false;
-      qHint.textContent = 'Carregando perguntas…';
-      qWrap.innerHTML = '';
-      var timeout = new Promise(function (res) { setTimeout(res, 4000); });
-      Promise.race([carregandoPerguntas, timeout]).then(function () {
-        if (perguntasRemotas === null) perguntasRemotas = false;
-        if (servicoAtual === servico) render(servico);
-      });
-      return;
-    }
     servicoAtual = servico;
     qHint.textContent = def.hint;
     var html = '';
-    def.perguntas.forEach(function (q, i) {
-      var n = String(i + 1).padStart(2, '0');
+    var num = 0;
+    def.perguntas.forEach(function (q) {
+      var n = String(q.tipo === 'mes' && MES_LINK ? 0 : ++num).padStart(2, '0');
       if (q.tipo === 'csat') html += escala(q, n, 1, 5, CSAT_ENDS, '');
       else if (q.tipo === 'nps') html += escala(q, n, 0, 10, NPS_ENDS, 'nps');
       else if (q.tipo === 'texto') {
         html += '<div class="q" data-id="' + q.id + '" data-tipo="texto"><label class="q-title" for="' + q.id + '"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</label><textarea id="' + q.id + '" name="' + q.id + '" placeholder="Fique à vontade, pode ser curto."></textarea></div>';
       } else if (q.tipo === 'mes') {
         var hoje = new Date();
-        var mes = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0');
-        html += '<div class="q" data-id="' + q.id + '" data-tipo="mes"><label class="q-title" for="' + q.id + '"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</label><input class="input" type="month" id="' + q.id + '" name="' + q.id + '" value="' + mes + '" required style="max-width:220px"></div>';
+        var mes = MES_LINK || (hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0'));
+        html += '<div class="q" data-id="' + q.id + '" data-tipo="mes"' + (MES_LINK ? ' hidden' : '') + '><label class="q-title" for="' + q.id + '"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</label><input class="input" type="month" id="' + q.id + '" name="' + q.id + '" value="' + mes + '" required style="max-width:220px"></div>';
       } else if (q.tipo === 'escolha') {
         html += '<div class="q" data-id="' + q.id + '" data-tipo="escolha"><fieldset><legend class="q-title"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</legend><div class="choice">';
         q.opcoes.forEach(function (op, k) {
@@ -532,6 +528,20 @@
       render(s);
       if (p.get('mes') && document.getElementById('mes')) document.getElementById('mes').value = p.get('mes');
     }
+    /* Link já configurado pelo Rafael: esconde o que o cliente não precisa escolher */
+    var chips = [];
+    if (s && SERVICOS[s]) { document.getElementById('servico-card').hidden = true; chips.push('<span class="svc">' + SERVICOS[s].nome + '</span>'); }
+    if (p.get('cliente')) {
+      document.getElementById('cliente-field').hidden = true;
+      document.getElementById('quem-row').classList.remove('row-2');
+      document.querySelector('#quem-row').closest('.card').querySelector('.hint').textContent = 'Só pra eu saber quem respondeu.';
+      chips.push('<span>' + esc(p.get('cliente')) + '</span>');
+    }
+    if (s === 'design' && p.get('mes') && /^\d{4}-\d{2}$/.test(p.get('mes'))) {
+      var pm = p.get('mes').split('-');
+      chips.push('<span>' + new Date(pm[0], pm[1] - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) + '</span>');
+    }
+    if (chips.length) { var ctx = document.getElementById('ctx'); ctx.innerHTML = chips.join(''); ctx.hidden = false; }
   })();
 
   function coletar() {

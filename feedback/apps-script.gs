@@ -391,10 +391,9 @@ function perguntasPadrao_() {
   var design = [
     ['mes', 'mes', 'Mês de referência', ''],
     ['qualidade', 'csat', 'Qualidade das peças entregues no mês (estáticos, carrosséis, edições).', ''],
-    ['identidade', 'csat', 'Alinhamento das peças com a identidade e o tom da marca.', ''],
+    ['identidade', 'csat', 'Alinhamento das peças com a identidade visual da marca.', ''],
     ['agilidade', 'csat', 'Agilidade nas entregas e nos ajustes.', ''],
-    ['volume', 'csat', 'O volume de entregas atendeu à demanda do mês?', ''],
-    ['comunicacao', 'csat', 'Comunicação, briefings e fluxo de aprovação.', ''],
+    ['comunicacao', 'csat', 'Comunicação e fluxo de aprovação.', ''],
     ['proatividade', 'csat', 'Proatividade e sugestões criativas além do pedido.', ''],
     ['destaque', 'texto', 'Qual entrega se destacou neste mês?', ''],
     ['ajustar', 'texto', 'O que ajustar para o próximo mês?', ''],
