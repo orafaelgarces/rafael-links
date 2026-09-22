@@ -5,6 +5,7 @@
  *  - Respostas: uma linha por envio (cabeçalho monta sozinho).
  *  - Perguntas: configuração dos formulários (edite aqui, sem código).
  *  - Config:    código de acesso do painel (B1).
+ *  - Clientes:  cadastro de clientes (gerido pelo painel; criada sozinha no primeiro uso).
  *
  * Instalação / atualização:
  *  1. Cole este arquivo no editor do Apps Script (substituindo o anterior) e salve.
@@ -16,6 +17,9 @@
 var ABA_RESPOSTAS = 'Respostas';
 var ABA_PERGUNTAS = 'Perguntas';
 var ABA_CONFIG = 'Config';
+var ABA_CLIENTES = 'Clientes';
+var CLIENTE_COLS = ['id', 'nome', 'servicos', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento',
+  'stakeholder', 'whatsapp', 'email', 'dia_csat', 'origem', 'segmento', 'obs', 'criado_em', 'atualizado_em'];
 
 var CSAT_COL = { fundo: '#f5f5f7', destaque: '#ddff22', texto: '#131720' };
 
@@ -30,9 +34,12 @@ function doPost(e) {
     var dados = JSON.parse(e.postData.contents);
 
     // Ações administrativas (painel): exigem o código de acesso
-    if (dados.acao === 'excluir') {
+    if (dados.acao) {
       if (!tokenValido_(dados.token)) return json_({ ok: false, erro: 'acesso negado' });
-      return json_(excluirResposta_(dados.data));
+      if (dados.acao === 'excluir') return json_(excluirResposta_(dados.data));
+      if (dados.acao === 'cliente_salvar') return json_(salvarCliente_(dados.cliente || {}));
+      if (dados.acao === 'cliente_excluir') return json_(excluirCliente_(dados.id));
+      return json_({ ok: false, erro: 'ação desconhecida' });
     }
 
     var aba = abaRespostas_();
@@ -66,7 +73,7 @@ function doGet(e) {
 
   if (acao === 'respostas') {
     if (!tokenValido_(p.token)) return json_({ ok: false, erro: 'acesso negado' });
-    return json_({ ok: true, respostas: lerRespostas_(), perguntas: lerPerguntas_() });
+    return json_({ ok: true, respostas: lerRespostas_(), perguntas: lerPerguntas_(), clientes: lerClientes_() });
   }
 
   return ContentService.createTextOutput('CSAT: endpoint ativo.');
@@ -183,6 +190,86 @@ function limparColunasVazias_(aba) {
     if (vazia) { aba.deleteColumn(c); removidas++; }
   }
   return removidas;
+}
+
+/* ------------------------------------------------------------------ */
+/* Clientes                                                            */
+/* ------------------------------------------------------------------ */
+
+function abaClientes_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var aba = ss.getSheetByName(ABA_CLIENTES);
+  if (!aba) {
+    aba = ss.insertSheet(ABA_CLIENTES);
+    aba.getRange(1, 1, 1, CLIENTE_COLS.length).setValues([CLIENTE_COLS])
+      .setFontWeight('bold').setBackground(CSAT_COL.texto).setFontColor('#ffffff');
+    aba.setFrozenRows(1);
+    aba.setFrozenColumns(2);
+    // datas e texto: evita a planilha converter dia/mês e telefone
+    aba.getRange(2, CLIENTE_COLS.indexOf('whatsapp') + 1, 500, 1).setNumberFormat('@');
+    aba.getRange(2, CLIENTE_COLS.indexOf('fee') + 1, 500, 1).setNumberFormat('R$ #,##0.00');
+    ['inicio', 'encerramento', 'criado_em', 'atualizado_em'].forEach(function (c) {
+      aba.getRange(2, CLIENTE_COLS.indexOf(c) + 1, 500, 1).setNumberFormat('dd/mm/yyyy');
+    });
+    aba.setColumnWidth(CLIENTE_COLS.indexOf('nome') + 1, 200);
+    aba.setColumnWidth(CLIENTE_COLS.indexOf('obs') + 1, 320);
+  }
+  return aba;
+}
+
+function lerClientes_() {
+  var aba = abaClientes_();
+  if (aba.getLastRow() < 2) return [];
+  var vals = aba.getRange(2, 1, aba.getLastRow() - 1, CLIENTE_COLS.length).getValues();
+  return vals.filter(function (r) { return r[0]; }).map(function (r) {
+    var o = {};
+    CLIENTE_COLS.forEach(function (c, i) {
+      var v = r[i];
+      if (v instanceof Date) v = Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+      o[c] = v === null ? '' : v;
+    });
+    return o;
+  });
+}
+
+function salvarCliente_(c) {
+  if (!c.nome || !String(c.nome).trim()) return { ok: false, erro: 'nome obrigatório' };
+  var aba = abaClientes_();
+  var agora = new Date();
+  var linha = -1;
+  if (c.id) {
+    var ids = aba.getLastRow() > 1 ? aba.getRange(2, 1, aba.getLastRow() - 1, 1).getValues() : [];
+    for (var i = 0; i < ids.length; i++) if (String(ids[i][0]) === String(c.id)) { linha = i + 2; break; }
+  }
+  if (linha < 0) { c.id = 'c_' + agora.getTime().toString(36); c.criado_em = agora; }
+  else { c.criado_em = aba.getRange(linha, CLIENTE_COLS.indexOf('criado_em') + 1).getValue() || agora; }
+  c.atualizado_em = agora;
+
+  var valores = CLIENTE_COLS.map(function (col) {
+    var v = c[col];
+    if (v === undefined || v === null) return '';
+    if (['inicio', 'encerramento'].indexOf(col) > -1) return v ? paraData_(v) : '';
+    if (col === 'fee') return v === '' ? '' : Number(v);
+    if (col === 'renovacao_meses' || col === 'dia_csat') return v === '' ? '' : Number(v);
+    if (Array.isArray(v)) return v.join('|');
+    return v;
+  });
+  if (linha < 0) aba.appendRow(valores); else aba.getRange(linha, 1, 1, valores.length).setValues([valores]);
+  return { ok: true, cliente: lerClientes_().filter(function (x) { return x.id === c.id; })[0] };
+}
+
+function excluirCliente_(id) {
+  var aba = abaClientes_();
+  if (aba.getLastRow() < 2) return { ok: false, erro: 'não encontrado' };
+  var ids = aba.getRange(2, 1, aba.getLastRow() - 1, 1).getValues();
+  for (var i = 0; i < ids.length; i++) if (String(ids[i][0]) === String(id)) { aba.deleteRow(i + 2); return { ok: true }; }
+  return { ok: false, erro: 'não encontrado' };
+}
+
+function paraData_(v) {
+  if (v instanceof Date) return v;
+  var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(v));
+  return m ? new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3])) : '';
 }
 
 /* ------------------------------------------------------------------ */

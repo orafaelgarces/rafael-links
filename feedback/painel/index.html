@@ -142,6 +142,61 @@
   .error { color: var(--bad); font-size: var(--text-meta); margin: 10px 0 0; }
   .empty { color: var(--ink-faint); text-align: center; padding: 24px 0; font-size: var(--text-meta); }
 
+  /* Abas do painel */
+  .tabs { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; margin-bottom: 24px; }
+  .tab { padding: 8px 16px; border-radius: 999px; border: 0; background: transparent; color: var(--ink-soft); font-weight: 600; font-size: var(--text-meta); cursor: pointer; transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), transform 0.16s var(--ease-out); }
+  .tab:active { transform: scale(0.97); }
+  .tab[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+  .tab .count { margin-left: 6px; font-size: var(--text-label); opacity: 0.7; }
+
+  /* Clientes */
+  .clients-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  .clients-head .seg { display: inline-flex; gap: 4px; }
+  .client { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 16px 0; border-top: 1px solid var(--border); }
+  .client:first-child { border-top: 0; padding-top: 0; }
+  .client .name { font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .client .sub { font-size: var(--text-meta); color: var(--ink-soft); margin-top: 2px; }
+  .client .kv { font-size: var(--text-meta); }
+  .client .kv b { display: block; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .client .kv span { color: var(--ink-soft); font-size: var(--text-label); text-transform: uppercase; letter-spacing: 0.06em; }
+  .client .acts { display: flex; gap: 6px; }
+  .client .acts button { background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: var(--text-label); font-weight: 600; color: var(--ink); cursor: pointer; transition: background 0.15s var(--ease-out), transform 0.16s var(--ease-out); }
+  .client .acts button:active { transform: scale(0.96); }
+  .client .acts button.danger { color: var(--bad); }
+  @media (hover: hover) and (pointer: fine) { .client .acts button:hover { background: var(--paper-raised-hover); } }
+  .status { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
+  .status::before { content: ''; width: 7px; height: 7px; border-radius: 999px; background: var(--ink-faint); }
+  .status.ativo::before { background: var(--good); } .status.pausado::before { background: var(--warn); } .status.encerrado::before { background: var(--bad); }
+  .due { font-size: var(--text-label); font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--paper-raised-hover); color: var(--ink-soft); }
+  .due.soon { background: #fdf1d2; color: #7a4d00; } .due.now { background: #fde2e1; color: #8a1c1c; }
+  @media (max-width: 860px) {
+    .client { grid-template-columns: 1fr 1fr; }
+    .client .name-cell { grid-column: 1 / -1; }
+    .client .acts { grid-column: 1 / -1; }
+  }
+
+  /* Modal de cadastro */
+  dialog { border: 1px solid var(--border); border-radius: 24px; padding: 0; background: var(--paper-raised); color: var(--ink); width: min(680px, calc(100vw - 32px)); max-height: calc(100vh - 32px); }
+  dialog::backdrop { background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px); }
+  dialog[open] { animation: rise 0.28s var(--ease-out) both; }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 24px 24px 0; }
+  .modal-head h2 { margin: 0; }
+  .modal-body { padding: 20px 24px 24px; display: grid; gap: 14px; }
+  .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .modal-grid .full { grid-column: 1 / -1; }
+  @media (max-width: 560px) { .modal-grid { grid-template-columns: 1fr; } }
+  .checks { display: flex; gap: 8px; flex-wrap: wrap; }
+  .check { position: relative; }
+  .check input { position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+  .check label { display: inline-flex; align-items: center; padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px; font-size: var(--text-meta); font-weight: 600; cursor: pointer; transition: background 0.16s var(--ease-out), color 0.16s var(--ease-out), border-color 0.16s var(--ease-out); }
+  .check input:checked + label { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
+  .check input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  textarea.input { min-height: 80px; resize: vertical; line-height: 1.5; }
+  .modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding-top: 6px; }
+  .x { background: transparent; border: 0; width: 36px; height: 36px; border-radius: 999px; color: var(--ink-soft); cursor: pointer; display: grid; place-items: center; }
+  .x svg { width: 18px; height: 18px; }
+  @media (hover: hover) and (pointer: fine) { .x:hover { background: var(--paper-raised-hover); color: var(--ink); } }
+
   .enter { animation: rise 0.32s var(--ease-out) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
   @media (prefers-reduced-motion: reduce) { .enter { animation: none; } .bar .fill { transition: none; } }
@@ -178,6 +233,12 @@
 
   <!-- Painel -->
   <main id="painel" hidden>
+    <div class="tabs" role="tablist" aria-label="Seções do painel">
+      <button class="tab" role="tab" id="tab-geral" aria-selected="true" aria-controls="view-geral" type="button">Visão geral</button>
+      <button class="tab" role="tab" id="tab-clientes" aria-selected="false" aria-controls="view-clientes" type="button">Clientes<span class="count" id="tab-clientes-count"></span></button>
+    </div>
+
+    <section id="view-geral" role="tabpanel" aria-labelledby="tab-geral">
     <div class="filters">
       <div class="field">
         <label for="f-servico">Serviço</label>
@@ -240,13 +301,17 @@
             </select>
           </div>
           <div class="field">
+            <label for="g-cad">Cliente cadastrado</label>
+            <select class="input" id="g-cad"><option value="">Escolher da lista…</option></select>
+          </div>
+          <div class="field">
             <label for="g-cliente">Empresa ou projeto</label>
-            <input class="input" id="g-cliente" list="clientes-list" placeholder="Ex.: Loja MaiPhone">
+            <input class="input" id="g-cliente" list="clientes-list">
             <datalist id="clientes-list"></datalist>
           </div>
           <div class="field">
             <label for="g-nome">Nome de quem responde <span class="muted">(opcional)</span></label>
-            <input class="input" id="g-nome" placeholder="Ex.: Maria">
+            <input class="input" id="g-nome">
           </div>
           <div class="field" id="g-mes-wrap" hidden>
             <label for="g-mes">Mês de referência</label>
@@ -267,7 +332,75 @@
         </div>
       </section>
     </div>
+    </section>
+
+    <!-- Clientes -->
+    <section id="view-clientes" role="tabpanel" aria-labelledby="tab-clientes" hidden>
+      <div class="grid grid-kpi" id="kpis-clientes"></div>
+      <section class="card" style="margin-top:16px">
+        <div class="clients-head">
+          <h2 style="margin:0">Clientes</h2>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+            <select class="input" id="c-status" style="width:auto">
+              <option value="ativo">Ativos</option>
+              <option value="pausado">Pausados</option>
+              <option value="encerrado">Encerrados</option>
+              <option value="">Todos</option>
+            </select>
+            <button class="btn" type="button" id="btn-novo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              Novo cliente
+            </button>
+          </div>
+        </div>
+        <div id="clientes"></div>
+      </section>
+    </section>
   </main>
+
+  <!-- Cadastro / edição de cliente -->
+  <dialog id="modal">
+    <form id="form-cliente" method="dialog">
+      <div class="modal-head">
+        <h2 id="modal-title">Novo cliente</h2>
+        <button class="x" type="button" id="modal-close" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id">
+        <div class="modal-grid">
+          <div class="field full"><label for="c-nome">Nome do cliente *</label><input class="input" id="c-nome" name="nome" required></div>
+          <div class="field full">
+            <label>Serviços contratados</label>
+            <div class="checks">
+              <span class="check"><input type="checkbox" id="sv-site" name="servicos" value="site"><label for="sv-site">Site</label></span>
+              <span class="check"><input type="checkbox" id="sv-marca" name="servicos" value="marca"><label for="sv-marca">Marca</label></span>
+              <span class="check"><input type="checkbox" id="sv-design" name="servicos" value="design"><label for="sv-design">Design recorrente</label></span>
+            </div>
+          </div>
+          <div class="field"><label for="c-cobranca">Tipo de cobrança</label>
+            <select class="input" id="c-cobranca" name="cobranca"><option value="mensal">Fee mensal (recorrente)</option><option value="projeto">Projeto fechado</option></select></div>
+          <div class="field"><label for="c-fee">Valor (R$)</label><input class="input" id="c-fee" name="fee" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0,00"></div>
+          <div class="field"><label for="c-inicio">Início do contrato</label><input class="input" id="c-inicio" name="inicio" type="date"></div>
+          <div class="field"><label for="c-renov">Renovação a cada (meses)</label><input class="input" id="c-renov" name="renovacao_meses" type="number" min="1" step="1" placeholder="Ex.: 6 ou 12"></div>
+          <div class="field"><label for="c-st">Status</label>
+            <select class="input" id="c-st" name="status"><option value="ativo">Ativo</option><option value="pausado">Pausado</option><option value="encerrado">Encerrado</option></select></div>
+          <div class="field"><label for="c-enc">Encerramento <span class="muted">(se encerrado)</span></label><input class="input" id="c-enc" name="encerramento" type="date"></div>
+          <div class="field"><label for="c-stk">Stakeholder</label><input class="input" id="c-stk" name="stakeholder" placeholder="Quem aprova e responde o CSAT"></div>
+          <div class="field"><label for="c-dia">Dia de envio do CSAT mensal</label><input class="input" id="c-dia" name="dia_csat" type="number" min="1" max="31" placeholder="Ex.: 25"></div>
+          <div class="field"><label for="c-wa">WhatsApp do stakeholder</label><input class="input" id="c-wa" name="whatsapp" inputmode="tel" placeholder="(98) 9 9999-9999"></div>
+          <div class="field"><label for="c-em">E-mail do stakeholder</label><input class="input" id="c-em" name="email" type="email"></div>
+          <div class="field"><label for="c-ori">Origem</label><input class="input" id="c-ori" name="origem" list="origens" placeholder="Indicação, Instagram, V4…"><datalist id="origens"><option value="Indicação"><option value="Instagram"><option value="V4 Company"><option value="Prospecção"><option value="Site"></datalist></div>
+          <div class="field"><label for="c-seg">Segmento</label><input class="input" id="c-seg" name="segmento" placeholder="Varejo, saúde, tecnologia…"></div>
+          <div class="field full"><label for="c-obs">Observações</label><textarea class="input" id="c-obs" name="obs" placeholder="Escopo, combinados, particularidades"></textarea></div>
+        </div>
+        <p class="error" id="modal-error" hidden></p>
+        <div class="modal-foot">
+          <button class="btn btn-outline" type="button" id="modal-cancel">Cancelar</button>
+          <button class="btn" type="submit" id="modal-save">Salvar</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
 </div>
 
 <script>
@@ -275,6 +408,7 @@
   var SITE = 'https://orafaelgarces.com.br';
 
   var dados = [];          // respostas (linhas)
+  var clientes = [];       // cadastro (aba Clientes)
   var tiposPorTexto = {};  // texto da pergunta -> tipo (csat/nps/texto/...)
   var token = null;
   try { token = localStorage.getItem('csat_token'); } catch (e) {}
@@ -293,13 +427,14 @@
       .then(function (j) {
         if (!j.ok) throw new Error(j.erro || 'erro');
         dados = j.respostas || [];
+        clientes = j.clientes || [];
         tiposPorTexto = {};
         Object.keys(j.perguntas || {}).forEach(function (s) {
           (j.perguntas[s] || []).forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; });
         });
         try { localStorage.setItem('csat_token', token); } catch (e) {}
         $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
-        popularClientes(); renderTudo();
+        popularClientes(); renderTudo(); renderClientes();
       })
       .catch(function (err) {
         $('gate').hidden = false; $('painel').hidden = true; $('top-actions').hidden = true;
@@ -316,12 +451,18 @@
   /* ---------- Filtros ---------- */
   function popularClientes() {
     var nomes = {};
+    clientes.forEach(function (c) { if (c.nome) nomes[c.nome] = true; });
     dados.forEach(function (r) { if (r['Cliente']) nomes[r['Cliente']] = true; });
     var lista = Object.keys(nomes).sort(function (a, b) { return a.localeCompare(b, 'pt-BR'); });
     var sel = $('f-cliente'); var atual = sel.value;
     sel.innerHTML = '<option value="">Todos</option>' + lista.map(function (c) { return '<option value="' + esc(c) + '">' + esc(c) + '</option>'; }).join('');
     sel.value = lista.indexOf(atual) > -1 ? atual : '';
     $('clientes-list').innerHTML = lista.map(function (c) { return '<option value="' + esc(c) + '">'; }).join('');
+    var cad = $('g-cad'); var atualCad = cad.value;
+    var ativos = clientes.filter(function (c) { return c.status !== 'encerrado'; }).sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt-BR'); });
+    cad.innerHTML = '<option value="">Escolher da lista…</option>' + ativos.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + (c.stakeholder ? ' · ' + esc(c.stakeholder) : '') + '</option>'; }).join('');
+    cad.value = atualCad;
+    $('tab-clientes-count').textContent = clientes.length ? clientes.filter(function (c) { return c.status === 'ativo'; }).length : '';
   }
   function filtrados() {
     var s = $('f-servico').value, c = $('f-cliente').value, p = Number($('f-periodo').value);
@@ -453,15 +594,29 @@
   }
 
   /* ---------- Gerador de link ---------- */
+  $('g-cad').addEventListener('change', function () {
+    var c = clientes.filter(function (x) { return x.id === $('g-cad').value; })[0];
+    if (!c) return;
+    $('g-cliente').value = c.nome || '';
+    $('g-nome').value = (c.stakeholder || '').split(' ')[0];
+    var svs = String(c.servicos || '').split('|').filter(Boolean);
+    if (svs.length) $('g-servico').value = svs.indexOf('design') > -1 && c.cobranca === 'mensal' ? 'design' : svs[0];
+    montarLink();
+  });
+
   function montarLink() {
     var s = $('g-servico').value, c = $('g-cliente').value.trim(), n = $('g-nome').value.trim(), m = $('g-mes').value;
+    var cad = clientes.filter(function (x) { return x.id === $('g-cad').value; })[0];
+    var fone = cad && cad.whatsapp ? soDigitos(cad.whatsapp) : '';
+    if (fone && fone.length <= 11) fone = '55' + fone;
     $('g-mes-wrap').hidden = s !== 'design';
     var p = new URLSearchParams(); p.set('servico', s);
     if (c) p.set('cliente', c); if (n) p.set('nome', n); if (s === 'design' && m) p.set('mes', m);
     var link = SITE + '/feedback/?' + p.toString();
     $('g-link').value = link;
     var msg = 'Oi' + (n ? ', ' + n : '') + '! Pode me dar um feedback rápido sobre ' + (s === 'design' ? 'as entregas do mês' : 'o projeto') + '? Leva uns 3 minutos: ' + link;
-    $('g-whats').href = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    $('g-whats').href = 'https://wa.me/' + fone + '?text=' + encodeURIComponent(msg);
+    $('g-whats').textContent = fone ? 'Enviar no WhatsApp de ' + (cad.stakeholder ? cad.stakeholder.split(' ')[0] : cad.nome) : 'Enviar no WhatsApp';
     return link;
   }
   ['g-servico', 'g-cliente', 'g-nome', 'g-mes'].forEach(function (id) { $(id).addEventListener('input', montarLink); $(id).addEventListener('change', montarLink); });
@@ -472,6 +627,142 @@
     }).catch(function () { $('g-link').select(); document.execCommand('copy'); });
   });
   (function () { var d = new Date(); $('g-mes').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); montarLink(); })();
+
+  /* ---------- Abas ---------- */
+  function mostrarAba(id) {
+    var geral = id === 'geral';
+    $('tab-geral').setAttribute('aria-selected', geral); $('tab-clientes').setAttribute('aria-selected', !geral);
+    $('view-geral').hidden = !geral; $('view-clientes').hidden = geral;
+    try { localStorage.setItem('csat_aba', id); } catch (e) {}
+  }
+  $('tab-geral').addEventListener('click', function () { mostrarAba('geral'); });
+  $('tab-clientes').addEventListener('click', function () { mostrarAba('clientes'); });
+  try { if (localStorage.getItem('csat_aba') === 'clientes') mostrarAba('clientes'); } catch (e) {}
+
+  /* ---------- Clientes ---------- */
+  var SERVICO_NOME = { site: 'Site', marca: 'Marca', design: 'Design recorrente' };
+  var fmtBRL = function (n) { return (n === '' || n == null || isNaN(n)) ? '—' : Number(n).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); };
+  function soDigitos(s) { return String(s || '').replace(/\D/g, ''); }
+  function dataLocal(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || '')); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; }
+  function proximaRenovacao(c) {
+    var ini = dataLocal(c.inicio), meses = Number(c.renovacao_meses);
+    if (!ini || !meses) return null;
+    var hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    var d = new Date(ini);
+    while (d <= hoje) d.setMonth(d.getMonth() + meses);
+    return d;
+  }
+  function diasAte(d) { return d ? Math.round((d - new Date().setHours(0, 0, 0, 0)) / 86400000) : null; }
+  function tempoDeCasa(c) {
+    var ini = dataLocal(c.inicio); if (!ini) return '';
+    var fim = c.status === 'encerrado' && dataLocal(c.encerramento) ? dataLocal(c.encerramento) : new Date();
+    var m = (fim.getFullYear() - ini.getFullYear()) * 12 + fim.getMonth() - ini.getMonth();
+    return m < 1 ? 'menos de 1 mês' : m < 12 ? m + ' ' + (m === 1 ? 'mês' : 'meses') : Math.floor(m / 12) + ' ano' + (m >= 24 ? 's' : '') + (m % 12 ? ' e ' + (m % 12) + ' m' : '');
+  }
+  function respostasDe(c) { var n = String(c.nome || '').trim().toLowerCase(); return dados.filter(function (r) { return String(r['Cliente'] || '').trim().toLowerCase() === n; }); }
+  function csatPendente(c) {
+    if (c.status !== 'ativo' || c.cobranca !== 'mensal') return false;
+    var hoje = new Date(); var dia = Number(c.dia_csat) || 25;
+    if (hoje.getDate() < dia) return false;
+    return !respostasDe(c).some(function (r) { var d = new Date(r['Data']); return d.getMonth() === hoje.getMonth() && d.getFullYear() === hoje.getFullYear(); });
+  }
+
+  function renderClientes() {
+    var ativos = clientes.filter(function (c) { return c.status === 'ativo'; });
+    var mrr = ativos.filter(function (c) { return c.cobranca === 'mensal'; }).reduce(function (a, c) { return a + (Number(c.fee) || 0); }, 0);
+    var projetos = ativos.filter(function (c) { return c.cobranca === 'projeto'; }).reduce(function (a, c) { return a + (Number(c.fee) || 0); }, 0);
+    var renov = ativos.map(function (c) { return { c: c, dias: diasAte(proximaRenovacao(c)) }; }).filter(function (x) { return x.dias !== null && x.dias <= 60; }).sort(function (a, b) { return a.dias - b.dias; });
+    var pend = ativos.filter(csatPendente);
+    $('kpis-clientes').innerHTML =
+      kpi('Receita recorrente', fmtBRL(mrr) + '<small>/ mês</small>', ativos.filter(function (c) { return c.cobranca === 'mensal'; }).length + ' contratos mensais' + (projetos ? ' · ' + fmtBRL(projetos) + ' em projetos ativos' : ''), true) +
+      kpi('Clientes ativos', ativos.length, clientes.length - ativos.length ? (clientes.length - ativos.length) + ' pausados ou encerrados' : 'nenhum pausado ou encerrado', false) +
+      kpi('Renovações em 60 dias', renov.length, renov.length ? renov.slice(0, 2).map(function (x) { return esc(x.c.nome) + ' (' + (x.dias <= 0 ? 'hoje' : x.dias + 'd') + ')'; }).join(', ') : 'nada vencendo', false) +
+      kpi('CSAT pendente no mês', pend.length, pend.length ? pend.slice(0, 3).map(function (c) { return esc(c.nome); }).join(', ') : 'todos os recorrentes responderam', false);
+
+    var filtro = $('c-status').value;
+    var lista = clientes.filter(function (c) { return !filtro || c.status === filtro; }).sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt-BR'); });
+    $('clientes').innerHTML = lista.length ? lista.map(function (c) {
+      var svs = String(c.servicos || '').split('|').filter(Boolean).map(function (s) { return '<span class="pill">' + (SERVICO_NOME[s] || s) + '</span>'; }).join('');
+      var prox = proximaRenovacao(c), dias = diasAte(prox);
+      var due = prox ? '<span class="due ' + (dias <= 7 ? 'now' : dias <= 30 ? 'soon' : '') + '">' + prox.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) + (dias <= 30 ? ' · ' + (dias <= 0 ? 'hoje' : dias + ' dias') : '') + '</span>' : '<span class="muted">—</span>';
+      var rs = respostasDe(c); var m = mediaCsat(rs);
+      var csat = m.media != null ? '<span class="score ' + classeNota(m.media, 5) + '">' + fmt1(m.media) + '</span> <span class="muted small">' + rs.length + ' resp.</span>' : '<span class="muted small">sem feedback</span>';
+      var pendente = csatPendente(c) ? ' <span class="due now">CSAT pendente</span>' : '';
+      return '<div class="client" data-id="' + esc(c.id) + '">' +
+        '<div class="name-cell"><div class="name">' + esc(c.nome) + ' <span class="status ' + esc(c.status) + '">' + esc(c.status) + '</span>' + pendente + '</div>' +
+        '<div class="sub">' + (c.stakeholder ? esc(c.stakeholder) + ' · ' : '') + (c.segmento ? esc(c.segmento) + ' · ' : '') + (tempoDeCasa(c) || 'sem data de início') + '</div><div class="sub" style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap">' + svs + '</div></div>' +
+        '<div class="kv"><span>' + (c.cobranca === 'projeto' ? 'Projeto' : 'Fee mensal') + '</span><b>' + fmtBRL(c.fee) + '</b></div>' +
+        '<div class="kv"><span>Renovação</span><b>' + due + '</b></div>' +
+        '<div class="kv"><span>CSAT</span><b>' + csat + '</b></div>' +
+        '<div class="acts"><button type="button" data-act="link">Link CSAT</button><button type="button" data-act="edit">Editar</button><button type="button" class="danger" data-act="del">Excluir</button></div>' +
+      '</div>';
+    }).join('') : '<p class="empty">' + (clientes.length ? 'Nenhum cliente com esse status.' : 'Nenhum cliente cadastrado ainda. Clique em "Novo cliente".') + '</p>';
+
+    $('clientes').querySelectorAll('button[data-act]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = b.closest('.client').getAttribute('data-id'); var c = clientes.filter(function (x) { return x.id === id; })[0];
+        if (!c) return;
+        if (b.dataset.act === 'edit') abrirModal(c);
+        if (b.dataset.act === 'del') excluirCliente(c);
+        if (b.dataset.act === 'link') { mostrarAba('geral'); $('g-cad').value = c.id; $('g-cad').dispatchEvent(new Event('change')); $('g-link').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+      });
+    });
+  }
+  $('c-status').addEventListener('change', renderClientes);
+
+  /* Modal */
+  var modal = $('modal'), formC = $('form-cliente');
+  function abrirModal(c) {
+    formC.reset(); $('modal-error').hidden = true;
+    $('modal-title').textContent = c ? 'Editar cliente' : 'Novo cliente';
+    formC.id.value = c ? c.id : '';
+    if (c) {
+      ['nome', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'origem', 'segmento', 'obs'].forEach(function (k) { if (formC[k]) formC[k].value = c[k] == null ? '' : c[k]; });
+      var svs = String(c.servicos || '').split('|');
+      formC.querySelectorAll('input[name="servicos"]').forEach(function (i) { i.checked = svs.indexOf(i.value) > -1; });
+    } else {
+      formC.status.value = 'ativo'; formC.cobranca.value = 'mensal'; formC.dia_csat.value = 25;
+    }
+    modal.showModal();
+    setTimeout(function () { $('c-nome').focus(); }, 50);
+  }
+  $('btn-novo').addEventListener('click', function () { abrirModal(null); });
+  $('modal-close').addEventListener('click', function () { modal.close(); });
+  $('modal-cancel').addEventListener('click', function () { modal.close(); });
+  modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+
+  formC.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fd = new FormData(formC);
+    var c = {};
+    ['id', 'nome', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'origem', 'segmento', 'obs'].forEach(function (k) { c[k] = (fd.get(k) || '').toString().trim(); });
+    c.servicos = fd.getAll('servicos');
+    if (!c.nome) { $('modal-error').textContent = 'O nome é obrigatório.'; $('modal-error').hidden = false; return; }
+    if (c.status === 'encerrado' && !c.encerramento) c.encerramento = new Date().toISOString().slice(0, 10);
+    var btn = $('modal-save'); btn.disabled = true; btn.textContent = 'Salvando…';
+    api({ acao: 'cliente_salvar', cliente: c }).then(function (j) {
+      var i = clientes.findIndex(function (x) { return x.id === j.cliente.id; });
+      if (i > -1) clientes[i] = j.cliente; else clientes.push(j.cliente);
+      modal.close(); popularClientes(); renderClientes(); renderTudo();
+    }).catch(function (err) {
+      $('modal-error').textContent = 'Não consegui salvar: ' + err.message; $('modal-error').hidden = false;
+    }).finally(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
+  });
+
+  function excluirCliente(c) {
+    if (!confirm('Excluir ' + c.nome + ' do cadastro? As respostas de CSAT dele continuam na planilha.\nSe o contrato só terminou, prefira Editar → Status: Encerrado.')) return;
+    api({ acao: 'cliente_excluir', id: c.id }).then(function () {
+      clientes = clientes.filter(function (x) { return x.id !== c.id; });
+      popularClientes(); renderClientes();
+    }).catch(function (err) { alert('Não consegui excluir: ' + err.message); });
+  }
+
+  function api(body) {
+    body.token = token;
+    return fetch(API, { method: 'POST', redirect: 'follow', body: JSON.stringify(body) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (!j.ok) throw new Error(j.erro || 'erro'); return j; });
+  }
 
   /* ---------- Utilidades ---------- */
   /* A planilha converte "09/2026" em data; devolve sempre MM/AAAA */
