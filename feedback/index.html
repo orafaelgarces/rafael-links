@@ -276,12 +276,47 @@
   .done h2 { font-size: var(--text-card); margin: 0 0 8px; }
   .done p { color: var(--ink-soft); margin: 0 auto 24px; max-width: 40ch; }
 
-  /* ---------- Movimento ---------- */
+  /* ---------- Movimento ----------
+     Emil Kowalski: ease-out para tudo que reage ao usuário, < 300ms na UI,
+     stagger curto e decorativo, delight só no momento raro (envio). */
   .enter { animation: rise 0.32s var(--ease-out) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
   [hidden] { display: none !important; }
+
+  /* Perguntas entram em cascata (40ms, teto em 8 itens) quando o serviço é escolhido */
+  .q { animation: rise 0.36s var(--ease-out) both; animation-delay: calc(min(var(--i, 0), 8) * 40ms); }
+
+  /* Chips de contexto */
+  .ctx span { animation: rise 0.3s var(--ease-out) both; animation-delay: calc(var(--i, 0) * 50ms); }
+
+  /* Nota escolhida: assenta com um leve "pop" (sem bounce) */
+  .opt input:checked + label { animation: settle 0.22s var(--ease-out); }
+  @keyframes settle { 0% { transform: scale(0.94); } 100% { transform: scale(1); } }
+
+  /* Barra de progresso: estado do preenchimento */
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 10; pointer-events: none; }
+  .progress i { display: block; height: 100%; background: var(--accent-gradient); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform 0.4s var(--ease-out); }
+
+  /* Erro: chamada curta, sem drama */
+  .q.is-invalid { animation: nudge 0.28s var(--ease-out); }
+  @keyframes nudge { 0% { transform: translateX(0); } 30% { transform: translateX(-4px); } 60% { transform: translateX(3px); } 100% { transform: translateX(0); } }
+  .error.is-visible { animation: rise 0.24s var(--ease-out) both; }
+
+  /* Envio: o check se desenha (momento raro, aqui cabe um beat mais longo) */
+  .done .mark { animation: settle 0.3s var(--ease-out) both; }
+  .done .mark path { stroke-dasharray: 24; stroke-dashoffset: 24; animation: draw 0.45s var(--ease-out) 0.18s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  .done h2, .done p, .done .btn { animation: rise 0.36s var(--ease-out) both; }
+  .done h2 { animation-delay: 0.12s; } .done p { animation-delay: 0.18s; } .done .btn { animation-delay: 0.24s; }
+
+  .btn { transition: transform 0.16s var(--ease-out), opacity 0.16s var(--ease-out), background 0.16s var(--ease-out); }
+
   @media (prefers-reduced-motion: reduce) {
-    .enter { animation: fadeOnly 0.2s ease-out both; }
+    .enter, .q, .ctx span, .done h2, .done p, .done .btn { animation: fadeOnly 0.2s ease-out both; }
+    .q, .ctx span { animation-delay: 0s; }
+    .opt input:checked + label, .q.is-invalid, .done .mark { animation: none; }
+    .done .mark path { animation: none; stroke-dashoffset: 0; }
+    .progress i { transition: none; }
     @keyframes fadeOnly { from { opacity: 0; } }
     .opt label:active, .service label:active, .btn:active { transform: none; }
   }
@@ -290,6 +325,7 @@
 </style>
 
 <body>
+<div class="progress" id="progress" hidden aria-hidden="true"><i></i></div>
 <main class="page">
   <a class="brand" href="/" aria-label="Rafael Garcês, voltar ao site">
     <svg viewBox="0 84.139 127.445 128.682" fill="currentColor" aria-hidden="true"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>
@@ -366,7 +402,7 @@
   </form>
 
   <section class="card done enter" id="done" hidden>
-    <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg></div>
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path pathLength="24" d="m5 12 4.5 4.5L19 7"/></svg></div>
     <h2>Recebi, obrigado!</h2>
     <p id="done-text">Sua avaliação chegou. Leio cada resposta com atenção.</p>
     <a class="btn btn-outline" href="/" style="width:auto">Voltar ao site</a>
@@ -505,7 +541,9 @@
       }
     });
     qWrap.innerHTML = html;
+    Array.prototype.forEach.call(qWrap.querySelectorAll('.q:not([hidden])'), function (el, i) { el.style.setProperty('--i', i); });
     qCard.hidden = false;
+    atualizarProgresso();
     submitRow.hidden = false;
     qCard.classList.remove('enter'); void qCard.offsetWidth; qCard.classList.add('enter');
     var params = new URLSearchParams(location.search);
@@ -541,8 +579,28 @@
       var pm = p.get('mes').split('-');
       chips.push('<span>' + new Date(pm[0], pm[1] - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) + '</span>');
     }
-    if (chips.length) { var ctx = document.getElementById('ctx'); ctx.innerHTML = chips.join(''); ctx.hidden = false; }
+    if (chips.length) {
+      var ctx = document.getElementById('ctx'); ctx.innerHTML = chips.join(''); ctx.hidden = false;
+      Array.prototype.forEach.call(ctx.children, function (el, i) { el.style.setProperty('--i', i); });
+    }
   })();
+
+  /* Progresso: perguntas obrigatórias respondidas / total (barra fina no topo) */
+  function atualizarProgresso() {
+    var bar = document.getElementById('progress');
+    var grupos = {}; var total = 0, feitas = 0;
+    qWrap.querySelectorAll('.q:not([hidden]) [required]').forEach(function (el) {
+      var k = el.name; if (grupos[k]) return; grupos[k] = true; total++;
+      var ok = el.type === 'radio' ? !!form.querySelector('input[name="' + k + '"]:checked') : !!el.value;
+      if (ok) feitas++;
+    });
+    if (document.getElementById('nome').value.trim()) feitas++; total++;
+    bar.hidden = !servicoAtual;
+    bar.firstElementChild.style.setProperty('--p', total ? feitas / total : 0);
+  }
+  form.addEventListener('change', atualizarProgresso);
+  qWrap.addEventListener('change', function (e) { var q = e.target.closest('.q'); if (q) q.classList.remove('is-invalid'); });
+  form.addEventListener('input', atualizarProgresso);
 
   function coletar() {
     var def = SERVICOS[servicoAtual];
@@ -581,7 +639,8 @@
       if (!req) return;
       var id = q.getAttribute('data-id');
       var preenchido = req.type === 'radio' ? !!form.querySelector('input[name="' + id + '"]:checked') : !!req.value;
-      q.classList.toggle('is-invalid', !preenchido);
+      q.classList.remove('is-invalid');
+      if (!preenchido) { void q.offsetWidth; q.classList.add('is-invalid'); }
       if (!preenchido) { ok = false; primeiro = primeiro || q; }
     });
     if (!ok) {
@@ -650,6 +709,7 @@
       ? 'Sua avaliação chegou. Se eu usar algum trecho como depoimento, te aviso antes.'
       : 'Sua avaliação chegou. Leio cada resposta com atenção.';
     document.getElementById('done').hidden = false;
+    document.getElementById('progress').hidden = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
