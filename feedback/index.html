@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feedback | Rafael Garcês</title>
+<meta name="description" content="Conte como foi trabalhar comigo. Sua avaliação ajuda a melhorar os próximos projetos.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 76 143 145'%3E%3Cpath fill='%23131720' d='M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('rg_theme'); } catch (e) {}
+    var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<style>
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/assets/fonts/Satoshi-Variable.woff2") format("woff2");
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* ---------- Tokens (mesmos da home e da página de links) ---------- */
+  :root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+    --paper: #ffffff;
+    --paper-raised: #ffffff;
+    --paper-raised-hover: #f7f7f8;
+    --ink: #131720;
+    --ink-soft: #6b7280;
+    --ink-faint: #9ca3af;
+    --border: #e3e4e8;
+    --shadow: rgba(19, 23, 32, 0.06);
+    --field: #ffffff;
+
+    --accent-grad-1: #cad589;
+    --accent-grad-2: #ddff22;
+    --accent-gradient: linear-gradient(135deg, var(--accent-grad-1), var(--accent-grad-2));
+    --accent: #d3ea55;
+    --accent-ink: #10160a;
+    --accent-wash: rgba(221, 255, 34, 0.2);
+
+    --font: "Satoshi", sans-serif;
+    --text-label: 0.75rem;
+    --text-meta: 0.875rem;
+    --text-body: 1rem;
+    --text-lead: 1.125rem;
+    --text-card: 1.5rem;
+    --text-section: 2rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0b0b0d;
+      --paper-raised: #0b0b0d;
+      --paper-raised-hover: #16171a;
+      --ink: #f5f5f7;
+      --ink-soft: #9a9ea6;
+      --ink-faint: #6b6f76;
+      --border: #26272b;
+      --shadow: rgba(0, 0, 0, 0.5);
+      --field: #101114;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0b0b0d;
+    --paper-raised: #0b0b0d;
+    --paper-raised-hover: #16171a;
+    --ink: #f5f5f7;
+    --ink-soft: #9a9ea6;
+    --ink-faint: #6b6f76;
+    --border: #26272b;
+    --shadow: rgba(0, 0, 0, 0.5);
+    --field: #101114;
+  }
+  @media (max-width: 640px) {
+    :root { --text-card: 1.25rem; --text-section: 1.75rem; }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: var(--text-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 56px 20px 80px;
+  }
+  a { color: inherit; text-decoration: none; }
+  button, input, textarea, select { font-family: var(--font); font-size: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  .page { width: 100%; max-width: 640px; margin: 0 auto; }
+
+  /* ---------- Cabeçalho ---------- */
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); margin-bottom: 40px; }
+  .brand svg { width: 22px; height: 22px; }
+  .brand span { font-weight: 700; letter-spacing: -0.01em; }
+  .section-label {
+    font-size: var(--text-label);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+  }
+  h1 {
+    font-size: var(--text-section);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0 0 12px;
+    text-wrap: balance;
+  }
+  .lead { color: var(--ink-soft); margin: 0 0 36px; max-width: 46ch; text-wrap: pretty; }
+
+  /* ---------- Cards ---------- */
+  .card {
+    background: var(--paper-raised);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .card h2 {
+    font-size: var(--text-lead);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  .card .hint { color: var(--ink-soft); font-size: var(--text-meta); margin: 0 0 20px; }
+
+  /* ---------- Campos ---------- */
+  .field { display: grid; gap: 6px; align-content: start; margin-bottom: 16px; }
+  .row-2 .field { margin-bottom: 0; }
+  .field:last-child { margin-bottom: 0; }
+  .field label, .q-title { font-weight: 600; font-size: var(--text-body); }
+  .field small { color: var(--ink-soft); font-size: var(--text-meta); }
+  .input, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--field);
+    color: var(--ink);
+    transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+  }
+  .input:focus, textarea:focus { outline: none; border-color: var(--ink-faint); box-shadow: 0 0 0 3px var(--accent-wash); }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 520px) { .row-2 { grid-template-columns: 1fr; } }
+
+  /* ---------- Seletor de serviço ---------- */
+  .services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 560px) { .services { grid-template-columns: 1fr; } }
+  .service { position: relative; }
+  .service input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
+  .service label {
+    display: grid;
+    gap: 6px;
+    height: 100%;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--paper-raised);
+    cursor: pointer;
+    transition: border-color 0.18s var(--ease-out), background 0.18s var(--ease-out), transform 0.16s var(--ease-out), box-shadow 0.18s var(--ease-out);
+  }
+  .service label:active { transform: scale(0.98); }
+  .service .ico {
+    width: 34px; height: 34px;
+    display: grid; place-items: center;
+    border-radius: 10px;
+    background: var(--paper-raised-hover);
+    color: var(--ink);
+    margin-bottom: 4px;
+    transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out);
+  }
+  .service .ico svg { width: 17px; height: 17px; }
+  .service .name { font-weight: 600; }
+  .service .kind { font-size: var(--text-label); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); }
+  .service input:checked + label { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+  .service input:checked + label .ico { background: var(--accent-gradient); color: var(--accent-ink); }
+  .service input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 3px; }
+  @media (hover: hover) and (pointer: fine) {
+    .service label:hover { background: var(--paper-raised-hover); }
+  }
+
+  /* ---------- Perguntas ---------- */
+  .q { padding: 22px 0; border-top: 1px solid var(--border); }
+  .q:first-child { border-top: 0; padding-top: 4px; }
+  .q:last-child { padding-bottom: 4px; }
+  .q-title { display: block; margin: 0 0 12px; }
+  .q-num { color: var(--ink-faint); font-variant-numeric: tabular-nums; margin-right: 8px; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; display: block; }
+  legend { padding: 0; float: left; width: 100%; } /* faz o legend fluir como bloco comum */
+  fieldset > .scale, fieldset > .choice { clear: both; }
+
+  .scale { display: grid; gap: 8px; }
+  .scale-opts { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; }
+  .scale-opts.nps { gap: 6px; }
+  .opt { position: relative; }
+  .opt input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
+  .opt label {
+    display: grid;
+    place-items: center;
+    height: 44px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--paper-raised);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.16s var(--ease-out), color 0.16s var(--ease-out), border-color 0.16s var(--ease-out), transform 0.16s var(--ease-out);
+  }
+  .scale-opts.nps .opt label { height: 40px; border-radius: 10px; font-size: var(--text-meta); }
+  .opt label:active { transform: scale(0.94); }
+  .opt input:checked + label { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
+  .opt input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) {
+    .opt input:not(:checked) + label:hover { background: var(--paper-raised-hover); border-color: var(--ink-faint); }
+  }
+  .scale-ends { display: flex; justify-content: space-between; font-size: var(--text-label); color: var(--ink-soft); }
+  @media (max-width: 420px) {
+    .scale-opts.nps { grid-auto-flow: row; grid-template-columns: repeat(6, 1fr); grid-auto-columns: auto; }
+  }
+
+  .choice { display: flex; gap: 8px; flex-wrap: wrap; }
+  .choice .opt label { height: 40px; padding: 0 16px; border-radius: 999px; }
+
+  /* ---------- Envio ---------- */
+  .submit-row { display: grid; gap: 12px; margin-top: 8px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.16s var(--ease-out), opacity 0.16s var(--ease-out), background 0.16s var(--ease-out);
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn[disabled] { opacity: 0.6; cursor: progress; }
+  .btn-primary { background: var(--accent-gradient); color: var(--accent-ink); }
+  .btn-outline { background: transparent; border-color: var(--border); color: var(--ink); }
+  .btn svg { width: 16px; height: 16px; }
+  .fine { font-size: var(--text-meta); color: var(--ink-soft); text-align: center; margin: 0; }
+  .error { color: #c2410c; font-size: var(--text-meta); margin: 8px 0 0; display: none; }
+  .error.is-visible { display: block; }
+  .q.is-invalid .q-title { color: #c2410c; }
+
+  .done { text-align: center; padding: 40px 24px; }
+  .done .mark {
+    width: 56px; height: 56px; margin: 0 auto 20px;
+    display: grid; place-items: center;
+    border-radius: 999px;
+    background: var(--accent-gradient); color: var(--accent-ink);
+  }
+  .done .mark svg { width: 24px; height: 24px; }
+  .done h2 { font-size: var(--text-card); margin: 0 0 8px; }
+  .done p { color: var(--ink-soft); margin: 0 auto 24px; max-width: 40ch; }
+
+  /* ---------- Movimento ---------- */
+  .enter { animation: rise 0.32s var(--ease-out) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    .enter { animation: fadeOnly 0.2s ease-out both; }
+    @keyframes fadeOnly { from { opacity: 0; } }
+    .opt label:active, .service label:active, .btn:active { transform: none; }
+  }
+
+  .foot { margin-top: 40px; text-align: center; font-size: var(--text-meta); color: var(--ink-faint); }
+</style>
+
+<body>
+<main class="page">
+  <a class="brand" href="/" aria-label="Rafael Garcês, voltar ao site">
+    <svg viewBox="0 84.139 127.445 128.682" fill="currentColor" aria-hidden="true"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>
+    <span>Rafael Garcês</span>
+  </a>
+
+  <p class="section-label">Feedback</p>
+  <h1>Como foi trabalhar comigo?</h1>
+  <p class="lead">Leva uns 3 minutos. Suas respostas vão direto pra mim e servem pra melhorar os próximos projetos.</p>
+
+  <form id="form" novalidate>
+    <section class="card">
+      <h2>Quem está respondendo</h2>
+      <p class="hint">Só pra eu saber de qual projeto é o retorno.</p>
+      <div class="row-2">
+        <div class="field">
+          <label for="nome">Seu nome</label>
+          <input class="input" id="nome" name="nome" type="text" autocomplete="name" required>
+        </div>
+        <div class="field">
+          <label for="cliente">Empresa ou projeto</label>
+          <input class="input" id="cliente" name="cliente" type="text" autocomplete="organization" required>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Qual serviço você está avaliando?</h2>
+      <p class="hint">As perguntas mudam conforme o tipo de trabalho.</p>
+      <div class="services" role="radiogroup" aria-label="Serviço avaliado">
+        <div class="service">
+          <input type="radio" name="servico" id="s-site" value="site">
+          <label for="s-site">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 9h18M8 21h8"/></svg></span>
+            <span class="name">Site</span>
+            <span class="kind">Fim de projeto</span>
+          </label>
+        </div>
+        <div class="service">
+          <input type="radio" name="servico" id="s-marca" value="marca">
+          <label for="s-marca">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.2 5.2 5.6.5-4.3 3.7 1.3 5.5L12 15l-4.8 2.9 1.3-5.5L4.2 8.7l5.6-.5z"/></svg></span>
+            <span class="name">Marca</span>
+            <span class="kind">Fim de projeto</span>
+          </label>
+        </div>
+        <div class="service">
+          <input type="radio" name="servico" id="s-design" value="design">
+          <label for="s-design">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><path d="M17 13v8M13 17h8"/></svg></span>
+            <span class="name">Design recorrente</span>
+            <span class="kind">Mensal</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" id="questions-card" hidden>
+      <h2 id="q-heading">Sua avaliação</h2>
+      <p class="hint" id="q-hint"></p>
+      <div id="questions"></div>
+    </section>
+
+    <div class="submit-row" id="submit-row" hidden>
+      <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+      <button class="btn btn-primary" type="submit" id="submit">
+        Enviar avaliação
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <p class="error" id="form-error" role="alert"></p>
+      <p class="fine">Suas respostas não são publicadas. Depoimentos só com a sua autorização.</p>
+    </div>
+  </form>
+
+  <section class="card done enter" id="done" hidden>
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg></div>
+    <h2>Recebi, obrigado!</h2>
+    <p id="done-text">Sua avaliação chegou. Leio cada resposta com atenção.</p>
+    <a class="btn btn-outline" href="/" style="width:auto">Voltar ao site</a>
+  </section>
+
+  <p class="foot">© <span id="ano"></span> Rafael Garcês</p>
+</main>
+
+<script>
+  /* ===== Configuração de envio =====
+     Web3Forms (https://web3forms.com): cadastre seu e-mail, receba a access key e cole abaixo.
+     Enquanto estiver vazia, o envio cai no WhatsApp com as respostas formatadas. */
+  var WEB3FORMS_KEY = '';
+  var WHATSAPP = '5598982340912';
+
+  var CSAT_ENDS = ['Muito insatisfeito', 'Muito satisfeito'];
+  var NPS_ENDS = ['Nada provável', 'Com certeza'];
+
+  var COMUNS_FIM = [
+    { id: 'gostou', tipo: 'texto', texto: 'O que você mais gostou no projeto?' },
+    { id: 'melhorar', tipo: 'texto', texto: 'O que poderia ter sido melhor?' },
+    { id: 'nps', tipo: 'nps', texto: 'De 0 a 10, quanto você indicaria meu trabalho para alguém?' },
+    { id: 'depoimento', tipo: 'escolha', texto: 'Posso usar parte das suas respostas como depoimento no site?', opcoes: ['Sim, pode usar', 'Prefiro que não'] }
+  ];
+
+  var SERVICOS = {
+    site: {
+      nome: 'Site',
+      hint: 'Avaliação de fim de projeto. Nas notas, 1 é muito insatisfeito e 5 é muito satisfeito.',
+      perguntas: [
+        { id: 'resultado', tipo: 'csat', texto: 'Como você avalia o resultado final do site?' },
+        { id: 'marca', tipo: 'csat', texto: 'O site representa bem a sua marca e o seu negócio?' },
+        { id: 'objetivo', tipo: 'csat', texto: 'O site atende ao objetivo que motivou o projeto (vender, captar contatos, apresentar)?' },
+        { id: 'uso', tipo: 'csat', texto: 'Facilidade de navegação e clareza das informações para quem visita.' },
+        { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação e alinhamento durante o projeto.' },
+        { id: 'prazo', tipo: 'csat', texto: 'Cumprimento de prazos e organização das etapas.' }
+      ].concat(COMUNS_FIM)
+    },
+    marca: {
+      nome: 'Marca',
+      hint: 'Avaliação de fim de projeto. Nas notas, 1 é muito insatisfeito e 5 é muito satisfeito.',
+      perguntas: [
+        { id: 'resultado', tipo: 'csat', texto: 'Como você avalia o resultado final da identidade visual?' },
+        { id: 'essencia', tipo: 'csat', texto: 'A marca traduz a essência e o posicionamento do seu negócio?' },
+        { id: 'processo', tipo: 'csat', texto: 'Clareza do processo: imersão, direção criativa e apresentação.' },
+        { id: 'aplicacao', tipo: 'csat', texto: 'Facilidade de aplicar a identidade no dia a dia (arquivos, manual, orientações).' },
+        { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação e escuta durante o projeto.' },
+        { id: 'prazo', tipo: 'csat', texto: 'Cumprimento de prazos e organização das etapas.' }
+      ].concat(COMUNS_FIM)
+    },
+    design: {
+      nome: 'Design recorrente',
+      hint: 'Avaliação mensal da prestação de serviço. Nas notas, 1 é muito insatisfeito e 5 é muito satisfeito.',
+      perguntas: [
+        { id: 'mes', tipo: 'mes', texto: 'Mês de referência' },
+        { id: 'qualidade', tipo: 'csat', texto: 'Qualidade das peças entregues no mês (estáticos, carrosséis, edições).' },
+        { id: 'identidade', tipo: 'csat', texto: 'Alinhamento das peças com a identidade e o tom da marca.' },
+        { id: 'agilidade', tipo: 'csat', texto: 'Agilidade nas entregas e nos ajustes.' },
+        { id: 'volume', tipo: 'csat', texto: 'O volume de entregas atendeu à demanda do mês?' },
+        { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação, briefings e fluxo de aprovação.' },
+        { id: 'proatividade', tipo: 'csat', texto: 'Proatividade e sugestões criativas além do pedido.' },
+        { id: 'destaque', tipo: 'texto', texto: 'Qual entrega se destacou neste mês?' },
+        { id: 'ajustar', tipo: 'texto', texto: 'O que ajustar para o próximo mês?' },
+        { id: 'nps', tipo: 'nps', texto: 'De 0 a 10, quanto você indicaria meu trabalho para alguém?' }
+      ]
+    }
+  };
+
+  var form = document.getElementById('form');
+  var qCard = document.getElementById('questions-card');
+  var qWrap = document.getElementById('questions');
+  var qHint = document.getElementById('q-hint');
+  var submitRow = document.getElementById('submit-row');
+  var formError = document.getElementById('form-error');
+  var servicoAtual = null;
+  document.getElementById('ano').textContent = new Date().getFullYear();
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  function escala(q, n, min, max, ends, cls) {
+    var html = '<div class="q" data-id="' + q.id + '" data-tipo="' + q.tipo + '"><fieldset><legend class="q-title"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</legend><div class="scale"><div class="scale-opts ' + cls + '">';
+    for (var v = min; v <= max; v++) {
+      var id = q.id + '-' + v;
+      html += '<div class="opt"><input type="radio" name="' + q.id + '" id="' + id + '" value="' + v + '" required><label for="' + id + '">' + v + '</label></div>';
+    }
+    html += '</div><div class="scale-ends"><span>' + ends[0] + '</span><span>' + ends[1] + '</span></div></div></fieldset></div>';
+    return html;
+  }
+
+  function render(servico) {
+    var def = SERVICOS[servico];
+    if (!def) return;
+    servicoAtual = servico;
+    qHint.textContent = def.hint;
+    var html = '';
+    def.perguntas.forEach(function (q, i) {
+      var n = String(i + 1).padStart(2, '0');
+      if (q.tipo === 'csat') html += escala(q, n, 1, 5, CSAT_ENDS, '');
+      else if (q.tipo === 'nps') html += escala(q, n, 0, 10, NPS_ENDS, 'nps');
+      else if (q.tipo === 'texto') {
+        html += '<div class="q" data-id="' + q.id + '" data-tipo="texto"><label class="q-title" for="' + q.id + '"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</label><textarea id="' + q.id + '" name="' + q.id + '" placeholder="Fique à vontade, pode ser curto."></textarea></div>';
+      } else if (q.tipo === 'mes') {
+        var hoje = new Date();
+        var mes = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0');
+        html += '<div class="q" data-id="' + q.id + '" data-tipo="mes"><label class="q-title" for="' + q.id + '"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</label><input class="input" type="month" id="' + q.id + '" name="' + q.id + '" value="' + mes + '" required style="max-width:220px"></div>';
+      } else if (q.tipo === 'escolha') {
+        html += '<div class="q" data-id="' + q.id + '" data-tipo="escolha"><fieldset><legend class="q-title"><span class="q-num">' + n + '</span>' + esc(q.texto) + '</legend><div class="choice">';
+        q.opcoes.forEach(function (op, k) {
+          var id = q.id + '-' + k;
+          html += '<div class="opt"><input type="radio" name="' + q.id + '" id="' + id + '" value="' + esc(op) + '" required><label for="' + id + '">' + esc(op) + '</label></div>';
+        });
+        html += '</div></fieldset></div>';
+      }
+    });
+    qWrap.innerHTML = html;
+    qCard.hidden = false;
+    submitRow.hidden = false;
+    qCard.classList.remove('enter'); void qCard.offsetWidth; qCard.classList.add('enter');
+    var params = new URLSearchParams(location.search);
+    params.set('servico', servico);
+    history.replaceState(null, '', location.pathname + '?' + params.toString());
+  }
+
+  document.querySelectorAll('input[name="servico"]').forEach(function (r) {
+    r.addEventListener('change', function () { render(r.value); });
+  });
+
+  /* Pré-preenchimento por link: /feedback/?servico=site&cliente=MaiPhone&nome=Fulano */
+  (function () {
+    var p = new URLSearchParams(location.search);
+    if (p.get('cliente')) document.getElementById('cliente').value = p.get('cliente');
+    if (p.get('nome')) document.getElementById('nome').value = p.get('nome');
+    var s = p.get('servico');
+    if (s && SERVICOS[s]) {
+      document.getElementById('s-' + s).checked = true;
+      render(s);
+      if (p.get('mes') && document.getElementById('mes')) document.getElementById('mes').value = p.get('mes');
+    }
+  })();
+
+  function coletar() {
+    var def = SERVICOS[servicoAtual];
+    var fd = new FormData(form);
+    var respostas = [];
+    var soma = 0, n = 0, nps = null;
+    def.perguntas.forEach(function (q, i) {
+      var v = (fd.get(q.id) || '').toString().trim();
+      if (q.tipo === 'mes' && /^\d{4}-\d{2}$/.test(v)) v = v.slice(5) + '/' + v.slice(0, 4);
+      var num = String(i + 1).padStart(2, '0');
+      respostas.push({ id: q.id, num: num, texto: q.texto, tipo: q.tipo, valor: v });
+      if (q.tipo === 'csat' && v) { soma += Number(v); n++; }
+      if (q.tipo === 'nps' && v) nps = Number(v);
+    });
+    return {
+      nome: fd.get('nome').trim(),
+      cliente: fd.get('cliente').trim(),
+      servico: def.nome,
+      respostas: respostas,
+      media: n ? Math.round((soma / n) * 10) / 10 : null,
+      nps: nps
+    };
+  }
+
+  function validar() {
+    formError.classList.remove('is-visible');
+    var ok = true, primeiro = null;
+    ['nome', 'cliente'].forEach(function (id) {
+      var el = document.getElementById(id);
+      var vazio = !el.value.trim();
+      el.style.borderColor = vazio ? '#c2410c' : '';
+      if (vazio) { ok = false; primeiro = primeiro || el; }
+    });
+    qWrap.querySelectorAll('.q').forEach(function (q) {
+      var req = q.querySelector('[required]');
+      if (!req) return;
+      var id = q.getAttribute('data-id');
+      var preenchido = req.type === 'radio' ? !!form.querySelector('input[name="' + id + '"]:checked') : !!req.value;
+      q.classList.toggle('is-invalid', !preenchido);
+      if (!preenchido) { ok = false; primeiro = primeiro || q; }
+    });
+    if (!ok) {
+      formError.textContent = 'Faltou responder algumas perguntas. Elas estão marcadas em laranja.';
+      formError.classList.add('is-visible');
+      if (primeiro) primeiro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    return ok;
+  }
+
+  function textoWhats(d) {
+    var linhas = ['*Feedback · ' + d.servico + '*', 'Cliente: ' + d.cliente, 'Nome: ' + d.nome, ''];
+    d.respostas.forEach(function (r) {
+      if (!r.valor) return;
+      var v = r.tipo === 'csat' ? r.valor + '/5' : r.tipo === 'nps' ? r.valor + '/10' : r.valor;
+      linhas.push(r.num + '. ' + r.texto + '\n→ ' + v);
+    });
+    if (d.media !== null) linhas.push('', 'Média CSAT: ' + d.media + '/5');
+    if (d.nps !== null) linhas.push('NPS: ' + d.nps + '/10');
+    return linhas.join('\n');
+  }
+
+  function payloadEmail(d) {
+    var body = {
+      access_key: WEB3FORMS_KEY,
+      subject: 'Feedback · ' + d.servico + ' · ' + d.cliente + (d.media !== null ? ' · CSAT ' + d.media + '/5' : ''),
+      from_name: 'Feedback do site',
+      'Cliente': d.cliente,
+      'Nome': d.nome,
+      'Serviço': d.servico
+    };
+    d.respostas.forEach(function (r) {
+      var v = r.tipo === 'csat' ? r.valor + '/5' : r.tipo === 'nps' ? r.valor + '/10' : (r.valor || '—');
+      body[r.num + ' · ' + r.texto] = v;
+    });
+    if (d.media !== null) body['Média CSAT'] = d.media + '/5';
+    if (d.nps !== null) body['NPS'] = d.nps + '/10';
+    return body;
+  }
+
+  function concluir(d) {
+    form.hidden = true;
+    document.querySelector('h1').textContent = 'Obrigado, ' + d.nome.split(' ')[0] + '!';
+    document.querySelector('.lead').hidden = true;
+    var dep = d.respostas.filter(function (r) { return r.id === 'depoimento'; })[0];
+    document.getElementById('done-text').textContent = dep && /^Sim/.test(dep.valor)
+      ? 'Sua avaliação chegou. Se eu usar algum trecho como depoimento, te aviso antes.'
+      : 'Sua avaliação chegou. Leio cada resposta com atenção.';
+    document.getElementById('done').hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!servicoAtual) {
+      formError.textContent = 'Escolha qual serviço você está avaliando.';
+      formError.classList.add('is-visible');
+      return;
+    }
+    if (form.querySelector('input[name="botcheck"]').checked) return;
+    if (!validar()) return;
+    var d = coletar();
+    var btn = document.getElementById('submit');
+
+    if (!WEB3FORMS_KEY) {
+      window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(textoWhats(d)), '_blank', 'noopener');
+      concluir(d);
+      return;
+    }
+
+    btn.disabled = true;
+    btn.firstChild.textContent = 'Enviando… ';
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payloadEmail(d))
+    }).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j.success) throw new Error(j.message || 'erro');
+      concluir(d);
+    }).catch(function () {
+      btn.disabled = false;
+      btn.firstChild.textContent = 'Enviar avaliação ';
+      formError.textContent = 'Não consegui enviar agora. Você pode mandar pelo WhatsApp: ';
+      var a = document.createElement('a');
+      a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(textoWhats(d));
+      a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'abrir WhatsApp com as respostas'; a.style.textDecoration = 'underline';
+      formError.appendChild(a);
+      formError.classList.add('is-visible');
+    });
+  });
+</script>
+</body>
+</html>
