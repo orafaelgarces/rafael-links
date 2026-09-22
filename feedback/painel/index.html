@@ -422,7 +422,7 @@
       var notas = Object.keys(r).filter(function (k) { return ehCsat(k, r[k]); }).map(function (k) { return '<span class="note" title="' + esc(k) + '">' + esc(k.slice(0, 28)) + (k.length > 28 ? '…' : '') + ' <b>' + r[k] + '</b></span>'; }).join('');
       var textos = Object.keys(r).filter(function (k) { return ehTexto(k, r[k]); }).map(function (k) { return '<p class="resp-text"><b>' + esc(k) + '</b><br>' + esc(r[k]) + '</p>'; }).join('');
       var head = '<div class="resp-head"><span class="who">' + esc(r['Cliente'] || '—') + (r['Nome'] ? ' <span class="muted">· ' + esc(r['Nome']) + '</span>' : '') + '</span><span class="pill">' + esc(r['Serviço'] || '') + '</span>' +
-        (r['Mês de referência'] ? '<span class="pill">' + esc(r['Mês de referência']) + '</span>' : '') +
+        (r['Mês de referência'] ? '<span class="pill">' + esc(mesRef(r['Mês de referência'])) + '</span>' : '') +
         (typeof r['Média CSAT'] === 'number' ? '<span class="score ' + classeNota(r['Média CSAT'], 5) + '">' + fmt1(r['Média CSAT']) + '</span>' : '') +
         (typeof r['NPS'] === 'number' ? '<span class="note">NPS <b>' + r['NPS'] + '</b></span>' : '') +
         '<span class="when">' + dataCurta(r['Data']) + '</span>' +
@@ -474,6 +474,12 @@
   (function () { var d = new Date(); $('g-mes').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); montarLink(); })();
 
   /* ---------- Utilidades ---------- */
+  /* A planilha converte "09/2026" em data; devolve sempre MM/AAAA */
+  function mesRef(v) {
+    var d = new Date(v);
+    if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(v) && !isNaN(d)) return String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + d.getUTCFullYear();
+    return v;
+  }
   function unicos(a) { return a.filter(function (x, i) { return x && a.indexOf(x) === i; }); }
   function dataCurta(iso) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }); }
   function mesCurto(k) { var p = k.split('-'); return new Date(p[0], p[1] - 1, 1).toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '') + '/' + p[0].slice(2); }
