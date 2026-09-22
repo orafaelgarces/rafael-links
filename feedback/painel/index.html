@@ -422,9 +422,15 @@
   function carregar() {
     var btn = $('gate-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
     $('btn-refresh').disabled = true;
-    return fetch(API + '?acao=respostas&token=' + encodeURIComponent(token), { redirect: 'follow' })
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
+    return fetch(API + '?acao=respostas&token=' + encodeURIComponent(token) + '&_=' + Date.now(), { redirect: 'follow' })
+      .then(function (r) { return r.text().then(function (t) { return { status: r.status, text: t }; }); })
+      .then(function (res) {
+        var j;
+        try { j = JSON.parse(res.text); }
+        catch (e) {
+          var trecho = res.text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220);
+          throw new Error('resposta inválida (HTTP ' + res.status + '): ' + trecho);
+        }
         if (!j.ok) throw new Error(j.erro || 'erro');
         dados = j.respostas || [];
         clientes = j.clientes || [];
@@ -439,7 +445,7 @@
       .catch(function (err) {
         $('gate').hidden = false; $('painel').hidden = true; $('top-actions').hidden = true;
         var ge = $('gate-error'); ge.hidden = false;
-        ge.textContent = /acesso negado/.test(err.message) ? 'Código incorreto. Confira a célula B1 da aba Config.' : 'Não consegui carregar a planilha agora. Tenta de novo em instantes.';
+        ge.textContent = /acesso negado/.test(err.message) ? 'Código incorreto. Confira a célula B1 da aba Config.' : 'Não consegui carregar a planilha. Detalhe: ' + err.message;
       })
       .finally(function () { btn.disabled = false; btn.textContent = 'Entrar'; $('btn-refresh').disabled = false; });
   }
