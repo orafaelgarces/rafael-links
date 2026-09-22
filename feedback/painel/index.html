@@ -519,7 +519,7 @@
     var dep = rows.filter(function (r) { return Object.keys(r).some(function (k) { return /depoimento/i.test(k) && /^Sim/.test(String(r[k])); }); }).length;
     var pct = c.media != null ? Math.round(c.media / 5 * 100) : null;
     $('kpis').innerHTML =
-      kpi('Média CSAT', c.media != null ? fmt1(c.media) + '<small>/ 5</small>' : '—', c.n + ' notas · ' + (pct != null ? pct + '% de satisfação' : ''), true) +
+      kpi('Média CSAT', c.media != null ? fmt1(c.media) + '<small>/ 5</small>' : '—', c.n ? c.n + ' nota' + (c.n > 1 ? 's' : '') + ' · ' + pct + '% de satisfação' : 'sem notas no filtro', true) +
       kpi('NPS', n.score != null ? n.score : '—', n.n ? 'média ' + fmt1(n.media) + '/10 · ' + n.n + ' respostas' : 'sem respostas', false) +
       kpi('Respostas', rows.length, rows.length ? 'última em ' + dataCurta(rows[0]['Data']) : 'nenhuma no filtro', false) +
       kpi('Depoimentos', dep, 'autorizaram uso no site', false);
