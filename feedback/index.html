@@ -434,6 +434,22 @@
     }
   };
 
+  /* Perguntas configuradas na aba "Perguntas" da planilha (via Apps Script).
+     As listas acima ficam como padrão caso a API não responda a tempo. */
+  var perguntasRemotas = null;
+  var carregandoPerguntas = SHEETS_URL
+    ? fetch(SHEETS_URL + '?acao=perguntas', { redirect: 'follow' })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (j && j.ok && j.perguntas) {
+            Object.keys(j.perguntas).forEach(function (k) {
+              if (SERVICOS[k] && j.perguntas[k].length) SERVICOS[k].perguntas = j.perguntas[k];
+            });
+            perguntasRemotas = true;
+          }
+        }).catch(function () {})
+    : Promise.resolve();
+
   var form = document.getElementById('form');
   var qCard = document.getElementById('questions-card');
   var qWrap = document.getElementById('questions');
@@ -458,6 +474,18 @@
   function render(servico) {
     var def = SERVICOS[servico];
     if (!def) return;
+    if (perguntasRemotas === null && SHEETS_URL) {
+      servicoAtual = servico;
+      qCard.hidden = false;
+      qHint.textContent = 'Carregando perguntas…';
+      qWrap.innerHTML = '';
+      var timeout = new Promise(function (res) { setTimeout(res, 4000); });
+      Promise.race([carregandoPerguntas, timeout]).then(function () {
+        if (perguntasRemotas === null) perguntasRemotas = false;
+        if (servicoAtual === servico) render(servico);
+      });
+      return;
+    }
     servicoAtual = servico;
     qHint.textContent = def.hint;
     var html = '';
