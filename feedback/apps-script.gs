@@ -28,6 +28,13 @@ function doPost(e) {
   lock.waitLock(10000);
   try {
     var dados = JSON.parse(e.postData.contents);
+
+    // Ações administrativas (painel): exigem o código de acesso
+    if (dados.acao === 'excluir') {
+      if (!tokenValido_(dados.token)) return json_({ ok: false, erro: 'acesso negado' });
+      return json_(excluirResposta_(dados.data));
+    }
+
     var aba = abaRespostas_();
     var cabecalho = lerCabecalho_(aba);
 
@@ -145,6 +152,37 @@ function lerRespostas_() {
     });
     return o;
   });
+}
+
+/* Remove a linha cuja Data (ISO) bate com a informada e limpa colunas
+   que ficarem sem nenhum dado. */
+function excluirResposta_(dataIso) {
+  var aba = abaRespostas_();
+  if (aba.getLastRow() < 2) return { ok: false, erro: 'sem respostas' };
+  var alvo = new Date(dataIso).getTime();
+  var datas = aba.getRange(2, 1, aba.getLastRow() - 1, 1).getValues();
+  var linha = -1;
+  for (var i = 0; i < datas.length; i++) {
+    var d = datas[i][0];
+    if (d instanceof Date && Math.abs(d.getTime() - alvo) < 1000) { linha = i + 2; break; }
+  }
+  if (linha < 0) return { ok: false, erro: 'não encontrada' };
+  aba.deleteRow(linha);
+  var removidas = limparColunasVazias_(aba);
+  return { ok: true, colunasRemovidas: removidas };
+}
+
+function limparColunasVazias_(aba) {
+  var fixas = ['Data', 'Serviço', 'Cliente', 'Nome', 'Média CSAT', 'NPS'];
+  var cab = lerCabecalho_(aba);
+  var nLinhas = aba.getLastRow() - 1;
+  var removidas = 0;
+  for (var c = cab.length; c >= 1; c--) {
+    if (fixas.indexOf(cab[c - 1]) > -1) continue;
+    var vazia = nLinhas < 1 || aba.getRange(2, c, nLinhas, 1).getValues().every(function (r) { return r[0] === '' || r[0] === null; });
+    if (vazia) { aba.deleteColumn(c); removidas++; }
+  }
+  return removidas;
 }
 
 /* ------------------------------------------------------------------ */

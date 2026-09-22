@@ -131,6 +131,10 @@
   .note b { color: var(--ink); }
   .resp-text { font-size: var(--text-meta); color: var(--ink-soft); margin: 6px 0 0; }
   .resp-text b { color: var(--ink); font-weight: 600; }
+  .resp-head .del { margin-left: auto; background: none; border: 0; padding: 4px 8px; border-radius: 8px; color: var(--ink-faint); font-size: var(--text-label); font-weight: 600; cursor: pointer; transition: color 0.15s var(--ease-out), background 0.15s var(--ease-out); }
+  .resp-head .del:hover { color: var(--bad); background: var(--paper-raised-hover); }
+  .resp-head .del[disabled] { opacity: 0.5; cursor: progress; }
+  .resp.is-removing { opacity: 0.4; pointer-events: none; }
 
   /* Gate */
   .gate { max-width: 440px; margin: 10vh auto 0; }
@@ -421,9 +425,31 @@
         (r['Mês de referência'] ? '<span class="pill">' + esc(r['Mês de referência']) + '</span>' : '') +
         (typeof r['Média CSAT'] === 'number' ? '<span class="score ' + classeNota(r['Média CSAT'], 5) + '">' + fmt1(r['Média CSAT']) + '</span>' : '') +
         (typeof r['NPS'] === 'number' ? '<span class="note">NPS <b>' + r['NPS'] + '</b></span>' : '') +
-        '<span class="when">' + dataCurta(r['Data']) + '</span></div>';
+        '<span class="when">' + dataCurta(r['Data']) + '</span>' +
+        '<button type="button" class="del" data-data="' + esc(r['Data']) + '" title="Excluir esta resposta da planilha">Excluir</button></div>';
       return '<article class="resp">' + head + (notas ? '<div class="resp-notes">' + notas + '</div>' : '') + textos + '</article>';
     }).join('') : '<p class="empty">Nenhuma resposta no filtro.</p>';
+    $('respostas').querySelectorAll('.del').forEach(function (b) { b.addEventListener('click', excluir); });
+  }
+
+  function excluir(ev) {
+    var btn = ev.currentTarget, iso = btn.getAttribute('data-data');
+    var r = dados.filter(function (x) { return x['Data'] === iso; })[0];
+    var quem = r ? (r['Cliente'] || '') + (r['Nome'] ? ' · ' + r['Nome'] : '') : '';
+    if (!confirm('Excluir a resposta de ' + quem + ' (' + dataCurta(iso) + ')? Ela sai da planilha e não volta.')) return;
+    btn.disabled = true; btn.textContent = 'Excluindo…'; btn.closest('.resp').classList.add('is-removing');
+    /* text/plain evita preflight; o Apps Script redireciona e a resposta final permite CORS */
+    fetch(API, { method: 'POST', redirect: 'follow', body: JSON.stringify({ acao: 'excluir', token: token, data: iso }) })
+      .then(function (res) { return res.json(); })
+      .then(function (j) {
+        if (!j.ok) throw new Error(j.erro || 'erro');
+        dados = dados.filter(function (x) { return x['Data'] !== iso; });
+        popularClientes(); renderTudo();
+      })
+      .catch(function (err) {
+        btn.disabled = false; btn.textContent = 'Excluir'; btn.closest('.resp').classList.remove('is-removing');
+        alert('Não consegui excluir: ' + err.message + '\nSe você acabou de atualizar o script, confira se fez "Nova versão" na implantação.');
+      });
   }
 
   /* ---------- Gerador de link ---------- */
