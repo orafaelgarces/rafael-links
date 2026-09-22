@@ -106,7 +106,7 @@ function instalar() {
 
   formatarRespostas_(abaRespostas_());
   ss.setActiveSheet(cfg);
-  SpreadsheetApp.getUi && SpreadsheetApp.getUi().alert('Pronto. Código de acesso do painel: ' + cfg.getRange('B1').getValue());
+  Logger.log('Pronto. Código de acesso do painel: ' + cfg.getRange('B1').getValue());
 }
 
 /* ------------------------------------------------------------------ */
