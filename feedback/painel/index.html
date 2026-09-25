@@ -222,11 +222,17 @@
   <section class="card gate enter" id="gate">
     <p class="section-label">Acesso</p>
     <h1>Painel de feedback</h1>
-    <p class="muted">Digite o código de acesso que está na aba <b>Config</b> da planilha.</p>
-    <form id="gate-form" class="field">
-      <label for="token">Código de acesso</label>
-      <input class="input" id="token" type="password" autocomplete="current-password" placeholder="XXXX-XXXX-XXXX" required>
-      <button class="btn" type="submit" id="gate-btn" style="margin-top:10px">Entrar</button>
+    <p class="muted">Acesso restrito.</p>
+    <form id="gate-form">
+      <div class="field" style="margin-bottom:12px">
+        <label for="email">E-mail</label>
+        <input class="input" id="email" type="email" autocomplete="username" required>
+      </div>
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input class="input" id="senha" type="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn" type="submit" id="gate-btn" style="margin-top:14px; width:100%">Entrar</button>
       <p class="error" id="gate-error" hidden></p>
     </form>
   </section>
@@ -420,7 +426,6 @@
 
   /* ---------- Acesso ---------- */
   function carregar() {
-    var btn = $('gate-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
     $('btn-refresh').disabled = true;
     return fetch(API + '?acao=respostas&token=' + encodeURIComponent(token) + '&_=' + Date.now(), { redirect: 'follow' })
       .then(function (r) { return r.text().then(function (t) { return { status: r.status, text: t }; }); })
@@ -445,14 +450,35 @@
       .catch(function (err) {
         $('gate').hidden = false; $('painel').hidden = true; $('top-actions').hidden = true;
         var ge = $('gate-error'); ge.hidden = false;
-        ge.textContent = /acesso negado/.test(err.message) ? 'Código incorreto. Confira a célula B1 da aba Config.' : 'Não consegui carregar a planilha. Detalhe: ' + err.message;
+        ge.textContent = /acesso negado/.test(err.message) ? 'Sessão expirada. Entre de novo.' : 'Não consegui carregar a planilha. Detalhe: ' + err.message;
       })
-      .finally(function () { btn.disabled = false; btn.textContent = 'Entrar'; $('btn-refresh').disabled = false; });
+      .finally(function () { $('btn-refresh').disabled = false; });
   }
-  $('gate-form').addEventListener('submit', function (e) { e.preventDefault(); token = $('token').value.trim(); $('gate-error').hidden = true; carregar(); });
+  $('gate-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var ge = $('gate-error'); ge.hidden = true;
+    var btn = $('gate-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
+    fetch(API, { method: 'POST', redirect: 'follow', body: JSON.stringify({ acao: 'login', email: $('email').value, senha: $('senha').value }) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j.ok) throw new Error(j.erro || 'erro');
+        token = j.token;
+        try { localStorage.setItem('csat_email', $('email').value.trim()); } catch (e2) {}
+        $('senha').value = '';
+        carregar();
+      })
+      .catch(function (err) {
+        ge.hidden = false;
+        ge.textContent = /incorretos/.test(err.message) ? 'E-mail ou senha incorretos.'
+          : /não configurado/.test(err.message) ? 'Acesso ainda não configurado na planilha (aba Config).'
+          : 'Não consegui entrar agora: ' + err.message;
+      })
+      .finally(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
+  });
   $('btn-refresh').addEventListener('click', carregar);
   $('btn-sair').addEventListener('click', function () { try { localStorage.removeItem('csat_token'); } catch (e) {} location.reload(); });
-  if (token) { $('token').value = token; carregar(); }
+  try { $('email').value = localStorage.getItem('csat_email') || ''; } catch (e) {}
+  if (token) carregar(); else if ($('email').value) $('senha').focus(); else $('email').focus();
 
   /* ---------- Filtros ---------- */
   function popularClientes() {
@@ -730,12 +756,19 @@
       formC.status.value = 'ativo'; formC.cobranca.value = 'mensal'; formC.dia_csat.value = 25;
     }
     modal.showModal();
+    limpoAgora();
     setTimeout(function () { $('c-nome').focus(); }, 50);
   }
   $('btn-novo').addEventListener('click', function () { abrirModal(null); });
-  $('modal-close').addEventListener('click', function () { modal.close(); });
-  $('modal-cancel').addEventListener('click', function () { modal.close(); });
-  modal.addEventListener('click', function (e) { if (e.target === modal) modal.close(); });
+  $('modal-close').addEventListener('click', fecharComGuarda);
+  $('modal-cancel').addEventListener('click', fecharComGuarda);
+  /* Clique fora não fecha (evita perder o preenchimento); Esc e Cancelar confirmam se houver dados */
+  modal.addEventListener('cancel', function (e) { if (sujo()) { e.preventDefault(); if (confirm('Descartar as alterações deste cliente?')) { limpoAgora(); modal.close(); } } });
+  function instantaneo() { return JSON.stringify(Array.prototype.map.call(formC.elements, function (el) { return el.type === 'checkbox' ? el.checked : el.value; })); }
+  var snapshot = '';
+  function limpoAgora() { snapshot = instantaneo(); }
+  function sujo() { return instantaneo() !== snapshot; }
+  function fecharComGuarda() { if (!sujo() || confirm('Descartar as alterações deste cliente?')) { limpoAgora(); modal.close(); } }
 
   formC.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -749,7 +782,7 @@
     api({ acao: 'cliente_salvar', cliente: c }).then(function (j) {
       var i = clientes.findIndex(function (x) { return x.id === j.cliente.id; });
       if (i > -1) clientes[i] = j.cliente; else clientes.push(j.cliente);
-      modal.close(); popularClientes(); renderClientes(); renderTudo();
+      limpoAgora(); modal.close(); popularClientes(); renderClientes(); renderTudo();
     }).catch(function (err) {
       $('modal-error').textContent = 'Não consegui salvar: ' + err.message; $('modal-error').hidden = false;
     }).finally(function () { btn.disabled = false; btn.textContent = 'Salvar'; });

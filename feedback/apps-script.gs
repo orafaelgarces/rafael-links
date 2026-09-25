@@ -33,6 +33,9 @@ function doPost(e) {
   try {
     var dados = JSON.parse(e.postData.contents);
 
+    // Login: troca e-mail + senha pelo código de sessão
+    if (dados.acao === 'login') return json_(login_(dados.email, dados.senha));
+
     // Ações administrativas (painel): exigem o código de acesso
     if (dados.acao) {
       if (!tokenValido_(dados.token)) return json_({ ok: false, erro: 'acesso negado' });
@@ -346,6 +349,52 @@ function abaRespostas_() {
 
 function lerCabecalho_(aba) {
   return aba.getLastColumn() ? aba.getRange(1, 1, 1, aba.getLastColumn()).getValues()[0].filter(String) : [];
+}
+
+/* ------------------------------------------------------------------ */
+/* Acesso ao painel: e-mail + senha                                    */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Cadastra/atualiza o login do painel.
+ * Na aba Config: B2 = e-mail, B3 = senha em texto.
+ * Rode esta função uma vez: ela guarda o hash em B4 e APAGA a senha de B3.
+ */
+function definirAcesso() {
+  var cfg = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(ABA_CONFIG) || SpreadsheetApp.getActiveSpreadsheet().insertSheet(ABA_CONFIG);
+  cfg.getRange('A2').setValue('E-mail de acesso').setFontWeight('bold');
+  cfg.getRange('A3').setValue('Senha (some ao rodar "definirAcesso")').setFontWeight('bold');
+  cfg.getRange('A4').setValue('Senha guardada (hash)').setFontWeight('bold');
+
+  var email = String(cfg.getRange('B2').getValue()).trim().toLowerCase();
+  var senha = String(cfg.getRange('B3').getValue());
+  if (!email || !senha) {
+    Logger.log('Preencha B2 (e-mail) e B3 (senha) na aba Config e rode de novo.');
+    return;
+  }
+  cfg.getRange('B4').setValue(hashSenha_(email, senha));
+  cfg.getRange('B3').clearContent();
+  cfg.getRange('B4').setFontColor('#9ca3af');
+  Logger.log('Acesso definido para ' + email + '. A senha foi apagada da planilha (só o hash fica guardado).');
+}
+
+function hashSenha_(email, senha) {
+  var bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, 'csat|' + email + '|' + senha, Utilities.Charset.UTF_8);
+  return bytes.map(function (b) { return ('0' + (b & 0xFF).toString(16)).slice(-2); }).join('');
+}
+
+function login_(email, senha) {
+  var cfg = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(ABA_CONFIG);
+  if (!cfg) return { ok: false, erro: 'acesso não configurado' };
+  var esperadoEmail = String(cfg.getRange('B2').getValue()).trim().toLowerCase();
+  var esperadoHash = String(cfg.getRange('B4').getValue()).trim();
+  if (!esperadoEmail || !esperadoHash) return { ok: false, erro: 'acesso não configurado' };
+  var e = String(email || '').trim().toLowerCase();
+  if (e !== esperadoEmail || hashSenha_(e, String(senha || '')) !== esperadoHash) {
+    Utilities.sleep(600); // desestimula tentativa em série
+    return { ok: false, erro: 'e-mail ou senha incorretos' };
+  }
+  return { ok: true, token: String(cfg.getRange('B1').getValue()).trim() };
 }
 
 function tokenValido_(t) {
