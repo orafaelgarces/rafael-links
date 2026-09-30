@@ -221,6 +221,42 @@
   .quota .track { height: 6px; border-radius: 999px; background: var(--paper-raised-hover); overflow: hidden; }
   .quota .fill { height: 100%; background: var(--accent-gradient); transform-origin: left; transform: scaleX(var(--p)); transition: transform 0.5s var(--ease-out); }
 
+  /* Editor de perguntas */
+  .seg { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; }
+  .seg button { padding: 7px 14px; border-radius: 999px; border: 0; background: transparent; color: var(--ink-soft); font-weight: 600; font-size: var(--text-meta); cursor: pointer; transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), transform 0.16s var(--ease-out); }
+  .seg button:active { transform: scale(0.97); }
+  .seg button[aria-pressed="true"] { background: var(--accent-gradient); color: var(--accent-ink); }
+  .pq-list { display: grid; gap: 10px; }
+  .pq-row { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 14px; border: 1px solid var(--border); border-radius: 16px; background: var(--paper); transition: opacity 0.18s var(--ease-out), border-color 0.18s var(--ease-out); }
+  .pq-row.off { opacity: 0.55; }
+  .pq-row.moved { animation: pqmove 0.24s var(--ease-out); }
+  @keyframes pqmove { from { transform: scale(0.985); border-color: var(--ink-faint); } }
+  .pq-num { font-weight: 700; color: var(--ink-faint); font-variant-numeric: tabular-nums; padding-top: 10px; text-align: center; }
+  .pq-fields { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 8px; }
+  .pq-fields .full { grid-column: 1 / -1; }
+  .pq-side { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .pq-side .icons { display: flex; gap: 4px; }
+  .icon-btn { width: 32px; height: 32px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 10px; background: transparent; color: var(--ink-soft); cursor: pointer; transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out), transform 0.16s var(--ease-out); }
+  .icon-btn:active { transform: scale(0.94); }
+  .icon-btn[disabled] { opacity: 0.35; cursor: default; }
+  .icon-btn.danger { color: var(--bad); }
+  .icon-btn svg { width: 15px; height: 15px; }
+  @media (hover: hover) and (pointer: fine) { .icon-btn:not([disabled]):hover { background: var(--paper-raised-hover); color: var(--ink); } }
+  .switch { display: inline-flex; align-items: center; gap: 8px; font-size: var(--text-label); font-weight: 600; color: var(--ink-soft); cursor: pointer; user-select: none; }
+  .switch input { appearance: none; -webkit-appearance: none; width: 34px; height: 20px; border-radius: 999px; background: var(--border); position: relative; cursor: pointer; transition: background 0.18s var(--ease-out); margin: 0; }
+  .switch input::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 999px; background: #fff; transition: transform 0.2s var(--ease-out); box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+  .switch input:checked { background: var(--good); }
+  .switch input:checked::after { transform: translateX(14px); }
+  .savebar { position: sticky; bottom: 16px; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 16px; padding: 12px 12px 12px 20px; border-radius: 999px; background: var(--ink); color: var(--paper); box-shadow: 0 12px 32px -12px rgba(0,0,0,0.45); animation: rise 0.24s var(--ease-out) both; }
+  .savebar .btn-outline { color: var(--paper); border-color: rgba(255,255,255,0.25); }
+  @media (max-width: 720px) {
+    .pq-row { grid-template-columns: 1fr; }
+    .pq-num { padding-top: 0; text-align: left; }
+    .pq-fields { grid-template-columns: 1fr; }
+    .pq-side { flex-direction: row; justify-content: space-between; align-items: center; }
+    .savebar { border-radius: 20px; }
+  }
+
   .enter { animation: rise 0.32s var(--ease-out) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
   @media (prefers-reduced-motion: reduce) { .enter { animation: none; } .bar .fill { transition: none; } }
@@ -267,6 +303,7 @@
       <button class="tab" role="tab" id="tab-geral" aria-selected="true" aria-controls="view-geral" type="button">Visão geral</button>
       <button class="tab" role="tab" id="tab-clientes" aria-selected="false" aria-controls="view-clientes" type="button">Clientes<span class="count" id="tab-clientes-count"></span></button>
       <button class="tab" role="tab" id="tab-demandas" aria-selected="false" aria-controls="view-demandas" type="button">Demandas<span class="count" id="tab-demandas-count"></span></button>
+      <button class="tab" role="tab" id="tab-perguntas" aria-selected="false" aria-controls="view-perguntas" type="button">Perguntas</button>
     </div>
 
     <section id="view-geral" role="tabpanel" aria-labelledby="tab-geral">
@@ -403,6 +440,39 @@
       </div>
       <div class="board" id="board"></div>
     </section>
+
+    <!-- Perguntas do formulário -->
+    <section id="view-perguntas" role="tabpanel" aria-labelledby="tab-perguntas" hidden>
+      <section class="card">
+        <div class="clients-head">
+          <div>
+            <h2 style="margin:0 0 4px">Perguntas do formulário</h2>
+            <p class="muted small" style="margin:0">O que você salvar aqui vale na hora para os próximos links enviados.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Serviço" id="pq-seg">
+            <button type="button" data-s="site" aria-pressed="true">Site</button>
+            <button type="button" data-s="marca" aria-pressed="false">Marca</button>
+            <button type="button" data-s="design" aria-pressed="false">Design recorrente</button>
+          </div>
+        </div>
+        <div class="pq-list" id="pq-list"></div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:14px">
+          <button class="btn" type="button" id="pq-add">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Adicionar pergunta
+          </button>
+          <a class="btn btn-outline" id="pq-preview" target="_blank" rel="noopener">Ver formulário publicado</a>
+        </div>
+        <p class="muted small" style="margin:14px 0 0">Editar ou excluir uma pergunta não afeta respostas antigas: cada resposta guarda o texto da época. Renomear mantém a pergunta na mesma média.</p>
+      </section>
+      <div class="savebar" id="pq-savebar" hidden>
+        <span id="pq-savemsg">Alterações não salvas</span>
+        <div style="display:flex; gap:8px">
+          <button class="btn btn-outline" type="button" id="pq-discard">Descartar</button>
+          <button class="btn" type="button" id="pq-save">Salvar perguntas</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- Demanda -->
@@ -493,6 +563,7 @@
   var dados = [];          // respostas (linhas)
   var clientes = [];       // cadastro (aba Clientes)
   var demandas = [];       // central de demandas (aba Demandas)
+  var perguntas = [];      // configuração do formulário (aba Perguntas)
   var tiposPorTexto = {};  // texto da pergunta -> tipo (csat/nps/texto/...)
 
   var $ = function (id) { return document.getElementById(id); };
@@ -506,10 +577,22 @@
   var numOuNull = function (v) { return (v === '' || v == null) ? null : Number(v); };
   function nullParaVazio(o) { var r = {}; Object.keys(o).forEach(function (k) { r[k] = o[k] === null ? '' : o[k]; }); return r; }
 
+  /* textoAtual["servico|id"] = texto vigente da pergunta. Uma pergunta renomeada continua
+     somando na mesma linha de média, porque a resposta guarda o id. */
+  var textoAtual = {};
   function deLinhaResposta(r) {
     var o = { _id: r.id, 'Data': r.created_at, 'Serviço': ROTULO_SERVICO[r.servico] || r.servico, 'Cliente': r.cliente, 'Nome': r.nome };
     if (r.mes_ref) o['Mês de referência'] = r.mes_ref;
-    Object.keys(r.dados || {}).forEach(function (k) { o[k] = r.dados[k]; });
+    Object.keys(r.dados || {}).forEach(function (k) {
+      var e = r.dados[k];
+      if (e && typeof e === 'object' && 'v' in e) {
+        var rotulo = textoAtual[r.servico + '|' + k] || e.t || k;
+        o[rotulo] = e.v;
+        if (e.k && !tiposPorTexto[rotulo]) tiposPorTexto[rotulo] = e.k;
+      } else {
+        o[k] = e; /* formato antigo: chave já é o texto */
+      }
+    });
     if (r.media_csat != null) o['Média CSAT'] = Number(r.media_csat);
     if (r.nps != null) o['NPS'] = Number(r.nps);
     return o;
@@ -566,18 +649,19 @@
     $('btn-refresh').disabled = true;
     return Promise.all([
       sb.from('respostas').select('*').order('created_at', { ascending: false }).limit(5000),
-      sb.from('perguntas').select('servico,tipo,texto'),
+      sb.from('perguntas').select('*').order('ordem', { ascending: true }),
       sb.from('clientes').select('*'),
       sb.from('demandas').select('*')
     ]).then(function (rs) {
       rs.forEach(ok);
+      tiposPorTexto = {}; textoAtual = {};
+      rs[1].data.forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; textoAtual[q.servico + '|' + q.id] = q.texto; });
+      perguntas = rs[1].data.map(function (q) { return Object.assign({}, q); });
       dados = rs[0].data.map(deLinhaResposta);
-      tiposPorTexto = {};
-      rs[1].data.forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; });
       clientes = rs[2].data.map(deLinhaCliente);
       demandas = rs[3].data.map(deLinhaDemanda);
       $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
-      popularClientes(); renderTudo(); renderClientes(); renderDemandas();
+      popularClientes(); renderTudo(); renderClientes(); renderDemandas(); iniciarPerguntas();
     }).catch(function (err) {
       mostrarGate(/jwt|token|expired/i.test(err.message) ? 'Sessão expirada. Entre de novo.' : 'Não consegui carregar os dados. Detalhe: ' + err.message);
     }).finally(function () { $('btn-refresh').disabled = false; });
@@ -784,7 +868,7 @@
   (function () { var d = new Date(); $('g-mes').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); montarLink(); })();
 
   /* ---------- Abas ---------- */
-  var ABAS = ['geral', 'clientes', 'demandas'];
+  var ABAS = ['geral', 'clientes', 'demandas', 'perguntas'];
   function mostrarAba(id) {
     if (ABAS.indexOf(id) < 0) id = 'geral';
     ABAS.forEach(function (a) {
@@ -1071,6 +1155,164 @@
   }
 
   function verDemandasDo(c) { mostrarAba('demandas'); $('d-cliente').value = c.id; renderDemandas(); }
+
+  /* ---------- Editor de perguntas ---------- */
+  var TIPOS = [
+    ['csat', 'Nota de 1 a 5'],
+    ['nps', 'Nota de 0 a 10 (NPS)'],
+    ['texto', 'Resposta aberta'],
+    ['escolha', 'Escolha entre opções'],
+    ['mes', 'Mês de referência']
+  ];
+  var pqServico = 'site';
+  var pqOriginal = [];   // como está no banco
+  var pqEdit = [];       // cópia de trabalho
+  var pqChave = 0;
+
+  function copiaPq(lista) { return lista.map(function (q) { return { servico: q.servico, id: q.id, tipo: q.tipo, texto: q.texto, opcoes: (q.opcoes || []).slice(), ativo: q.ativo !== false, ordem: q.ordem, _k: 'k' + (++pqChave) }; }); }
+  function assinatura(lista) { return JSON.stringify(lista.map(function (q) { return [q.servico, q.id || '', q.tipo, q.texto.trim(), (q.opcoes || []).join('|'), q.ativo]; })); }
+  function pqSujo() { return assinatura(pqEdit) !== assinatura(pqOriginal); }
+
+  function iniciarPerguntas() {
+    var novo = copiaPq(perguntas);
+    /* "Atualizar" não apaga edições em andamento */
+    if (pqOriginal.length && pqSujo()) { pqOriginal = novo; atualizarSavebar(); return; }
+    pqOriginal = novo; pqEdit = copiaPq(perguntas);
+    renderPerguntas();
+  }
+
+  function doServico() { return pqEdit.filter(function (q) { return q.servico === pqServico; }); }
+
+  function renderPerguntas(movida) {
+    $('pq-seg').querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.s === pqServico); });
+    $('pq-preview').href = '/feedback/?servico=' + pqServico + '&cliente=' + encodeURIComponent('Prévia') + '&nome=Rafael';
+    var lista = doServico();
+    $('pq-list').innerHTML = lista.length ? lista.map(function (q, i) {
+      var opts = TIPOS.map(function (t) { return '<option value="' + t[0] + '"' + (t[0] === q.tipo ? ' selected' : '') + '>' + t[1] + '</option>'; }).join('');
+      return '<div class="pq-row' + (q.ativo ? '' : ' off') + (q._k === movida ? ' moved' : '') + '" data-k="' + q._k + '">' +
+        '<div class="pq-num">' + String(i + 1).padStart(2, '0') + '</div>' +
+        '<div class="pq-fields">' +
+          '<input class="input" data-f="texto" value="' + esc(q.texto) + '" placeholder="Escreva a pergunta" aria-label="Texto da pergunta ' + (i + 1) + '">' +
+          '<select class="input" data-f="tipo" aria-label="Tipo da pergunta ' + (i + 1) + '">' + opts + '</select>' +
+          (q.tipo === 'escolha' ? '<input class="input full" data-f="opcoes" value="' + esc((q.opcoes || []).join(' | ')) + '" placeholder="Opções separadas por | (ex.: Sim, pode usar | Prefiro que não)" aria-label="Opções">' : '') +
+        '</div>' +
+        '<div class="pq-side">' +
+          '<label class="switch"><input type="checkbox" data-f="ativo"' + (q.ativo ? ' checked' : '') + '> ' + (q.ativo ? 'Ativa' : 'Desativada') + '</label>' +
+          '<div class="icons">' +
+            '<button type="button" class="icon-btn" data-a="up" title="Subir"' + (i === 0 ? ' disabled' : '') + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>' +
+            '<button type="button" class="icon-btn" data-a="down" title="Descer"' + (i === lista.length - 1 ? ' disabled' : '') + '><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>' +
+            '<button type="button" class="icon-btn danger" data-a="del" title="Excluir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/></svg></button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('') : '<p class="empty">Nenhuma pergunta para este serviço.</p>';
+    atualizarSavebar();
+  }
+
+  function acharPq(k) { return pqEdit.filter(function (q) { return q._k === k; })[0]; }
+
+  $('pq-list').addEventListener('input', function (e) {
+    var row = e.target.closest('.pq-row'); if (!row) return;
+    var q = acharPq(row.dataset.k), f = e.target.dataset.f;
+    if (f === 'texto') q.texto = e.target.value;
+    if (f === 'opcoes') q.opcoes = e.target.value.split('|').map(function (x) { return x.trim(); }).filter(Boolean);
+    atualizarSavebar();
+  });
+  $('pq-list').addEventListener('change', function (e) {
+    var row = e.target.closest('.pq-row'); if (!row) return;
+    var q = acharPq(row.dataset.k), f = e.target.dataset.f;
+    if (f === 'tipo') {
+      q.tipo = e.target.value;
+      if (q.tipo === 'escolha' && !(q.opcoes || []).length) q.opcoes = ['Sim', 'Não'];
+      renderPerguntas();
+    }
+    if (f === 'ativo') { q.ativo = e.target.checked; renderPerguntas(); }
+  });
+  $('pq-list').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-a]'); if (!b) return;
+    var q = acharPq(b.closest('.pq-row').dataset.k);
+    var lista = doServico(), i = lista.indexOf(q);
+    if (b.dataset.a === 'del') {
+      if (!confirm('Excluir a pergunta "' + (q.texto || 'sem texto') + '"?\nRespostas antigas continuam no histórico com o texto da época.')) return;
+      pqEdit.splice(pqEdit.indexOf(q), 1);
+      return renderPerguntas();
+    }
+    var j = b.dataset.a === 'up' ? i - 1 : i + 1;
+    if (j < 0 || j >= lista.length) return;
+    var a = pqEdit.indexOf(lista[i]), c = pqEdit.indexOf(lista[j]);
+    pqEdit[a] = lista[j]; pqEdit[c] = lista[i];
+    renderPerguntas(q._k);
+  });
+  $('pq-seg').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-s]'); if (!b) return;
+    pqServico = b.dataset.s; renderPerguntas();
+  });
+  $('pq-add').addEventListener('click', function () {
+    var nova = { servico: pqServico, id: '', tipo: 'csat', texto: '', opcoes: [], ativo: true, _k: 'k' + (++pqChave), _novo: true };
+    var lista = doServico();
+    /* entra antes da pergunta de indicação (NPS), que costuma fechar o formulário */
+    var nps = lista.filter(function (q) { return q.tipo === 'nps'; })[0];
+    if (nps) pqEdit.splice(pqEdit.indexOf(nps), 0, nova); else pqEdit.push(nova);
+    renderPerguntas(nova._k);
+    var campo = document.querySelector('.pq-row[data-k="' + nova._k + '"] [data-f="texto"]');
+    if (campo) { campo.focus(); campo.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+  });
+
+  function atualizarSavebar() {
+    var sujo = pqSujo();
+    $('pq-savebar').hidden = !sujo;
+    $('tab-perguntas').textContent = sujo ? 'Perguntas •' : 'Perguntas';
+  }
+  $('pq-discard').addEventListener('click', function () {
+    if (!confirm('Descartar as alterações nas perguntas?')) return;
+    pqEdit = copiaPq(perguntas); renderPerguntas();
+  });
+  window.addEventListener('beforeunload', function (e) { if (pqEdit.length && pqSujo()) { e.preventDefault(); e.returnValue = ''; } });
+
+  function slug(t) {
+    return t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '').slice(0, 40) || 'pergunta';
+  }
+
+  $('pq-save').addEventListener('click', function () {
+    var msg = $('pq-savemsg');
+    /* validação */
+    for (var i = 0; i < pqEdit.length; i++) {
+      var q = pqEdit[i];
+      if (!q.texto.trim()) { pqServico = q.servico; renderPerguntas(q._k); msg.textContent = 'Tem pergunta sem texto.'; return; }
+      if (q.tipo === 'escolha' && (q.opcoes || []).length < 2) { pqServico = q.servico; renderPerguntas(q._k); msg.textContent = 'Pergunta de escolha precisa de pelo menos 2 opções.'; return; }
+    }
+    /* ids novos: únicos por serviço, estáveis depois de salvos */
+    pqEdit.forEach(function (q) {
+      if (q.id) return;
+      var base = slug(q.texto), id = base, n = 2;
+      while (pqEdit.some(function (o) { return o !== q && o.servico === q.servico && o.id === id; })) id = base + '_' + (n++);
+      q.id = id;
+    });
+    var linhas = [];
+    ['site', 'marca', 'design'].forEach(function (s) {
+      pqEdit.filter(function (q) { return q.servico === s; }).forEach(function (q, i) {
+        linhas.push({ servico: s, id: q.id, tipo: q.tipo, texto: q.texto.trim(), opcoes: q.tipo === 'escolha' ? q.opcoes : null, ordem: i + 1, ativo: q.ativo });
+      });
+    });
+    var ficam = {}; linhas.forEach(function (l) { ficam[l.servico + '|' + l.id] = true; });
+    var sair = pqOriginal.filter(function (q) { return !ficam[q.servico + '|' + q.id]; });
+    var btn = $('pq-save'); btn.disabled = true; btn.textContent = 'Salvando…';
+    var ops = [sb.from('perguntas').upsert(linhas, { onConflict: 'servico,id' }).then(ok)];
+    sair.forEach(function (q) { ops.push(sb.from('perguntas').delete().eq('servico', q.servico).eq('id', q.id).then(ok)); });
+    Promise.all(ops).then(function () {
+      return sb.from('perguntas').select('*').order('ordem', { ascending: true });
+    }).then(ok).then(function (r) {
+      perguntas = r.data;
+      tiposPorTexto = {}; textoAtual = {};
+      perguntas.forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; textoAtual[q.servico + '|' + q.id] = q.texto; });
+      pqOriginal = copiaPq(perguntas); pqEdit = copiaPq(perguntas);
+      renderPerguntas();
+      msg.textContent = 'Alterações não salvas';
+      return carregar();
+    }).catch(function (err) {
+      msg.textContent = 'Não consegui salvar: ' + err.message;
+    }).finally(function () { btn.disabled = false; btn.textContent = 'Salvar perguntas'; });
+  });
 
   /* ---------- Utilidades ---------- */
   /* A planilha converte "09/2026" em data; devolve sempre MM/AAAA */

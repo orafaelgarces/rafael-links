@@ -685,13 +685,15 @@
     return body;
   }
 
-  /* Notas e textos vão para a coluna jsonb "dados", indexados pelo texto da pergunta */
+  /* Cada resposta vai para a coluna jsonb "dados" indexada pelo id da pergunta, levando junto
+     o texto (t) e o tipo (k) daquele momento. Assim editar ou excluir uma pergunta depois
+     não apaga nem embaralha o histórico. */
   function payloadBanco(d) {
     var dados = {}, mes = null;
     d.respostas.forEach(function (r) {
       if (r.tipo === 'mes') { var m = /^(\d{2})\/(\d{4})$/.exec(r.valor); if (m) mes = m[2] + '-' + m[1]; return; }
       if (r.valor === '') return;
-      dados[r.texto] = (r.tipo === 'csat' || r.tipo === 'nps') ? Number(r.valor) : r.valor;
+      dados[r.id] = { t: r.texto, k: r.tipo, v: (r.tipo === 'csat' || r.tipo === 'nps') ? Number(r.valor) : r.valor };
     });
     return { servico: d.chave, cliente: d.cliente, nome: d.nome, mes_ref: mes, media_csat: d.media, nps: d.nps, dados: dados };
   }
