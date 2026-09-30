@@ -221,6 +221,17 @@
   .quota .track { height: 6px; border-radius: 999px; background: var(--paper-raised-hover); overflow: hidden; }
   .quota .fill { height: 100%; background: var(--accent-gradient); transform-origin: left; transform: scaleX(var(--p)); transition: transform 0.5s var(--ease-out); }
 
+  /* Aviso de CSAT pendente */
+  .pend { margin-top: 16px; border: 1px solid #f3d27a; background: #fffaeb; border-radius: 20px; padding: 18px 20px; animation: rise 0.28s var(--ease-out) both; }
+  :root[data-theme="dark"] .pend { background: #221b09; border-color: #5c4712; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pend { background: #221b09; border-color: #5c4712; } }
+  .pend h3 { margin: 0 0 4px; font-size: var(--text-body); font-weight: 700; }
+  .pend .auto { margin: 0 0 12px; font-size: var(--text-meta); color: var(--ink-soft); }
+  .pend-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 0; border-top: 1px solid rgba(0,0,0,0.06); }
+  .pend-row:first-of-type { border-top: 0; }
+  .pend-row .n { font-weight: 600; }
+  .pend-row .s { font-size: var(--text-meta); color: var(--ink-soft); }
+
   /* Editor de perguntas */
   .seg { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 999px; }
   .seg button { padding: 7px 14px; border-radius: 999px; border: 0; background: transparent; color: var(--ink-soft); font-weight: 600; font-size: var(--text-meta); cursor: pointer; transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), transform 0.16s var(--ease-out); }
@@ -405,6 +416,7 @@
     <!-- Clientes -->
     <section id="view-clientes" role="tabpanel" aria-labelledby="tab-clientes" hidden>
       <div class="grid grid-kpi" id="kpis-clientes"></div>
+      <div class="pend" id="pendentes" hidden></div>
       <section class="card" style="margin-top:16px">
         <div class="clients-head">
           <h2 style="margin:0">Clientes</h2>
@@ -564,6 +576,7 @@
   var clientes = [];       // cadastro (aba Clientes)
   var demandas = [];       // central de demandas (aba Demandas)
   var perguntas = [];      // configuração do formulário (aba Perguntas)
+  var ultimoLembrete = null; // último e-mail automático de CSAT pendente
   var tiposPorTexto = {};  // texto da pergunta -> tipo (csat/nps/texto/...)
 
   var $ = function (id) { return document.getElementById(id); };
@@ -651,7 +664,8 @@
       sb.from('respostas').select('*').order('created_at', { ascending: false }).limit(5000),
       sb.from('perguntas').select('*').order('ordem', { ascending: true }),
       sb.from('clientes').select('*'),
-      sb.from('demandas').select('*')
+      sb.from('demandas').select('*'),
+      sb.from('lembretes_log').select('enviado_em,clientes').order('enviado_em', { ascending: false }).limit(1)
     ]).then(function (rs) {
       rs.forEach(ok);
       tiposPorTexto = {}; textoAtual = {};
@@ -660,6 +674,7 @@
       dados = rs[0].data.map(deLinhaResposta);
       clientes = rs[2].data.map(deLinhaCliente);
       demandas = rs[3].data.map(deLinhaDemanda);
+      ultimoLembrete = (rs[4].data || [])[0] || null;
       $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
       popularClientes(); renderTudo(); renderClientes(); renderDemandas(); iniciarPerguntas();
     }).catch(function (err) {
@@ -901,14 +916,65 @@
     return m < 1 ? 'menos de 1 mês' : m < 12 ? m + ' ' + (m === 1 ? 'mês' : 'meses') : Math.floor(m / 12) + ' ano' + (m >= 24 ? 's' : '') + (m % 12 ? ' e ' + (m % 12) + ' m' : '');
   }
   function respostasDe(c) { var n = String(c.nome || '').trim().toLowerCase(); return dados.filter(function (r) { return String(r['Cliente'] || '').trim().toLowerCase() === n; }); }
+  /* Mesma regra do lembrete automático no banco (csat_pendentes):
+     dia vazio = 25; dia maior que o mês = último dia do mês. */
+  function diaEnvio(c) {
+    var hoje = new Date(), ultimo = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
+    return Math.min(Number(c.dia_csat) || 25, ultimo);
+  }
   function csatPendente(c) {
     if (c.status !== 'ativo' || c.cobranca !== 'mensal') return false;
-    var hoje = new Date(); var dia = Number(c.dia_csat) || 25;
-    if (hoje.getDate() < dia) return false;
+    var hoje = new Date();
+    if (hoje.getDate() < diaEnvio(c)) return false;
     return !respostasDe(c).some(function (r) { var d = new Date(r['Data']); return d.getMonth() === hoje.getMonth() && d.getFullYear() === hoje.getFullYear(); });
+  }
+  function servicoCsat(c) {
+    var svs = String(c.servicos || '').split('|').filter(Boolean);
+    return svs.indexOf('design') > -1 ? 'design' : (svs[0] || 'design');
+  }
+  function linkCsat(c) {
+    var s = servicoCsat(c), primeiro = String(c.stakeholder || '').trim().split(' ')[0];
+    var p = new URLSearchParams(); p.set('servico', s); p.set('cliente', c.nome);
+    if (primeiro) p.set('nome', primeiro);
+    if (s === 'design') p.set('mes', mesAtual());
+    return SITE + '/feedback/?' + p.toString();
+  }
+  function whatsCsat(c) {
+    var primeiro = String(c.stakeholder || '').trim().split(' ')[0];
+    var fone = soDigitos(c.whatsapp); if (fone && fone.length <= 11) fone = '55' + fone;
+    var msg = 'Oi' + (primeiro ? ', ' + primeiro : '') + '! Pode me dar um feedback rápido sobre as entregas do mês? Leva uns 3 minutos: ' + linkCsat(c);
+    return fone ? 'https://wa.me/' + fone + '?text=' + encodeURIComponent(msg) : '';
+  }
+
+  function renderPendentes() {
+    var box = $('pendentes');
+    var pend = clientes.filter(csatPendente).sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt-BR'); });
+    if (!pend.length) { box.hidden = true; return; }
+    var hoje = new Date().getDate();
+    var nomeMes = new Date().toLocaleDateString('pt-BR', { month: 'long' });
+    var ult = ultimoLembrete ? 'Último lembrete por e-mail: ' + new Date(ultimoLembrete.enviado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long' }) + '.' : '';
+    box.innerHTML = '<h3>' + pend.length + (pend.length === 1 ? ' CSAT pendente' : ' CSATs pendentes') + ' em ' + nomeMes + '</h3>' +
+      '<p class="auto">Você recebe um e-mail automático às 9h no dia do envio, 3 e 7 dias depois, enquanto não houver resposta. ' + ult + '</p>' +
+      pend.map(function (c) {
+        var atraso = hoje - diaEnvio(c);
+        var sit = atraso === 0 ? 'vence hoje' : atraso === 1 ? '1 dia de atraso' : atraso + ' dias de atraso';
+        var wa = whatsCsat(c);
+        return '<div class="pend-row" data-id="' + esc(c.id) + '"><div><div class="n">' + esc(c.nome) + '</div><div class="s">' +
+          (c.stakeholder ? esc(c.stakeholder) + ' · ' : '') + sit + '</div></div>' +
+          (wa ? '<a class="btn" href="' + esc(wa) + '" target="_blank" rel="noopener">Enviar no WhatsApp</a>'
+              : '<button class="btn btn-outline" type="button" data-copiar="' + esc(linkCsat(c)) + '">Copiar link (sem WhatsApp no cadastro)</button>') +
+        '</div>';
+      }).join('');
+    box.hidden = false;
+    box.querySelectorAll('[data-copiar]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        (navigator.clipboard ? navigator.clipboard.writeText(b.dataset.copiar) : Promise.reject()).then(function () { b.textContent = 'Link copiado'; }).catch(function () { prompt('Copie o link:', b.dataset.copiar); });
+      });
+    });
   }
 
   function renderClientes() {
+    renderPendentes();
     var ativos = clientes.filter(function (c) { return c.status === 'ativo'; });
     var mrr = ativos.filter(function (c) { return c.cobranca === 'mensal'; }).reduce(function (a, c) { return a + (Number(c.fee) || 0); }, 0);
     var projetos = ativos.filter(function (c) { return c.cobranca === 'projeto'; }).reduce(function (a, c) { return a + (Number(c.fee) || 0); }, 0);
