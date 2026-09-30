@@ -206,6 +206,21 @@ function limparColunasVazias_(aba) {
 /* Clientes                                                            */
 /* ------------------------------------------------------------------ */
 
+/* Garante que todas as colunas esperadas existam, sem mexer nas que já têm dados:
+   colunas novas entram no fim. Leitura e escrita usam o cabeçalho real. */
+function garantirColunas_(aba, esperadas) {
+  var cab = aba.getLastColumn() ? aba.getRange(1, 1, 1, aba.getLastColumn()).getValues()[0] : [];
+  cab = cab.map(function (c) { return String(c).trim(); });
+  esperadas.forEach(function (c) {
+    if (cab.indexOf(c) === -1) {
+      cab.push(c);
+      aba.getRange(1, cab.length).setValue(c).setFontWeight('bold')
+        .setBackground(CSAT_COL.texto).setFontColor('#ffffff');
+    }
+  });
+  return cab;
+}
+
 function abaClientes_() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var aba = ss.getSheetByName(ABA_CLIENTES);
@@ -229,11 +244,12 @@ function abaClientes_() {
 
 function lerClientes_() {
   var aba = abaClientes_();
+  var cab = garantirColunas_(aba, CLIENTE_COLS);
   if (aba.getLastRow() < 2) return [];
-  var vals = aba.getRange(2, 1, aba.getLastRow() - 1, CLIENTE_COLS.length).getValues();
+  var vals = aba.getRange(2, 1, aba.getLastRow() - 1, cab.length).getValues();
   return vals.filter(function (r) { return r[0]; }).map(function (r) {
     var o = {};
-    CLIENTE_COLS.forEach(function (c, i) {
+    cab.forEach(function (c, i) {
       var v = r[i];
       if (v instanceof Date) v = Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd');
       o[c] = v === null ? '' : v;
@@ -245,6 +261,7 @@ function lerClientes_() {
 function salvarCliente_(c) {
   if (!c.nome || !String(c.nome).trim()) return { ok: false, erro: 'nome obrigatório' };
   var aba = abaClientes_();
+  var cab = garantirColunas_(aba, CLIENTE_COLS);
   var agora = new Date();
   var linha = -1;
   if (c.id) {
@@ -252,15 +269,15 @@ function salvarCliente_(c) {
     for (var i = 0; i < ids.length; i++) if (String(ids[i][0]) === String(c.id)) { linha = i + 2; break; }
   }
   if (linha < 0) { c.id = 'c_' + agora.getTime().toString(36); c.criado_em = agora; }
-  else { c.criado_em = aba.getRange(linha, CLIENTE_COLS.indexOf('criado_em') + 1).getValue() || agora; }
+  else { c.criado_em = aba.getRange(linha, cab.indexOf('criado_em') + 1).getValue() || agora; }
   c.atualizado_em = agora;
 
-  var valores = CLIENTE_COLS.map(function (col) {
+  var valores = cab.map(function (col) {
     var v = c[col];
     if (v === undefined || v === null) return '';
     if (['inicio', 'encerramento'].indexOf(col) > -1) return v ? paraData_(v) : '';
     if (col === 'fee') return v === '' ? '' : Number(v);
-    if (col === 'renovacao_meses' || col === 'dia_csat') return v === '' ? '' : Number(v);
+    if (['renovacao_meses', 'dia_csat', 'quota_mensal'].indexOf(col) > -1) return v === '' ? '' : Number(v);
     if (Array.isArray(v)) return v.join('|');
     return v;
   });
@@ -381,11 +398,12 @@ function abaDemandas_() {
 
 function lerDemandas_() {
   var aba = abaDemandas_();
+  var cab = garantirColunas_(aba, DEMANDA_COLS);
   if (aba.getLastRow() < 2) return [];
-  var vals = aba.getRange(2, 1, aba.getLastRow() - 1, DEMANDA_COLS.length).getValues();
+  var vals = aba.getRange(2, 1, aba.getLastRow() - 1, cab.length).getValues();
   return vals.filter(function (r) { return r[0]; }).map(function (r) {
     var o = {};
-    DEMANDA_COLS.forEach(function (c, i) {
+    cab.forEach(function (c, i) {
       var v = r[i];
       if (v instanceof Date) v = Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd');
       o[c] = v === null ? '' : v;
@@ -404,15 +422,16 @@ function linhaDemanda_(aba, id) {
 function salvarDemanda_(d) {
   if (!d.titulo || !String(d.titulo).trim()) return { ok: false, erro: 'título obrigatório' };
   var aba = abaDemandas_();
+  var cab = garantirColunas_(aba, DEMANDA_COLS);
   var agora = new Date();
   var linha = d.id ? linhaDemanda_(aba, d.id) : -1;
   if (linha < 0) { d.id = 'd_' + agora.getTime().toString(36) + Math.floor(Math.random() * 100); d.criado_em = agora; }
-  else { d.criado_em = aba.getRange(linha, DEMANDA_COLS.indexOf('criado_em') + 1).getValue() || agora; }
+  else { d.criado_em = aba.getRange(linha, cab.indexOf('criado_em') + 1).getValue() || agora; }
   d.atualizado_em = agora;
   if (d.status === 'concluido' && !d.concluido_em) d.concluido_em = agora;
   if (d.status !== 'concluido') d.concluido_em = '';
 
-  var valores = DEMANDA_COLS.map(function (col) {
+  var valores = cab.map(function (col) {
     var v = d[col];
     if (v === undefined || v === null) return '';
     if (['prazo', 'criado_em', 'atualizado_em', 'concluido_em'].indexOf(col) > -1) return v ? paraData_(v) : '';
@@ -424,12 +443,13 @@ function salvarDemanda_(d) {
 
 function statusDemanda_(id, status) {
   var aba = abaDemandas_();
+  var cab = garantirColunas_(aba, DEMANDA_COLS);
   var linha = linhaDemanda_(aba, id);
   if (linha < 0) return { ok: false, erro: 'não encontrada' };
   var agora = new Date();
-  aba.getRange(linha, DEMANDA_COLS.indexOf('status') + 1).setValue(status);
-  aba.getRange(linha, DEMANDA_COLS.indexOf('atualizado_em') + 1).setValue(agora);
-  aba.getRange(linha, DEMANDA_COLS.indexOf('concluido_em') + 1).setValue(status === 'concluido' ? agora : '');
+  aba.getRange(linha, cab.indexOf('status') + 1).setValue(status);
+  aba.getRange(linha, cab.indexOf('atualizado_em') + 1).setValue(agora);
+  aba.getRange(linha, cab.indexOf('concluido_em') + 1).setValue(status === 'concluido' ? agora : '');
   return { ok: true, demanda: lerDemandas_().filter(function (x) { return x.id === id; })[0] };
 }
 
