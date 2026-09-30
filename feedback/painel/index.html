@@ -359,7 +359,7 @@
             </button>
             <a class="btn btn-outline" id="g-whats" target="_blank" rel="noopener">Enviar no WhatsApp</a>
           </div>
-          <p class="muted small" style="margin:0">Para mudar as perguntas, edite a aba <b>Perguntas</b> da planilha. O formulário lê de lá.</p>
+          <p class="muted small" style="margin:0">Para mudar as perguntas, edite a tabela <b>perguntas</b> no Supabase (Table Editor). O formulário lê de lá.</p>
         </div>
       </section>
     </div>
@@ -481,78 +481,132 @@
   </dialog>
 </div>
 
+<script src="/assets/vendor/supabase.js"></script>
 <script>
-  var API = 'https://script.google.com/macros/s/AKfycbxBc4fYIdABxsdt4ftsEAmSQPuqIlDbpTTJQR4uq2-AJK6bH_fRJFszSFspCL90UxNY/exec';
+  /* Chave "publishable": pública por desenho. O que protege os dados são as regras RLS do banco
+     (só o e-mail do dono, autenticado, lê e altera). */
+  var SB_URL = 'https://qgyiuhdyqaxpqhkzgbmq.supabase.co';
+  var SB_KEY = 'sb_publishable_itIfz5BmcGJ0eUqBO3G5Pg_dQGu0NjJ';
+  var sb = window.supabase.createClient(SB_URL, SB_KEY, { auth: { persistSession: true, autoRefreshToken: true } });
   var SITE = 'https://orafaelgarces.com.br';
 
   var dados = [];          // respostas (linhas)
   var clientes = [];       // cadastro (aba Clientes)
   var demandas = [];       // central de demandas (aba Demandas)
   var tiposPorTexto = {};  // texto da pergunta -> tipo (csat/nps/texto/...)
-  var token = null;
-  try { token = localStorage.getItem('csat_token'); } catch (e) {}
 
   var $ = function (id) { return document.getElementById(id); };
   var fmt1 = function (n) { return n == null ? '—' : (Math.round(n * 10) / 10).toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }); };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var classeNota = function (v, max) { var p = v / max; return p < 0.6 ? 'bad' : p < 0.8 ? 'warn' : ''; };
 
+  /* ---------- Banco: conversão entre linhas do Supabase e o formato que a tela usa ---------- */
+  var ROTULO_SERVICO = { site: 'Site', marca: 'Marca', design: 'Design recorrente' };
+  var vazioParaNull = function (v) { return (v === '' || v === undefined) ? null : v; };
+  var numOuNull = function (v) { return (v === '' || v == null) ? null : Number(v); };
+  function nullParaVazio(o) { var r = {}; Object.keys(o).forEach(function (k) { r[k] = o[k] === null ? '' : o[k]; }); return r; }
+
+  function deLinhaResposta(r) {
+    var o = { _id: r.id, 'Data': r.created_at, 'Serviço': ROTULO_SERVICO[r.servico] || r.servico, 'Cliente': r.cliente, 'Nome': r.nome };
+    if (r.mes_ref) o['Mês de referência'] = r.mes_ref;
+    Object.keys(r.dados || {}).forEach(function (k) { o[k] = r.dados[k]; });
+    if (r.media_csat != null) o['Média CSAT'] = Number(r.media_csat);
+    if (r.nps != null) o['NPS'] = Number(r.nps);
+    return o;
+  }
+  function deLinhaCliente(c) { var o = nullParaVazio(c); o.servicos = (c.servicos || []).join('|'); o.criado_em = c.created_at; o.atualizado_em = c.updated_at; return o; }
+  function paraLinhaCliente(c) {
+    var o = { nome: c.nome, servicos: c.servicos || [], cobranca: c.cobranca || 'mensal', status: c.status || 'ativo' };
+    ['fee', 'renovacao_meses', 'dia_csat', 'quota_mensal'].forEach(function (k) { o[k] = numOuNull(c[k]); });
+    ['inicio', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'origem', 'segmento', 'obs'].forEach(function (k) { o[k] = vazioParaNull(c[k]); });
+    return o;
+  }
+  function deLinhaDemanda(d) { var o = nullParaVazio(d); o.criado_em = d.created_at; return o; }
+  function paraLinhaDemanda(d) {
+    return { cliente_id: vazioParaNull(d.cliente_id), titulo: d.titulo, tipo: vazioParaNull(d.tipo), status: d.status || 'backlog',
+      prioridade: d.prioridade || 'normal', prazo: vazioParaNull(d.prazo), mes_ref: vazioParaNull(d.mes_ref), obs: vazioParaNull(d.obs),
+      concluido_em: d.status === 'concluido' ? (d.concluido_em || new Date().toISOString()) : null };
+  }
+  function ok(res) { if (res.error) throw new Error(res.error.message || 'erro'); return res; }
+
+  /* Mesma interface que a tela já usava: api({acao, ...}) */
+  function api(body) {
+    switch (body.acao) {
+      case 'cliente_salvar': {
+        var c = body.cliente, row = paraLinhaCliente(c);
+        var q = c.id ? sb.from('clientes').update(row).eq('id', c.id) : sb.from('clientes').insert(row);
+        return q.select().single().then(ok).then(function (r) { return { ok: true, cliente: deLinhaCliente(r.data) }; });
+      }
+      case 'cliente_excluir':
+        return sb.from('clientes').delete().eq('id', body.id).then(ok).then(function () { return { ok: true }; });
+      case 'demanda_salvar': {
+        var d = body.demanda, rowD = paraLinhaDemanda(d);
+        var qd = d.id ? sb.from('demandas').update(rowD).eq('id', d.id) : sb.from('demandas').insert(rowD);
+        return qd.select().single().then(ok).then(function (r) { return { ok: true, demanda: deLinhaDemanda(r.data) }; });
+      }
+      case 'demanda_status':
+        return sb.from('demandas').update({ status: body.status, concluido_em: body.status === 'concluido' ? new Date().toISOString() : null })
+          .eq('id', body.id).select().single().then(ok).then(function (r) { return { ok: true, demanda: deLinhaDemanda(r.data) }; });
+      case 'demanda_excluir':
+        return sb.from('demandas').delete().eq('id', body.id).then(ok).then(function () { return { ok: true }; });
+      case 'excluir':
+        return sb.from('respostas').delete().eq('id', body.id).then(ok).then(function () { return { ok: true }; });
+    }
+    return Promise.reject(new Error('ação desconhecida'));
+  }
+
   /* ---------- Acesso ---------- */
+  function mostrarGate(msg) {
+    $('gate').hidden = false; $('painel').hidden = true; $('top-actions').hidden = true;
+    var ge = $('gate-error');
+    if (msg) { ge.hidden = false; ge.textContent = msg; } else ge.hidden = true;
+  }
+
   function carregar() {
     $('btn-refresh').disabled = true;
-    return fetch(API + '?acao=respostas&token=' + encodeURIComponent(token) + '&_=' + Date.now(), { redirect: 'follow' })
-      .then(function (r) { return r.text().then(function (t) { return { status: r.status, text: t }; }); })
-      .then(function (res) {
-        var j;
-        try { j = JSON.parse(res.text); }
-        catch (e) {
-          var trecho = res.text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 220);
-          throw new Error('resposta inválida (HTTP ' + res.status + '): ' + trecho);
-        }
-        if (!j.ok) throw new Error(j.erro || 'erro');
-        dados = j.respostas || [];
-        clientes = j.clientes || [];
-        demandas = j.demandas || [];
-        tiposPorTexto = {};
-        Object.keys(j.perguntas || {}).forEach(function (s) {
-          (j.perguntas[s] || []).forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; });
-        });
-        try { localStorage.setItem('csat_token', token); } catch (e) {}
-        $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
-        popularClientes(); renderTudo(); renderClientes(); renderDemandas();
-      })
-      .catch(function (err) {
-        $('gate').hidden = false; $('painel').hidden = true; $('top-actions').hidden = true;
-        var ge = $('gate-error'); ge.hidden = false;
-        ge.textContent = /acesso negado/.test(err.message) ? 'Sessão expirada. Entre de novo.' : 'Não consegui carregar a planilha. Detalhe: ' + err.message;
-      })
-      .finally(function () { $('btn-refresh').disabled = false; });
+    return Promise.all([
+      sb.from('respostas').select('*').order('created_at', { ascending: false }).limit(5000),
+      sb.from('perguntas').select('servico,tipo,texto'),
+      sb.from('clientes').select('*'),
+      sb.from('demandas').select('*')
+    ]).then(function (rs) {
+      rs.forEach(ok);
+      dados = rs[0].data.map(deLinhaResposta);
+      tiposPorTexto = {};
+      rs[1].data.forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; });
+      clientes = rs[2].data.map(deLinhaCliente);
+      demandas = rs[3].data.map(deLinhaDemanda);
+      $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
+      popularClientes(); renderTudo(); renderClientes(); renderDemandas();
+    }).catch(function (err) {
+      mostrarGate(/jwt|token|expired/i.test(err.message) ? 'Sessão expirada. Entre de novo.' : 'Não consegui carregar os dados. Detalhe: ' + err.message);
+    }).finally(function () { $('btn-refresh').disabled = false; });
   }
+
   $('gate-form').addEventListener('submit', function (e) {
     e.preventDefault();
     var ge = $('gate-error'); ge.hidden = true;
     var btn = $('gate-btn'); btn.disabled = true; btn.textContent = 'Entrando…';
-    fetch(API, { method: 'POST', redirect: 'follow', body: JSON.stringify({ acao: 'login', email: $('email').value, senha: $('senha').value }) })
-      .then(function (r) { return r.json(); })
-      .then(function (j) {
-        if (!j.ok) throw new Error(j.erro || 'erro');
-        token = j.token;
+    sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('senha').value })
+      .then(function (res) {
+        if (res.error) throw res.error;
         try { localStorage.setItem('csat_email', $('email').value.trim()); } catch (e2) {}
         $('senha').value = '';
-        carregar();
+        return carregar();
       })
       .catch(function (err) {
-        ge.hidden = false;
-        ge.textContent = /incorretos/.test(err.message) ? 'E-mail ou senha incorretos.'
-          : /não configurado/.test(err.message) ? 'Acesso ainda não configurado na planilha (aba Config).'
-          : 'Não consegui entrar agora: ' + err.message;
+        mostrarGate(/invalid login|credentials/i.test(err.message) ? 'E-mail ou senha incorretos.' : 'Não consegui entrar agora: ' + err.message);
       })
       .finally(function () { btn.disabled = false; btn.textContent = 'Entrar'; });
   });
   $('btn-refresh').addEventListener('click', carregar);
-  $('btn-sair').addEventListener('click', function () { try { localStorage.removeItem('csat_token'); } catch (e) {} location.reload(); });
+  $('btn-sair').addEventListener('click', function () { sb.auth.signOut().then(function () { location.reload(); }); });
   try { $('email').value = localStorage.getItem('csat_email') || ''; } catch (e) {}
-  if (token) carregar(); else if ($('email').value) $('senha').focus(); else $('email').focus();
+  /* Sessão guardada no navegador: entra direto, sem pedir senha de novo */
+  sb.auth.getSession().then(function (res) {
+    if (res.data && res.data.session) carregar();
+    else if ($('email').value) $('senha').focus(); else $('email').focus();
+  });
 
   /* ---------- Filtros ---------- */
   function popularClientes() {
@@ -673,30 +727,25 @@
         (typeof r['Média CSAT'] === 'number' ? '<span class="score ' + classeNota(r['Média CSAT'], 5) + '">' + fmt1(r['Média CSAT']) + '</span>' : '') +
         (typeof r['NPS'] === 'number' ? '<span class="note">NPS <b>' + r['NPS'] + '</b></span>' : '') +
         '<span class="when">' + dataCurta(r['Data']) + '</span>' +
-        '<button type="button" class="del" data-data="' + esc(r['Data']) + '" title="Excluir esta resposta da planilha">Excluir</button></div>';
+        '<button type="button" class="del" data-id="' + esc(r._id) + '" title="Excluir esta resposta">Excluir</button></div>';
       return '<article class="resp">' + head + (notas ? '<div class="resp-notes">' + notas + '</div>' : '') + textos + '</article>';
     }).join('') : '<p class="empty">Nenhuma resposta no filtro.</p>';
     $('respostas').querySelectorAll('.del').forEach(function (b) { b.addEventListener('click', excluir); });
   }
 
   function excluir(ev) {
-    var btn = ev.currentTarget, iso = btn.getAttribute('data-data');
-    var r = dados.filter(function (x) { return x['Data'] === iso; })[0];
+    var btn = ev.currentTarget, id = btn.getAttribute('data-id');
+    var r = dados.filter(function (x) { return x._id === id; })[0];
     var quem = r ? (r['Cliente'] || '') + (r['Nome'] ? ' · ' + r['Nome'] : '') : '';
-    if (!confirm('Excluir a resposta de ' + quem + ' (' + dataCurta(iso) + ')? Ela sai da planilha e não volta.')) return;
+    if (!confirm('Excluir a resposta de ' + quem + (r ? ' (' + dataCurta(r['Data']) + ')' : '') + '? Ela sai do banco e não volta.')) return;
     btn.disabled = true; btn.textContent = 'Excluindo…'; btn.closest('.resp').classList.add('is-removing');
-    /* text/plain evita preflight; o Apps Script redireciona e a resposta final permite CORS */
-    fetch(API, { method: 'POST', redirect: 'follow', body: JSON.stringify({ acao: 'excluir', token: token, data: iso }) })
-      .then(function (res) { return res.json(); })
-      .then(function (j) {
-        if (!j.ok) throw new Error(j.erro || 'erro');
-        dados = dados.filter(function (x) { return x['Data'] !== iso; });
-        popularClientes(); renderTudo();
-      })
-      .catch(function (err) {
-        btn.disabled = false; btn.textContent = 'Excluir'; btn.closest('.resp').classList.remove('is-removing');
-        alert('Não consegui excluir: ' + err.message + '\nSe você acabou de atualizar o script, confira se fez "Nova versão" na implantação.');
-      });
+    api({ acao: 'excluir', id: id }).then(function () {
+      dados = dados.filter(function (x) { return x._id !== id; });
+      popularClientes(); renderTudo(); renderClientes();
+    }).catch(function (err) {
+      btn.disabled = false; btn.textContent = 'Excluir'; btn.closest('.resp').classList.remove('is-removing');
+      alert('Não consegui excluir: ' + err.message);
+    });
   }
 
   /* ---------- Gerador de link ---------- */
@@ -868,18 +917,11 @@
   });
 
   function excluirCliente(c) {
-    if (!confirm('Excluir ' + c.nome + ' do cadastro? As respostas de CSAT dele continuam na planilha.\nSe o contrato só terminou, prefira Editar → Status: Encerrado.')) return;
+    if (!confirm('Excluir ' + c.nome + ' do cadastro? As respostas de CSAT dele continuam no banco.\nSe o contrato só terminou, prefira Editar → Status: Encerrado.')) return;
     api({ acao: 'cliente_excluir', id: c.id }).then(function () {
       clientes = clientes.filter(function (x) { return x.id !== c.id; });
       popularClientes(); renderClientes();
     }).catch(function (err) { alert('Não consegui excluir: ' + err.message); });
-  }
-
-  function api(body) {
-    body.token = token;
-    return fetch(API, { method: 'POST', redirect: 'follow', body: JSON.stringify(body) })
-      .then(function (r) { return r.json(); })
-      .then(function (j) { if (!j.ok) throw new Error(j.erro || 'erro'); return j; });
   }
 
   /* ---------- Demandas ---------- */
@@ -1033,6 +1075,7 @@
   /* ---------- Utilidades ---------- */
   /* A planilha converte "09/2026" em data; devolve sempre MM/AAAA */
   function mesRef(v) {
+    if (typeof v === 'string' && /^\d{4}-\d{2}$/.test(v)) return v.slice(5) + '/' + v.slice(0, 4);
     var d = new Date(v);
     if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(v) && !isNaN(d)) return String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + d.getUTCFullYear();
     return v;
