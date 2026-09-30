@@ -6,6 +6,7 @@
  *  - Perguntas: configuração dos formulários (edite aqui, sem código).
  *  - Config:    código de acesso do painel (B1).
  *  - Clientes:  cadastro de clientes (gerido pelo painel; criada sozinha no primeiro uso).
+ *  - Demandas:  central de demandas por cliente (idem).
  *
  * Instalação / atualização:
  *  1. Cole este arquivo no editor do Apps Script (substituindo o anterior) e salve.
@@ -18,8 +19,11 @@ var ABA_RESPOSTAS = 'Respostas';
 var ABA_PERGUNTAS = 'Perguntas';
 var ABA_CONFIG = 'Config';
 var ABA_CLIENTES = 'Clientes';
+var ABA_DEMANDAS = 'Demandas';
 var CLIENTE_COLS = ['id', 'nome', 'servicos', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento',
-  'stakeholder', 'whatsapp', 'email', 'dia_csat', 'origem', 'segmento', 'obs', 'criado_em', 'atualizado_em'];
+  'stakeholder', 'whatsapp', 'email', 'dia_csat', 'quota_mensal', 'origem', 'segmento', 'obs', 'criado_em', 'atualizado_em'];
+var DEMANDA_COLS = ['id', 'cliente_id', 'titulo', 'tipo', 'status', 'prioridade', 'prazo', 'mes_ref',
+  'obs', 'criado_em', 'atualizado_em', 'concluido_em'];
 
 var CSAT_COL = { fundo: '#f5f5f7', destaque: '#ddff22', texto: '#131720' };
 
@@ -42,6 +46,9 @@ function doPost(e) {
       if (dados.acao === 'excluir') return json_(excluirResposta_(dados.data));
       if (dados.acao === 'cliente_salvar') return json_(salvarCliente_(dados.cliente || {}));
       if (dados.acao === 'cliente_excluir') return json_(excluirCliente_(dados.id));
+      if (dados.acao === 'demanda_salvar') return json_(salvarDemanda_(dados.demanda || {}));
+      if (dados.acao === 'demanda_excluir') return json_(excluirDemanda_(dados.id));
+      if (dados.acao === 'demanda_status') return json_(statusDemanda_(dados.id, dados.status));
       return json_({ ok: false, erro: 'ação desconhecida' });
     }
 
@@ -76,7 +83,7 @@ function doGet(e) {
 
   if (acao === 'respostas') {
     if (!tokenValido_(p.token)) return json_({ ok: false, erro: 'acesso negado' });
-    return json_({ ok: true, respostas: lerRespostas_(), perguntas: lerPerguntas_(), clientes: lerClientes_() });
+    return json_({ ok: true, respostas: lerRespostas_(), perguntas: lerPerguntas_(), clientes: lerClientes_(), demandas: lerDemandas_() });
   }
 
   return ContentService.createTextOutput('CSAT: endpoint ativo.');
@@ -349,6 +356,89 @@ function abaRespostas_() {
 
 function lerCabecalho_(aba) {
   return aba.getLastColumn() ? aba.getRange(1, 1, 1, aba.getLastColumn()).getValues()[0].filter(String) : [];
+}
+
+/* ------------------------------------------------------------------ */
+/* Demandas                                                            */
+/* ------------------------------------------------------------------ */
+
+function abaDemandas_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var aba = ss.getSheetByName(ABA_DEMANDAS);
+  if (!aba) {
+    aba = ss.insertSheet(ABA_DEMANDAS);
+    aba.getRange(1, 1, 1, DEMANDA_COLS.length).setValues([DEMANDA_COLS])
+      .setFontWeight('bold').setBackground(CSAT_COL.texto).setFontColor('#ffffff');
+    aba.setFrozenRows(1);
+    aba.setColumnWidth(DEMANDA_COLS.indexOf('titulo') + 1, 280);
+    aba.setColumnWidth(DEMANDA_COLS.indexOf('obs') + 1, 300);
+    ['prazo', 'criado_em', 'atualizado_em', 'concluido_em'].forEach(function (c) {
+      aba.getRange(2, DEMANDA_COLS.indexOf(c) + 1, 1000, 1).setNumberFormat('dd/mm/yyyy');
+    });
+  }
+  return aba;
+}
+
+function lerDemandas_() {
+  var aba = abaDemandas_();
+  if (aba.getLastRow() < 2) return [];
+  var vals = aba.getRange(2, 1, aba.getLastRow() - 1, DEMANDA_COLS.length).getValues();
+  return vals.filter(function (r) { return r[0]; }).map(function (r) {
+    var o = {};
+    DEMANDA_COLS.forEach(function (c, i) {
+      var v = r[i];
+      if (v instanceof Date) v = Utilities.formatDate(v, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+      o[c] = v === null ? '' : v;
+    });
+    return o;
+  });
+}
+
+function linhaDemanda_(aba, id) {
+  if (aba.getLastRow() < 2) return -1;
+  var ids = aba.getRange(2, 1, aba.getLastRow() - 1, 1).getValues();
+  for (var i = 0; i < ids.length; i++) if (String(ids[i][0]) === String(id)) return i + 2;
+  return -1;
+}
+
+function salvarDemanda_(d) {
+  if (!d.titulo || !String(d.titulo).trim()) return { ok: false, erro: 'título obrigatório' };
+  var aba = abaDemandas_();
+  var agora = new Date();
+  var linha = d.id ? linhaDemanda_(aba, d.id) : -1;
+  if (linha < 0) { d.id = 'd_' + agora.getTime().toString(36) + Math.floor(Math.random() * 100); d.criado_em = agora; }
+  else { d.criado_em = aba.getRange(linha, DEMANDA_COLS.indexOf('criado_em') + 1).getValue() || agora; }
+  d.atualizado_em = agora;
+  if (d.status === 'concluido' && !d.concluido_em) d.concluido_em = agora;
+  if (d.status !== 'concluido') d.concluido_em = '';
+
+  var valores = DEMANDA_COLS.map(function (col) {
+    var v = d[col];
+    if (v === undefined || v === null) return '';
+    if (['prazo', 'criado_em', 'atualizado_em', 'concluido_em'].indexOf(col) > -1) return v ? paraData_(v) : '';
+    return v;
+  });
+  if (linha < 0) aba.appendRow(valores); else aba.getRange(linha, 1, 1, valores.length).setValues([valores]);
+  return { ok: true, demanda: lerDemandas_().filter(function (x) { return x.id === d.id; })[0] };
+}
+
+function statusDemanda_(id, status) {
+  var aba = abaDemandas_();
+  var linha = linhaDemanda_(aba, id);
+  if (linha < 0) return { ok: false, erro: 'não encontrada' };
+  var agora = new Date();
+  aba.getRange(linha, DEMANDA_COLS.indexOf('status') + 1).setValue(status);
+  aba.getRange(linha, DEMANDA_COLS.indexOf('atualizado_em') + 1).setValue(agora);
+  aba.getRange(linha, DEMANDA_COLS.indexOf('concluido_em') + 1).setValue(status === 'concluido' ? agora : '');
+  return { ok: true, demanda: lerDemandas_().filter(function (x) { return x.id === id; })[0] };
+}
+
+function excluirDemanda_(id) {
+  var aba = abaDemandas_();
+  var linha = linhaDemanda_(aba, id);
+  if (linha < 0) return { ok: false, erro: 'não encontrada' };
+  aba.deleteRow(linha);
+  return { ok: true };
 }
 
 /* ------------------------------------------------------------------ */

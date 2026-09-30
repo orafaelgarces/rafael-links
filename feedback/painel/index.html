@@ -197,6 +197,30 @@
   .x svg { width: 18px; height: 18px; }
   @media (hover: hover) and (pointer: fine) { .x:hover { background: var(--paper-raised-hover); color: var(--ink); } }
 
+  /* Demandas */
+  .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; align-items: start; }
+  @media (max-width: 1080px) { .board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .board { grid-template-columns: 1fr; } }
+  .col-d { background: var(--paper-raised); border: 1px solid var(--border); border-radius: 20px; padding: 14px; min-height: 120px; }
+  .col-d > h3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 12px; font-size: var(--text-meta); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
+  .col-d > h3 b { font-size: var(--text-label); font-weight: 700; color: var(--ink); background: var(--paper-raised-hover); border-radius: 999px; padding: 2px 8px; font-variant-numeric: tabular-nums; }
+  .dcard { border: 1px solid var(--border); border-radius: 14px; padding: 12px; background: var(--paper); margin-bottom: 10px; animation: rise 0.28s var(--ease-out) both; }
+  .dcard:last-child { margin-bottom: 0; }
+  .dcard .t { font-weight: 600; font-size: var(--text-meta); line-height: 1.35; }
+  .dcard .m { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
+  .dcard .who { font-size: var(--text-label); color: var(--ink-soft); }
+  .tag { font-size: var(--text-label); font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--paper-raised-hover); color: var(--ink-soft); }
+  .tag.alta { background: #fde2e1; color: #8a1c1c; } .tag.baixa { opacity: 0.7; }
+  .tag.prazo.hoje { background: #fdf1d2; color: #7a4d00; } .tag.prazo.atrasado { background: #fde2e1; color: #8a1c1c; }
+  .dcard .acts { display: flex; gap: 4px; margin-top: 10px; }
+  .dcard .acts button { flex: none; background: transparent; border: 1px solid var(--border); border-radius: 999px; padding: 4px 10px; font-size: var(--text-label); font-weight: 600; color: var(--ink-soft); cursor: pointer; transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out), transform 0.16s var(--ease-out); }
+  .dcard .acts button:active { transform: scale(0.95); }
+  .dcard .acts .go { margin-left: auto; color: var(--ink); }
+  @media (hover: hover) and (pointer: fine) { .dcard .acts button:hover { background: var(--paper-raised-hover); color: var(--ink); } }
+  .quota { display: grid; gap: 4px; min-width: 120px; }
+  .quota .track { height: 6px; border-radius: 999px; background: var(--paper-raised-hover); overflow: hidden; }
+  .quota .fill { height: 100%; background: var(--accent-gradient); transform-origin: left; transform: scaleX(var(--p)); transition: transform 0.5s var(--ease-out); }
+
   .enter { animation: rise 0.32s var(--ease-out) both; }
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
   @media (prefers-reduced-motion: reduce) { .enter { animation: none; } .bar .fill { transition: none; } }
@@ -242,6 +266,7 @@
     <div class="tabs" role="tablist" aria-label="Seções do painel">
       <button class="tab" role="tab" id="tab-geral" aria-selected="true" aria-controls="view-geral" type="button">Visão geral</button>
       <button class="tab" role="tab" id="tab-clientes" aria-selected="false" aria-controls="view-clientes" type="button">Clientes<span class="count" id="tab-clientes-count"></span></button>
+      <button class="tab" role="tab" id="tab-demandas" aria-selected="false" aria-controls="view-demandas" type="button">Demandas<span class="count" id="tab-demandas-count"></span></button>
     </div>
 
     <section id="view-geral" role="tabpanel" aria-labelledby="tab-geral">
@@ -362,7 +387,53 @@
         <div id="clientes"></div>
       </section>
     </section>
+
+    <!-- Demandas -->
+    <section id="view-demandas" role="tabpanel" aria-labelledby="tab-demandas" hidden>
+      <div class="grid grid-kpi" id="kpis-demandas"></div>
+      <div class="clients-head" style="margin:16px 0">
+        <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+          <select class="input" id="d-cliente" style="width:auto"><option value="">Todos os clientes</option></select>
+          <select class="input" id="d-mes" style="width:auto"><option value="">Todos os meses</option></select>
+        </div>
+        <button class="btn" type="button" id="btn-nova-demanda">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          Nova demanda
+        </button>
+      </div>
+      <div class="board" id="board"></div>
+    </section>
   </main>
+
+  <!-- Demanda -->
+  <dialog id="modal-d">
+    <form id="form-demanda" method="dialog">
+      <div class="modal-head">
+        <h2 id="modal-d-title">Nova demanda</h2>
+        <button class="x" type="button" id="modal-d-close" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" name="id">
+        <div class="modal-grid">
+          <div class="field full"><label for="d-titulo">O que precisa ser feito *</label><input class="input" id="d-titulo" name="titulo" required placeholder="Ex.: Carrossel sobre pós-operatório"></div>
+          <div class="field"><label for="d-cli">Cliente</label><select class="input" id="d-cli" name="cliente_id"></select></div>
+          <div class="field"><label for="d-tipo">Tipo</label><input class="input" id="d-tipo" name="tipo" list="tipos" placeholder="Post, carrossel, story…"><datalist id="tipos"><option value="Post"><option value="Carrossel"><option value="Story"><option value="Reels"><option value="Capa"><option value="Landing page"><option value="Logo"><option value="Identidade"><option value="Apresentação"><option value="Edição de vídeo"></datalist></div>
+          <div class="field"><label for="d-status">Status</label>
+            <select class="input" id="d-status" name="status"><option value="backlog">A fazer</option><option value="producao">Em produção</option><option value="aprovacao">Com o cliente</option><option value="concluido">Concluído</option></select></div>
+          <div class="field"><label for="d-prio">Prioridade</label>
+            <select class="input" id="d-prio" name="prioridade"><option value="normal">Normal</option><option value="alta">Alta</option><option value="baixa">Baixa</option></select></div>
+          <div class="field"><label for="d-prazo">Prazo</label><input class="input" id="d-prazo" name="prazo" type="date"></div>
+          <div class="field"><label for="d-mesref">Mês de referência</label><input class="input" id="d-mesref" name="mes_ref" type="month"></div>
+          <div class="field full"><label for="d-obs">Observações</label><textarea class="input" id="d-obs" name="obs" placeholder="Briefing, links, referências"></textarea></div>
+        </div>
+        <p class="error" id="modal-d-error" hidden></p>
+        <div class="modal-foot">
+          <button class="btn btn-outline" type="button" id="modal-d-cancel">Cancelar</button>
+          <button class="btn" type="submit" id="modal-d-save">Salvar</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
 
   <!-- Cadastro / edição de cliente -->
   <dialog id="modal">
@@ -393,6 +464,7 @@
           <div class="field"><label for="c-enc">Encerramento <span class="muted">(se encerrado)</span></label><input class="input" id="c-enc" name="encerramento" type="date"></div>
           <div class="field"><label for="c-stk">Stakeholder</label><input class="input" id="c-stk" name="stakeholder" placeholder="Quem aprova e responde o CSAT"></div>
           <div class="field"><label for="c-dia">Dia de envio do CSAT mensal</label><input class="input" id="c-dia" name="dia_csat" type="number" min="1" max="31" placeholder="Ex.: 25"></div>
+          <div class="field"><label for="c-quota">Entregas por mês <span class="muted">(contrato)</span></label><input class="input" id="c-quota" name="quota_mensal" type="number" min="0" step="1" placeholder="Ex.: 12"></div>
           <div class="field"><label for="c-wa">WhatsApp do stakeholder</label><input class="input" id="c-wa" name="whatsapp" inputmode="tel" placeholder="(98) 9 9999-9999"></div>
           <div class="field"><label for="c-em">E-mail do stakeholder</label><input class="input" id="c-em" name="email" type="email"></div>
           <div class="field"><label for="c-ori">Origem</label><input class="input" id="c-ori" name="origem" list="origens" placeholder="Indicação, Instagram, V4…"><datalist id="origens"><option value="Indicação"><option value="Instagram"><option value="V4 Company"><option value="Prospecção"><option value="Site"></datalist></div>
@@ -415,6 +487,7 @@
 
   var dados = [];          // respostas (linhas)
   var clientes = [];       // cadastro (aba Clientes)
+  var demandas = [];       // central de demandas (aba Demandas)
   var tiposPorTexto = {};  // texto da pergunta -> tipo (csat/nps/texto/...)
   var token = null;
   try { token = localStorage.getItem('csat_token'); } catch (e) {}
@@ -439,13 +512,14 @@
         if (!j.ok) throw new Error(j.erro || 'erro');
         dados = j.respostas || [];
         clientes = j.clientes || [];
+        demandas = j.demandas || [];
         tiposPorTexto = {};
         Object.keys(j.perguntas || {}).forEach(function (s) {
           (j.perguntas[s] || []).forEach(function (q) { tiposPorTexto[q.texto] = q.tipo; });
         });
         try { localStorage.setItem('csat_token', token); } catch (e) {}
         $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
-        popularClientes(); renderTudo(); renderClientes();
+        popularClientes(); renderTudo(); renderClientes(); renderDemandas();
       })
       .catch(function (err) {
         $('gate').hidden = false; $('painel').hidden = true; $('top-actions').hidden = true;
@@ -661,15 +735,17 @@
   (function () { var d = new Date(); $('g-mes').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); montarLink(); })();
 
   /* ---------- Abas ---------- */
+  var ABAS = ['geral', 'clientes', 'demandas'];
   function mostrarAba(id) {
-    var geral = id === 'geral';
-    $('tab-geral').setAttribute('aria-selected', geral); $('tab-clientes').setAttribute('aria-selected', !geral);
-    $('view-geral').hidden = !geral; $('view-clientes').hidden = geral;
+    if (ABAS.indexOf(id) < 0) id = 'geral';
+    ABAS.forEach(function (a) {
+      $('tab-' + a).setAttribute('aria-selected', a === id);
+      $('view-' + a).hidden = a !== id;
+    });
     try { localStorage.setItem('csat_aba', id); } catch (e) {}
   }
-  $('tab-geral').addEventListener('click', function () { mostrarAba('geral'); });
-  $('tab-clientes').addEventListener('click', function () { mostrarAba('clientes'); });
-  try { if (localStorage.getItem('csat_aba') === 'clientes') mostrarAba('clientes'); } catch (e) {}
+  ABAS.forEach(function (a) { $('tab-' + a).addEventListener('click', function () { mostrarAba(a); }); });
+  try { var ab = localStorage.getItem('csat_aba'); if (ab && ab !== 'geral') mostrarAba(ab); } catch (e) {}
 
   /* ---------- Clientes ---------- */
   var SERVICO_NOME = { site: 'Site', marca: 'Marca', design: 'Design recorrente' };
@@ -716,7 +792,8 @@
     $('clientes').innerHTML = lista.length ? lista.map(function (c) {
       var svs = String(c.servicos || '').split('|').filter(Boolean).map(function (s) { return '<span class="pill">' + (SERVICO_NOME[s] || s) + '</span>'; }).join('');
       var prox = proximaRenovacao(c), dias = diasAte(prox);
-      var due = prox ? '<span class="due ' + (dias <= 7 ? 'now' : dias <= 30 ? 'soon' : '') + '">' + prox.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) + (dias <= 30 ? ' · ' + (dias <= 0 ? 'hoje' : dias + ' dias') : '') + '</span>' : '<span class="muted">—</span>';
+      var fmtProx = prox ? prox.toLocaleDateString('pt-BR', prox.getFullYear() === new Date().getFullYear() ? { day: '2-digit', month: 'short' } : { day: '2-digit', month: 'short', year: 'numeric' }) : '';
+      var due = prox ? '<span class="due ' + (dias <= 7 ? 'now' : dias <= 30 ? 'soon' : '') + '">' + fmtProx + (dias <= 30 ? ' · ' + (dias <= 0 ? 'hoje' : dias + ' dias') : '') + '</span>' : '<span class="muted">—</span>';
       var rs = respostasDe(c); var m = mediaCsat(rs);
       var csat = m.media != null ? '<span class="score ' + classeNota(m.media, 5) + '">' + fmt1(m.media) + '</span> <span class="muted small">' + rs.length + ' resp.</span>' : '<span class="muted small">sem feedback</span>';
       var pendente = csatPendente(c) ? ' <span class="due now">CSAT pendente</span>' : '';
@@ -726,7 +803,8 @@
         '<div class="kv"><span>' + (c.cobranca === 'projeto' ? 'Projeto' : 'Fee mensal') + '</span><b>' + fmtBRL(c.fee) + '</b></div>' +
         '<div class="kv"><span>Renovação</span><b>' + due + '</b></div>' +
         '<div class="kv"><span>CSAT</span><b>' + csat + '</b></div>' +
-        '<div class="acts"><button type="button" data-act="link">Link CSAT</button><button type="button" data-act="edit">Editar</button><button type="button" class="danger" data-act="del">Excluir</button></div>' +
+        quotaCell(c) +
+        '<div class="acts"><button type="button" data-act="demandas">Demandas</button><button type="button" data-act="link">Link CSAT</button><button type="button" data-act="edit">Editar</button><button type="button" class="danger" data-act="del">Excluir</button></div>' +
       '</div>';
     }).join('') : '<p class="empty">' + (clientes.length ? 'Nenhum cliente com esse status.' : 'Nenhum cliente cadastrado ainda. Clique em "Novo cliente".') + '</p>';
 
@@ -736,6 +814,7 @@
         if (!c) return;
         if (b.dataset.act === 'edit') abrirModal(c);
         if (b.dataset.act === 'del') excluirCliente(c);
+        if (b.dataset.act === 'demandas') return verDemandasDo(c);
         if (b.dataset.act === 'link') { mostrarAba('geral'); $('g-cad').value = c.id; $('g-cad').dispatchEvent(new Event('change')); $('g-link').scrollIntoView({ behavior: 'smooth', block: 'center' }); }
       });
     });
@@ -749,7 +828,7 @@
     $('modal-title').textContent = c ? 'Editar cliente' : 'Novo cliente';
     formC.id.value = c ? c.id : '';
     if (c) {
-      ['nome', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'origem', 'segmento', 'obs'].forEach(function (k) { if (formC[k]) formC[k].value = c[k] == null ? '' : c[k]; });
+      ['nome', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'quota_mensal', 'origem', 'segmento', 'obs'].forEach(function (k) { if (formC[k]) formC[k].value = c[k] == null ? '' : c[k]; });
       var svs = String(c.servicos || '').split('|');
       formC.querySelectorAll('input[name="servicos"]').forEach(function (i) { i.checked = svs.indexOf(i.value) > -1; });
     } else {
@@ -774,7 +853,7 @@
     e.preventDefault();
     var fd = new FormData(formC);
     var c = {};
-    ['id', 'nome', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'origem', 'segmento', 'obs'].forEach(function (k) { c[k] = (fd.get(k) || '').toString().trim(); });
+    ['id', 'nome', 'cobranca', 'fee', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'quota_mensal', 'origem', 'segmento', 'obs'].forEach(function (k) { c[k] = (fd.get(k) || '').toString().trim(); });
     c.servicos = fd.getAll('servicos');
     if (!c.nome) { $('modal-error').textContent = 'O nome é obrigatório.'; $('modal-error').hidden = false; return; }
     if (c.status === 'encerrado' && !c.encerramento) c.encerramento = new Date().toISOString().slice(0, 10);
@@ -782,7 +861,7 @@
     api({ acao: 'cliente_salvar', cliente: c }).then(function (j) {
       var i = clientes.findIndex(function (x) { return x.id === j.cliente.id; });
       if (i > -1) clientes[i] = j.cliente; else clientes.push(j.cliente);
-      limpoAgora(); modal.close(); popularClientes(); renderClientes(); renderTudo();
+      limpoAgora(); modal.close(); popularClientes(); renderClientes(); renderTudo(); renderDemandas();
     }).catch(function (err) {
       $('modal-error').textContent = 'Não consegui salvar: ' + err.message; $('modal-error').hidden = false;
     }).finally(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
@@ -802,6 +881,154 @@
       .then(function (r) { return r.json(); })
       .then(function (j) { if (!j.ok) throw new Error(j.erro || 'erro'); return j; });
   }
+
+  /* ---------- Demandas ---------- */
+  var COLUNAS = [
+    { id: 'backlog', nome: 'A fazer' },
+    { id: 'producao', nome: 'Em produção' },
+    { id: 'aprovacao', nome: 'Com o cliente' },
+    { id: 'concluido', nome: 'Concluído' }
+  ];
+  var PROXIMO = { backlog: 'producao', producao: 'aprovacao', aprovacao: 'concluido' };
+  function mesAtual() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
+  function nomeCliente(id) { var c = clientes.filter(function (x) { return x.id === id; })[0]; return c ? c.nome : ''; }
+  function mesDeRef(d) { return d.mes_ref || String(d.criado_em || '').slice(0, 7); }
+
+  function quotaCell(c) {
+    var q = Number(c.quota_mensal);
+    if (!q) return '<div class="kv"><span>Entregas/mês</span><b class="muted">—</b></div>';
+    var m = mesAtual();
+    var feitas = demandas.filter(function (d) { return d.cliente_id === c.id && d.status === 'concluido' && mesDeRef(d) === m; }).length;
+    return '<div class="kv"><span>Entregas do mês</span><div class="quota"><b>' + feitas + ' / ' + q + '</b><div class="track"><div class="fill" style="--p:' + Math.min(1, feitas / q) + '"></div></div></div></div>';
+  }
+
+  function demandasFiltradas() {
+    var cli = $('d-cliente').value, mes = $('d-mes').value;
+    return demandas.filter(function (d) {
+      if (cli && d.cliente_id !== cli) return false;
+      if (mes && mesDeRef(d) !== mes) return false;
+      return true;
+    }).sort(function (a, b) {
+      var pa = a.prioridade === 'alta' ? 0 : a.prioridade === 'baixa' ? 2 : 1;
+      var pb = b.prioridade === 'alta' ? 0 : b.prioridade === 'baixa' ? 2 : 1;
+      if (pa !== pb) return pa - pb;
+      return String(a.prazo || '9999').localeCompare(String(b.prazo || '9999'));
+    });
+  }
+
+  function popularFiltrosDemanda() {
+    var ativos = clientes.slice().sort(function (a, b) { return a.nome.localeCompare(b.nome, 'pt-BR'); });
+    var sel = $('d-cliente'), atual = sel.value;
+    sel.innerHTML = '<option value="">Todos os clientes</option>' + ativos.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + '</option>'; }).join('');
+    sel.value = atual;
+    var meses = {}; demandas.forEach(function (d) { var m = mesDeRef(d); if (m) meses[m] = true; });
+    meses[mesAtual()] = true;
+    var lista = Object.keys(meses).sort().reverse();
+    var selM = $('d-mes'), atualM = selM.value;
+    selM.innerHTML = '<option value="">Todos os meses</option>' + lista.map(function (m) { return '<option value="' + m + '">' + mesCurto(m) + '</option>'; }).join('');
+    selM.value = lista.indexOf(atualM) > -1 ? atualM : '';
+    var abertas = demandas.filter(function (d) { return d.status !== 'concluido'; }).length;
+    $('tab-demandas-count').textContent = abertas || '';
+    $('d-cli').innerHTML = '<option value="">Sem cliente</option>' + ativos.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.nome) + '</option>'; }).join('');
+  }
+
+  function renderDemandas() {
+    popularFiltrosDemanda();
+    var hoje = new Date().toISOString().slice(0, 10);
+    var lista = demandasFiltradas();
+    var abertas = lista.filter(function (d) { return d.status !== 'concluido'; });
+    var atrasadas = abertas.filter(function (d) { return d.prazo && d.prazo < hoje; });
+    var m = mesAtual();
+    var noMes = demandas.filter(function (d) { return d.status === 'concluido' && mesDeRef(d) === m; }).length;
+    var cotaTotal = clientes.filter(function (c) { return c.status === 'ativo' && Number(c.quota_mensal); })
+      .reduce(function (a, c) { return a + Number(c.quota_mensal); }, 0);
+    $('kpis-demandas').innerHTML =
+      kpi('Em aberto', abertas.length, abertas.length ? 'no filtro atual' : 'nada pendente', true) +
+      kpi('Atrasadas', atrasadas.length, atrasadas.length ? atrasadas.slice(0, 2).map(function (d) { return esc(d.titulo.slice(0, 22)); }).join(', ') : 'nenhuma passou do prazo', false) +
+      kpi('Concluídas no mês', noMes, cotaTotal ? 'de ' + cotaTotal + ' contratadas' : 'sem cota definida', false) +
+      kpi('Com o cliente', lista.filter(function (d) { return d.status === 'aprovacao'; }).length, 'aguardando aprovação', false);
+
+    $('board').innerHTML = COLUNAS.map(function (col) {
+      var itens = lista.filter(function (d) { return (d.status || 'backlog') === col.id; });
+      return '<section class="col-d"><h3>' + col.nome + '<b>' + itens.length + '</b></h3>' + (itens.length ? itens.map(function (d, i) {
+        var atras = d.prazo && d.prazo < hoje && d.status !== 'concluido';
+        var hj = d.prazo === hoje && d.status !== 'concluido';
+        var prazo = d.prazo ? '<span class="tag prazo ' + (atras ? 'atrasado' : hj ? 'hoje' : '') + '">' + (atras ? 'atrasou ' : '') + dataCurta(d.prazo).replace(/ de \d{4}/, '') + '</span>' : '';
+        var nc = nomeCliente(d.cliente_id);
+        return '<article class="dcard" data-id="' + esc(d.id) + '" style="animation-delay:' + Math.min(i, 6) * 30 + 'ms">' +
+          '<div class="t">' + esc(d.titulo) + '</div>' +
+          '<div class="m">' + (nc ? '<span class="who">' + esc(nc) + '</span>' : '') +
+            (d.tipo ? '<span class="tag">' + esc(d.tipo) + '</span>' : '') +
+            (d.prioridade && d.prioridade !== 'normal' ? '<span class="tag ' + esc(d.prioridade) + '">' + esc(d.prioridade) + '</span>' : '') + prazo + '</div>' +
+          '<div class="acts"><button type="button" data-act="edit">Editar</button><button type="button" data-act="del">Excluir</button>' +
+            (PROXIMO[col.id] ? '<button type="button" class="go" data-act="next">' + (col.id === 'aprovacao' ? 'Concluir' : 'Avançar') + ' →</button>' : '<button type="button" class="go" data-act="back">← Reabrir</button>') +
+          '</div></article>';
+      }).join('') : '<p class="empty" style="padding:8px 0">—</p>') + '</section>';
+    }).join('');
+
+    $('board').querySelectorAll('button[data-act]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = b.closest('.dcard').getAttribute('data-id');
+        var d = demandas.filter(function (x) { return x.id === id; })[0];
+        if (!d) return;
+        if (b.dataset.act === 'edit') return abrirModalD(d);
+        if (b.dataset.act === 'del') return excluirDemanda(d);
+        var novo = b.dataset.act === 'next' ? PROXIMO[d.status || 'backlog'] : 'aprovacao';
+        b.disabled = true;
+        api({ acao: 'demanda_status', id: id, status: novo }).then(function (j) {
+          var i = demandas.findIndex(function (x) { return x.id === id; });
+          if (i > -1) demandas[i] = j.demanda;
+          renderDemandas(); renderClientes();
+        }).catch(function (err) { b.disabled = false; alert('Não consegui atualizar: ' + err.message); });
+      });
+    });
+  }
+  $('d-cliente').addEventListener('change', renderDemandas);
+  $('d-mes').addEventListener('change', renderDemandas);
+
+  var modalD = $('modal-d'), formD = $('form-demanda');
+  function abrirModalD(d) {
+    formD.reset(); $('modal-d-error').hidden = true;
+    $('modal-d-title').textContent = d ? 'Editar demanda' : 'Nova demanda';
+    formD.id.value = d ? d.id : '';
+    if (d) {
+      ['titulo', 'cliente_id', 'tipo', 'status', 'prioridade', 'prazo', 'mes_ref', 'obs'].forEach(function (k) { if (formD[k]) formD[k].value = d[k] == null ? '' : d[k]; });
+    } else {
+      formD.status.value = 'backlog'; formD.prioridade.value = 'normal';
+      formD.mes_ref.value = $('d-mes').value || mesAtual();
+      if ($('d-cliente').value) formD.cliente_id.value = $('d-cliente').value;
+    }
+    modalD.showModal();
+    setTimeout(function () { $('d-titulo').focus(); }, 50);
+  }
+  $('btn-nova-demanda').addEventListener('click', function () { abrirModalD(null); });
+  $('modal-d-close').addEventListener('click', function () { modalD.close(); });
+  $('modal-d-cancel').addEventListener('click', function () { modalD.close(); });
+
+  formD.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var fd = new FormData(formD), d = {};
+    ['id', 'titulo', 'cliente_id', 'tipo', 'status', 'prioridade', 'prazo', 'mes_ref', 'obs'].forEach(function (k) { d[k] = (fd.get(k) || '').toString().trim(); });
+    if (!d.titulo) { $('modal-d-error').textContent = 'Escreva o que precisa ser feito.'; $('modal-d-error').hidden = false; return; }
+    var btn = $('modal-d-save'); btn.disabled = true; btn.textContent = 'Salvando…';
+    api({ acao: 'demanda_salvar', demanda: d }).then(function (j) {
+      var i = demandas.findIndex(function (x) { return x.id === j.demanda.id; });
+      if (i > -1) demandas[i] = j.demanda; else demandas.push(j.demanda);
+      modalD.close(); renderDemandas(); renderClientes();
+    }).catch(function (err) {
+      $('modal-d-error').textContent = 'Não consegui salvar: ' + err.message; $('modal-d-error').hidden = false;
+    }).finally(function () { btn.disabled = false; btn.textContent = 'Salvar'; });
+  });
+
+  function excluirDemanda(d) {
+    if (!confirm('Excluir a demanda "' + d.titulo + '"?')) return;
+    api({ acao: 'demanda_excluir', id: d.id }).then(function () {
+      demandas = demandas.filter(function (x) { return x.id !== d.id; });
+      renderDemandas(); renderClientes();
+    }).catch(function (err) { alert('Não consegui excluir: ' + err.message); });
+  }
+
+  function verDemandasDo(c) { mostrarAba('demandas'); $('d-cliente').value = c.id; renderDemandas(); }
 
   /* ---------- Utilidades ---------- */
   /* A planilha converte "09/2026" em data; devolve sempre MM/AAAA */
