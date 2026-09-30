@@ -411,14 +411,17 @@
   <p class="foot">© <span id="ano"></span> Rafael Garcês</p>
 </main>
 
+<script src="/assets/vendor/supabase.js"></script>
 <script>
   /* ===== Configuração de envio =====
      Web3Forms (https://web3forms.com): cadastre seu e-mail, receba a access key e cole abaixo.
      Enquanto estiver vazia, o envio cai no WhatsApp com as respostas formatadas. */
   var WEB3FORMS_KEY = 'f8afe617-8023-42e8-89e6-3f7f21cd5118';
-  /* Planilha (opcional): URL /exec do Apps Script em feedback/apps-script.gs.
-     Envio paralelo e silencioso; o e-mail continua sendo o canal principal. */
-  var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxBc4fYIdABxsdt4ftsEAmSQPuqIlDbpTTJQR4uq2-AJK6bH_fRJFszSFspCL90UxNY/exec';
+  /* Banco de dados (Supabase). A chave "publishable" é pública por desenho:
+     quem protege os dados são as regras RLS do banco (visitante só lê perguntas e envia respostas). */
+  var SUPABASE_URL = 'https://qgyiuhdyqaxpqhkzgbmq.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_itIfz5BmcGJ0eUqBO3G5Pg_dQGu0NjJ';
+  var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } }) : null;
   var WHATSAPP = '5598982340912';
 
   var CSAT_ENDS = ['Muito insatisfeito', 'Muito satisfeito'];
@@ -473,24 +476,24 @@
     }
   };
 
-  /* Perguntas configuradas na aba "Perguntas" da planilha (via Apps Script).
-     As listas acima ficam como padrão caso a API não responda a tempo. */
+  /* Perguntas configuradas na tabela "perguntas" do banco.
+     As listas acima ficam como padrão caso o banco não responda. */
   var perguntasRemotas = null;
   var MES_LINK = (function () { var m = new URLSearchParams(location.search).get('mes'); return m && /^\d{4}-\d{2}$/.test(m) ? m : ''; })();
-  var carregandoPerguntas = SHEETS_URL
-    ? fetch(SHEETS_URL + '?acao=perguntas', { redirect: 'follow' })
-        .then(function (r) { return r.json(); })
-        .then(function (j) {
-          if (j && j.ok && j.perguntas) {
-            Object.keys(j.perguntas).forEach(function (k) {
-              if (SERVICOS[k] && j.perguntas[k].length) SERVICOS[k].perguntas = j.perguntas[k];
-            });
-            perguntasRemotas = true;
-            /* Chegou depois da primeira pintura: só troca se o cliente ainda não começou a responder */
-            var tocou = qWrap.querySelector('input:checked') || Array.prototype.some.call(qWrap.querySelectorAll('textarea'), function (t) { return t.value.trim(); });
-            if (servicoAtual && !tocou) render(servicoAtual);
-          }
-        }).catch(function () {})
+  var carregandoPerguntas = sb
+    ? sb.from('perguntas').select('servico,id,tipo,texto,opcoes,ordem').eq('ativo', true).order('ordem', { ascending: true })
+        .then(function (res) {
+          if (res.error || !res.data || !res.data.length) return;
+          var por = {};
+          res.data.forEach(function (q) {
+            (por[q.servico] = por[q.servico] || []).push({ id: q.id, tipo: q.tipo, texto: q.texto, opcoes: q.opcoes || undefined });
+          });
+          Object.keys(por).forEach(function (k) { if (SERVICOS[k]) SERVICOS[k].perguntas = por[k]; });
+          perguntasRemotas = true;
+          /* Chegou depois da primeira pintura: só troca se o cliente ainda não começou a responder */
+          var tocou = qWrap.querySelector('input:checked') || Array.prototype.some.call(qWrap.querySelectorAll('textarea'), function (t) { return t.value.trim(); });
+          if (servicoAtual && !tocou) render(servicoAtual);
+        }, function () {})
     : Promise.resolve();
 
   var form = document.getElementById('form');
@@ -619,6 +622,7 @@
       nome: fd.get('nome').trim(),
       cliente: fd.get('cliente').trim(),
       servico: def.nome,
+      chave: servicoAtual,
       respostas: respostas,
       media: n ? Math.round((soma / n) * 10) / 10 : null,
       nps: nps
@@ -681,23 +685,31 @@
     return body;
   }
 
-  function payloadPlanilha(d) {
-    var linha = { 'Serviço': d.servico, 'Cliente': d.cliente, 'Nome': d.nome };
+  /* Notas e textos vão para a coluna jsonb "dados", indexados pelo texto da pergunta */
+  function payloadBanco(d) {
+    var dados = {}, mes = null;
     d.respostas.forEach(function (r) {
-      var v = r.tipo === 'csat' || r.tipo === 'nps' ? (r.valor === '' ? '' : Number(r.valor)) : r.valor;
-      linha[r.texto] = v;
+      if (r.tipo === 'mes') { var m = /^(\d{2})\/(\d{4})$/.exec(r.valor); if (m) mes = m[2] + '-' + m[1]; return; }
+      if (r.valor === '') return;
+      dados[r.texto] = (r.tipo === 'csat' || r.tipo === 'nps') ? Number(r.valor) : r.valor;
     });
-    linha['Média CSAT'] = d.media === null ? '' : d.media;
-    linha['NPS'] = d.nps === null ? '' : d.nps;
-    return linha;
+    return { servico: d.chave, cliente: d.cliente, nome: d.nome, mes_ref: mes, media_csat: d.media, nps: d.nps, dados: dados };
   }
 
-  function enviarPlanilha(d) {
-    if (!SHEETS_URL) return;
-    try {
-      /* no-cors: não lemos a resposta, só disparamos. Apps Script aceita text/plain sem preflight. */
-      fetch(SHEETS_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payloadPlanilha(d)) }).catch(function () {});
-    } catch (e) {}
+  /* Devolve uma promessa: resolve se gravou, rejeita se não */
+  function enviarBanco(d) {
+    if (!sb) return Promise.reject(new Error('sem banco'));
+    return sb.from('respostas').insert(payloadBanco(d)).then(function (res) { if (res.error) throw res.error; });
+  }
+
+  /* E-mail de aviso (Web3Forms): resolve se enviou */
+  function enviarEmail(d) {
+    if (!WEB3FORMS_KEY) return Promise.reject(new Error('sem chave'));
+    return fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payloadEmail(d))
+    }).then(function (r) { return r.json(); }).then(function (j) { if (!j.success) throw new Error(j.message || 'erro'); });
   }
 
   function concluir(d) {
@@ -725,24 +737,11 @@
     var d = coletar();
     var btn = document.getElementById('submit');
 
-    enviarPlanilha(d);
-
-    if (!WEB3FORMS_KEY) {
-      window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(textoWhats(d)), '_blank', 'noopener');
-      concluir(d);
-      return;
-    }
-
     btn.disabled = true;
     btn.firstChild.textContent = 'Enviando… ';
-    fetch('https://api.web3forms.com/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payloadEmail(d))
-    }).then(function (r) { return r.json(); }).then(function (j) {
-      if (!j.success) throw new Error(j.message || 'erro');
-      concluir(d);
-    }).catch(function () {
+    /* Banco é o registro oficial; o e-mail é aviso. Basta um dos dois chegar para o cliente ver sucesso. */
+    Promise.allSettled([enviarBanco(d), enviarEmail(d)]).then(function (r) {
+      if (r[0].status === 'fulfilled' || r[1].status === 'fulfilled') return concluir(d);
       btn.disabled = false;
       btn.firstChild.textContent = 'Enviar avaliação ';
       formError.textContent = 'Não consegui enviar agora. Você pode mandar pelo WhatsApp: ';
