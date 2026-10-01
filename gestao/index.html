@@ -378,7 +378,8 @@
           <option value="">Todos</option>
           <option value="Site">Site</option>
           <option value="Marca">Marca</option>
-          <option value="Design recorrente">Design recorrente</option>
+          <option value="Design Social Media">Design Social Media</option>
+          <option value="Full Design">Full Design</option>
         </select>
       </div>
       <div class="field">
@@ -429,7 +430,8 @@
             <select class="input" id="g-servico">
               <option value="site">Site · fim de projeto</option>
               <option value="marca">Marca · fim de projeto</option>
-              <option value="design">Design recorrente · mensal</option>
+              <option value="design">Design Social Media · mensal</option>
+              <option value="full">Full Design · mensal</option>
             </select>
           </div>
           <div class="field">
@@ -540,7 +542,8 @@
           <div class="seg" role="group" aria-label="Serviço" id="pq-seg">
             <button type="button" data-s="site" aria-pressed="true">Site</button>
             <button type="button" data-s="marca" aria-pressed="false">Marca</button>
-            <button type="button" data-s="design" aria-pressed="false">Design recorrente</button>
+            <button type="button" data-s="design" aria-pressed="false">Social Media</button>
+            <button type="button" data-s="full" aria-pressed="false">Full Design</button>
           </div>
         </div>
         <div class="pq-list" id="pq-list"></div>
@@ -634,7 +637,8 @@
             <div class="checks">
               <span class="check"><input type="checkbox" id="sv-site" name="servicos" value="site"><label for="sv-site">Site</label></span>
               <span class="check"><input type="checkbox" id="sv-marca" name="servicos" value="marca"><label for="sv-marca">Marca</label></span>
-              <span class="check"><input type="checkbox" id="sv-design" name="servicos" value="design"><label for="sv-design">Design recorrente</label></span>
+              <span class="check"><input type="checkbox" id="sv-design" name="servicos" value="design"><label for="sv-design">Design Social Media</label></span>
+              <span class="check"><input type="checkbox" id="sv-full" name="servicos" value="full"><label for="sv-full">Full Design</label></span>
             </div>
           </div>
           <div class="field"><label for="c-cobranca">Tipo de cobrança</label>
@@ -691,7 +695,9 @@
   var classeNota = function (v, max) { var p = v / max; return p < 0.6 ? 'bad' : p < 0.8 ? 'warn' : ''; };
 
   /* ---------- Banco: conversão entre linhas do Supabase e o formato que a tela usa ---------- */
-  var ROTULO_SERVICO = { site: 'Site', marca: 'Marca', design: 'Design recorrente' };
+  var ROTULO_SERVICO = { site: 'Site', marca: 'Marca', design: 'Design Social Media', full: 'Full Design' };
+  var RECORRENTES = ['full', 'design']; /* ordem = prioridade quando o cliente tem os dois */
+  var ehRecorrente = function (s) { return RECORRENTES.indexOf(s) > -1; };
   var vazioParaNull = function (v) { return (v === '' || v === undefined) ? null : v; };
   var numOuNull = function (v) { return (v === '' || v == null) ? null : Number(v); };
   function nullParaVazio(o) { var r = {}; Object.keys(o).forEach(function (k) { r[k] = o[k] === null ? '' : o[k]; }); return r; }
@@ -969,7 +975,7 @@
     $('g-cliente').value = c.nome || '';
     $('g-nome').value = (c.stakeholder || '').split(' ')[0];
     var svs = String(c.servicos || '').split('|').filter(Boolean);
-    if (svs.length) $('g-servico').value = svs.indexOf('design') > -1 && c.cobranca === 'mensal' ? 'design' : svs[0];
+    if (svs.length) $('g-servico').value = c.cobranca === 'mensal' ? servicoCsat(c) : svs[0];
     montarLink();
   });
 
@@ -978,12 +984,12 @@
     var cad = clientes.filter(function (x) { return x.id === $('g-cad').value; })[0];
     var fone = cad && cad.whatsapp ? soDigitos(cad.whatsapp) : '';
     if (fone && fone.length <= 11) fone = '55' + fone;
-    $('g-mes-wrap').hidden = s !== 'design';
+    $('g-mes-wrap').hidden = !ehRecorrente(s);
     var p = new URLSearchParams(); p.set('servico', s);
-    if (c) p.set('cliente', c); if (n) p.set('nome', n); if (s === 'design' && m) p.set('mes', m);
+    if (c) p.set('cliente', c); if (n) p.set('nome', n); if (ehRecorrente(s) && m) p.set('mes', m);
     var link = SITE + '/feedback/?' + p.toString();
     $('g-link').value = link;
-    var msg = 'Oi' + (n ? ', ' + n : '') + '! Pode me dar um feedback rápido sobre ' + (s === 'design' ? 'as entregas do mês' : 'o projeto') + '? Leva uns 3 minutos: ' + link;
+    var msg = 'Oi' + (n ? ', ' + n : '') + '! Pode me dar um feedback rápido sobre ' + (ehRecorrente(s) ? 'as entregas do mês' : 'o projeto') + '? Leva uns 3 minutos: ' + link;
     $('g-whats').href = 'https://wa.me/' + fone + '?text=' + encodeURIComponent(msg);
     $('g-whats').textContent = fone ? 'Enviar no WhatsApp de ' + (cad.stakeholder ? cad.stakeholder.split(' ')[0] : cad.nome) : 'Enviar no WhatsApp';
     return link;
@@ -1011,7 +1017,7 @@
   (function () { var ab = null; try { ab = localStorage.getItem('csat_aba'); } catch (e) {} mostrarAba(ab || 'clientes'); })();
 
   /* ---------- Clientes ---------- */
-  var SERVICO_NOME = { site: 'Site', marca: 'Marca', design: 'Design recorrente' };
+  var SERVICO_NOME = ROTULO_SERVICO;
   var fmtBRL = function (n) { return (n === '' || n == null || isNaN(n)) ? '—' : Number(n).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); };
   function soDigitos(s) { return String(s || '').replace(/\D/g, ''); }
   function dataLocal(iso) { var m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || '')); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; }
@@ -1045,13 +1051,14 @@
   }
   function servicoCsat(c) {
     var svs = String(c.servicos || '').split('|').filter(Boolean);
-    return svs.indexOf('design') > -1 ? 'design' : (svs[0] || 'design');
+    for (var i = 0; i < RECORRENTES.length; i++) if (svs.indexOf(RECORRENTES[i]) > -1) return RECORRENTES[i];
+    return svs[0] || 'design';
   }
   function linkCsat(c) {
     var s = servicoCsat(c), primeiro = String(c.stakeholder || '').trim().split(' ')[0];
     var p = new URLSearchParams(); p.set('servico', s); p.set('cliente', c.nome);
     if (primeiro) p.set('nome', primeiro);
-    if (s === 'design') p.set('mes', mesAtual());
+    if (ehRecorrente(s)) p.set('mes', mesAtual());
     return SITE + '/feedback/?' + p.toString();
   }
   function whatsCsat(c) {
@@ -1648,7 +1655,7 @@
       q.id = id;
     });
     var linhas = [];
-    ['site', 'marca', 'design'].forEach(function (s) {
+    ['site', 'marca', 'design', 'full'].forEach(function (s) {
       pqEdit.filter(function (q) { return q.servico === s; }).forEach(function (q, i) {
         linhas.push({ servico: s, id: q.id, tipo: q.tipo, texto: q.texto.trim(), opcoes: q.tipo === 'escolha' ? q.opcoes : null, ordem: i + 1, ativo: q.ativo });
       });

@@ -162,7 +162,7 @@
   @media (max-width: 520px) { .row-2 { grid-template-columns: 1fr; } }
 
   /* ---------- Seletor de serviço ---------- */
-  .services { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   @media (max-width: 560px) { .services { grid-template-columns: 1fr; } }
   .service { position: relative; }
   .service input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
@@ -377,8 +377,16 @@
           <input type="radio" name="servico" id="s-design" value="design">
           <label for="s-design">
             <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><path d="M17 13v8M13 17h8"/></svg></span>
-            <span class="name">Design recorrente</span>
-            <span class="kind">Mensal</span>
+            <span class="name">Design Social Media</span>
+            <span class="kind">Recorrente · mensal</span>
+          </label>
+        </div>
+        <div class="service">
+          <input type="radio" name="servico" id="s-full" value="full">
+          <label for="s-full">
+            <span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 8l9 5 9-5-9-5Z"/><path d="m3 13 9 5 9-5"/><path d="m3 18 9 5 9-5" opacity=".5"/></svg></span>
+            <span class="name">Full Design</span>
+            <span class="kind">Recorrente · mensal</span>
           </label>
         </div>
       </div>
@@ -460,7 +468,7 @@
       ].concat(COMUNS_FIM)
     },
     design: {
-      nome: 'Design recorrente',
+      nome: 'Design Social Media',
       hint: 'Avaliação mensal da prestação de serviço. Nas notas, 1 é muito insatisfeito e 5 é muito satisfeito.',
       perguntas: [
         { id: 'mes', tipo: 'mes', texto: 'Mês de referência' },
@@ -469,6 +477,22 @@
         { id: 'agilidade', tipo: 'csat', texto: 'Agilidade nas entregas e nos ajustes.' },
         { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação e fluxo de aprovação.' },
         { id: 'proatividade', tipo: 'csat', texto: 'Proatividade e sugestões criativas além do pedido.' },
+        { id: 'destaque', tipo: 'texto', texto: 'Qual entrega se destacou neste mês?' },
+        { id: 'ajustar', tipo: 'texto', texto: 'O que ajustar para o próximo mês?' },
+        { id: 'nps', tipo: 'nps', texto: 'De 0 a 10, quanto você indicaria meu trabalho para alguém?' }
+      ]
+    },
+    full: {
+      nome: 'Full Design',
+      hint: 'Avaliação mensal da prestação de serviço. Nas notas, 1 é muito insatisfeito e 5 é muito satisfeito.',
+      perguntas: [
+        { id: 'mes', tipo: 'mes', texto: 'Mês de referência' },
+        { id: 'qualidade', tipo: 'csat', texto: 'Qualidade das entregas do mês.' },
+        { id: 'identidade', tipo: 'csat', texto: 'Alinhamento das peças com a identidade visual da marca.' },
+        { id: 'demandas', tipo: 'csat', texto: 'Capacidade de atender às demandas que surgiram no mês, nas prioridades certas.' },
+        { id: 'agilidade', tipo: 'csat', texto: 'Agilidade nas entregas e nos ajustes.' },
+        { id: 'comunicacao', tipo: 'csat', texto: 'Comunicação e fluxo de aprovação.' },
+        { id: 'visao', tipo: 'csat', texto: 'Visão estratégica e sugestões além do que foi pedido.' },
         { id: 'destaque', tipo: 'texto', texto: 'Qual entrega se destacou neste mês?' },
         { id: 'ajustar', tipo: 'texto', texto: 'O que ajustar para o próximo mês?' },
         { id: 'nps', tipo: 'nps', texto: 'De 0 a 10, quanto você indicaria meu trabalho para alguém?' }
@@ -578,7 +602,7 @@
       document.querySelector('#quem-row').closest('.card').querySelector('.hint').textContent = 'Só pra eu saber quem respondeu.';
       chips.push('<span>' + esc(p.get('cliente')) + '</span>');
     }
-    if (s === 'design' && p.get('mes') && /^\d{4}-\d{2}$/.test(p.get('mes'))) {
+    if ((s === 'design' || s === 'full') && p.get('mes') && /^\d{4}-\d{2}$/.test(p.get('mes'))) {
       var pm = p.get('mes').split('-');
       chips.push('<span>' + new Date(pm[0], pm[1] - 1, 1).toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }) + '</span>');
     }
