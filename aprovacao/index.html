@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aprovação | Rafael Garcês</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 76 143 145'%3E%3Cpath fill='%23131720' d='M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('rg_theme'); } catch (e) {}
+    var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<style>
+  @font-face { font-family: "Satoshi"; src: url("/assets/fonts/Satoshi-Variable.woff2") format("woff2"); font-weight: 300 900; font-display: swap; }
+  :root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --paper: #ffffff; --paper-raised: #ffffff; --paper-raised-hover: #f7f7f8;
+    --ink: #131720; --ink-soft: #6b7280; --ink-faint: #9ca3af; --border: #e3e4e8; --field: #ffffff;
+    --accent-gradient: linear-gradient(135deg, #cad589, #ddff22);
+    --accent: #d3ea55; --accent-ink: #10160a; --accent-wash: rgba(221, 255, 34, 0.2);
+    --bad: #c2410c; --ok: #2f5d0a;
+    --font: "Satoshi", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --paper: #0b0b0d; --paper-raised: #0b0b0d; --paper-raised-hover: #16171a; --ink: #f5f5f7; --ink-soft: #9a9ea6; --ink-faint: #6b6f76; --border: #26272b; --field: #101114; --ok: #b9d827; --bad: #f87171; }
+  }
+  :root[data-theme="dark"] { --paper: #0b0b0d; --paper-raised: #0b0b0d; --paper-raised-hover: #16171a; --ink: #f5f5f7; --ink-soft: #9a9ea6; --ink-faint: #6b6f76; --border: #26272b; --field: #101114; --ok: #b9d827; --bad: #f87171; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 1rem; line-height: 1.5; -webkit-font-smoothing: antialiased; padding: 40px 20px 80px; }
+  button, input, textarea { font-family: var(--font); font-size: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+  [hidden] { display: none !important; }
+  .page { max-width: 760px; margin: 0 auto; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 32px; }
+  .brand svg { width: 22px; height: 22px; }
+  .brand b { font-weight: 700; letter-spacing: -0.01em; }
+  .label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); margin: 0 0 10px; }
+  h1 { font-size: 1.9rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 8px; text-wrap: balance; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 24px; color: var(--ink-soft); font-size: 0.875rem; }
+  .pill { display: inline-flex; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); font-size: 0.75rem; font-weight: 600; }
+  .st { padding: 4px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+  .st.pendente { background: #fdf1d2; color: #7a4d00; } .st.aprovado { background: #e3f4d0; color: #2f5d0a; } .st.reprovado { background: #fde2e1; color: #8a1c1c; }
+  .card { border: 1px solid var(--border); border-radius: 20px; padding: 20px; margin-bottom: 16px; background: var(--paper-raised); }
+  .versoes { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+  .versoes button { padding: 6px 12px; border-radius: 999px; border: 1px solid var(--border); background: transparent; font-weight: 600; font-size: 0.8rem; cursor: pointer; color: var(--ink-soft); }
+  .versoes button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .midia { border-radius: 14px; overflow: hidden; background: #0b0b0d; }
+  .midia img, .midia video { display: block; width: 100%; max-height: 72vh; object-fit: contain; }
+  .car { position: relative; background: #0b0b0d; border-radius: 14px; overflow: hidden; }
+  .car-trilho { display: grid; grid-auto-flow: column; grid-auto-columns: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .car-trilho::-webkit-scrollbar { display: none; }
+  .car-trilho img { width: 100%; max-height: 72vh; object-fit: contain; scroll-snap-align: start; display: block; }
+  .car-nav { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 10px; }
+  .car-nav button { width: 36px; height: 36px; border-radius: 999px; border: 1px solid var(--border); background: var(--paper-raised); cursor: pointer; display: grid; place-items: center; }
+  .car-nav span { font-size: 0.875rem; font-variant-numeric: tabular-nums; color: var(--ink-soft); min-width: 48px; text-align: center; }
+  .arquivo { padding: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px; background: var(--paper-raised-hover); border-radius: 14px; }
+  .baixar { display: inline-flex; margin-top: 10px; font-size: 0.875rem; font-weight: 600; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; }
+  .aval p { margin: 0 0 6px; font-size: 0.9rem; color: var(--ink-soft); }
+  .aval b.ok { color: var(--ok); } .aval b.no { color: var(--bad); }
+  .field { display: grid; gap: 6px; margin-bottom: 12px; }
+  .field label { font-weight: 600; font-size: 0.9rem; }
+  .input, textarea { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--field); color: var(--ink); }
+  .input:focus, textarea:focus { outline: none; border-color: var(--ink-faint); box-shadow: 0 0 0 3px var(--accent-wash); }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+  .acoes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 18px; border-radius: 999px; border: 1px solid transparent; font-weight: 700; cursor: pointer; transition: transform 0.16s var(--ease-out), opacity 0.16s var(--ease-out); }
+  .btn:active { transform: scale(0.98); }
+  .btn[disabled] { opacity: 0.6; cursor: progress; }
+  .btn-ok { background: var(--accent-gradient); color: var(--accent-ink); }
+  .btn-aj { background: transparent; border-color: var(--border); color: var(--ink); }
+  .erro { color: var(--bad); font-size: 0.875rem; margin: 10px 0 0; }
+  .feito { text-align: center; padding: 28px 20px; }
+  .feito .mark { width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 999px; display: grid; place-items: center; background: var(--accent-gradient); color: var(--accent-ink); animation: pop 0.3s var(--ease-out) both; }
+  .feito .mark svg { width: 22px; height: 22px; }
+  .feito .mark path { stroke-dasharray: 24; stroke-dashoffset: 24; animation: draw 0.45s var(--ease-out) 0.15s forwards; }
+  .feito h2 { margin: 0 0 6px; font-size: 1.25rem; }
+  .feito p { margin: 0; color: var(--ink-soft); }
+  .vazio { text-align: center; color: var(--ink-soft); padding: 48px 20px; }
+  .enter { animation: rise 0.32s var(--ease-out) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  @keyframes pop { from { transform: scale(0.9); opacity: 0; } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @media (max-width: 520px) { h1 { font-size: 1.5rem; } .acoes { grid-template-columns: 1fr; } .card { padding: 16px; } }
+  @media (prefers-reduced-motion: reduce) { .enter, .feito .mark { animation: none; } .feito .mark path { animation: none; stroke-dashoffset: 0; } }
+</style>
+
+<body>
+<main class="page">
+  <span class="brand" aria-label="Rafael Garcês">
+    <svg viewBox="0 84.139 127.445 128.682" fill="currentColor" aria-hidden="true"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>
+    <b>Rafael Garcês</b>
+  </span>
+  <div id="app"><p class="vazio">Carregando a peça…</p></div>
+</main>
+
+<script src="/assets/vendor/supabase.js"></script>
+<script>
+  /* Página pública de aprovação. Só lê a demanda do token do link (função aprovacao_ver do banco);
+     a chave abaixo é a pública, e o banco não deixa ver nada além disso. */
+  var sb = window.supabase.createClient('https://qgyiuhdyqaxpqhkzgbmq.supabase.co', 'sb_publishable_itIfz5BmcGJ0eUqBO3G5Pg_dQGu0NjJ', { auth: { persistSession: false } });
+  var token = new URLSearchParams(location.search).get('t') || '';
+  var app = document.getElementById('app');
+  var dados = null, vista = null;
+  var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var ROT = { pendente: 'Aguardando sua avaliação', aprovado: 'Aprovado', reprovado: 'Ajuste pedido' };
+  function situacao(v) {
+    var a = (v && v.avaliacoes) || [];
+    if (!a.length) return 'pendente';
+    return a.some(function (x) { return x.status === 'reprovado'; }) ? 'reprovado' : 'aprovado';
+  }
+  function dataHora(iso) { return new Date(iso).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }); }
+
+  function midia(v) {
+    var a = v.arquivos || [];
+    if (!a.length) return '<div class="arquivo"><span>Os arquivos desta versão não estão mais disponíveis.</span></div>';
+    if (v.tipo === 'image') return '<div class="midia"><img src="' + esc(a[0].url) + '" alt="' + esc(dados.titulo) + '"></div><a class="baixar" href="' + esc(a[0].url) + '" download target="_blank" rel="noopener">Abrir em tamanho original</a>';
+    if (v.tipo === 'video') return '<div class="midia"><video src="' + esc(a[0].url) + '" controls playsinline preload="metadata"></video></div><a class="baixar" href="' + esc(a[0].url) + '" target="_blank" rel="noopener">Abrir o vídeo em outra aba</a>';
+    if (v.tipo === 'carousel') return '<div class="car"><div class="car-trilho" id="trilho">' + a.map(function (x, i) { return '<img src="' + esc(x.url) + '" alt="Slide ' + (i + 1) + ' de ' + a.length + '"' + (i ? ' loading="lazy"' : '') + '>'; }).join('') + '</div></div>' +
+      '<div class="car-nav"><button type="button" id="ant" aria-label="Slide anterior">‹</button><span id="pos">1 / ' + a.length + '</span><button type="button" id="prox" aria-label="Próximo slide">›</button></div>';
+    return '<div class="arquivo"><span>' + esc(a[0].nome || 'Arquivo') + '</span><a class="btn btn-aj" href="' + esc(a[0].url) + '" target="_blank" rel="noopener">Abrir</a></div>';
+  }
+  function avaliacoes(v) {
+    var a = v.avaliacoes || [];
+    if (!a.length) return '';
+    return '<div class="aval">' + a.map(function (x) {
+      return '<p><b class="' + (x.status === 'aprovado' ? 'ok' : 'no') + '">' + esc(x.nome) + '</b> ' + (x.status === 'aprovado' ? 'aprovou' : 'pediu ajuste') + ' em ' + dataHora(x.em) + (x.nota ? ' — “' + esc(x.nota) + '”' : '') + '</p>';
+    }).join('') + '</div>';
+  }
+
+  function render(aviso) {
+    var vs = dados.versoes || [];
+    if (!vs.length) {
+      app.innerHTML = '<p class="label">Aprovação</p><h1>' + esc(dados.titulo) + '</h1><div class="card vazio">A peça ainda está sendo preparada. Você recebe o link de novo quando ela estiver pronta.</div>';
+      return;
+    }
+    var atual = vs[vs.length - 1];
+    if (vista == null) vista = atual.versao;
+    var v = vs.filter(function (x) { return x.versao === vista; })[0] || atual;
+    var ehAtual = v.versao === atual.versao, sit = situacao(v);
+    var nomeSalvo = ''; try { nomeSalvo = localStorage.getItem('aprov_nome') || ''; } catch (e) {}
+
+    app.innerHTML = '<div class="enter"><p class="label">Aprovação de peça</p><h1>' + esc(dados.titulo) + '</h1>' +
+      '<div class="meta">' + (dados.cliente ? '<span>' + esc(dados.cliente) + '</span>' : '') + (dados.tipo ? '<span class="pill">' + esc(dados.tipo) + '</span>' : '') +
+        '<span class="st ' + sit + '">' + (ehAtual ? ROT[sit] : 'Versão anterior') + '</span></div>' +
+      '<div class="card">' +
+        (vs.length > 1 ? '<div class="versoes" role="group" aria-label="Versões">' + vs.map(function (x) { return '<button type="button" data-v="' + x.versao + '" aria-pressed="' + (x.versao === v.versao) + '">v' + x.versao + (x.versao === atual.versao ? ' · atual' : '') + '</button>'; }).join('') + '</div>' : '') +
+        midia(v) +
+        (v.avaliacoes && v.avaliacoes.length ? '<div style="margin-top:16px">' + avaliacoes(v) + '</div>' : '') +
+      '</div>' +
+      (ehAtual ? (aviso === 'feito'
+        ? '<div class="card feito"><div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path pathLength="24" d="m5 12 4.5 4.5L19 7"/></svg></div><h2>Recebido, obrigado!</h2><p>Sua avaliação foi registrada. Se pediu ajuste, a nova versão chega por este mesmo link.</p></div>'
+        : '<form class="card" id="f" novalidate><h2 style="margin:0 0 14px;font-size:1.1rem">O que achou?</h2>' +
+          '<div class="field"><label for="nome">Seu nome</label><input class="input" id="nome" autocomplete="name" value="' + esc(nomeSalvo) + '" required></div>' +
+          '<div class="field"><label for="nota">Comentário <span style="color:var(--ink-faint);font-weight:500">(obrigatório para pedir ajuste)</span></label><textarea id="nota" placeholder="Ex.: trocar a cor do título no slide 2"></textarea></div>' +
+          '<div class="acoes"><button class="btn btn-ok" type="button" data-s="aprovado">Aprovar</button><button class="btn btn-aj" type="button" data-s="reprovado">Pedir ajuste</button></div>' +
+          '<p class="erro" id="erro" hidden></p></form>')
+        : '<p style="color:var(--ink-soft);font-size:.9rem">Você está vendo a v' + v.versao + '. Para avaliar, abra a versão atual (v' + atual.versao + ').</p>') +
+      '</div>';
+
+    app.querySelectorAll('[data-v]').forEach(function (b) { b.addEventListener('click', function () { vista = Number(b.dataset.v); render(); }); });
+    var tr = document.getElementById('trilho');
+    if (tr) {
+      var pos = document.getElementById('pos'), n = tr.children.length;
+      var atualiza = function () { var i = Math.round(tr.scrollLeft / tr.clientWidth); pos.textContent = (i + 1) + ' / ' + n; };
+      tr.addEventListener('scroll', function () { requestAnimationFrame(atualiza); }, { passive: true });
+      document.getElementById('ant').addEventListener('click', function () { tr.scrollBy({ left: -tr.clientWidth, behavior: 'smooth' }); });
+      document.getElementById('prox').addEventListener('click', function () { tr.scrollBy({ left: tr.clientWidth, behavior: 'smooth' }); });
+    }
+    app.querySelectorAll('[data-s]').forEach(function (b) { b.addEventListener('click', function () { avaliar(b.dataset.s, b); }); });
+  }
+
+  function avaliar(status, botao) {
+    var nome = document.getElementById('nome').value.trim(), nota = document.getElementById('nota').value.trim(), erro = document.getElementById('erro');
+    erro.hidden = true;
+    if (!nome) { erro.textContent = 'Escreva seu nome.'; erro.hidden = false; document.getElementById('nome').focus(); return; }
+    if (status === 'reprovado' && !nota) { erro.textContent = 'Conte o que precisa ajustar.'; erro.hidden = false; document.getElementById('nota').focus(); return; }
+    try { localStorage.setItem('aprov_nome', nome); } catch (e) {}
+    document.querySelectorAll('[data-s]').forEach(function (b) { b.disabled = true; });
+    botao.textContent = 'Enviando…';
+    sb.rpc('aprovacao_avaliar', { p_token: token, p_nome: nome, p_status: status, p_nota: nota || null }).then(function (r) {
+      if (r.error) throw new Error(r.error.message);
+      dados = r.data; vista = null; render('feito');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }).catch(function (e) {
+      document.querySelectorAll('[data-s]').forEach(function (b) { b.disabled = false; });
+      botao.textContent = status === 'aprovado' ? 'Aprovar' : 'Pedir ajuste';
+      erro.textContent = 'Não consegui registrar: ' + e.message; erro.hidden = false;
+    });
+  }
+
+  if (!/^[0-9a-f-]{36}$/i.test(token)) {
+    app.innerHTML = '<div class="card vazio">Link de aprovação inválido. Peça o link de novo ao Rafael.</div>';
+  } else {
+    sb.rpc('aprovacao_ver', { p_token: token }).then(function (r) {
+      if (r.error) throw new Error(r.error.message);
+      if (!r.data) { app.innerHTML = '<div class="card vazio">Este link não existe mais. Peça o link de novo ao Rafael.</div>'; return; }
+      dados = r.data; render();
+    }).catch(function () { app.innerHTML = '<div class="card vazio">Não consegui carregar a peça agora. Tente de novo em instantes.</div>'; });
+  }
+</script>
+</body>
+</html>
