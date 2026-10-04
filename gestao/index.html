@@ -205,10 +205,9 @@
   .cli-strip::-webkit-scrollbar { display: none; }
   .cli-chip { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--paper-raised); color: var(--ink-soft); font-weight: 600; font-size: var(--text-meta); cursor: pointer; white-space: nowrap; transition: background 0.18s var(--ease-out), color 0.18s var(--ease-out), border-color 0.18s var(--ease-out), transform 0.16s var(--ease-out); }
   .cli-chip:active { transform: scale(0.97); }
-  .cli-chip .dot { width: 9px; height: 9px; border-radius: 999px; background: var(--c, var(--ink-faint)); }
   .cli-chip .n { font-size: var(--text-label); font-variant-numeric: tabular-nums; opacity: 0.7; }
   .cli-chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .cli-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 0 0 12px; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border); background: var(--paper-raised); border-left: 4px solid var(--c); }
+  .cli-head { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 0 0 12px; padding: 14px 18px; border-radius: 16px; border: 1px solid var(--border); background: var(--paper-raised); }
   .cli-head .nm { font-weight: 700; }
   .cli-head .quota { min-width: 180px; }
   .board { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; align-items: start; }
@@ -218,14 +217,12 @@
   .col-d > h3 { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 4px 6px 10px; font-size: var(--text-body); font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
   .col-d > h3 b { font-size: var(--text-label); font-weight: 700; color: var(--ink-soft); background: var(--paper); border-radius: 999px; padding: 2px 9px; font-variant-numeric: tabular-nums; }
   .col-vazia { border: 1px dashed var(--border); border-radius: 16px; padding: 22px 12px; text-align: center; font-size: var(--text-label); color: var(--ink-faint); }
-  .dcard { position: relative; border: 1px solid var(--border); border-radius: 16px; padding: 12px 12px 10px 16px; background: var(--paper); margin-bottom: 8px; animation: rise 0.28s var(--ease-out) both; cursor: pointer; transition: border-color 0.16s var(--ease-out), transform 0.16s var(--ease-out); }
-  .dcard::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 4px; border-radius: 0 4px 4px 0; background: var(--c, var(--border)); }
+  .dcard { position: relative; border: 1px solid var(--border); border-radius: 16px; padding: 12px; background: var(--paper); margin-bottom: 8px; animation: rise 0.28s var(--ease-out) both; cursor: pointer; transition: border-color 0.16s var(--ease-out), transform 0.16s var(--ease-out); }
   .dcard:last-child { margin-bottom: 0; }
   @media (hover: hover) and (pointer: fine) { .dcard:hover { border-color: var(--ink-faint); } }
   .dcard .t { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; font-weight: 600; font-size: var(--text-meta); line-height: 1.35; }
   .dcard .m { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 8px; }
   .dcard .who { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-label); color: var(--ink-soft); }
-  .dcard .who::before { content: ''; width: 7px; height: 7px; border-radius: 999px; background: var(--c, var(--ink-faint)); }
   .dcard .thumb { margin-top: 10px; border-radius: 10px; overflow: hidden; background: var(--paper-raised-hover); aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--ink-soft); font-size: var(--text-label); font-weight: 600; position: relative; }
   .dcard .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .dcard .thumb .badge-n { position: absolute; right: 6px; bottom: 6px; background: rgba(0,0,0,0.6); color: #fff; border-radius: 999px; padding: 2px 8px; font-size: 11px; }
@@ -240,13 +237,6 @@
   .quota { display: grid; gap: 4px; min-width: 120px; }
   .quota .track { height: 6px; border-radius: 999px; background: var(--paper-raised-hover); overflow: hidden; }
   .quota .fill { height: 100%; background: var(--accent-gradient); transform-origin: left; transform: scaleX(var(--p)); transition: transform 0.5s var(--ease-out); }
-  .cores { display: flex; gap: 8px; flex-wrap: wrap; }
-  .cores label { position: relative; width: 28px; height: 28px; border-radius: 999px; background: var(--c); cursor: pointer; box-shadow: inset 0 0 0 2px rgba(0,0,0,0.08); }
-  .cores input { position: absolute; inset: 0; opacity: 0; cursor: pointer; margin: 0; }
-  .cores input:checked + span { position: absolute; inset: -4px; border-radius: 999px; border: 2px solid var(--ink); }
-  .cores input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .dot-cor { display: inline-block; width: 9px; height: 9px; border-radius: 999px; background: var(--c); margin-right: 8px; vertical-align: middle; }
-  .icon-btn.feito { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
   /* Peça na janela da demanda */
   .peca { border-top: 1px solid var(--border); padding-top: 16px; display: grid; gap: 12px; }
   .peca-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
@@ -706,7 +696,6 @@
           <div class="field"><label for="c-em">E-mail do stakeholder</label><input class="input" id="c-em" name="email" type="email"></div>
           <div class="field"><label for="c-ori">Origem</label><input class="input" id="c-ori" name="origem" list="origens" placeholder="Indicação, Instagram, V4…"><datalist id="origens"><option value="Indicação"><option value="Instagram"><option value="V4 Company"><option value="Prospecção"><option value="Site"></datalist></div>
           <div class="field"><label for="c-seg">Segmento</label><input class="input" id="c-seg" name="segmento" placeholder="Varejo, saúde, tecnologia…"></div>
-          <div class="field full"><label>Cor no quadro de demandas</label><div class="cores" id="c-cores"></div></div>
           <div class="field full"><label for="c-obs">Observações</label><textarea class="input" id="c-obs" name="obs" placeholder="Escopo, combinados, particularidades"></textarea></div>
         </div>
         <p class="error" id="modal-error" hidden></p>
@@ -775,7 +764,7 @@
   function paraLinhaCliente(c) {
     var o = { nome: c.nome, servicos: c.servicos || [], cobranca: c.cobranca || 'mensal', status: c.status || 'ativo' };
     ['fee', 'repasse', 'renovacao_meses', 'dia_csat', 'quota_mensal'].forEach(function (k) { o[k] = numOuNull(c[k]); });
-    ['inicio', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'origem', 'segmento', 'obs', 'parceiro_id', 'cor'].forEach(function (k) { o[k] = vazioParaNull(c[k]); });
+    ['inicio', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'origem', 'segmento', 'obs', 'parceiro_id'].forEach(function (k) { o[k] = vazioParaNull(c[k]); });
     return o;
   }
   function deLinhaDemanda(d) { var o = nullParaVazio(d); o.criado_em = d.created_at; return o; }
@@ -1183,7 +1172,7 @@
       var csat = m.media != null ? '<span class="score ' + classeNota(m.media, 5) + '">' + fmt1(m.media) + '</span> <span class="muted small">' + rs.length + ' resp.</span>' : '<span class="muted small">sem feedback</span>';
       var pendente = csatPendente(c) ? ' <span class="due now">CSAT pendente</span>' : '';
       return '<div class="client" data-id="' + esc(c.id) + '">' +
-        '<div class="name-cell"><div class="name"><span class="dot-cor" style="--c:' + corDo(c) + '"></span>' + esc(c.nome) + ' <span class="status ' + esc(c.status) + '">' + esc(c.status) + '</span>' + pendente + '</div>' +
+        '<div class="name-cell"><div class="name">' + esc(c.nome) + ' <span class="status ' + esc(c.status) + '">' + esc(c.status) + '</span>' + pendente + '</div>' +
         '<div class="sub">' + (c.stakeholder ? esc(c.stakeholder) + ' · ' : '') + (c.segmento ? esc(c.segmento) + ' · ' : '') + (tempoDeCasa(c) || 'sem data de início') + '</div><div class="sub" style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap">' + svs + '</div></div>' +
         '<div class="kv"><span>' + (c.cobranca === 'projeto' ? 'Projeto' : 'Fee mensal') + '</span><b>' + fmtBRL(c.fee) +
           (Number(c.repasse) > 0 ? '<span class="fee-sub">repasse ' + fmtBRL(c.repasse) + ' · fica ' + fmtBRL(Number(c.fee || 0) - Number(c.repasse)) + '</span>' : '') + '</b></div>' +
@@ -1216,13 +1205,11 @@
     if (c) {
       popularSelectParceiro();
       ['nome', 'cobranca', 'fee', 'repasse', 'parceiro_id', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'quota_mensal', 'origem', 'segmento', 'obs'].forEach(function (k) { if (formC[k]) formC[k].value = c[k] == null ? '' : c[k]; });
-      montarCores(corDo(c));
       var svs = String(c.servicos || '').split('|');
       formC.querySelectorAll('input[name="servicos"]').forEach(function (i) { i.checked = svs.indexOf(i.value) > -1; });
     } else {
       popularSelectParceiro();
       formC.status.value = 'ativo'; formC.cobranca.value = 'mensal'; formC.dia_csat.value = 25;
-      montarCores(CORES[clientes.length % CORES.length]);
     }
     atualizarMargemHint();
     modal.showModal();
@@ -1244,7 +1231,7 @@
     e.preventDefault();
     var fd = new FormData(formC);
     var c = {};
-    ['id', 'nome', 'cobranca', 'fee', 'repasse', 'parceiro_id', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'quota_mensal', 'origem', 'segmento', 'obs', 'cor'].forEach(function (k) { c[k] = (fd.get(k) || '').toString().trim(); });
+    ['id', 'nome', 'cobranca', 'fee', 'repasse', 'parceiro_id', 'inicio', 'renovacao_meses', 'status', 'encerramento', 'stakeholder', 'whatsapp', 'email', 'dia_csat', 'quota_mensal', 'origem', 'segmento', 'obs'].forEach(function (k) { c[k] = (fd.get(k) || '').toString().trim(); });
     if (Number(c.repasse) > 0 && !c.parceiro_id) { $('modal-error').textContent = 'Escolha o parceiro que recebe o repasse.'; $('modal-error').hidden = false; return; }
     if (Number(c.repasse) > Number(c.fee || 0)) { $('modal-error').textContent = 'O repasse está maior que o valor cobrado.'; $('modal-error').hidden = false; return; }
     c.servicos = fd.getAll('servicos');
@@ -1278,18 +1265,6 @@
   ];
   var ORDEM = COLUNAS.map(function (c) { return c.id; });
   var ENTREGUE = { aprovado: true, publicado: true };
-  var CORES = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#06b6d4', '#84cc16'];
-  function corDo(c) {
-    if (!c) return 'var(--ink-faint)';
-    if (c.cor) return c.cor;
-    var h = 0; String(c.id || c.nome).split('').forEach(function (ch) { h = (h * 31 + ch.charCodeAt(0)) >>> 0; });
-    return CORES[h % CORES.length];
-  }
-  function montarCores(atual) {
-    $('c-cores').innerHTML = CORES.map(function (cor, i) {
-      return '<label style="--c:' + cor + '" title="Cor ' + (i + 1) + '"><input type="radio" name="cor" value="' + cor + '"' + (cor.toLowerCase() === String(atual).toLowerCase() ? ' checked' : '') + ' aria-label="Cor ' + (i + 1) + '"><span></span></label>';
-    }).join('');
-  }
   function mesAtual() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
   function clienteDe(id) { return clientes.filter(function (x) { return x.id === id; })[0]; }
   function nomeCliente(id) { var c = clienteDe(id); return c ? c.nome : ''; }
@@ -1350,7 +1325,7 @@
     if (filtroCliente && !clienteDe(filtroCliente)) filtroCliente = '';
     $('cli-strip').innerHTML = '<button type="button" class="cli-chip" data-c="" aria-pressed="' + !filtroCliente + '">Todos <span class="n">' + abertas('') + '</span></button>' +
       lista.map(function (c) {
-        return '<button type="button" class="cli-chip" data-c="' + esc(c.id) + '" aria-pressed="' + (filtroCliente === c.id) + '" style="--c:' + corDo(c) + '"><span class="dot"></span>' + esc(c.nome) + ' <span class="n">' + abertas(c.id) + '</span></button>';
+        return '<button type="button" class="cli-chip" data-c="' + esc(c.id) + '" aria-pressed="' + (filtroCliente === c.id) + '">' + esc(c.nome) + ' <span class="n">' + abertas(c.id) + '</span></button>';
       }).join('');
     var meses = {}; demandas.forEach(function (d) { var m = mesDeRef(d); if (m) meses[m] = true; });
     meses[mesAtual()] = true;
@@ -1398,7 +1373,7 @@
     var c = clienteDe(filtroCliente);
     if (c) {
       var qi = quotaInfo(c);
-      $('cli-head').innerHTML = '<div class="cli-head" style="--c:' + corDo(c) + '"><span class="nm">' + esc(c.nome) + '</span>' +
+      $('cli-head').innerHTML = '<div class="cli-head"><span class="nm">' + esc(c.nome) + '</span>' +
         (c.stakeholder ? '<span class="muted small">' + esc(c.stakeholder) + '</span>' : '') +
         (qi.q ? '<div class="quota"><span class="muted small">Entregas de ' + new Date().toLocaleDateString('pt-BR', { month: 'long' }) + ': <b>' + qi.feitas + ' / ' + qi.q + '</b></span><div class="track"><div class="fill" style="--p:' + Math.min(1, qi.feitas / qi.q) + '"></div></div></div>' : '') + '</div>';
     } else $('cli-head').innerHTML = '';
@@ -1414,7 +1389,7 @@
           : (d.prazo ? '<span class="tag prazo ' + (atras ? 'atrasado' : hj ? 'hoje' : '') + '">' + (atras ? 'atrasou ' : 'prazo ') + dataCurta(d.prazo).replace(/ de \d{4}/, '') + '</span>' : '');
         var ultimaNota = v && (v.demanda_avaliacoes || []).filter(function (a) { return a.status === 'reprovado' && a.nota; }).slice(-1)[0];
         var idx = ORDEM.indexOf(d.status);
-        return '<article class="dcard" data-id="' + esc(d.id) + '" style="--c:' + corDo(cli) + ';animation-delay:' + Math.min(i, 6) * 30 + 'ms" tabindex="0">' +
+        return '<article class="dcard" data-id="' + esc(d.id) + '" style="animation-delay:' + Math.min(i, 6) * 30 + 'ms" tabindex="0">' +
           '<div class="t"><span>' + esc(d.titulo) + '</span>' + (d.prioridade && d.prioridade !== 'normal' ? '<span class="tag ' + esc(d.prioridade) + '">' + (d.prioridade === 'alta' ? 'Alta' : 'Baixa') + '</span>' : '') + '</div>' +
           '<div class="m">' + (cli && !filtroCliente ? '<span class="who">' + esc(cli.nome) + '</span>' : '') +
             (d.tipo ? '<span class="tag">' + esc(d.tipo) + '</span>' : '') + prazo +
