@@ -400,7 +400,7 @@
     <div class="tabs" role="tablist" aria-label="Seções do painel">
       <button class="tab" role="tab" id="tab-clientes" aria-selected="true" aria-controls="view-clientes" type="button">Clientes<span class="count" id="tab-clientes-count"></span></button>
       <button class="tab" role="tab" id="tab-financeiro" aria-selected="false" aria-controls="view-financeiro" type="button">Financeiro</button>
-      <button class="tab" role="tab" id="tab-demandas" aria-selected="false" aria-controls="view-demandas" type="button">Demandas<span class="count" id="tab-demandas-count"></span></button>
+      <button class="tab" role="tab" id="tab-demandas" aria-selected="false" aria-controls="view-demandas" type="button" hidden>Demandas<span class="count" id="tab-demandas-count"></span></button>
       <button class="tab" role="tab" id="tab-geral" aria-selected="false" aria-controls="view-geral" type="button">CSAT</button>
       <button class="tab" role="tab" id="tab-perguntas" aria-selected="false" aria-controls="view-perguntas" type="button">Perguntas</button>
     </div>
@@ -1056,15 +1056,19 @@
   (function () { var d = new Date(); $('g-mes').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); montarLink(); })();
 
   /* ---------- Abas ---------- */
-  var ABAS = ['clientes', 'financeiro', 'demandas', 'geral', 'perguntas'];
+  /* Central de demandas desligada (out/2026, a pedido do Rafael). Dados, link de aprovação
+     e código continuam; para religar, true aqui e tirar o hidden do botão #tab-demandas. */
+  var MODULO_DEMANDAS = false;
+  var ABAS = ['clientes', 'financeiro', 'demandas', 'geral', 'perguntas'].filter(function (a) { return a !== 'demandas' || MODULO_DEMANDAS; });
   function mostrarAba(id) {
-    if (ABAS.indexOf(id) < 0) id = 'geral';
+    if (ABAS.indexOf(id) < 0) id = 'clientes';
     ABAS.forEach(function (a) {
       $('tab-' + a).setAttribute('aria-selected', a === id);
       $('view-' + a).hidden = a !== id;
     });
     try { localStorage.setItem('csat_aba', id); } catch (e) {}
   }
+  if (!MODULO_DEMANDAS) $('view-demandas').hidden = true;
   ABAS.forEach(function (a) { $('tab-' + a).addEventListener('click', function () { mostrarAba(a); }); });
   (function () { var ab = null; try { ab = localStorage.getItem('csat_aba'); } catch (e) {} mostrarAba(ab || 'clientes'); })();
 
@@ -1179,7 +1183,7 @@
         '<div class="kv"><span>Renovação</span><b>' + due + '</b></div>' +
         '<div class="kv"><span>CSAT</span><b>' + csat + '</b></div>' +
         quotaCell(c) +
-        '<div class="acts"><button type="button" data-act="demandas">Demandas</button><button type="button" data-act="link">Link CSAT</button><button type="button" data-act="edit">Editar</button><button type="button" class="danger" data-act="del">Excluir</button></div>' +
+        '<div class="acts">' + (MODULO_DEMANDAS ? '<button type="button" data-act="demandas">Demandas</button>' : '') + '<button type="button" data-act="link">Link CSAT</button><button type="button" data-act="edit">Editar</button><button type="button" class="danger" data-act="del">Excluir</button></div>' +
       '</div>';
     }).join('') : '<p class="empty">' + (clientes.length ? 'Nenhum cliente com esse status.' : 'Nenhum cliente cadastrado ainda. Clique em "Novo cliente".') + '</p>';
 
@@ -1296,6 +1300,7 @@
     return { q: q, feitas: feitas };
   }
   function quotaCell(c) {
+    if (!MODULO_DEMANDAS) return '<div class="kv"><span>Entregas/mês</span><b' + (Number(c.quota_mensal) ? '>' + Number(c.quota_mensal) : ' class="muted">—') + '</b></div>';
     var i = quotaInfo(c);
     if (!i.q) return '<div class="kv"><span>Entregas/mês</span><b class="muted">—</b></div>';
     return '<div class="kv"><span>Entregas do mês</span><div class="quota"><b>' + i.feitas + ' / ' + i.q + '</b><div class="track"><div class="fill" style="--p:' + Math.min(1, i.feitas / i.q) + '"></div></div></div></div>';
