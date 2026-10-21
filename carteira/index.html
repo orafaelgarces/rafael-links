@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Transição da Carteira · Rafael Garcês</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="description" content="Andamento da transição dos projetos de design para a carteira de Rafael Garcês.">
+<style>
+@font-face{font-family:"Satoshi";src:url("/assets/fonts/Satoshi-Variable.woff2") format("woff2");font-weight:300 900;font-display:swap}
+/* Layout: uma coluna de leitura (máx. 860px); resumo no topo, lista de projetos com atualização expansível */
+:root{
+  --bg:#f5f6f4; --surface:#ffffff; --fg:#1d2321; --muted:#66706b; --line:#e2e6e3;
+  --accent:#1f6f5c; --on-accent:#ffffff;
+  --todo:#7d8783; --todo-bg:#eef1ef; --doing:#a8620d; --doing-bg:#fbefdc;
+  --done:#1f7a4d; --done-bg:#dff2e7; --hold:#a23b3b; --hold-bg:#f8e3e3;
+  --font:"Satoshi",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#121614; --surface:#1a201d; --fg:#e7ece9; --muted:#9aa49f; --line:#2b3330;
+  --accent:#5fc4a7; --on-accent:#0e1412;
+  --todo:#a3ada8; --todo-bg:#252c29; --doing:#f0b25e; --doing-bg:#3a2c17;
+  --done:#6fd39c; --done-bg:#183326; --hold:#f08b8b; --hold-bg:#3a1f1f; color-scheme:dark}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.5 var(--font);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+.wrap{max-width:860px;margin:0 auto;display:grid;gap:24px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+h1{font:700 clamp(28px,4.4vw,38px)/1.1 var(--font);margin:0;letter-spacing:-.02em;text-wrap:balance}
+.eyebrow{font:600 12px/1 var(--font);letter-spacing:.09em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.sub{color:var(--muted);margin:10px 0 0;max-width:60ch;text-wrap:pretty}
+.auth{font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:center}
+.link{background:none;border:0;padding:0;color:var(--accent);font:600 13px var(--font);cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.summary{display:grid;gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.bar{height:10px;border-radius:99px;background:var(--todo-bg);display:flex;overflow:hidden}
+.bar span{display:block;height:100%}
+.counts{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted)}
+.counts b{color:var(--fg);font-variant-numeric:tabular-nums;font-weight:600}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.filters{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);color:var(--fg);font:500 13px var(--font);padding:6px 12px;border-radius:99px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.list{display:grid;gap:10px}
+.item{background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 16px;cursor:pointer;border-radius:12px}
+.num{font:600 13px var(--font);color:var(--muted);font-variant-numeric:tabular-nums}
+.name{font:700 16px/1.3 var(--font);margin:0}
+.last{color:var(--muted);font-size:13.5px;margin:2px 0 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.status{font:600 12.5px var(--font);padding:5px 10px;border-radius:99px;white-space:nowrap}
+.s-a_iniciar{color:var(--todo);background:var(--todo-bg)}
+.s-em_andamento{color:var(--doing);background:var(--doing-bg)}
+.s-concluido{color:var(--done);background:var(--done-bg)}
+.s-pausado{color:var(--hold);background:var(--hold-bg)}
+.panel{border-top:1px solid var(--line);padding:16px;display:grid;gap:14px}
+.field{display:grid;gap:6px}
+.field>label,.lbl{font:600 12px var(--font);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+select,textarea,input{font:15px/1.45 var(--font);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 11px;width:100%}
+select{max-width:240px}
+textarea{min-height:76px;resize:vertical}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.btn{background:var(--accent);color:var(--on-accent);border:0;font:600 14px var(--font);padding:9px 16px;border-radius:10px;cursor:pointer}
+.btn[disabled]{opacity:.5;cursor:default}
+.hint{font-size:13px;color:var(--muted)}
+.hist{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.hist li{display:grid;grid-template-columns:92px minmax(0,1fr);gap:10px;font-size:14px}
+.hist time{color:var(--muted);font-variant-numeric:tabular-nums;font-size:13px;padding-top:1px}
+.hist p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:22px;color:var(--muted);text-align:center}
+.login{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px;max-width:420px}
+.foot{color:var(--muted);font-size:13px}
+@media (max-width:520px){.row{grid-template-columns:22px minmax(0,1fr)}.row .status{grid-column:2;justify-self:start}.hist li{grid-template-columns:1fr;gap:2px}}
+@media (prefers-reduced-motion:no-preference){.item{transition:border-color .15s}.item:hover{border-color:var(--muted)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Design · Carteira Rafael Garcês</p>
+      <h1>Transição da Carteira</h1>
+      <p class="sub">Andamento da passagem de cada projeto para a minha carteira. Toque num projeto para ver o histórico.</p>
+    </div>
+    <div class="auth" id="auth"></div>
+  </header>
+
+  <form class="login" id="login" hidden>
+    <span class="lbl">Entrar para editar</span>
+    <input id="email" type="email" autocomplete="username" placeholder="E-mail" required>
+    <input id="senha" type="password" autocomplete="current-password" placeholder="Senha" required>
+    <div class="actions"><button class="btn" type="submit">Entrar</button><button class="link" type="button" id="cancelar">Cancelar</button><span class="hint" id="loginMsg"></span></div>
+  </form>
+
+  <section class="summary" aria-label="Resumo">
+    <div class="bar" id="bar" aria-hidden="true"></div>
+    <div class="counts" id="counts"></div>
+  </section>
+
+  <nav class="filters" id="filters" aria-label="Filtrar por etapa"></nav>
+
+  <section class="list" id="list" aria-live="polite">
+    <div class="empty">Carregando os projetos…</div>
+  </section>
+
+  <p class="foot" id="foot"></p>
+</div>
+
+<script src="/assets/vendor/supabase.js"></script>
+<script>
+/* Chave "publishable": pública por desenho. Quem protege os dados são as regras RLS:
+   todos leem, só o e-mail do dono, autenticado, altera. */
+var sb = window.supabase.createClient('https://qgyiuhdyqaxpqhkzgbmq.supabase.co','sb_publishable_itIfz5BmcGJ0eUqBO3G5Pg_dQGu0NjJ',{auth:{persistSession:true,autoRefreshToken:true}});
+var DONO='rafaelgarces.adm@gmail.com';
+var ETAPAS=[
+  {id:"a_iniciar",nome:"A iniciar",cor:"var(--todo)"},
+  {id:"em_andamento",nome:"Em transição",cor:"var(--doing)"},
+  {id:"pausado",nome:"Pausado",cor:"var(--hold)"},
+  {id:"concluido",nome:"Concluído",cor:"var(--done)"}
+];
+function nomeEtapa(id){return (ETAPAS.find(function(e){return e.id===id})||ETAPAS[0]).nome;}
+var projetos=[], filtro="todos", aberto=null, podeEditar=false;
+function $(s){return document.querySelector(s);}
+function fmt(iso){ if(!iso) return ""; return new Date(iso).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}); }
+function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML;}
+
+function renderAuth(){
+  $("#auth").innerHTML = podeEditar
+    ? 'Editando como dono · <button class="link" id="sair">Sair</button>'
+    : '<button class="link" id="entrar">Entrar para editar</button>';
+}
+function renderResumo(){
+  var total=projetos.length, c={}; ETAPAS.forEach(function(e){c[e.id]=0}); projetos.forEach(function(p){c[p.etapa]++});
+  $("#bar").innerHTML=total?["concluido","em_andamento","pausado","a_iniciar"].map(function(id){return '<span style="width:'+(c[id]/total*100)+'%;background:'+ETAPAS.find(function(e){return e.id===id}).cor+'"></span>'}).join(""):"";
+  $("#counts").innerHTML='<span><b>'+c.concluido+'</b> de <b>'+total+'</b> concluídos</span>'+ETAPAS.map(function(e){return '<span><i class="dot" style="background:'+e.cor+'"></i>'+e.nome+' <b>'+c[e.id]+'</b></span>'}).join("");
+  $("#filters").innerHTML=[{id:"todos",nome:"Todos"}].concat(ETAPAS).map(function(e){return '<button class="chip" data-f="'+e.id+'" aria-pressed="'+(filtro===e.id)+'">'+e.nome+(e.id==="todos"?"":" · "+c[e.id])+'</button>'}).join("");
+}
+function render(){
+  renderResumo();
+  var vis=projetos.filter(function(p){return filtro==="todos"||p.etapa===filtro});
+  var list=$("#list");
+  if(!projetos.length){ list.innerHTML='<div class="empty">Nenhum projeto cadastrado ainda.</div>'; return; }
+  if(!vis.length){ list.innerHTML='<div class="empty">Nenhum projeto nesta etapa.</div>'; return; }
+  list.innerHTML=vis.map(function(p){
+    var hist=(p.historico||[]).slice().reverse(), ult=hist[0], open=aberto===p.id;
+    return '<article class="item" data-id="'+p.id+'">'+
+      '<div class="row" role="button" tabindex="0" aria-expanded="'+open+'">'+
+        '<span class="num">'+String(p.ordem).padStart(2,"0")+'</span>'+
+        '<div style="min-width:0"><h2 class="name">'+esc(p.nome)+'</h2>'+
+        '<p class="last">'+(ult?fmt(ult.data)+' · '+esc(ult.texto):'Sem atualizações ainda')+'</p></div>'+
+        '<span class="status s-'+p.etapa+'">'+nomeEtapa(p.etapa)+'</span>'+
+      '</div>'+
+      (open?'<div class="panel">'+
+        (podeEditar?
+          '<div class="field"><label for="etapa-'+p.id+'">Etapa</label><select id="etapa-'+p.id+'" data-etapa>'+ETAPAS.map(function(e){return '<option value="'+e.id+'"'+(e.id===p.etapa?' selected':'')+'>'+e.nome+'</option>'}).join("")+'</select></div>'+
+          '<div class="field"><label for="nota-'+p.id+'">Nova atualização</label><textarea id="nota-'+p.id+'" data-nota placeholder="Ex.: Reunião de passagem feita com o cliente; acessos recebidos."></textarea></div>'+
+          '<div class="actions"><button class="btn" data-salvar>Registrar atualização</button><span class="hint" data-msg></span></div>'
+        :'')+
+        (hist.length?'<div class="field"><span class="lbl">Histórico</span><ul class="hist">'+hist.map(function(h){return '<li><time>'+fmt(h.data)+'</time><p>'+esc(h.texto)+'</p></li>'}).join("")+'</ul></div>'
+          :(podeEditar?'':'<p class="hint">Sem atualizações registradas.</p>'))+
+      '</div>':'')+
+    '</article>';}).join("");
+}
+function carregar(){
+  return sb.from("transicao_projetos").select("*").order("ordem").then(function(r){
+    if(r.error){ $("#list").innerHTML='<div class="empty">Não foi possível carregar os projetos agora.</div>'; return; }
+    projetos=r.data;
+    var ts=projetos.map(function(p){return p.updated_at}).filter(Boolean).sort().pop();
+    $("#foot").textContent=ts?'Última atualização em '+new Date(ts).toLocaleString("pt-BR",{dateStyle:"short",timeStyle:"short"})+'.':"";
+    render();
+  });
+}
+function salvar(id,campos){ return sb.from("transicao_projetos").update(campos).eq("id",id).select().then(function(r){ if(r.error||!r.data||!r.data.length) throw r.error||new Error("sem permissão"); return carregar(); }); }
+
+document.addEventListener("click",function(ev){
+  var t=ev.target;
+  if(t.closest("#entrar")){ $("#login").hidden=false; $("#email").focus(); return; }
+  if(t.closest("#cancelar")){ $("#login").hidden=true; return; }
+  if(t.closest("#sair")){ sb.auth.signOut().then(function(){ podeEditar=false; renderAuth(); render(); }); return; }
+  var f=t.closest("[data-f]"); if(f){ filtro=f.dataset.f; render(); return; }
+  var row=t.closest(".row"); if(row){ var id=row.parentElement.dataset.id; aberto=aberto===id?null:id; render(); return; }
+  var btn=t.closest("[data-salvar]"); if(btn){
+    var item=btn.closest(".item"), pid=item.dataset.id, ta=item.querySelector("[data-nota]"), msg=item.querySelector("[data-msg]");
+    var texto=ta.value.trim(); if(!texto){ msg.textContent="Escreva a atualização antes de registrar."; return; }
+    var p=projetos.find(function(x){return x.id===pid});
+    var historico=(p.historico||[]).concat([{data:new Date().toISOString(),texto:texto}]).slice(-40);
+    btn.disabled=true; msg.textContent="Salvando…";
+    salvar(pid,{historico:historico}).catch(function(){ msg.textContent="Não foi possível salvar. Entre de novo e tente outra vez."; btn.disabled=false; });
+  }
+});
+document.addEventListener("keydown",function(ev){ var row=ev.target.closest&&ev.target.closest(".row"); if(row&&(ev.key==="Enter"||ev.key===" ")){ ev.preventDefault(); row.click(); } });
+document.addEventListener("change",function(ev){
+  var sel=ev.target.closest("[data-etapa]"); if(!sel) return;
+  var pid=sel.closest(".item").dataset.id, p=projetos.find(function(x){return x.id===pid});
+  var historico=(p.historico||[]).concat([{data:new Date().toISOString(),texto:'Etapa alterada para "'+nomeEtapa(sel.value)+'".'}]).slice(-40);
+  salvar(pid,{etapa:sel.value,historico:historico}).catch(function(){ sel.value=p.etapa; });
+});
+$("#login").addEventListener("submit",function(ev){
+  ev.preventDefault(); $("#loginMsg").textContent="Entrando…";
+  sb.auth.signInWithPassword({email:$("#email").value.trim(),password:$("#senha").value}).then(function(r){
+    if(r.error){ $("#loginMsg").textContent="E-mail ou senha incorretos."; return; }
+    podeEditar=(r.data.user&&r.data.user.email)===DONO; $("#login").hidden=true; $("#senha").value=""; renderAuth(); render();
+  });
+});
+sb.auth.getSession().then(function(r){
+  var u=r.data.session&&r.data.session.user; podeEditar=!!u&&u.email===DONO; renderAuth(); carregar();
+});
+</script>
+</body>
+</html>
