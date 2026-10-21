@@ -91,6 +91,9 @@ select:focus,textarea:focus,input:focus{outline:none;border-color:var(--ink-fain
 .hist li{display:grid;grid-template-columns:88px minmax(0,1fr);gap:12px;font-size:var(--text-meta)}
 .hist time{color:var(--ink-faint);font-variant-numeric:tabular-nums}
 .hist p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.hist .meta{display:flex;gap:12px;align-items:center;margin-top:4px;color:var(--ink-faint);font-size:var(--text-label)}
+.hist .meta .link{font-size:var(--text-label)}
+.hist .edit{display:grid;gap:10px}
 .empty{border:1px dashed var(--border);border-radius:20px;padding:28px;color:var(--ink-soft);text-align:center}
 .login{display:grid;gap:12px;max-width:420px}
 .foot{color:var(--ink-faint);font-size:var(--text-meta);margin:0}
@@ -148,7 +151,7 @@ var ETAPAS=[
   {id:"concluido",nome:"Concluído",cor:"var(--good)"}
 ];
 function nomeEtapa(id){return (ETAPAS.find(function(e){return e.id===id})||ETAPAS[0]).nome;}
-var projetos=[], filtro="todos", aberto=null, podeEditar=false;
+var projetos=[], filtro="todos", aberto=null, podeEditar=false, editando=null;
 function $(s){return document.querySelector(s);}
 function fmt(iso){ if(!iso) return ""; return new Date(iso).toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit",year:"2-digit"}); }
 function esc(s){var d=document.createElement("div");d.textContent=s==null?"":s;return d.innerHTML;}
@@ -186,7 +189,11 @@ function render(){
           '<div class="field"><label for="nota-'+p.id+'">Nova atualização</label><textarea id="nota-'+p.id+'" data-nota placeholder="Ex.: Reunião de passagem feita com o cliente; acessos recebidos."></textarea></div>'+
           '<div class="actions"><button class="btn" data-salvar>Registrar atualização</button><span class="hint" data-msg></span></div>'
         :'')+
-        (hist.length?'<div class="field"><span class="lbl">Histórico</span><ul class="hist">'+hist.map(function(h){return '<li><time>'+fmt(h.data)+'</time><p>'+esc(h.texto)+'</p></li>'}).join("")+'</ul></div>'
+        (hist.length?'<div class="field"><span class="lbl">Histórico</span><ul class="hist">'+hist.map(function(h,k){
+            var i=(p.historico.length-1-k), chave=p.id+':'+i;
+            if(podeEditar&&editando===chave) return '<li><time>'+fmt(h.data)+'</time><div class="edit"><textarea data-edit-txt aria-label="Editar atualização">'+esc(h.texto)+'</textarea><div class="actions"><button class="btn" data-edit-salvar="'+i+'">Salvar alteração</button><button class="btn btn-ghost" data-edit-cancelar>Cancelar</button><span class="hint" data-edit-msg></span></div></div></li>';
+            return '<li><time>'+fmt(h.data)+'</time><div><p>'+esc(h.texto)+'</p>'+((h.editadoEm||podeEditar)?'<div class="meta">'+(h.editadoEm?'<span>Editado em '+fmt(h.editadoEm)+'</span>':'')+(podeEditar?'<button class="link" data-edit="'+i+'">Editar</button>':'')+'</div>':'')+'</div></li>';
+          }).join("")+'</ul></div>'
           :(podeEditar?'':'<p class="hint">Sem atualizações registradas.</p>'))+
       '</div>':'')+
     '</article>';}).join("");
@@ -206,9 +213,22 @@ document.addEventListener("click",function(ev){
   var t=ev.target;
   if(t.closest("#entrar")){ $("#login").hidden=false; $("#email").focus(); return; }
   if(t.closest("#cancelar")){ $("#login").hidden=true; return; }
-  if(t.closest("#sair")){ sb.auth.signOut().then(function(){ podeEditar=false; renderAuth(); render(); }); return; }
+  if(t.closest("#sair")){ sb.auth.signOut().then(function(){ podeEditar=false; editando=null; renderAuth(); render(); }); return; }
   var f=t.closest("[data-f]"); if(f){ filtro=f.dataset.f; render(); return; }
   var row=t.closest(".row"); if(row){ var id=row.parentElement.dataset.id; aberto=aberto===id?null:id; render(); return; }
+  var ed=t.closest("[data-edit]"); if(ed){ editando=ed.closest(".item").dataset.id+':'+ed.dataset.edit; render(); var ta2=document.querySelector("[data-edit-txt]"); if(ta2){ ta2.focus(); ta2.setSelectionRange(ta2.value.length,ta2.value.length); } return; }
+  if(t.closest("[data-edit-cancelar]")){ editando=null; render(); return; }
+  var es=t.closest("[data-edit-salvar]"); if(es){
+    var it=es.closest(".item"), eid=it.dataset.id, idx=+es.dataset.editSalvar, novo=it.querySelector("[data-edit-txt]").value.trim(), em=it.querySelector("[data-edit-msg]");
+    if(!novo){ em.textContent="A atualização não pode ficar vazia."; return; }
+    var pp=projetos.find(function(x){return x.id===eid}), h2=(pp.historico||[]).map(function(x){return Object.assign({},x)});
+    if(!h2[idx]) return;
+    if(h2[idx].texto===novo){ editando=null; render(); return; }
+    h2[idx].texto=novo; h2[idx].editadoEm=new Date().toISOString();
+    es.disabled=true; em.textContent="Salvando…";
+    salvar(eid,{historico:h2}).then(function(){ editando=null; render(); }).catch(function(){ em.textContent="Não foi possível salvar. Entre de novo e tente outra vez."; es.disabled=false; });
+    return;
+  }
   var btn=t.closest("[data-salvar]"); if(btn){
     var item=btn.closest(".item"), pid=item.dataset.id, ta=item.querySelector("[data-nota]"), msg=item.querySelector("[data-msg]");
     var texto=ta.value.trim(); if(!texto){ msg.textContent="Escreva a atualização antes de registrar."; return; }
