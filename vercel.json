@@ -1,5 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/cosmo/", "destination": "/cosmo", "permanent": false },
+    { "source": "/cosmo/:path+/", "destination": "/cosmo/:path+", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/cosmo", "destination": "https://cosmo-two-zeta.vercel.app/cosmo" },
     { "source": "/cosmo/:path*", "destination": "https://cosmo-two-zeta.vercel.app/cosmo/:path*" }
