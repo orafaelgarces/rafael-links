@@ -49,16 +49,18 @@
 @keyframes i-on { to { opacity: 1; background: var(--accent); box-shadow: 0 0 12px rgba(211,234,85,.55); } }
 
 /* ---------- Hero ---------- */
-.hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: clamp(104px, 17svh, 150px) 0 198px; overflow: hidden; }
+/* o hero fica preso no topo e o resto da página (.over) sobe por cima dele */
+.hero { position: sticky; top: var(--hero-top, 0px); z-index: 0; min-height: calc(100svh - 119px); display: flex; flex-direction: column; justify-content: center; padding: clamp(104px, 17svh, 150px) 0 112px; overflow: hidden; }
+.over { position: relative; z-index: 1; background: var(--bg); box-shadow: 0 -16px 46px rgba(0,0,0,.3); }
 .hero__lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.hero h1 { font-size: clamp(2.5rem, min(7.6vw, 12svh), 6.1rem); letter-spacing: -.045em; line-height: 1.02; margin-top: clamp(22px, 3vw, 36px); text-wrap: initial; }
+.hero h1 { font-size: clamp(2.35rem, min(6.6vw, 10.5svh), 5.3rem); letter-spacing: -.045em; line-height: 1.02; margin-top: clamp(22px, 3vw, 36px); text-wrap: initial; }
 .hero h1 span { display: block; text-wrap: balance; }
 .hero__cta { margin-top: clamp(30px, 4vw, 46px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; }
-.hero__meta { margin-top: 30px; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gray); }
 .hero__foot { position: absolute; left: 0; right: 0; bottom: 28px; }
 .hero__foot .row { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gray); }
-/* régua: uma onda verde percorre os traços */
-.ruler { position: relative; height: 70px; margin-bottom: 18px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); }
+/* faixa das ferramentas, na dobra entre o hero e o Sobre: uma onda verde percorre os traços */
+.faixa { background: var(--bg); border-top: 1px solid var(--line); padding: 22px 0 26px; }
+.ruler { position: relative; height: 70px; overflow: hidden; }
 .ruler__ticks { position: absolute; left: 0; bottom: 0; display: flex; gap: 10px; height: 22px; align-items: flex-end; }
 /* ferramentas do dia a dia: aparecem uma a uma e acendem quando a onda passa */
 .rtool { position: absolute; left: calc(var(--k) * 11px - 10px); top: 12px; width: 21px; height: 21px; opacity: 0; transition: opacity .7s calc(var(--j) * 150ms + 700ms); }
@@ -185,7 +187,7 @@
   .panel { min-height: 0; gap: 14px; }
 }
 @media (max-width: 560px) {
-  .hero { padding: 130px 0 198px; }
+  .hero { padding: 130px 0 112px; }
   .tabs { grid-template-columns: repeat(2, 1fr); row-gap: 18px; }
   .form__row { grid-template-columns: 1fr; }
   .hero__foot .row > span { display: none; }
@@ -222,15 +224,34 @@
 <div class="pillbar">
   <div class="wrap">
     <a class="pill brand" href="#" aria-label="Rafael Garcês, início"><svg><use href="#r"/></svg>Rafael Garcês</a>
-    <nav class="pill" aria-label="Principal">
-      <div class="pill__links">
-        <a href="#sobre">Sobre</a>
-        <a href="#projetos">Projetos</a>
-        <a href="#servicos">Serviços</a>
-        <a href="#processo">Processo</a>
-      </div>
+    <div class="pill">
+      <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
       <a class="pill__cta" href="#contato">Contato</a>
+    </div>
+  </div>
+</div>
+
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu principal" hidden>
+  <div class="wrap menu__in">
+    <div class="menu__top">
+      <a class="pill brand" href="#" data-fecha><svg><use href="#r"/></svg>Rafael Garcês</a>
+      <button class="pill menu__x" type="button" data-fecha>Fechar</button>
+    </div>
+    <p class="eyebrow"><span class="dmx" aria-hidden="true"></span>Navegação</p>
+    <nav class="menu__nav" aria-label="Principal">
+      <a href="#sobre" data-fecha><span>Sobre</span><i>(01)</i></a>
+      <a href="#projetos" data-fecha><span>Projetos</span><i>(02)</i></a>
+      <a href="#servicos" data-fecha><span>Serviços</span><i>(03)</i></a>
+      <a href="#processo" data-fecha><span>Processo</span><i>(04)</i></a>
+      <a href="#duvidas" data-fecha><span>Perguntas</span><i>(05)</i></a>
+      <a href="#contato" data-fecha><span>Contato</span><i>(06)</i></a>
     </nav>
+    <div class="menu__social">
+      <a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>Instagram</a>
+      <a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-1.9 3.76-1.9 4.02 0 4.38 2.45 4.38 5.63V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.75Z"/></svg>LinkedIn</a>
+      <a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg>Behance</a>
+    </div>
+    <div class="menu__meta"><span><span data-relogio>--:--</span> · Teresina, Brasil</span><span>Marcas · Sites · Sistemas</span></div>
   </div>
 </div>
 
@@ -239,20 +260,23 @@
   <section class="hero">
     <canvas class="hero__lines" aria-hidden="true"></canvas>
     <div class="wrap">
-      <p class="eyebrow rise"><span class="dmx" aria-hidden="true"></span>Rafael Garcês · Estratégia e design</p>
+      <p class="eyebrow rise"><span class="dmx" aria-hidden="true"></span>Marcas, sites e sistemas</p>
       <h1><span class="rise" style="--i:1">Marcas difíceis de ignorar.</span><span class="rise lime" style="--i:2">Sites e sistemas à altura.</span></h1>
       <div class="hero__cta rise" style="--i:4">
         <a class="btn" href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Vim%20pelo%20seu%20site%20e%20tenho%20um%20projeto%20em%20mente.%20Gostaria%20de%20conversar." target="_blank" rel="noopener">Iniciar um projeto</a>
       </div>
-      <p class="hero__meta rise" style="--i:5">Marcas · Sites · Apps e sistemas</p>
     </div>
     <div class="hero__foot rise" style="--i:7">
       <div class="wrap">
-        <div class="ruler" aria-hidden="true"><div class="ruler__ticks"></div><span class="rtool" style="--k:5;--j:0" title="Figma"><svg aria-hidden="true" viewBox="0 0 256 384" xmlns="http://www.w3.org/2000/svg"><path d="M64,384 C99.328,384 128,355.328 128,320 L128,256 L64,256 C28.672,256 0,284.672 0,320 C0,355.328 28.672,384 64,384 Z" fill="#0ACF83"/><path d="M0,192 C0,156.672 28.672,128 64,128 L128,128 L128,256 L64,256 C28.672,256 0,227.328 0,192 Z" fill="#A259FF"/><path d="M0,64 C0,28.672 28.672,0 64,0 L128,0 L128,128 L64,128 C28.672,128 0,99.328 0,64 Z" fill="#F24E1E"/><path d="M128,0 L192,0 C227.328,0 256,28.672 256,64 C256,99.328 227.328,128 192,128 L128,128 L128,0 Z" fill="#FF7262"/><path d="M256,192 C256,227.328 227.328,256 192,256 C156.672,256 128,227.328 128,192 C128,156.672 156.672,128 192,128 C227.328,128 256,156.672 256,192 Z" fill="#1ABCFE"/></svg></span><span class="rtool" style="--k:16;--j:1" title="Claude"><svg aria-hidden="true" viewBox="0 0 24 24" fill="#D97757" xmlns="http://www.w3.org/2000/svg"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span><span class="rtool" style="--k:27;--j:2" title="GitHub"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><span class="rtool" style="--k:38;--j:3" title="Vercel"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="m12 1.608 12 20.784H0Z"/></svg></span><span class="rtool" style="--k:49;--j:4" title="Framer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="#0055FF" xmlns="http://www.w3.org/2000/svg"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg></span><span class="rtool" style="--k:60;--j:5" title="Elementor"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24ZM9 17H7V7h2Zm8 0h-6v-2h6Zm0-4h-6v-2h6Zm0-4h-6V7h6Z"/></svg></span><span class="rtool" style="--k:71;--j:6" title="Supabase"><svg aria-hidden="true" viewBox="0 0 256 263" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="20.8617445%" y1="20.6868812%" x2="63.4256086%" y2="44.0710077%" id="supabase-grad-mobile-1"><stop stop-color="#249361" offset="0%"/><stop stop-color="#3ECF8E" offset="100%"/></linearGradient><linearGradient x1="1.99116498%" y1="-13.1584008%" x2="21.4025077%" y2="34.708062%" id="supabase-grad-mobile-2"><stop stop-color="#000000" offset="0%"/><stop stop-color="#000000" stop-opacity="0" offset="100%"/></linearGradient></defs><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill="url(#supabase-grad-mobile-1)"/><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill-opacity="0.2" fill="url(#supabase-grad-mobile-2)"/><path d="M106.399023,4.36908575 C113.11645,-4.09118439 126.736889,0.544432392 126.898746,11.3460249 L127.935901,169.329953 L23.0369844,169.329953 C3.79559007,169.329953 -6.93568494,147.106651 5.02918175,132.037719 L106.399023,4.36908575 Z" fill="#3ECF8E"/></svg></span><span class="rtool" style="--k:82;--j:7" title="ChatGPT"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span></div>
         <div class="row"><span>Rafael Garcês · Teresina, PI</span><a class="explore" href="#sobre">Explorar <b aria-hidden="true">↓</b></a></div>
       </div>
     </div>
   </section>
+
+  <div class="over">
+  <div class="faixa" aria-hidden="true">
+    <div class="wrap"><div class="ruler"><div class="ruler__ticks"></div><span class="rtool" style="--j:0" title="Figma"><svg aria-hidden="true" viewBox="0 0 256 384" xmlns="http://www.w3.org/2000/svg"><path d="M64,384 C99.328,384 128,355.328 128,320 L128,256 L64,256 C28.672,256 0,284.672 0,320 C0,355.328 28.672,384 64,384 Z" fill="#0ACF83"/><path d="M0,192 C0,156.672 28.672,128 64,128 L128,128 L128,256 L64,256 C28.672,256 0,227.328 0,192 Z" fill="#A259FF"/><path d="M0,64 C0,28.672 28.672,0 64,0 L128,0 L128,128 L64,128 C28.672,128 0,99.328 0,64 Z" fill="#F24E1E"/><path d="M128,0 L192,0 C227.328,0 256,28.672 256,64 C256,99.328 227.328,128 192,128 L128,128 L128,0 Z" fill="#FF7262"/><path d="M256,192 C256,227.328 227.328,256 192,256 C156.672,256 128,227.328 128,192 C128,156.672 156.672,128 192,128 C227.328,128 256,156.672 256,192 Z" fill="#1ABCFE"/></svg></span><span class="rtool" style="--j:1" title="Claude"><svg aria-hidden="true" viewBox="0 0 24 24" fill="#D97757" xmlns="http://www.w3.org/2000/svg"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg></span><span class="rtool" style="--j:2" title="GitHub"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span><span class="rtool" style="--j:3" title="Vercel"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="m12 1.608 12 20.784H0Z"/></svg></span><span class="rtool" style="--j:4" title="Framer"><svg aria-hidden="true" viewBox="0 0 24 24" fill="#0055FF" xmlns="http://www.w3.org/2000/svg"><path d="M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z"/></svg></span><span class="rtool" style="--j:5" title="Elementor"><svg aria-hidden="true" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24ZM9 17H7V7h2Zm8 0h-6v-2h6Zm0-4h-6v-2h6Zm0-4h-6V7h6Z"/></svg></span><span class="rtool" style="--j:6" title="Supabase"><svg aria-hidden="true" viewBox="0 0 256 263" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient x1="20.8617445%" y1="20.6868812%" x2="63.4256086%" y2="44.0710077%" id="supabase-grad-mobile-1"><stop stop-color="#249361" offset="0%"/><stop stop-color="#3ECF8E" offset="100%"/></linearGradient><linearGradient x1="1.99116498%" y1="-13.1584008%" x2="21.4025077%" y2="34.708062%" id="supabase-grad-mobile-2"><stop stop-color="#000000" offset="0%"/><stop stop-color="#000000" stop-opacity="0" offset="100%"/></linearGradient></defs><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill="url(#supabase-grad-mobile-1)"/><path d="M149.601512,258.578826 C142.884085,267.038157 129.263882,262.403261 129.102024,251.601817 L126.735244,93.6176533 L232.963622,93.6176533 C252.204429,93.6176533 262.935398,115.840956 250.971119,130.909887 L149.601512,258.578826 Z" fill-opacity="0.2" fill="url(#supabase-grad-mobile-2)"/><path d="M106.399023,4.36908575 C113.11645,-4.09118439 126.736889,0.544432392 126.898746,11.3460249 L127.935901,169.329953 L23.0369844,169.329953 C3.79559007,169.329953 -6.93568494,147.106651 5.02918175,132.037719 L106.399023,4.36908575 Z" fill="#3ECF8E"/></svg></span><span class="rtool" style="--j:7" title="ChatGPT"><svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464zM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667zm2.0107-3.0231l-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66zM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813zm1.0976-2.3654l2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z"/></svg></span></div></div>
+  </div>
 
   <section class="sec light" id="sobre">
     <div class="wrap">
@@ -388,6 +412,7 @@
       </div>
     </div>
   </section>
+  </div>
 </main>
 
 <footer>
@@ -455,9 +480,37 @@
   }
 
   /* régua do hero */
-  var ruler = $('.ruler__ticks'), tr = '';
-  for (var k = 0; k < 90; k++) tr += '<i style="--k:' + k + '"></i>';
-  ruler.innerHTML = tr;
+  var ruler = $('.ruler__ticks'), ferr = $$('.rtool'), nTr = 0;
+  function regua() {   // traços na largura toda; os ícones se espalham por igual
+    var n = Math.max(12, Math.floor((ruler.parentNode.clientWidth + 10) / 11)); if (n === nTr) return; nTr = n;
+    for (var k = 0, tr = ''; k < n; k++) tr += '<i style="--k:' + k + '"></i>';
+    ruler.innerHTML = tr;
+    ferr.forEach(function (f, i) { var x = (i + .5) * (n * 11 - 10) / ferr.length; f.style.left = (x - 10.5) + 'px'; f.style.setProperty('--k', Math.round(x / 11)); });
+  }
+  regua(); window.addEventListener('resize', regua);
+
+  /* hero preso: se ele for mais alto que a janela, prende pelo pé em vez do topo */
+  var heroEl = $('.hero');
+  function prende() { heroEl.style.setProperty('--hero-top', Math.min(0, window.innerHeight - heroEl.offsetHeight) + 'px'); }
+  prende(); window.addEventListener('resize', prende); window.addEventListener('load', prende);
+
+  /* menu em tela cheia */
+  (function () {
+    var menu = $('#menu'), abre = $('.pill__menu'), fecha = $('.menu__x'), raiz = document.documentElement, tm;
+    if (!menu || !abre) return;
+    function abrir() { clearTimeout(tm); menu.hidden = false; void menu.offsetWidth; raiz.classList.add('menu-aberto'); abre.setAttribute('aria-expanded', 'true'); fecha.focus({ preventScroll: true }); }
+    function fechar(volta) { raiz.classList.remove('menu-aberto'); abre.setAttribute('aria-expanded', 'false'); tm = setTimeout(function () { menu.hidden = true; }, 520); if (volta) abre.focus({ preventScroll: true }); }
+    abre.addEventListener('click', abrir);
+    $$('[data-fecha]', menu).forEach(function (e) { e.addEventListener('click', function () { fechar(e === fecha); }); });
+    document.addEventListener('keydown', function (e) {
+      if (!raiz.classList.contains('menu-aberto')) return;
+      if (e.key === 'Escape') { fechar(true); return; }
+      if (e.key !== 'Tab') return;
+      var f = $$('a, button', menu), a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    });
+  })();
 
   /* linhas do hero: curvam-se para longe do cursor, como um campo em volta dele */
   (function () {
