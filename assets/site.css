@@ -111,3 +111,6 @@ footer { border-top: 1px solid var(--line); padding-top: clamp(50px, 7vw, 90px);
   .rise, .js .reveal, .js [data-words] .w { opacity: 1; translate: none; filter: none; }
   .cur-ring, .cur-glow { display: none; }
 }
+
+/* luz desfocada do cursor retirada a pedido (10/11): fica só o anel */
+.cur-glow { display: none !important; }

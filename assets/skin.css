@@ -58,3 +58,6 @@ h1, h2, h3 { font-weight: 500 !important; letter-spacing: -.035em !important; }
   .foot__matrix::after { background-image: radial-gradient(circle, var(--n-accent) .9px, transparent 1.3px); }
 }
 @media (prefers-reduced-motion: reduce) { .cur-ring, .cur-glow { display: none; } html { scroll-behavior: auto; } }
+
+/* luz desfocada do cursor retirada a pedido (10/11): fica só o anel */
+.cur-glow { display: none !important; }
