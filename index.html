@@ -50,7 +50,7 @@
 
 /* ---------- Hero ---------- */
 .hero { position: relative; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; padding: 150px 0 140px; overflow: hidden; }
-.hero__lines { position: absolute; inset: 0; background: repeating-linear-gradient(180deg, transparent 0 43px, rgba(255,255,255,.04) 43px 44px); pointer-events: none; }
+.hero__lines { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .hero h1 { font-size: clamp(2.5rem, 7.6vw, 6.1rem); letter-spacing: -.045em; line-height: 1.02; margin-top: clamp(22px, 3vw, 36px); text-wrap: initial; }
 .hero h1 span { display: block; text-wrap: balance; }
 .hero__cta { margin-top: clamp(30px, 4vw, 46px); display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; }
@@ -58,10 +58,10 @@
 .hero__foot { position: absolute; left: 0; right: 0; bottom: 28px; }
 .hero__foot .row { display: flex; justify-content: space-between; align-items: center; gap: 16px; font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--gray); }
 /* régua: uma onda verde percorre os traços */
-.ruler { position: relative; height: 58px; margin-bottom: 18px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); }
+.ruler { position: relative; height: 70px; margin-bottom: 18px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, #000 82%, transparent); mask-image: linear-gradient(90deg, #000 82%, transparent); }
 .ruler__ticks { position: absolute; left: 0; bottom: 0; display: flex; gap: 10px; height: 22px; align-items: flex-end; }
 /* ferramentas do dia a dia: aparecem uma a uma e acendem quando a onda passa */
-.rtool { position: absolute; left: calc(var(--k) * 11px - 10px); top: 0; width: 21px; height: 21px; opacity: 0; transition: opacity .7s calc(var(--j) * 150ms + 700ms); }
+.rtool { position: absolute; left: calc(var(--k) * 11px - 10px); top: 12px; width: 21px; height: 21px; opacity: 0; transition: opacity .7s calc(var(--j) * 150ms + 700ms); }
 .ready .rtool { opacity: 1; }
 .rtool svg { width: 100%; height: 100%; color: #f5f5f3; opacity: .34; animation: ondaIcone 3.4s calc(var(--k) * 42ms) infinite; }
 .rtool svg, .rtool svg * { fill: currentColor !important; }
@@ -237,7 +237,7 @@
 <main id="conteudo" tabindex="-1">
 
   <section class="hero">
-    <div class="hero__lines" aria-hidden="true"></div>
+    <canvas class="hero__lines" aria-hidden="true"></canvas>
     <div class="wrap">
       <p class="eyebrow rise"><span class="dmx" aria-hidden="true"></span>Rafael Garcês · Estratégia e design</p>
       <h1><span class="rise" style="--i:1">Marcas difíceis de ignorar.</span><span class="rise lime" style="--i:2">Sites e sistemas à altura.</span></h1>
@@ -458,6 +458,40 @@
   var ruler = $('.ruler__ticks'), tr = '';
   for (var k = 0; k < 90; k++) tr += '<i style="--k:' + k + '"></i>';
   ruler.innerHTML = tr;
+
+  /* linhas do hero: curvam-se para longe do cursor, como um campo em volta dele */
+  (function () {
+    var hero = $('.hero'), cv = $('.hero__lines'); if (!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d'), W = 0, H = 0, dpr = 1, GAP = 44, mx = 0, my = 0, tx = 0, ty = 0, f = 0, tf = 0, vivo = false, primeiro = true;
+    function desenha() {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); ctx.lineWidth = 1;
+      for (var y = GAP - .5; y < H; y += GAP) {
+        var dyc = y - my, queda = Math.exp(-Math.abs(dyc) / 210), forca = 54 * f * Math.tanh(dyc / 38) * queda;
+        ctx.strokeStyle = 'rgba(255,255,255,' + (0.045 + 0.085 * f * queda) + ')';
+        ctx.beginPath();
+        if (Math.abs(forca) < .2) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+        else for (var x = 0; x <= W + 16; x += 16) {
+          var dx = x - mx, d = forca * Math.exp(-(dx * dx) / (2 * 240 * 240));
+          if (x === 0) ctx.moveTo(x, y + d); else ctx.lineTo(x, y + d);
+        }
+        ctx.stroke();
+      }
+    }
+    function mede() { var r = hero.getBoundingClientRect(); dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height; cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); desenha(); }
+    function quadro() {
+      mx += (tx - mx) * .16; my += (ty - my) * .16; f += (tf - f) * .09;
+      desenha();
+      if (tf > 0 || f > .004) requestAnimationFrame(quadro); else { f = 0; desenha(); vivo = false; }
+    }
+    mede(); window.addEventListener('resize', mede); window.addEventListener('load', mede);
+    if (site.reduce) return;
+    hero.addEventListener('pointermove', function (e) {
+      var r = hero.getBoundingClientRect(); tx = e.clientX - r.left; ty = e.clientY - r.top;
+      if (primeiro) { primeiro = false; mx = tx; my = ty; }
+      tf = 1; if (!vivo) { vivo = true; requestAnimationFrame(quadro); }
+    }, { passive: true });
+    hero.addEventListener('pointerleave', function () { tf = 0; });
+  })();
 
   /* frase do Sobre: as palavras escurecem conforme a rolagem */
   var lead = $('[data-scrub]'), sw = [];
