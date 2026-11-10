@@ -6,6 +6,9 @@
 <title>Rafael Garcês | Marcas, sites e sistemas</title>
 <meta name="description" content="Design de marcas, sites e sistemas com estratégia e clareza. Conheça os projetos de Rafael Garcês e converse sobre a presença do seu negócio.">
 <link rel="canonical" href="https://orafaelgarces.com.br/">
+<link rel="alternate" hreflang="pt-BR" href="https://orafaelgarces.com.br/">
+<link rel="alternate" hreflang="en" href="https://orafaelgarces.com.br/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://orafaelgarces.com.br/">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://orafaelgarces.com.br/">
@@ -22,7 +25,12 @@
   (function () {
     var d = document.documentElement;
     d.classList.add('js');
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('has-intro');
+    /* idioma: ?lang=en|pt vale e fica guardado; sem parâmetro, usa o guardado; padrão português */
+    var l = null, pula = false;
+    try { var m = /[?&]lang=(en|pt)\b/.exec(location.search); l = m ? m[1] : localStorage.getItem('idioma'); if (m) localStorage.setItem('idioma', l); } catch (e) {}
+    if (l === 'en') { d.lang = 'en'; d.classList.add('en'); }
+    try { pula = sessionStorage.getItem('sem-intro'); sessionStorage.removeItem('sem-intro'); } catch (e) {}
+    if (!pula && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) d.classList.add('has-intro');
     else d.classList.add('ready');
   })();
 </script>
@@ -37,6 +45,8 @@
 .intro__matrix i.on { animation: i-ripple 1.3s var(--d) ease-out both, i-on .5s calc(1s + var(--o)) var(--ease) forwards; }
 .intro__hud { position: absolute; left: 0; right: 0; display: flex; justify-content: space-between; align-items: flex-end; padding: 0 var(--pad); font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase; color: #85858e; transition: opacity .3s; }
 .intro__hud--top { top: clamp(22px, 4vw, 40px); }
+.intro__hud span { white-space: nowrap; }
+@media (max-width: 400px) { .intro__hud { font-size: 10px; letter-spacing: .1em; } }
 .intro__hud--bot { bottom: clamp(22px, 4vw, 40px); }
 .intro__count { font-size: clamp(54px, 10vw, 112px); font-weight: 400; letter-spacing: -.05em; line-height: .8; color: #f5f5f3; font-variant-numeric: tabular-nums; text-transform: none; }
 .intro__bar { position: absolute; left: var(--pad); right: var(--pad); bottom: clamp(100px, 16vw, 170px); height: 1px; background: rgba(255,255,255,.12); }
@@ -211,47 +221,49 @@
 <!-- Tela de carregamento -->
 <div class="intro" aria-hidden="true">
   <div class="intro__lines"></div>
-  <div class="intro__hud intro__hud--top"><span>Rafael Garcês</span><span>Marcas · Sites · Sistemas</span></div>
+  <div class="intro__hud intro__hud--top"><span>Rafael Garcês</span><span data-i="tres">Marcas · Sites · Sistemas</span></div>
   <div class="intro__matrix"></div>
   <div class="intro__bar"><span></span></div>
-  <div class="intro__hud intro__hud--bot"><span class="intro__count">000</span><span>Carregando</span></div>
+  <div class="intro__hud intro__hud--bot"><span class="intro__count">000</span><span data-i="carrega">Carregando</span></div>
 </div>
 
-<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<a class="skip" href="#conteudo" data-i="pular">Pular para o conteúdo</a>
 <div class="progress" aria-hidden="true"><span></span></div>
 <div class="cur-ring" aria-hidden="true"></div>
 
 <div class="pillbar">
   <div class="wrap">
-    <a class="pill brand" href="#" aria-label="Rafael Garcês, início"><svg><use href="#r"/></svg>Rafael Garcês</a>
+    <a class="pill brand" href="#" aria-label="Rafael Garcês, início" data-i="marca"><svg><use href="#r"/></svg>Rafael Garcês</a>
     <div class="pill">
+      <button class="pill__lang" type="button" data-idioma aria-label="Idioma: português. Mudar para inglês" data-i="lang">PT</button>
       <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
-      <a class="pill__cta" href="#contato">Contato</a>
+      <a class="pill__cta" href="#contato" data-i="contato">Contato</a>
     </div>
   </div>
 </div>
 
-<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu principal" hidden>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu principal" data-i="menu" hidden>
   <div class="wrap menu__in">
     <div class="menu__top">
       <a class="pill brand" href="#" data-fecha><svg><use href="#r"/></svg>Rafael Garcês</a>
-      <button class="pill menu__x" type="button" data-fecha>Fechar</button>
+      <button class="pill menu__x" type="button" data-fecha data-i="fechar">Fechar</button>
     </div>
-    <p class="eyebrow"><span class="dmx" aria-hidden="true"></span>Navegação</p>
+    <p class="eyebrow"><span class="dmx" aria-hidden="true"></span><span data-i="nav">Navegação</span></p>
     <nav class="menu__nav" aria-label="Principal">
-      <a href="#sobre" data-fecha><span>Sobre</span><i>(01)</i></a>
-      <a href="#projetos" data-fecha><span>Projetos</span><i>(02)</i></a>
-      <a href="#servicos" data-fecha><span>Serviços</span><i>(03)</i></a>
-      <a href="#processo" data-fecha><span>Processo</span><i>(04)</i></a>
-      <a href="#duvidas" data-fecha><span>Perguntas</span><i>(05)</i></a>
-      <a href="#contato" data-fecha><span>Contato</span><i>(06)</i></a>
+      <a href="#sobre" data-fecha><span data-i="sobre">Sobre</span><i>(01)</i></a>
+      <a href="#projetos" data-fecha><span data-i="projetos">Projetos</span><i>(02)</i></a>
+      <a href="#servicos" data-fecha><span data-i="servicos">Serviços</span><i>(03)</i></a>
+      <a href="#processo" data-fecha><span data-i="processo">Processo</span><i>(04)</i></a>
+      <a href="#duvidas" data-fecha><span data-i="perguntas">Perguntas</span><i>(05)</i></a>
+      <a href="#contato" data-fecha><span data-i="contato">Contato</span><i>(06)</i></a>
     </nav>
     <div class="menu__social">
       <a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>Instagram</a>
       <a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-1.9 3.76-1.9 4.02 0 4.38 2.45 4.38 5.63V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.75Z"/></svg>LinkedIn</a>
       <a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg>Behance</a>
+      <span class="menu__lang"><button type="button" data-idioma="pt" aria-label="Português">PT</button><button type="button" data-idioma="en" aria-label="English">EN</button></span>
     </div>
-    <div class="menu__meta"><span><span data-relogio>--:--</span> · Teresina, Brasil</span><span>Marcas · Sites · Sistemas</span></div>
+    <div class="menu__meta"><span><span data-relogio>--:--</span> · <span data-i="cidade">Teresina, Brasil</span></span><span data-i="tres">Marcas · Sites · Sistemas</span></div>
   </div>
 </div>
 
@@ -260,15 +272,15 @@
   <section class="hero">
     <canvas class="hero__lines" aria-hidden="true"></canvas>
     <div class="wrap">
-      <p class="eyebrow rise"><span class="dmx" aria-hidden="true"></span>Marcas, sites e sistemas</p>
-      <h1><span class="rise" style="--i:1">Marcas difíceis de ignorar.</span><span class="rise lime" style="--i:2">Sites e sistemas à altura.</span></h1>
+      <p class="eyebrow rise"><span class="dmx" aria-hidden="true"></span><span data-i="eb-hero">Marcas, sites e sistemas</span></p>
+      <h1><span class="rise" style="--i:1" data-i="h1a">Marcas difíceis de ignorar.</span><span class="rise lime" style="--i:2" data-i="h1b">Sites e sistemas à altura.</span></h1>
       <div class="hero__cta rise" style="--i:4">
-        <a class="btn" href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Vim%20pelo%20seu%20site%20e%20tenho%20um%20projeto%20em%20mente.%20Gostaria%20de%20conversar." target="_blank" rel="noopener">Iniciar um projeto</a>
+        <a class="btn" href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Vim%20pelo%20seu%20site%20e%20tenho%20um%20projeto%20em%20mente.%20Gostaria%20de%20conversar." target="_blank" rel="noopener" data-i="cta-hero">Iniciar um projeto</a>
       </div>
     </div>
     <div class="hero__foot rise" style="--i:7">
       <div class="wrap">
-        <div class="row"><span>Rafael Garcês · Teresina, PI</span><a class="explore" href="#sobre">Explorar <b aria-hidden="true">↓</b></a></div>
+        <div class="row"><span data-i="onde">Rafael Garcês · Teresina, PI</span><a class="explore" href="#sobre"><span data-i="explorar">Explorar</span> <b aria-hidden="true">↓</b></a></div>
       </div>
     </div>
   </section>
@@ -280,31 +292,31 @@
 
   <section class="sec light" id="sobre">
     <div class="wrap">
-      <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span>Sobre</p>
-      <p class="lead tem-hl" data-scrub>Bom design começa <span class="hl">antes do visual</span>: primeiro entender o negócio, organizar o problema e encontrar uma solução eficiente.</p>
+      <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span><span data-i="sobre">Sobre</span></p>
+      <p class="lead tem-hl" data-scrub data-i="lead">Bom design começa <span class="hl">antes do visual</span>: primeiro entender o negócio, organizar o problema e encontrar uma solução eficiente.</p>
 
       <div class="about reveal">
         <div>
-          <p class="quote">“Estratégia para fazer sentido. Design para fazer perceber.”</p>
+          <p class="quote" data-i="quote">“Estratégia para fazer sentido. Design para fazer perceber.”</p>
           <div class="who">
-            <img src="/midia/sobre/rafael-2.jpg" width="480" height="480" loading="lazy" decoding="async" alt="Foto de Rafael Garcês">
-            <div><strong>Rafael Garcês</strong><span>Designer de marcas e sites</span></div>
+            <img src="/midia/sobre/rafael-2.jpg" width="480" height="480" loading="lazy" decoding="async" alt="Foto de Rafael Garcês" data-i="foto">
+            <div><strong>Rafael Garcês</strong><span data-i="cargo">Designer de marcas e sites</span></div>
           </div>
         </div>
         <div class="about__side">
-          <p>Hoje atuo na V4 Company com design e direção estratégica de criativos e, em paralelo, desenvolvo projetos independentes de identidade visual e sites.</p>
-          <a class="btn" href="#contato">Iniciar um projeto</a>
+          <p data-i="bio">Hoje atuo na V4 Company com design e direção estratégica de criativos e, em paralelo, desenvolvo projetos independentes de identidade visual e sites.</p>
+          <a class="btn" href="#contato" data-i="cta">Iniciar um projeto</a>
         </div>
       </div>
 
       <div class="rows">
-        <div class="row3 reveal"><h3>Marcas</h3><b><i>+<span data-count="5">5</span></i><small>projetos</small></b><p>Logo, identidade visual e o sistema que segura tudo junto.</p></div>
-        <div class="row3 reveal"><h3>Sites</h3><b><i>+<span data-count="20">20</span></i><small>projetos</small></b><p>Institucionais e landing pages feitos pra vender.</p></div>
-        <div class="row3 reveal"><h3>Apps e sistemas</h3><b><i>+<span data-count="3">3</span></i><small>projetos</small></b><p>Interfaces de aplicativo, painel e produto digital.</p></div>
+        <div class="row3 reveal"><h3 data-i="r1">Marcas</h3><b><i>+<span data-count="5">5</span></i><small data-i="proj">projetos</small></b><p data-i="r1p">Logo, identidade visual e o sistema que segura tudo junto.</p></div>
+        <div class="row3 reveal"><h3 data-i="r2">Sites</h3><b><i>+<span data-count="20">20</span></i><small data-i="proj">projetos</small></b><p data-i="r2p">Institucionais e landing pages feitos pra vender.</p></div>
+        <div class="row3 reveal"><h3 data-i="r3">Apps e sistemas</h3><b><i>+<span data-count="3">3</span></i><small data-i="proj">projetos</small></b><p data-i="r3p">Interfaces de aplicativo, painel e produto digital.</p></div>
       </div>
 
       <div class="logos reveal">
-        <span>Já trabalhei com</span>
+        <span data-i="clientes">Já trabalhei com</span>
         <img src="/midia/sobre/v4.png" width="288" height="96" loading="lazy" alt="V4 Company">
         <img src="/midia/sobre/blue3.png" width="533" height="96" loading="lazy" alt="Blue3">
         <img src="/midia/sobre/movti.png" width="467" height="96" loading="lazy" alt="Movti Cloud Solutions">
@@ -315,25 +327,25 @@
 
   <section class="sec" id="projetos"><a id="cases"></a>
     <div class="wrap">
-      <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span>Trabalho selecionado</p>
+      <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span><span data-i="eb-proj">Trabalho selecionado</span></p>
       <div class="head2">
-        <h2 class="h2" data-words>Estratégia que <span class="lime">ganha forma.</span></h2>
+        <h2 class="h2" data-words data-i="h2-proj">Estratégia que <span class="lime">ganha forma.</span></h2>
         <span class="count">01</span>
       </div>
       <div class="bento">
         <a class="tile tile--case reveal" href="/trabalho/loja-maiphone/">
-          <img src="/trabalho/loja-maiphone/midia/card.webp" width="1200" height="900" loading="lazy" decoding="async" alt="Landing page da Loja MaiPhone">
-          <em>Ver projeto ↗</em>
+          <img src="/trabalho/loja-maiphone/midia/card.webp" width="1200" height="900" loading="lazy" decoding="async" alt="Landing page da Loja MaiPhone" data-i="alt-case">
+          <em data-i="ver">Ver projeto ↗</em>
           <h3>Loja MaiPhone</h3>
-          <p>Site · Landing page · Design responsivo</p>
+          <p data-i="case-tags">Site · Landing page · Design responsivo</p>
         </a>
         <div class="tile tile--vazio reveal" style="--i:1">
-          <h3>Próximo case</h3>
-          <p>Em breve por aqui.</p>
+          <h3 data-i="prox">Próximo case</h3>
+          <p data-i="breve">Em breve por aqui.</p>
         </div>
         <div class="tile tile--cta reveal" style="--i:2">
-          <h3>O próximo case pode ser o seu.</h3>
-          <a class="btn" href="#contato">Iniciar um projeto</a>
+          <h3 data-i="seu">O próximo case pode ser o seu.</h3>
+          <a class="btn" href="#contato" data-i="cta">Iniciar um projeto</a>
         </div>
       </div>
     </div>
@@ -341,20 +353,20 @@
 
   <section class="sec" id="servicos" style="padding-top:0"><a id="solucoes"></a>
     <div class="wrap">
-      <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span>Serviços</p>
-      <h2 class="h2" data-words>Do posicionamento à <span class="lime">presença digital,</span> com o mesmo cuidado em cada entrega.</h2>
+      <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span><span data-i="servicos">Serviços</span></p>
+      <h2 class="h2" data-words data-i="h2-serv">Do posicionamento à <span class="lime">presença digital,</span> com o mesmo cuidado em cada entrega.</h2>
       <div class="cols">
         <div class="col reveal">
-          <h3>Marca <i>01</i></h3>
-          <ul><li>Logo e sistema de identidade visual</li><li>Paleta e tipografia</li><li>Direção de uso da marca</li><li>Arquivos finais em SVG, PNG e PDF</li></ul>
+          <h3><span data-i="s1">Marca</span> <i>01</i></h3>
+          <ul data-i="s1l"><li>Logo e sistema de identidade visual</li><li>Paleta e tipografia</li><li>Direção de uso da marca</li><li>Arquivos finais em SVG, PNG e PDF</li></ul>
         </div>
         <div class="col reveal" style="--i:1">
-          <h3>Site <i>02</i></h3>
-          <ul><li>Site institucional</li><li>Landing page</li><li>Design responsivo</li><li>Desenvolvimento e publicação</li><li>Estrutura otimizada e SEO básico</li></ul>
+          <h3><span data-i="s2">Site</span> <i>02</i></h3>
+          <ul data-i="s2l"><li>Site institucional</li><li>Landing page</li><li>Design responsivo</li><li>Desenvolvimento e publicação</li><li>Estrutura otimizada e SEO básico</li></ul>
         </div>
         <div class="col reveal" style="--i:2">
-          <h3>Apps e sistemas <i>03</i></h3>
-          <ul><li>Interface de aplicativo</li><li>Painel</li><li>Produto digital</li></ul>
+          <h3><span data-i="r3">Apps e sistemas</span> <i>03</i></h3>
+          <ul data-i="s3l"><li>Interface de aplicativo</li><li>Painel</li><li>Produto digital</li></ul>
         </div>
       </div>
     </div>
@@ -363,19 +375,19 @@
   <section class="proc light" id="processo"><a id="metodologia"></a>
     <div class="proc__pin">
       <div class="wrap">
-        <p class="eyebrow"><span class="dmx" aria-hidden="true"></span>Processo</p>
-        <h2 class="h2 tem-hl" data-words>Quatro etapas, <span class="hl">sem surpresa</span> no meio.</h2>
-        <div class="tabs" role="tablist" aria-label="Etapas do processo">
-          <button class="tab on" role="tab" aria-selected="true" aria-controls="painel" id="t0"><span>01</span><strong>Conversa</strong></button>
-          <button class="tab" role="tab" aria-selected="false" aria-controls="painel" id="t1" tabindex="-1"><span>02</span><strong>Proposta</strong></button>
-          <button class="tab" role="tab" aria-selected="false" aria-controls="painel" id="t2" tabindex="-1"><span>03</span><strong>Design</strong></button>
-          <button class="tab" role="tab" aria-selected="false" aria-controls="painel" id="t3" tabindex="-1"><span>04</span><strong>Entrega</strong></button>
+        <p class="eyebrow"><span class="dmx" aria-hidden="true"></span><span data-i="processo">Processo</span></p>
+        <h2 class="h2 tem-hl" data-words data-i="h2-proc">Quatro etapas, <span class="hl">sem surpresa</span> no meio.</h2>
+        <div class="tabs" role="tablist" aria-label="Etapas do processo" data-i="tabs">
+          <button class="tab on" role="tab" aria-selected="true" aria-controls="painel" id="t0"><span>01</span><strong data-i="e0">Conversa</strong></button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="painel" id="t1" tabindex="-1"><span>02</span><strong data-i="e1">Proposta</strong></button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="painel" id="t2" tabindex="-1"><span>03</span><strong data-i="e2">Design</strong></button>
+          <button class="tab" role="tab" aria-selected="false" aria-controls="painel" id="t3" tabindex="-1"><span>04</span><strong data-i="e3">Entrega</strong></button>
         </div>
         <div class="panel" id="painel" role="tabpanel" aria-labelledby="t0" aria-live="polite">
-          <h3>Conversa</h3>
-          <div><p>Entendo o negócio e o que precisa resolver.</p><small>Etapa 01 de 04</small></div>
+          <h3 data-i="e0">Conversa</h3>
+          <div><p data-i="e0p">Entendo o negócio e o que precisa resolver.</p><small data-i="etapa1">Etapa 01 de 04</small></div>
         </div>
-        <p class="proc__hint">Role para ver as etapas</p>
+        <p class="proc__hint" data-i="role">Role para ver as etapas</p>
       </div>
     </div>
   </section>
@@ -384,30 +396,30 @@
     <div class="wrap">
       <div class="faq">
         <div>
-          <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span>Perguntas</p>
-          <h2 class="h2" data-words>Antes de <span class="lime">começarmos.</span></h2>
+          <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span><span data-i="perguntas">Perguntas</span></p>
+          <h2 class="h2" data-words data-i="h2-faq">Antes de <span class="lime">começarmos.</span></h2>
         </div>
         <div class="faq__list reveal">
-          <details open><summary>Preciso contratar marca e site juntos?</summary><p>Você pode conversar comigo sobre identidade visual, site ou os dois. O ponto de partida é entender o que seu negócio precisa.</p></details>
-          <details><summary>O que recebo em um projeto de identidade?</summary><p>Logo e sistema visual, paleta, tipografia e orientações de uso, com arquivos finais organizados em SVG, PNG e PDF. As aplicações são definidas no escopo do projeto.</p></details>
-          <details><summary>Como começo a conversa?</summary><p>Clique em “Iniciar um projeto” para falar comigo pelo WhatsApp. Conte sobre seu negócio, o que você precisa criar e o objetivo do projeto.</p></details>
+          <details open><summary data-i="q0">Preciso contratar marca e site juntos?</summary><p data-i="a0">Você pode conversar comigo sobre identidade visual, site ou os dois. O ponto de partida é entender o que seu negócio precisa.</p></details>
+          <details><summary data-i="q1">O que recebo em um projeto de identidade?</summary><p data-i="a1">Logo e sistema visual, paleta, tipografia e orientações de uso, com arquivos finais organizados em SVG, PNG e PDF. As aplicações são definidas no escopo do projeto.</p></details>
+          <details><summary data-i="q2">Como começo a conversa?</summary><p data-i="a2">Clique em “Iniciar um projeto” para falar comigo pelo WhatsApp. Conte sobre seu negócio, o que você precisa criar e o objetivo do projeto.</p></details>
         </div>
       </div>
 
       <div class="contact" id="contato">
         <div>
-          <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span>Contato</p>
-          <h2 class="h2" data-words>Sua marca pode <span class="lime">comunicar melhor.</span></h2>
-          <p class="sub reveal">Se você está construindo um novo negócio ou sente que sua presença atual já não representa o nível da sua empresa, vamos conversar.</p>
+          <p class="eyebrow reveal"><span class="dmx" aria-hidden="true"></span><span data-i="contato">Contato</span></p>
+          <h2 class="h2" data-words data-i="h2-cont">Sua marca pode <span class="lime">comunicar melhor.</span></h2>
+          <p class="sub reveal" data-i="sub">Se você está construindo um novo negócio ou sente que sua presença atual já não representa o nível da sua empresa, vamos conversar.</p>
         </div>
         <form class="form reveal" id="contato-form">
-          <label>Nome<input name="name" autocomplete="name" placeholder="Como você se chama?" required maxlength="100"></label>
+          <label><span data-i="nome">Nome</span><input name="name" autocomplete="name" placeholder="Como você se chama?" data-i="ph-nome" required maxlength="100"></label>
           <div class="form__row">
-            <label>E-mail<input name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required maxlength="150"></label>
-            <label>WhatsApp<input name="phone" type="tel" autocomplete="tel" placeholder="(DDD) 99999-9999" required minlength="8" maxlength="25" pattern="[+0-9() .\-]{8,25}"></label>
+            <label><span data-i="email">E-mail</span><input name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" data-i="ph-email" required maxlength="150"></label>
+            <label>WhatsApp<input name="phone" type="tel" autocomplete="tel" placeholder="(DDD) 99999-9999" data-i="ph-fone" required minlength="8" maxlength="25" pattern="[+0-9() .\-]{8,25}"></label>
           </div>
-          <button class="btn btn--accent" type="submit">Continuar no WhatsApp <svg><use href="#arrow"/></svg></button>
-          <small>Seus dados vão na mensagem. Você revisa e envia pelo WhatsApp.</small>
+          <button class="btn btn--accent" type="submit"><span data-i="enviar">Continuar no WhatsApp</span> <svg><use href="#arrow"/></svg></button>
+          <small data-i="aviso">Seus dados vão na mensagem. Você revisa e envia pelo WhatsApp.</small>
         </form>
       </div>
     </div>
@@ -420,27 +432,53 @@
     <div class="foot">
       <div>
         <a class="brand" href="#" style="padding:0"><svg><use href="#r"/></svg>Rafael Garcês</a>
-        <p>Marcas, sites e sistemas para negócios que querem ser percebidos pelo valor que entregam.</p>
+        <p data-i="rodape">Marcas, sites e sistemas para negócios que querem ser percebidos pelo valor que entregam.</p>
       </div>
-      <div><h4>Navegação</h4><ul><li><a href="#sobre">Sobre</a></li><li><a href="#projetos">Projetos</a></li><li><a href="#servicos">Serviços</a></li><li><a href="#processo">Processo</a></li></ul></div>
-      <div><h4>Contato</h4><ul>
+      <div><h4 data-i="nav">Navegação</h4><ul><li><a href="#sobre" data-i="sobre">Sobre</a></li><li><a href="#projetos" data-i="projetos">Projetos</a></li><li><a href="#servicos" data-i="servicos">Serviços</a></li><li><a href="#processo" data-i="processo">Processo</a></li></ul></div>
+      <div><h4 data-i="contato">Contato</h4><ul>
         <li><a href="mailto:rafaelgarces.adm@gmail.com">rafaelgarces.adm@gmail.com</a></li>
-        <li><a href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Encontrei%20seu%20contato%20no%20rodap%C3%A9%20do%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">+55 98 98234-0912</a></li>
+        <li><a href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Encontrei%20seu%20contato%20no%20rodap%C3%A9%20do%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener" data-i="zap-rodape">+55 98 98234-0912</a></li>
       </ul></div>
-      <div><h4>Redes</h4><ul>
+      <div><h4 data-i="redes">Redes</h4><ul>
         <li><a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener">Instagram</a></li>
         <li><a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener">LinkedIn</a></li>
         <li><a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener">Behance</a></li>
       </ul></div>
     </div>
     <div class="foot__end">
-      <span>© <span id="ano">2026</span> Rafael Garcês. Todos os direitos reservados.</span>
-      <span><span id="relogio">--:--</span> · Teresina, Brasil</span>
+      <span>© <span id="ano">2026</span> Rafael Garcês. <span data-i="direitos">Todos os direitos reservados.</span></span>
+      <span><span id="relogio">--:--</span> · <span data-i="cidade">Teresina, Brasil</span></span>
     </div>
   </div>
   <div class="foot__matrix" data-t="Rafael Garcês" aria-hidden="true">Rafael Garcês</div>
 </footer>
 
+<script>
+/* versão em inglês: troca os textos marcados com data-i antes de o site.js fatiar as palavras */
+(function () {
+  var d = document.documentElement, en = d.lang === 'en';
+  if (en) {
+    var T = {"eb-hero": "Brands, websites and systems", "sobre": "About", "eb-proj": "Selected work", "servicos": "Services", "perguntas": "Questions", "contato": "Contact", "tres": "Brands · Websites · Systems", "carrega": "Loading", "pular": "Skip to content", "marca": {"aria-label": "Rafael Garcês, home"}, "lang": {"h": "EN", "aria-label": "Language: English. Switch to Portuguese"}, "menu": {"aria-label": "Main menu"}, "fechar": "Close", "nav": "Navigation", "projetos": "Work", "processo": "Process", "cidade": "Teresina, Brazil", "h1a": "Brands that are hard to ignore.", "h1b": "Websites and systems to match.", "cta-hero": {"h": "Start a project", "href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20came%20from%20your%20website%20and%20I%20have%20a%20project%20in%20mind.%20I%27d%20like%20to%20talk."}, "onde": "Rafael Garcês · Teresina, Brazil", "explorar": "Explore", "lead": "Good design starts <span class=\"hl\">before the visuals</span>: first understand the business, frame the problem and find an efficient solution.", "quote": "“Strategy to make sense. Design to get noticed.”", "foto": {"alt": "Photo of Rafael Garcês"}, "cargo": "Brand and web designer", "bio": "Today I work at V4 Company on design and strategic creative direction and, in parallel, I take on independent visual identity and website projects.", "cta": "Start a project", "proj": "projects", "r1": "Brands", "r1p": "Logo, visual identity and the system that holds it all together.", "r2": "Websites", "r2p": "Company websites and landing pages built to sell.", "r3": "Apps and systems", "r3p": "App, dashboard and digital product interfaces.", "clientes": "I've worked with", "h2-proj": "Strategy that <span class=\"lime\">takes shape.</span>", "alt-case": {"alt": "Loja MaiPhone landing page"}, "ver": "View project ↗", "case-tags": "Website · Landing page · Responsive design", "prox": "Next case study", "breve": "Coming soon.", "seu": "The next case study could be yours.", "h2-serv": "From positioning to <span class=\"lime\">digital presence,</span> with the same care in every delivery.", "s1": "Brand", "s1l": "<li>Logo and visual identity system</li><li>Palette and typography</li><li>Brand usage direction</li><li>Final files in SVG, PNG and PDF</li>", "s2": "Website", "s2l": "<li>Company website</li><li>Landing page</li><li>Responsive design</li><li>Development and launch</li><li>Optimized structure and basic SEO</li>", "s3l": "<li>App interface</li><li>Dashboard</li><li>Digital product</li>", "h2-proc": "Four steps, <span class=\"hl\">no surprises</span> along the way.", "tabs": {"aria-label": "Process steps"}, "e0": "Conversation", "e1": "Proposal", "e2": "Design", "e3": "Delivery", "e0p": "I get to know the business and what needs solving.", "etapa1": "Step 01 of 04", "role": "Scroll to see the steps", "h2-faq": "Before we <span class=\"lime\">get started.</span>", "q0": "Do I need to hire brand and website together?", "a0": "You can talk to me about visual identity, a website or both. The starting point is understanding what your business needs.", "q1": "What do I get in an identity project?", "a1": "Logo and visual system, palette, typography and usage guidelines, with final files organized in SVG, PNG and PDF. Applications are defined in the project scope.", "q2": "How do I start the conversation?", "a2": "Click “Start a project” to reach me on WhatsApp. Tell me about your business, what you need to create and the goal of the project.", "h2-cont": "Your brand can <span class=\"lime\">communicate better.</span>", "sub": "If you're building a new business or feel your current presence no longer reflects the level of your company, let's talk.", "nome": "Name", "ph-nome": {"placeholder": "What's your name?"}, "email": "Email", "ph-email": {"placeholder": "you@example.com"}, "ph-fone": {"placeholder": "+1 555 000 0000"}, "enviar": "Continue on WhatsApp", "aviso": "Your details go in the message. You review and send it on WhatsApp.", "rodape": "Brands, websites and systems for businesses that want to be recognized for the value they deliver.", "zap-rodape": {"href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20found%20your%20contact%20in%20the%20website%20footer%20and%20I%27d%20like%20to%20talk%20about%20a%20project."}, "redes": "Social", "direitos": "All rights reserved."};
+    document.title = 'Rafael Garcês | Brands, websites and systems';
+    var desc = document.querySelector('meta[name="description"]'); if (desc) desc.content = "Brand, website and systems design with strategy and clarity. See Rafael Garcês's projects and let's talk about your business's presence.";
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i]'), function (el) {
+      var v = T[el.getAttribute('data-i')]; if (v == null) return;
+      if (typeof v === 'string') { el.innerHTML = v; return; }
+      for (var k in v) { if (k === 'h') el.innerHTML = v[k]; else el.setAttribute(k, v[k]); }
+    });
+  }
+  /* botões de idioma: guardam a escolha e recarregam sem repetir a abertura */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-idioma]'), function (b) {
+    var alvo = b.getAttribute('data-idioma') || (en ? 'pt' : 'en');
+    if (b.getAttribute('data-idioma')) b.classList.toggle('on', (alvo === 'en') === en);
+    b.addEventListener('click', function () {
+      if ((alvo === 'en') === en) return;
+      try { localStorage.setItem('idioma', alvo); sessionStorage.setItem('sem-intro', '1'); } catch (e) {}
+      location.href = location.pathname + (alvo === 'en' ? '?lang=en' : '?lang=pt');
+    });
+  });
+})();
+</script>
 <script src="/assets/site.js"></script>
 <script>
 (function () {
@@ -551,7 +589,13 @@
   if (lead) { site.fatia(lead, 'sw', '--n'); sw = $$('.sw', lead); }
 
   /* processo: preso na tela, a rolagem passa pelas quatro etapas */
-  var etapas = [
+  var EN = doc.lang === 'en';
+  var etapas = EN ? [
+    ['Conversation', 'I get to know the business and what needs solving.'],
+    ['Proposal', 'Scope, timeline and price agreed before we start.'],
+    ['Design', 'You follow every step and approve before we move on.'],
+    ['Delivery', 'Everything ready to use and, for websites and apps, already live.']
+  ] : [
     ['Conversa', 'Entendo o negócio e o que precisa resolver.'],
     ['Proposta', 'Escopo, prazo e preço fechados antes de começar.'],
     ['Design', 'Você acompanha cada etapa e aprova antes de seguir.'],
@@ -564,10 +608,10 @@
     panel.classList.add('swap'); clearTimeout(troca);
     troca = setTimeout(function () {
       $('h3', panel).textContent = etapas[i][0]; $('p', panel).textContent = etapas[i][1];
-      $('small', panel).textContent = 'Etapa 0' + (i + 1) + ' de 04'; panel.setAttribute('aria-labelledby', 't' + i);
+      $('small', panel).textContent = (EN ? 'Step 0' : 'Etapa 0') + (i + 1) + (EN ? ' of 04' : ' de 04'); panel.setAttribute('aria-labelledby', 't' + i);
       panel.classList.remove('swap');
     }, 200);
-    dica.textContent = i === 3 ? 'Continue rolando' : 'Role para ver as etapas';
+    dica.textContent = i === 3 ? (EN ? 'Keep scrolling' : 'Continue rolando') : (EN ? 'Scroll to see the steps' : 'Role para ver as etapas');
   }
   function alvo(i) { var r = proc.getBoundingClientRect(), total = proc.offsetHeight - window.innerHeight; return window.scrollY + r.top + total * (i + .5) / 4; }
   tabs.forEach(function (t, i) {
@@ -595,7 +639,7 @@
   form.addEventListener('submit', function (e) {
     e.preventDefault();
     var d = new FormData(form);
-    var msg = 'Olá, Rafael! Meu nome é ' + String(d.get('name')).trim() + '. Vim pelo seu site e gostaria de conversar sobre um projeto.\n\nE-mail: ' + String(d.get('email')).trim() + '\nWhatsApp: ' + String(d.get('phone')).trim();
+    var msg = (EN ? 'Hi, Rafael! My name is ' : 'Olá, Rafael! Meu nome é ') + String(d.get('name')).trim() + (EN ? ". I came from your website and I'd like to talk about a project.\n\nEmail: " : '. Vim pelo seu site e gostaria de conversar sobre um projeto.\n\nE-mail: ') + String(d.get('email')).trim() + '\nWhatsApp: ' + String(d.get('phone')).trim();
     window.open('https://wa.me/5598982340912?text=' + encodeURIComponent(msg), '_blank', 'noopener');
   });
 })();

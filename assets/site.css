@@ -49,6 +49,12 @@ button, input { font: inherit; color: inherit; }
 .brand svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
 .pill__menu { padding: 9px 16px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 14.5px; color: #d6d6da; cursor: pointer; transition: color .2s, background .2s; }
 .pill__menu:hover { color: #fff; background: rgba(255,255,255,.08); }
+.pill__lang { padding: 9px 10px 9px 14px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 12px; font-weight: 500; letter-spacing: .12em; color: #9b9ba3; cursor: pointer; transition: color .2s; }
+.pill__lang:hover { color: var(--accent); }
+.menu__lang { margin-left: auto; display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); }
+.menu__lang button { padding: 6px 12px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 12px; font-weight: 500; letter-spacing: .12em; color: #9b9ba3; cursor: pointer; transition: color .2s, background .2s; }
+.menu__lang button:hover { color: #fff; }
+.menu__lang button.on { background: #f5f5f3; color: #0b0c10; cursor: default; }
 
 /* menu em tela cheia */
 .menu { position: fixed; inset: 0; z-index: 60; background: #0b0c10; color: #f5f5f3; overflow-y: auto; overscroll-behavior: contain; opacity: 0; clip-path: inset(0 0 100% 0); transition: opacity .35s, clip-path .5s var(--ease); }
@@ -131,7 +137,9 @@ footer { border-top: 1px solid var(--line); padding-top: clamp(50px, 7vw, 90px);
 }
 @media (max-width: 560px) {
   body { font-size: 16px; }
-  .brand { padding: 8px 12px; }
+  .brand { padding: 8px 12px 8px 10px; font-size: 14.5px; gap: 8px; }
+  .pill__lang { display: none; }   /* no celular o idioma fica dentro do menu */
+  .pill__menu { padding: 9px 12px; } .pill__cta { padding: 10px 14px; }
   .foot__matrix, .foot__matrix::after { background-size: 4px 4px; }
   .foot__matrix { background-image: radial-gradient(circle, rgba(245,245,243,.6) .7px, transparent 1.1px); }
   .foot__matrix::after { background-image: radial-gradient(circle, var(--accent) .9px, transparent 1.3px); }
