@@ -454,30 +454,8 @@
 </footer>
 
 <script>
-/* versão em inglês: troca os textos marcados com data-i antes de o site.js fatiar as palavras */
-(function () {
-  var d = document.documentElement, en = d.lang === 'en';
-  if (en) {
-    var T = {"eb-hero": "Brands, websites and systems", "sobre": "About", "eb-proj": "Selected work", "servicos": "Services", "perguntas": "Questions", "contato": "Contact", "tres": "Brands · Websites · Systems", "carrega": "Loading", "pular": "Skip to content", "marca": {"aria-label": "Rafael Garcês, home"}, "lang": {"h": "EN", "aria-label": "Language: English. Switch to Portuguese"}, "menu": {"aria-label": "Main menu"}, "fechar": "Close", "nav": "Navigation", "projetos": "Work", "processo": "Process", "cidade": "Teresina, Brazil", "h1a": "Brands that are hard to ignore.", "h1b": "Websites and systems to match.", "cta-hero": {"h": "Start a project", "href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20came%20from%20your%20website%20and%20I%20have%20a%20project%20in%20mind.%20I%27d%20like%20to%20talk."}, "onde": "Rafael Garcês · Teresina, Brazil", "explorar": "Explore", "lead": "Good design starts <span class=\"hl\">before the visuals</span>: first understand the business, frame the problem and find an efficient solution.", "quote": "“Strategy to make sense. Design to get noticed.”", "foto": {"alt": "Photo of Rafael Garcês"}, "cargo": "Brand and web designer", "bio": "Today I work at V4 Company on design and strategic creative direction and, in parallel, I take on independent visual identity and website projects.", "cta": "Start a project", "proj": "projects", "r1": "Brands", "r1p": "Logo, visual identity and the system that holds it all together.", "r2": "Websites", "r2p": "Company websites and landing pages built to sell.", "r3": "Apps and systems", "r3p": "App, dashboard and digital product interfaces.", "clientes": "I've worked with", "h2-proj": "Strategy that <span class=\"lime\">takes shape.</span>", "alt-case": {"alt": "Loja MaiPhone landing page"}, "ver": "View project ↗", "case-tags": "Website · Landing page · Responsive design", "prox": "Next case study", "breve": "Coming soon.", "seu": "The next case study could be yours.", "h2-serv": "From positioning to <span class=\"lime\">digital presence,</span> with the same care in every delivery.", "s1": "Brand", "s1l": "<li>Logo and visual identity system</li><li>Palette and typography</li><li>Brand usage direction</li><li>Final files in SVG, PNG and PDF</li>", "s2": "Website", "s2l": "<li>Company website</li><li>Landing page</li><li>Responsive design</li><li>Development and launch</li><li>Optimized structure and basic SEO</li>", "s3l": "<li>App interface</li><li>Dashboard</li><li>Digital product</li>", "h2-proc": "Four steps, <span class=\"hl\">no surprises</span> along the way.", "tabs": {"aria-label": "Process steps"}, "e0": "Conversation", "e1": "Proposal", "e2": "Design", "e3": "Delivery", "e0p": "I get to know the business and what needs solving.", "etapa1": "Step 01 of 04", "role": "Scroll to see the steps", "h2-faq": "Before we <span class=\"lime\">get started.</span>", "q0": "Do I need to hire brand and website together?", "a0": "You can talk to me about visual identity, a website or both. The starting point is understanding what your business needs.", "q1": "What do I get in an identity project?", "a1": "Logo and visual system, palette, typography and usage guidelines, with final files organized in SVG, PNG and PDF. Applications are defined in the project scope.", "q2": "How do I start the conversation?", "a2": "Click “Start a project” to reach me on WhatsApp. Tell me about your business, what you need to create and the goal of the project.", "h2-cont": "Your brand can <span class=\"lime\">communicate better.</span>", "sub": "If you're building a new business or feel your current presence no longer reflects the level of your company, let's talk.", "nome": "Name", "ph-nome": {"placeholder": "What's your name?"}, "email": "Email", "ph-email": {"placeholder": "you@example.com"}, "ph-fone": {"placeholder": "+1 555 000 0000"}, "enviar": "Continue on WhatsApp", "aviso": "Your details go in the message. You review and send it on WhatsApp.", "rodape": "Brands, websites and systems for businesses that want to be recognized for the value they deliver.", "zap-rodape": {"href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20found%20your%20contact%20in%20the%20website%20footer%20and%20I%27d%20like%20to%20talk%20about%20a%20project."}, "redes": "Social", "direitos": "All rights reserved."};
-    document.title = 'Rafael Garcês | Brands, websites and systems';
-    var desc = document.querySelector('meta[name="description"]'); if (desc) desc.content = "Brand, website and systems design with strategy and clarity. See Rafael Garcês's projects and let's talk about your business's presence.";
-    Array.prototype.forEach.call(document.querySelectorAll('[data-i]'), function (el) {
-      var v = T[el.getAttribute('data-i')]; if (v == null) return;
-      if (typeof v === 'string') { el.innerHTML = v; return; }
-      for (var k in v) { if (k === 'h') el.innerHTML = v[k]; else el.setAttribute(k, v[k]); }
-    });
-  }
-  /* botões de idioma: guardam a escolha e recarregam sem repetir a abertura */
-  Array.prototype.forEach.call(document.querySelectorAll('[data-idioma]'), function (b) {
-    var alvo = b.getAttribute('data-idioma') || (en ? 'pt' : 'en');
-    if (b.getAttribute('data-idioma')) b.classList.toggle('on', (alvo === 'en') === en);
-    b.addEventListener('click', function () {
-      if ((alvo === 'en') === en) return;
-      try { localStorage.setItem('idioma', alvo); sessionStorage.setItem('sem-intro', '1'); } catch (e) {}
-      location.href = location.pathname + (alvo === 'en' ? '?lang=en' : '?lang=pt');
-    });
-  });
-})();
+/* textos desta página em inglês (menu e rodapé ficam no site.js) */
+window.T_EN = {"eb-hero": "Brands, websites and systems", "eb-proj": "Selected work", "carrega": "Loading", "pular": "Skip to content", "h1a": "Brands that are hard to ignore.", "h1b": "Websites and systems to match.", "cta-hero": {"h": "Start a project", "href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20came%20from%20your%20website%20and%20I%20have%20a%20project%20in%20mind.%20I%27d%20like%20to%20talk."}, "onde": "Rafael Garcês · Teresina, Brazil", "explorar": "Explore", "lead": "Good design starts <span class=\"hl\">before the visuals</span>: first understand the business, frame the problem and find an efficient solution.", "quote": "“Strategy to make sense. Design to get noticed.”", "foto": {"alt": "Photo of Rafael Garcês"}, "cargo": "Brand and web designer", "bio": "Today I work at V4 Company on design and strategic creative direction and, in parallel, I take on independent visual identity and website projects.", "cta": "Start a project", "proj": "projects", "r1": "Brands", "r1p": "Logo, visual identity and the system that holds it all together.", "r2": "Websites", "r2p": "Company websites and landing pages built to sell.", "r3": "Apps and systems", "r3p": "App, dashboard and digital product interfaces.", "clientes": "I've worked with", "h2-proj": "Strategy that <span class=\"lime\">takes shape.</span>", "alt-case": {"alt": "Loja MaiPhone landing page"}, "ver": "View project ↗", "case-tags": "Website · Landing page · Responsive design", "prox": "Next case study", "breve": "Coming soon.", "seu": "The next case study could be yours.", "h2-serv": "From positioning to <span class=\"lime\">digital presence,</span> with the same care in every delivery.", "s1": "Brand", "s1l": "<li>Logo and visual identity system</li><li>Palette and typography</li><li>Brand usage direction</li><li>Final files in SVG, PNG and PDF</li>", "s2": "Website", "s2l": "<li>Company website</li><li>Landing page</li><li>Responsive design</li><li>Development and launch</li><li>Optimized structure and basic SEO</li>", "s3l": "<li>App interface</li><li>Dashboard</li><li>Digital product</li>", "h2-proc": "Four steps, <span class=\"hl\">no surprises</span> along the way.", "tabs": {"aria-label": "Process steps"}, "e0": "Conversation", "e1": "Proposal", "e2": "Design", "e3": "Delivery", "e0p": "I get to know the business and what needs solving.", "etapa1": "Step 01 of 04", "role": "Scroll to see the steps", "h2-faq": "Before we <span class=\"lime\">get started.</span>", "q0": "Do I need to hire brand and website together?", "a0": "You can talk to me about visual identity, a website or both. The starting point is understanding what your business needs.", "q1": "What do I get in an identity project?", "a1": "Logo and visual system, palette, typography and usage guidelines, with final files organized in SVG, PNG and PDF. Applications are defined in the project scope.", "q2": "How do I start the conversation?", "a2": "Click “Start a project” to reach me on WhatsApp. Tell me about your business, what you need to create and the goal of the project.", "h2-cont": "Your brand can <span class=\"lime\">communicate better.</span>", "sub": "If you're building a new business or feel your current presence no longer reflects the level of your company, let's talk.", "nome": "Name", "ph-nome": {"placeholder": "What's your name?"}, "email": "Email", "ph-email": {"placeholder": "you@example.com"}, "ph-fone": {"placeholder": "+1 555 000 0000"}, "enviar": "Continue on WhatsApp", "aviso": "Your details go in the message. You review and send it on WhatsApp.", "_titulo": "Rafael Garcês | Brands, websites and systems", "_descricao": "Brand, website and systems design with strategy and clarity. See Rafael Garcês's projects and let's talk about your business's presence."};
 </script>
 <script src="/assets/site.js"></script>
 <script>
@@ -531,24 +509,6 @@
   var heroEl = $('.hero');
   function prende() { heroEl.style.setProperty('--hero-top', Math.min(0, window.innerHeight - heroEl.offsetHeight) + 'px'); }
   prende(); window.addEventListener('resize', prende); window.addEventListener('load', prende);
-
-  /* menu em tela cheia */
-  (function () {
-    var menu = $('#menu'), abre = $('.pill__menu'), fecha = $('.menu__x'), raiz = document.documentElement, tm;
-    if (!menu || !abre) return;
-    function abrir() { clearTimeout(tm); menu.hidden = false; void menu.offsetWidth; raiz.classList.add('menu-aberto'); abre.setAttribute('aria-expanded', 'true'); fecha.focus({ preventScroll: true }); }
-    function fechar(volta) { raiz.classList.remove('menu-aberto'); abre.setAttribute('aria-expanded', 'false'); tm = setTimeout(function () { menu.hidden = true; }, 520); if (volta) abre.focus({ preventScroll: true }); }
-    abre.addEventListener('click', abrir);
-    $$('[data-fecha]', menu).forEach(function (e) { e.addEventListener('click', function () { fechar(e === fecha); }); });
-    document.addEventListener('keydown', function (e) {
-      if (!raiz.classList.contains('menu-aberto')) return;
-      if (e.key === 'Escape') { fechar(true); return; }
-      if (e.key !== 'Tab') return;
-      var f = $$('a, button', menu), a = f[0], z = f[f.length - 1];
-      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
-      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
-    });
-  })();
 
   /* linhas do hero: curvam-se para longe do cursor, como um campo em volta dele */
   (function () {

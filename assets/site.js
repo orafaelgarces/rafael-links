@@ -6,6 +6,49 @@
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
   window.site = { $: $, $$: $$, reduce: reduce };
 
+  /* idioma: em inglês, troca os textos marcados com data-i (antes de fatiar as palavras).
+     Os textos vêm de window.T_EN, definido por cada página, somados aos comuns de menu e rodapé. */
+  var EN = doc.lang === 'en';
+  if (EN) {
+    var T = window.T_EN || {}, COMUM = {"marca": {"aria-label": "Rafael Garcês, home"}, "lang": {"h": "EN", "aria-label": "Language: English. Switch to Portuguese"}, "contato": "Contact", "menu": {"aria-label": "Main menu"}, "fechar": "Close", "nav": "Navigation", "sobre": "About", "projetos": "Work", "servicos": "Services", "processo": "Process", "perguntas": "Questions", "cidade": "Teresina, Brazil", "tres": "Brands · Websites · Systems", "rodape": "Brands, websites and systems for businesses that want to be recognized for the value they deliver.", "zap-rodape": {"href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20found%20your%20contact%20in%20the%20website%20footer%20and%20I%27d%20like%20to%20talk%20about%20a%20project."}, "redes": "Social", "direitos": "All rights reserved."}, ck;
+    for (ck in COMUM) if (!(ck in T)) T[ck] = COMUM[ck];
+    if (T._titulo) document.title = T._titulo;
+    var mdesc = $('meta[name="description"]'); if (mdesc && T._descricao) mdesc.content = T._descricao;
+    $$('[data-i]').forEach(function (el) {
+      var v = T[el.getAttribute('data-i')]; if (v == null) return;
+      if (typeof v === 'string') { el.innerHTML = v; return; }
+      for (var k in v) { if (k === 'h') el.innerHTML = v[k]; else el.setAttribute(k, v[k]); }
+    });
+  }
+  /* botões de idioma: guardam a escolha e recarregam sem repetir a abertura */
+  $$('[data-idioma]').forEach(function (b) {
+    var alvo = b.getAttribute('data-idioma') || (EN ? 'pt' : 'en');
+    if (b.getAttribute('data-idioma')) b.classList.toggle('on', (alvo === 'en') === EN);
+    b.addEventListener('click', function () {
+      if ((alvo === 'en') === EN) return;
+      try { localStorage.setItem('idioma', alvo); sessionStorage.setItem('sem-intro', '1'); } catch (e) {}
+      location.href = location.pathname + (alvo === 'en' ? '?lang=en' : '?lang=pt');
+    });
+  });
+
+  /* menu em tela cheia */
+  (function () {
+    var menu = $('#menu'), abre = $('.pill__menu'), fecha = $('.menu__x'), tm;
+    if (!menu || !abre) return;
+    function abrir() { clearTimeout(tm); menu.hidden = false; void menu.offsetWidth; doc.classList.add('menu-aberto'); abre.setAttribute('aria-expanded', 'true'); fecha.focus({ preventScroll: true }); }
+    function fechar(volta) { doc.classList.remove('menu-aberto'); abre.setAttribute('aria-expanded', 'false'); tm = setTimeout(function () { menu.hidden = true; }, 520); if (volta) abre.focus({ preventScroll: true }); }
+    abre.addEventListener('click', abrir);
+    $$('[data-fecha]', menu).forEach(function (e) { e.addEventListener('click', function () { fechar(e === fecha); }); });
+    document.addEventListener('keydown', function (e) {
+      if (!doc.classList.contains('menu-aberto')) return;
+      if (e.key === 'Escape') { fechar(true); return; }
+      if (e.key !== 'Tab') return;
+      var f = $$('a, button', menu), a = f[0], z = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
+      else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus(); }
+    });
+  })();
+
   /* ícones de pontos dos rótulos */
   $$('.dmx').forEach(function (el) {
     var order = [0, 1, 2, 5, 8, 7, 6, 3, 4], h = '';

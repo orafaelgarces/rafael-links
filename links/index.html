@@ -756,15 +756,16 @@
     });
   }
 
+  /* idioma compartilhado com o resto do site: ?lang=en|pt vale e fica guardado na chave 'idioma' */
   var savedLang = null;
-  try { savedLang = localStorage.getItem('rg_lang'); } catch (e) {}
+  try { var mLang = /[?&]lang=(en|pt)\b/.exec(location.search); savedLang = mLang ? mLang[1] : (localStorage.getItem('idioma') || localStorage.getItem('rg_lang')); if (mLang) localStorage.setItem('idioma', savedLang); } catch (e) {}
   applyLang(savedLang === 'en' ? 'en' : 'pt');
 
   document.querySelectorAll('.pill-lang').forEach(function (btn) {
     btn.addEventListener('click', function () {
       var lang = btn.getAttribute('data-lang');
       applyLang(lang);
-      try { localStorage.setItem('rg_lang', lang); } catch (e) {}
+      try { localStorage.setItem('rg_lang', lang); localStorage.setItem('idioma', lang); } catch (e) {}
     });
   });
 

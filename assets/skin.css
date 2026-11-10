@@ -16,11 +16,52 @@ h1, h2, h3 { font-weight: 500 !important; letter-spacing: -.035em !important; }
 .pill.brand, .nfoot .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15.5px; letter-spacing: -.01em; white-space: nowrap; color: #f5f5f3; text-decoration: none; }
 .pill.brand { padding: 9px 16px 9px 14px; }
 .pill.brand svg, .nfoot .brand svg { width: 18px; height: 18px; fill: currentColor; flex: none; }
-.pill__links { display: flex; }
-.pill__links a { padding: 9px 14px; border-radius: 999px; font-size: 14.5px; color: #b9b9c0; text-decoration: none; transition: color .2s, background .2s; }
-.pill__links a:hover { color: #fff; background: rgba(255,255,255,.08); }
 .pill__cta { padding: 10px 18px; border-radius: 999px; background: #f5f5f3; color: #0b0c10; font-size: 14.5px; font-weight: 500; text-decoration: none; transition: background .25s; white-space: nowrap; }
 .pill__cta:hover { background: var(--n-accent); }
+.pill__menu { padding: 9px 16px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 14.5px; color: #d6d6da; cursor: pointer; transition: color .2s, background .2s; }
+.pill__menu:hover { color: #fff; background: rgba(255,255,255,.08); }
+.pill__lang { padding: 9px 10px 9px 14px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 12px; font-weight: 500; letter-spacing: .12em; color: #9b9ba3; cursor: pointer; transition: color .2s; }
+.pill__lang:hover { color: var(--n-accent); }
+.menu__lang { margin-left: auto; display: inline-flex; gap: 2px; padding: 4px; border-radius: 999px; border: 1px solid rgba(255,255,255,.14); }
+.menu__lang button { padding: 6px 12px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 12px; font-weight: 500; letter-spacing: .12em; color: #9b9ba3; cursor: pointer; transition: color .2s, background .2s; }
+.menu__lang button:hover { color: #fff; }
+.menu__lang button.on { background: #f5f5f3; color: #0b0c10; cursor: default; }
+
+/* menu em tela cheia */
+.menu { position: fixed; inset: 0; z-index: 60; background: #0b0c10; color: #f5f5f3; overflow-y: auto; overscroll-behavior: contain; opacity: 0; clip-path: inset(0 0 100% 0); transition: opacity .35s, clip-path .5s var(--n-ease); }
+.menu[hidden] { display: none; }
+.menu-aberto .menu { opacity: 1; clip-path: inset(0 0 0 0); }
+.menu-aberto, .menu-aberto body { overflow: hidden; }
+.menu__in { min-height: 100%; display: flex; flex-direction: column; padding-top: 18px; padding-bottom: 26px; }
+.menu__top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: clamp(22px, 4svh, 44px); }
+.menu__x { padding: 15px 24px; font: inherit; font-size: 14.5px; cursor: pointer; transition: border-color .25s, color .25s; }
+.menu__x:hover { border-color: var(--n-accent); color: var(--n-accent); }
+.menu__nav { margin-top: clamp(14px, 2.4svh, 26px); }
+.menu__nav a { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; padding: clamp(8px, 1.5svh, 14px) 0; border-bottom: 1px solid rgba(245,245,243,.16); font-size: clamp(2rem, min(6vw, 7.4svh), 4.5rem); font-weight: 400; letter-spacing: -.045em; line-height: 1.08; opacity: 0; translate: 0 34px; transition: opacity .6s var(--n-ease), translate .7s var(--n-ease), color .25s; }
+.menu__nav a span { transition: translate .4s var(--n-ease); }
+.menu__nav a i { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .16em; color: #85858e; padding-bottom: .9em; transition: color .25s; }
+.menu__nav a:hover, .menu__nav a:focus-visible { color: var(--n-accent); }
+.menu__nav a:hover span, .menu__nav a:focus-visible span { translate: 14px 0; }
+.menu__nav a:hover i, .menu__nav a:focus-visible i { color: var(--n-accent); }
+.menu-aberto .menu__nav a { opacity: 1; translate: 0 0; }
+.menu-aberto .menu__nav a:nth-child(1) { transition-delay: .12s, .12s, 0s; } .menu-aberto .menu__nav a:nth-child(2) { transition-delay: .17s, .17s, 0s; }
+.menu-aberto .menu__nav a:nth-child(3) { transition-delay: .22s, .22s, 0s; } .menu-aberto .menu__nav a:nth-child(4) { transition-delay: .27s, .27s, 0s; }
+.menu-aberto .menu__nav a:nth-child(5) { transition-delay: .32s, .32s, 0s; } .menu-aberto .menu__nav a:nth-child(6) { transition-delay: .37s, .37s, 0s; }
+.menu__social { display: flex; flex-wrap: wrap; gap: 12px 30px; margin-top: auto; padding-top: clamp(26px, 5svh, 60px); }
+.menu__social a { display: inline-flex; align-items: center; gap: 9px; font-size: 14.5px; color: #d6d6da; transition: color .2s; }
+.menu__social a:hover { color: var(--n-accent); }
+.menu__social svg { width: 19px; height: 19px; flex: none; }
+.menu__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; margin-top: 26px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #85858e; font-variant-numeric: tabular-nums; }
+.menu__social, .menu__meta, .menu .eyebrow { opacity: 0; transition: opacity .6s .3s; }
+.menu-aberto .menu__social, .menu-aberto .menu__meta, .menu-aberto .menu .eyebrow { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .menu, .menu__nav a { transition: none; } }
+/* nesta pele o menu não usa .wrap: largura e margens próprias, e o rótulo com pontos */
+.menu__in { width: min(100%, 1240px); margin-inline: auto; padding-inline: var(--n-pad); }
+.menu button, .pill button { font-family: inherit; }
+.menu a { text-decoration: none; color: inherit; }
+.menu .eyebrow { display: flex; align-items: center; gap: 12px; margin: 0; font-size: 11.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--n-gray); }
+.menu .dmx { display: grid; grid-template-columns: repeat(3, 3px); gap: 2px; flex: none; color: var(--n-accent); }
+.menu .dmx i { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .6; }
 
 .progress { position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 70; pointer-events: none; }
 .progress span { display: block; height: 100%; background: var(--n-accent); transform-origin: left; transform: scaleX(0); }
@@ -46,13 +87,19 @@ h1, h2, h3 { font-weight: 500 !important; letter-spacing: -.035em !important; }
 .foot__matrix { position: relative; margin-top: clamp(30px, 5vw, 70px); font-size: clamp(2.2rem, 10.6vw, 11rem); font-weight: 800; letter-spacing: -.03em; line-height: .86; white-space: nowrap; text-align: center; text-transform: uppercase; color: transparent; background: radial-gradient(circle, rgba(245,245,243,.5) 1.1px, transparent 1.7px) 0 0 / 7px 7px; -webkit-background-clip: text; background-clip: text; user-select: none; padding-bottom: .12em; --mx: 50%; --my: 50%; }
 .foot__matrix::after { content: attr(data-t); position: absolute; inset: 0; color: transparent; background: radial-gradient(circle, var(--n-accent) 1.5px, transparent 2.1px) 0 0 / 7px 7px; -webkit-background-clip: text; background-clip: text; -webkit-mask-image: radial-gradient(circle 240px at var(--mx) var(--my), #000 25%, transparent 100%); mask-image: radial-gradient(circle 240px at var(--mx) var(--my), #000 25%, transparent 100%); opacity: 0; transition: opacity .45s; padding-bottom: .12em; }
 .foot__matrix.on::after { opacity: 1; }
+/* com script, o nome vira uma tela de pontos que cintilam em verde (site.js) */
+.foot__matrix.vivo { background: none; height: 1.18em; padding-bottom: 0; overflow: hidden; }
+.foot__matrix.vivo::after { display: none; }
+.foot__matrix canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 @media (max-width: 900px) {
-  .pill__links { display: none; }
   .nfoot .foot { grid-template-columns: 1fr 1fr; }
   .nfoot .foot > :first-child, .nfoot .foot > :nth-child(3) { grid-column: 1 / -1; }
   .nfoot .foot > :nth-child(3) { order: 3; }
 }
 @media (max-width: 560px) {
+  .pill.brand { padding: 8px 12px 8px 10px; font-size: 14.5px; gap: 8px; }
+  .pill__lang { display: none; }
+  .pill__menu { padding: 9px 12px; } .pill__cta { padding: 10px 14px; }
   .foot__matrix, .foot__matrix::after { background-size: 4px 4px; }
   .foot__matrix { background-image: radial-gradient(circle, rgba(245,245,243,.6) .7px, transparent 1.1px); }
   .foot__matrix::after { background-image: radial-gradient(circle, var(--n-accent) .9px, transparent 1.3px); }

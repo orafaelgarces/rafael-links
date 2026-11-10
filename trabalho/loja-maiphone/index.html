@@ -5,6 +5,8 @@
 <title>Loja MaiPhone | Projeto de site por Rafael Garcês</title>
 <meta name="description" content="Conheça a landing page da Loja MaiPhone: contexto, decisões de design e solução de interface em um projeto apresentado por Rafael Garcês.">
 <link rel="canonical" href="https://orafaelgarces.com.br/trabalho/loja-maiphone/">
+<link rel="alternate" hreflang="pt-BR" href="https://orafaelgarces.com.br/trabalho/loja-maiphone/">
+<link rel="alternate" hreflang="en" href="https://orafaelgarces.com.br/trabalho/loja-maiphone/?lang=en">
 <meta property="og:type" content="article">
 <meta property="og:locale" content="pt_BR">
 <meta property="og:url" content="https://orafaelgarces.com.br/trabalho/loja-maiphone/">
@@ -20,6 +22,10 @@
     try { saved = localStorage.getItem('rg_theme'); } catch (e) {}
     var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
     document.documentElement.setAttribute('data-theme', theme);
+    /* idioma: ?lang=en|pt vale e fica guardado; sem parâmetro, usa o guardado; padrão português */
+    var l = null;
+    try { var m = /[?&]lang=(en|pt)\b/.exec(location.search); l = m ? m[1] : localStorage.getItem('idioma'); if (m) localStorage.setItem('idioma', l); } catch (e) {}
+    if (l === 'en') { document.documentElement.lang = 'en'; document.documentElement.classList.add('en'); }
   })();
 </script>
 <style>
@@ -837,48 +843,74 @@
 <div class="progress" aria-hidden="true"><span></span></div>
 <div class="cur-ring" aria-hidden="true"></div>
 <div class="pillbar"><div>
-  <a class="pill brand" href="/" aria-label="Rafael Garcês, início"><svg viewBox="0 84.139 127.445 128.682"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>Rafael Garcês</a>
-  <nav class="pill" aria-label="Principal">
-    <div class="pill__links"><a href="/#sobre">Sobre</a><a href="/#projetos">Projetos</a><a href="/#servicos">Serviços</a><a href="/#processo">Processo</a></div>
-    <a class="pill__cta" href="/#contato">Contato</a>
-  </nav>
+  <a class="pill brand" href="/" aria-label="Rafael Garcês, início" data-i="marca"><svg viewBox="0 84.139 127.445 128.682"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>Rafael Garcês</a>
+  <div class="pill">
+    <button class="pill__lang" type="button" data-idioma aria-label="Idioma: português. Mudar para inglês" data-i="lang">PT</button>
+    <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <a class="pill__cta" href="/#contato" data-i="contato">Contato</a>
+  </div>
 </div></div>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu principal" data-i="menu" hidden>
+  <div class="menu__in">
+    <div class="menu__top">
+      <a class="pill brand" href="/" data-fecha><svg viewBox="0 84.139 127.445 128.682"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>Rafael Garcês</a>
+      <button class="pill menu__x" type="button" data-fecha data-i="fechar">Fechar</button>
+    </div>
+    <p class="eyebrow"><span class="dmx" aria-hidden="true"></span><span data-i="nav">Navegação</span></p>
+    <nav class="menu__nav" aria-label="Principal">
+      <a href="/#sobre" data-fecha><span data-i="sobre">Sobre</span><i>(01)</i></a>
+      <a href="/#projetos" data-fecha><span data-i="projetos">Projetos</span><i>(02)</i></a>
+      <a href="/#servicos" data-fecha><span data-i="servicos">Serviços</span><i>(03)</i></a>
+      <a href="/#processo" data-fecha><span data-i="processo">Processo</span><i>(04)</i></a>
+      <a href="/#duvidas" data-fecha><span data-i="perguntas">Perguntas</span><i>(05)</i></a>
+      <a href="/#contato" data-fecha><span data-i="contato">Contato</span><i>(06)</i></a>
+    </nav>
+    <div class="menu__social">
+      <a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>Instagram</a>
+      <a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-1.9 3.76-1.9 4.02 0 4.38 2.45 4.38 5.63V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.75Z"/></svg>LinkedIn</a>
+      <a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg>Behance</a>
+      <span class="menu__lang"><button type="button" data-idioma="pt" aria-label="Português">PT</button><button type="button" data-idioma="en" aria-label="English">EN</button></span>
+    </div>
+    <div class="menu__meta"><span><span data-relogio>--:--</span> · <span data-i="cidade">Teresina, Brasil</span></span><span data-i="tres">Marcas · Sites · Sistemas</span></div>
+  </div>
+</div>
+
 <main class="wrap">
   <a class="back-link" href="/#cases">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-    Voltar pros cases
+    <span data-i="voltar">Voltar pros cases</span>
   </a>
 
   <section class="case-hero">
-    <span class="case-meta">Site</span>
+    <span class="case-meta" data-i="tipo">Site</span>
     <h1>Loja MaiPhone</h1>
-    <p class="brief">A MaiPhone, referência em vendas e trocas de smartphones no Triângulo Mineiro, precisava de uma landing page eficaz para captar leads interessados nos lançamentos da Apple e Xiaomi.</p>
+    <p class="brief" data-i="brief">A MaiPhone, referência em vendas e trocas de smartphones no Triângulo Mineiro, precisava de uma landing page eficaz para captar leads interessados nos lançamentos da Apple e Xiaomi.</p>
   </section>
 
   <figure class="case-figure">
-    <img src="midia/capa.webp" width="1920" height="1080" alt="Página inicial da MaiPhone apresentada em um notebook sobre fundo escuro" fetchpriority="high" decoding="async">
+    <img src="midia/capa.webp" width="1920" height="1080" alt="Página inicial da MaiPhone apresentada em um notebook sobre fundo escuro" data-i="alt-capa" fetchpriority="high" decoding="async">
   </figure>
 
   <div class="case-body">
     <div>
-      <h2>O desafio</h2>
-      <p>Criar uma página única, com visual atrativo e foco total em conversão, sem distrair o visitante do objetivo principal: virar lead.</p>
+      <h2 data-i="d1">O desafio</h2>
+      <p data-i="d1p">Criar uma página única, com visual atrativo e foco total em conversão, sem distrair o visitante do objetivo principal: virar lead.</p>
     </div>
     <div>
-      <h2>A solução</h2>
-      <p>Uma estrutura one page com navegação fluida, CTAs estratégicos e informações organizadas pra facilitar a decisão do usuário. O resultado é uma interface responsiva, clara e centrada nos produtos e serviços da marca, pensada pra atrair novos clientes e fortalecer a presença digital da MaiPhone.</p>
+      <h2 data-i="d2">A solução</h2>
+      <p data-i="d2p">Uma estrutura one page com navegação fluida, CTAs estratégicos e informações organizadas pra facilitar a decisão do usuário. O resultado é uma interface responsiva, clara e centrada nos produtos e serviços da marca, pensada pra atrair novos clientes e fortalecer a presença digital da MaiPhone.</p>
     </div>
     <div>
-      <h2>Direção visual</h2>
-      <p>A estética segue clean e voltada pra tecnologia. A paleta escura com toques de verde transmite inovação e confiança, enquanto a tipografia clara e o layout estratégico garantem uma experiência intuitiva, em sintonia com a identidade moderna e dinâmica da marca.</p>
+      <h2 data-i="d3">Direção visual</h2>
+      <p data-i="d3p">A estética segue clean e voltada pra tecnologia. A paleta escura com toques de verde transmite inovação e confiança, enquanto a tipografia clara e o layout estratégico garantem uma experiência intuitiva, em sintonia com a identidade moderna e dinâmica da marca.</p>
     </div>
   </div>
 
   <section class="case-section" aria-labelledby="sistema-visual">
-    <p class="section-label">Sistema visual</p>
+    <p class="section-label" data-i="sv">Sistema visual</p>
     <div class="case-section-head">
-      <h2 id="sistema-visual">Um sistema visual à altura dos produtos.</h2>
-      <p>A direção une contraste, tipografia objetiva e o verde característico da marca para criar uma presença tecnológica, acessível e reconhecível.</p>
+      <h2 id="sistema-visual" data-i="sv-h">Um sistema visual à altura dos produtos.</h2>
+      <p data-i="sv-p">A direção une contraste, tipografia objetiva e o verde característico da marca para criar uma presença tecnológica, acessível e reconhecível.</p>
     </div>
     <div class="spec-grid">
       <div class="spec-type">
@@ -886,7 +918,7 @@
           <p class="spec-type-name">SF Pro Display</p>
           <p class="spec-type-weights">Regular, Medium, <b>Bold</b></p>
         </div>
-        <div class="spec-type-glyphs" aria-label="Amostra de caracteres">
+        <div class="spec-type-glyphs" aria-label="Amostra de caracteres" data-i="amostra">
           <p>a, b, c, d, e, f, g, h, i, j, k, l, m,<br>n, o, p, q, r, s, t, u, v, w, x, y, z</p>
           <p>A, B, C, D, E, F, G, H, I, J, K, L, M,<br>N, O, P, Q, R, S, T, U, V, W, X, Y, Z</p>
         </div>
@@ -929,25 +961,25 @@
   </section>
 
   <section class="case-section" aria-labelledby="pagina-final">
-    <p class="section-label">Página completa</p>
+    <p class="section-label" data-i="pc">Página completa</p>
     <div class="case-section-head">
-      <h2 id="pagina-final">A experiência completa.</h2>
-      <p>Da primeira impressão ao contato, cada seção organiza a oferta e mantém o foco nos produtos e serviços da MaiPhone.</p>
+      <h2 id="pagina-final" data-i="pc-h">A experiência completa.</h2>
+      <p data-i="pc-p">Da primeira impressão ao contato, cada seção organiza a oferta e mantém o foco nos produtos e serviços da MaiPhone.</p>
     </div>
     <figure class="case-figure">
-      <img src="midia/pagina-completa.webp" width="1920" height="5875" alt="Página desktop completa desenvolvida para a MaiPhone" loading="lazy" decoding="async">
+      <img src="midia/pagina-completa.webp" width="1920" height="5875" alt="Página desktop completa desenvolvida para a MaiPhone" data-i="alt-pc" loading="lazy" decoding="async">
     </figure>
   </section>
 
-  <div class="case-credit">
+  <div class="case-credit" data-i="credito">
     <strong>Parceria:</strong> projeto desenvolvido junto com a V4 Company · Telles Freire &amp; Co.
   </div>
 
   <div class="case-ctas">
-    <a class="btn btn-primary btn-origin" href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Conheci%20o%20projeto%20da%20Loja%20MaiPhone%20no%20seu%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20site%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener">
+    <a class="btn btn-primary btn-origin" data-i="quero-zap" href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Conheci%20o%20projeto%20da%20Loja%20MaiPhone%20no%20seu%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20site%20para%20meu%20neg%C3%B3cio." target="_blank" rel="noopener">
       <span class="origin-fill" aria-hidden="true"></span>
       <span class="origin-content">
-        Quero um projeto assim
+        <span data-i="quero">Quero um projeto assim</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </span>
     </a>
@@ -957,15 +989,19 @@
 <footer class="nfoot">
   <div>
     <div class="foot">
-      <div><a class="brand" href="/"><svg viewBox="0 84.139 127.445 128.682"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>Rafael Garcês</a><p>Marcas, sites e sistemas para negócios que querem ser percebidos pelo valor que entregam.</p></div>
-      <div><h4>Navegação</h4><ul><li><a href="/#sobre">Sobre</a></li><li><a href="/#projetos">Projetos</a></li><li><a href="/#servicos">Serviços</a></li><li><a href="/#processo">Processo</a></li></ul></div>
-      <div><h4>Contato</h4><ul><li><a href="mailto:rafaelgarces.adm@gmail.com">rafaelgarces.adm@gmail.com</a></li><li><a href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Encontrei%20seu%20contato%20no%20rodap%C3%A9%20do%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener">+55 98 98234-0912</a></li></ul></div>
-      <div><h4>Redes</h4><ul><li><a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener">Behance</a></li></ul></div>
+      <div><a class="brand" href="/"><svg viewBox="0 84.139 127.445 128.682"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>Rafael Garcês</a><p data-i="rodape">Marcas, sites e sistemas para negócios que querem ser percebidos pelo valor que entregam.</p></div>
+      <div><h4 data-i="nav">Navegação</h4><ul><li><a href="/#sobre" data-i="sobre">Sobre</a></li><li><a href="/#projetos" data-i="projetos">Projetos</a></li><li><a href="/#servicos" data-i="servicos">Serviços</a></li><li><a href="/#processo" data-i="processo">Processo</a></li></ul></div>
+      <div><h4 data-i="contato">Contato</h4><ul><li><a href="mailto:rafaelgarces.adm@gmail.com">rafaelgarces.adm@gmail.com</a></li><li><a href="https://wa.me/5598982340912?text=Ol%C3%A1%2C%20Rafael%21%20Encontrei%20seu%20contato%20no%20rodap%C3%A9%20do%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto." target="_blank" rel="noopener" data-i="zap-rodape">+55 98 98234-0912</a></li></ul></div>
+      <div><h4 data-i="redes">Redes</h4><ul><li><a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener">Behance</a></li></ul></div>
     </div>
-    <div class="foot__end"><span>© <span id="ano">2026</span> Rafael Garcês. Todos os direitos reservados.</span><span><span id="relogio">--:--</span> · Teresina, Brasil</span></div>
+    <div class="foot__end"><span>© <span id="ano">2026</span> Rafael Garcês. <span data-i="direitos">Todos os direitos reservados.</span></span><span><span id="relogio">--:--</span> · <span data-i="cidade">Teresina, Brasil</span></span></div>
   </div>
   <div class="foot__matrix" data-t="Rafael Garcês" aria-hidden="true">Rafael Garcês</div>
 </footer>
+<script>
+/* textos desta página em inglês (menu e rodapé ficam no site.js) */
+window.T_EN = {"_titulo": "Loja MaiPhone | Website project by Rafael Garcês", "_descricao": "See the Loja MaiPhone landing page: context, design decisions and interface solution in a project presented by Rafael Garcês.", "voltar": "Back to case studies", "tipo": "Website", "brief": "MaiPhone, a reference in smartphone sales and trade-ins in the Triângulo Mineiro region of Brazil, needed an effective landing page to capture leads interested in Apple and Xiaomi launches.", "alt-capa": {"alt": "MaiPhone home page shown on a laptop against a dark background"}, "d1": "The challenge", "d1p": "Create a single page with an attractive look and total focus on conversion, without distracting visitors from the main goal: becoming a lead.", "d2": "The solution", "d2p": "A one-page structure with fluid navigation, strategic CTAs and information organized to make the user's decision easier. The result is a responsive, clear interface centered on the brand's products and services, designed to attract new customers and strengthen MaiPhone's digital presence.", "d3": "Visual direction", "d3p": "The aesthetic is clean and tech-oriented. The dark palette with touches of green conveys innovation and trust, while the clear typography and strategic layout ensure an intuitive experience, in tune with the brand's modern, dynamic identity.", "sv": "Visual system", "sv-h": "A visual system that lives up to the products.", "sv-p": "The direction combines contrast, objective typography and the brand's signature green to create a presence that is technological, accessible and recognizable.", "amostra": {"aria-label": "Character sample"}, "pc": "Full page", "pc-h": "The full experience.", "pc-p": "From first impression to contact, each section organizes the offer and keeps the focus on MaiPhone's products and services.", "alt-pc": {"alt": "Full desktop page developed for MaiPhone"}, "credito": "<strong>Partnership:</strong> project developed with V4 Company · Telles Freire &amp; Co.", "quero": "I want a project like this", "quero-zap": {"href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20saw%20the%20Loja%20MaiPhone%20project%20on%20your%20website%20and%20I%27d%20like%20to%20talk%20about%20a%20website%20for%20my%20business."}};
+</script>
 <script src="/assets/site.js"></script>
 
 
