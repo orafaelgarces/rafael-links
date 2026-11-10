@@ -72,17 +72,21 @@
   /* cursor: anel que segue o mouse com atraso e cresce sobre links e botões */
   var ring = $('.cur-ring');
   if (ring && !reduce && window.matchMedia('(hover: hover)').matches) {
-    var x = 0, y = 0, cx = 0, cy = 0, vivo = false;
+    var glow = document.createElement('div'); glow.className = 'cur-glow'; glow.setAttribute('aria-hidden', 'true'); document.body.appendChild(glow);
+    var x = 0, y = 0, cx = 0, cy = 0, gx = 0, gy = 0, vivo = false;
     window.addEventListener('pointermove', function (e) {
       x = e.clientX; y = e.clientY;
-      if (!vivo) { vivo = true; cx = x; cy = y; ring.classList.add('on'); requestAnimationFrame(segue); }
+      if (!vivo) { vivo = true; cx = gx = x; cy = gy = y; ring.classList.add('on'); glow.classList.add('on'); requestAnimationFrame(segue); }
       ring.classList.toggle('link', !!(e.target.closest && e.target.closest('a, button, summary, input, .tab')));
-      ring.classList.toggle('claro', !!(e.target.closest && e.target.closest('.light')));
+      var claro = !!(e.target.closest && e.target.closest('.light'));
+      ring.classList.toggle('claro', claro); glow.classList.toggle('claro', claro);
     }, { passive: true });
-    document.addEventListener('pointerleave', function () { ring.classList.remove('on'); vivo = false; });
+    document.addEventListener('pointerleave', function () { ring.classList.remove('on'); glow.classList.remove('on'); vivo = false; });
     function segue() {
       cx += (x - cx) * .2; cy += (y - cy) * .2;
       ring.style.transform = 'translate3d(' + cx + 'px,' + cy + 'px,0)';
+      gx += (x - gx) * .1; gy += (y - gy) * .1;
+      glow.style.transform = 'translate3d(' + gx + 'px,' + gy + 'px,0)';
       if (vivo) requestAnimationFrame(segue);
     }
   }

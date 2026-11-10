@@ -64,7 +64,11 @@ button, input { font: inherit; color: inherit; }
 /* sobre seção clara o anel fica escuro e discreto */
 .cur-ring.claro { border-color: rgba(11,12,16,.42); }
 .cur-ring.claro.link { background-color: rgba(11,12,16,.08); }
-@media (hover: none) { .cur-ring { display: none; } }
+/* luz suave que acompanha o cursor: verde-limão sobre fundo escuro, sombra leve sobre fundo claro */
+.cur-glow { position: fixed; left: 0; top: 0; width: 340px; height: 340px; margin: -170px 0 0 -170px; border-radius: 50%; pointer-events: none; z-index: 90; opacity: 0; transition: opacity .5s; will-change: transform; background: radial-gradient(circle, rgba(211,234,85,.13), rgba(211,234,85,0) 68%); mix-blend-mode: screen; }
+.cur-glow.on { opacity: 1; }
+.cur-glow.claro { background: radial-gradient(circle, rgba(11,12,16,.085), rgba(11,12,16,0) 68%); mix-blend-mode: multiply; }
+@media (hover: none) { .cur-ring, .cur-glow { display: none; } }
 
 /* entradas ao rolar */
 .rise { opacity: 0; translate: 0 22px; transition: opacity .9s var(--ease), translate .9s var(--ease); transition-delay: calc(var(--i, 0) * 110ms + 120ms); }
@@ -105,5 +109,5 @@ footer { border-top: 1px solid var(--line); padding-top: clamp(50px, 7vw, 90px);
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rise, .js .reveal, .js [data-words] .w { opacity: 1; translate: none; filter: none; }
-  .cur-ring { display: none; }
+  .cur-ring, .cur-glow { display: none; }
 }
