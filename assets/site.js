@@ -77,6 +77,7 @@
       x = e.clientX; y = e.clientY;
       if (!vivo) { vivo = true; cx = x; cy = y; ring.classList.add('on'); requestAnimationFrame(segue); }
       ring.classList.toggle('link', !!(e.target.closest && e.target.closest('a, button, summary, input, .tab')));
+      ring.classList.toggle('claro', !!(e.target.closest && e.target.closest('.light')));
     }, { passive: true });
     document.addEventListener('pointerleave', function () { ring.classList.remove('on'); vivo = false; });
     function segue() {

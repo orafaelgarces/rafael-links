@@ -17,11 +17,13 @@ button, input { font: inherit; color: inherit; }
 .wrap { width: min(100%, var(--wrap)); margin-inline: auto; padding-inline: var(--pad); }
 .dim { color: var(--gray); }
 .lime { color: var(--accent); }
-/* destaque em verde-limão sobre fundo claro: marca-texto */
-.mark { background: linear-gradient(var(--accent), var(--accent)) 0 88% / 100% .5em no-repeat; color: inherit; padding: 0 .06em; margin: 0 -.06em; }
+/* palavras-chave: ficam verdes quando o mouse passa pela frase (tom mais fechado nas seções claras, para dar leitura) */
+:root { --hl: var(--accent); }
+.hl { transition: color .35s; }
+.hl:hover, .tem-hl:hover .hl { color: var(--hl); }
 .skip { position: fixed; left: 16px; top: -60px; z-index: 200; background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-weight: 700; }
 .skip:focus { top: 16px; }
-.light { --bg: #ffffff; --ink: #0b0c10; --gray: #7c7c86; --line: #e4e4e8; background: var(--bg); color: var(--ink); }
+.light { --bg: #ffffff; --ink: #0b0c10; --gray: #7c7c86; --line: #e4e4e8; --hl: #7d9a0c; background: var(--bg); color: var(--ink); }
 .sec { padding: clamp(80px, 11vw, 150px) 0; position: relative; }
 
 .eyebrow { display: flex; align-items: center; gap: 12px; font-size: 11.5px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gray); }
@@ -56,9 +58,12 @@ button, input { font: inherit; color: inherit; }
 .progress span { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
 
 /* cursor: anel que segue o mouse e cresce sobre links */
-.cur-ring { position: fixed; left: 0; top: 0; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%; border: 1.5px solid #fff; mix-blend-mode: difference; pointer-events: none; z-index: 95; opacity: 0; transition: opacity .3s, width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background-color .3s; will-change: transform; }
+.cur-ring { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 1.5px solid var(--accent); pointer-events: none; z-index: 95; opacity: 0; transition: opacity .3s, width .3s var(--ease), height .3s var(--ease), margin .3s var(--ease), background-color .3s, border-color .3s; will-change: transform; }
 .cur-ring.on { opacity: 1; }
-.cur-ring.link { width: 72px; height: 72px; margin: -36px 0 0 -36px; background-color: #fff; }
+.cur-ring.link { width: 46px; height: 46px; margin: -23px 0 0 -23px; background-color: rgba(211,234,85,.16); }
+/* sobre seção clara o anel fica escuro e discreto */
+.cur-ring.claro { border-color: rgba(11,12,16,.42); }
+.cur-ring.claro.link { background-color: rgba(11,12,16,.08); }
 @media (hover: none) { .cur-ring { display: none; } }
 
 /* entradas ao rolar */
