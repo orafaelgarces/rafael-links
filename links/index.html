@@ -547,6 +547,18 @@
   .contact-form input { font-size: var(--text-body); line-height: 1.5; }
 
 </style>
+<link rel="stylesheet" href="/assets/skin.css">
+<style id="pele-links">
+  .name { font-weight: 500 !important; letter-spacing: -.035em !important; font-size: clamp(2rem, 6vw, 2.8rem) !important; }
+  .tagline, .section-label { font-size: 11.5px !important; font-weight: 500 !important; letter-spacing: .16em !important; text-transform: uppercase; color: var(--n-gray) !important; }
+  .link-card { border-radius: 18px !important; border-color: var(--n-line) !important; background: #121319 !important; transition: border-color .3s, translate .4s var(--n-ease), background .3s !important; }
+  .link-card:hover { border-color: rgba(211,234,85,.55) !important; translate: 0 -2px; }
+  .link-title { font-weight: 500 !important; letter-spacing: -.02em; }
+  .status .dot { background: var(--n-accent) !important; }
+  .theme-switch { display: none !important; }
+  .avatar { filter: grayscale(1); transition: filter .5s; } .avatar:hover { filter: none; }
+</style>
+
 
 <div class="page">
 
@@ -776,3 +788,5 @@
     });
   }
 </script>
+<div class="cur-ring" aria-hidden="true"></div>
+<script src="/assets/site.js"></script>
