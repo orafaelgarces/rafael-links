@@ -6,7 +6,7 @@
 create table if not exists public.briefings (
   id          uuid primary key default gen_random_uuid(),
   created_at  timestamptz not null default now(),
-  tipo        text not null check (tipo in ('marca','site','marca-site')),
+  tipo        text not null check (tipo in ('marca','site','marca-site','links','marca-links')),
   cliente     text not null,
   nome        text not null,
   contato     text,
@@ -21,7 +21,7 @@ alter table public.briefings enable row level security;
 drop policy if exists briefings_insert on public.briefings;
 create policy briefings_insert on public.briefings for insert to anon, authenticated
   with check (
-    tipo in ('marca','site','marca-site')
+    tipo in ('marca','site','marca-site','links','marca-links')
     and char_length(cliente) between 1 and 200
     and char_length(nome) between 1 and 200
     and pg_column_size(dados) < 60000

@@ -213,6 +213,8 @@
       <div class="tipo"><input type="radio" name="tipo" id="t-marca" value="marca"><label for="t-marca"><span class="name">Marca</span><span class="kind">Identidade visual e universo da marca</span></label></div>
       <div class="tipo"><input type="radio" name="tipo" id="t-site" value="site"><label for="t-site"><span class="name">Site</span><span class="kind">Site ou página de apresentação</span></label></div>
       <div class="tipo"><input type="radio" name="tipo" id="t-marca-site" value="marca-site"><label for="t-marca-site"><span class="name">Marca e site</span><span class="kind">Os dois, um a partir do outro</span></label></div>
+      <div class="tipo"><input type="radio" name="tipo" id="t-links" value="links"><label for="t-links"><span class="name">Página de links</span><span class="kind">O link da bio do Instagram</span></label></div>
+      <div class="tipo"><input type="radio" name="tipo" id="t-marca-links" value="marca-links"><label for="t-marca-links"><span class="name">Marca e página de links</span><span class="kind">Identidade e o link da bio</span></label></div>
     </div>
   </section>
 
@@ -247,37 +249,69 @@
   var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } }) : null;
   var WHATSAPP = '5598982340912';
 
-  var TIPOS = { 'marca': 'Marca', 'site': 'Site', 'marca-site': 'Marca e site' };
+  var TIPOS = { 'marca': 'Marca', 'site': 'Site', 'marca-site': 'Marca e site', 'links': 'Página de links', 'marca-links': 'Marca e página de links' };
 
   /* ===== Perguntas =====
      tipo: linha | texto | chips (várias) | escolha (uma) | escala (entre dois polos)
      so: em quais projetos aparece ('marca', 'site'); sem "so" = sempre.
+     perfil: 'pessoal' ou 'negocio' = só aparece nesse perfil (link ?perfil=pessoal); sem = sempre.
+     P: textos trocados quando a marca é pessoal (marca do profissional, não da empresa).
      obrig: obrigatória. outro: chips com campo "Outro". */
   var ETAPAS = [
     {
       id: 'voce', titulo: 'Você e o negócio', hint: 'O básico para eu conhecer quem está por trás da marca.',
+      P: { titulo: 'Você e sua trajetória', hint: 'Sua marca é você. Quanto mais eu entender sua história, mais verdadeira ela fica.' },
       perguntas: [
-        { id: 'nome', tipo: 'linha', texto: 'Seu nome', obrig: true, auto: 'name', par: true },
-        { id: 'cliente', tipo: 'linha', texto: 'Nome da marca ou do negócio', obrig: true, auto: 'organization', par: true },
+        { id: 'nome', tipo: 'linha', texto: 'Seu nome', obrig: true, auto: 'name', par: true, P: { texto: 'Seu nome completo' } },
+        { id: 'cliente', tipo: 'linha', texto: 'Nome da marca ou do negócio', obrig: true, auto: 'organization', par: true,
+          P: { texto: 'Nome profissional', ajuda: 'Como as pessoas te chamam hoje. Ex.: Dra. Ana Souza.' } },
         { id: 'whatsapp', tipo: 'linha', texto: 'WhatsApp', obrig: true, auto: 'tel', inputmode: 'tel', par: true },
         { id: 'email', tipo: 'linha', texto: 'E-mail', auto: 'email', inputmode: 'email', par: true },
-        { id: 'area', tipo: 'linha', texto: 'Área de atuação ou especialidade', ajuda: 'Ex.: fisioterapia pélvica, advocacia trabalhista, loja de roupas.', obrig: true },
-        { id: 'cidade', tipo: 'linha', texto: 'Cidade e forma de atendimento', ajuda: 'Ex.: São Luís, consultório próprio e domiciliar.' },
+        { id: 'area', tipo: 'linha', texto: 'Área de atuação ou especialidade', ajuda: 'Ex.: fisioterapia pélvica, advocacia trabalhista, loja de roupas.', obrig: true,
+          P: { texto: 'Profissão e especialidade', ajuda: 'Ex.: fisioterapeuta com foco em pilates clínico e dor lombar.' } },
+        { id: 'cidade', tipo: 'linha', texto: 'Cidade e forma de atendimento', ajuda: 'Ex.: São Luís, consultório próprio e domiciliar.',
+          P: { texto: 'Cidade e onde você atende', ajuda: 'Consultório próprio, clínica de terceiros, domicílio, online…' } },
         { id: 'registro', tipo: 'linha', texto: 'Registro profissional que precisa aparecer', ajuda: 'Área da saúde, direito e outras reguladas: CREFITO, CRM, OAB, RQE… Deixe em branco se não se aplica.' },
-        { id: 'canais', tipo: 'texto', texto: 'Onde a marca está hoje', ajuda: 'Cole os links do Instagram, site, Google Meu Negócio, o que tiver.', min: 64 },
-        { id: 'historia', tipo: 'texto', texto: 'Conte a história do negócio', ajuda: 'Como começou, há quanto tempo existe, o que mudou até aqui.', obrig: true },
-        { id: 'servicos', tipo: 'texto', texto: 'Quais são os principais serviços ou produtos?', ajuda: 'Se tiver um carro-chefe, diga qual.', obrig: true },
-        { id: 'diferencial', tipo: 'texto', texto: 'Por que alguém escolhe você e não outro profissional?', ajuda: 'O que os clientes elogiam, o que você faz diferente.', obrig: true },
-        { id: 'futuro', tipo: 'texto', texto: 'Onde você quer que o negócio esteja daqui a 2 ou 3 anos?' }
+        { id: 'canais', tipo: 'texto', texto: 'Onde a marca está hoje', ajuda: 'Cole os links do Instagram, site, Google Meu Negócio, o que tiver.', min: 64,
+          P: { texto: 'Onde você está hoje na internet', ajuda: 'Cole os links do seu Instagram, site, Google Meu Negócio, Doctoralia, o que tiver.' } },
+        { id: 'historia', tipo: 'texto', texto: 'Conte a história do negócio', ajuda: 'Como começou, há quanto tempo existe, o que mudou até aqui.', obrig: true,
+          P: { texto: 'Conte sua trajetória', ajuda: 'Por que escolheu essa profissão, onde se formou, os momentos que marcaram sua carreira até aqui.' } },
+        { id: 'formacao', tipo: 'texto', texto: 'Formações, especializações e cursos que dão autoridade ao seu trabalho', perfil: 'pessoal',
+          ajuda: 'Pós, residência, certificações, métodos que você domina. Não precisa listar tudo, só o que importa para o paciente.' },
+        { id: 'servicos', tipo: 'texto', texto: 'Quais são os principais serviços ou produtos?', ajuda: 'Se tiver um carro-chefe, diga qual.', obrig: true,
+          P: { texto: 'Quais atendimentos, tratamentos ou planos você oferece?', ajuda: 'Se tiver um carro-chefe ou um plano que quer vender mais, diga qual.' } },
+        { id: 'metodo', tipo: 'texto', texto: 'Como é o seu jeito de atender?', perfil: 'pessoal',
+          ajuda: 'Da primeira conversa ao fim do tratamento. Tem algum método, ritual ou cuidado que é só seu?' },
+        { id: 'diferencial', tipo: 'texto', texto: 'Por que alguém escolhe você e não outro profissional?', ajuda: 'O que os clientes elogiam, o que você faz diferente.', obrig: true,
+          P: { texto: 'Por que um paciente escolhe você e não outro profissional?', ajuda: 'O que seus pacientes mais elogiam, o que você faz diferente.' } },
+        { id: 'valores', tipo: 'texto', texto: 'Quais valores guiam seu trabalho? Tem alguma causa que você defende?', perfil: 'pessoal' },
+        { id: 'futuro', tipo: 'texto', texto: 'Onde você quer que o negócio esteja daqui a 2 ou 3 anos?',
+          P: { texto: 'Onde você quer estar daqui a 2 ou 3 anos?', ajuda: 'Consultório maior, equipe, cursos, ser referência em algo…' } }
+      ]
+    },
+    {
+      id: 'pessoa', titulo: 'Quem é você além da profissão', perfil: 'pessoal',
+      hint: 'Marca pessoal também mostra a pessoa. Isso guia a sessão de fotos, o tom das legendas e o universo visual.',
+      perguntas: [
+        { id: 'tres_palavras', tipo: 'linha', texto: 'Como as pessoas próximas descreveriam você, em 3 palavras?', obrig: true },
+        { id: 'fora', tipo: 'texto', texto: 'O que você gosta de fazer fora do trabalho?', ajuda: 'Hobbies, esportes, viagens, música, família, fé… Só o que você se sente bem em mostrar.' },
+        { id: 'estilo', tipo: 'texto', texto: 'Como é o seu estilo pessoal?', ajuda: 'Como você se veste, cores que usa, lugares e ambientes onde se sente bem. Pode colar fotos de referência.' },
+        { id: 'exposicao', tipo: 'escala', texto: 'Quanto de você quer mostrar na marca', polos: ['Só o profissional', 'Bastidores e vida pessoal'] },
+        { id: 'rosto', tipo: 'escolha', texto: 'Você se sente à vontade aparecendo em fotos e vídeos?', opcoes: ['Sim, gosto', 'Sim, mas com direção', 'Prefiro aparecer pouco'], obrig: true }
       ]
     },
     {
       id: 'publico', titulo: 'Quem você atende', hint: 'Marca boa fala com alguém específico. Pense no cliente que você gostaria de ter mais.',
+      P: { hint: 'Marca boa fala com alguém específico. Pense no paciente que você gostaria de atender mais.' },
       perguntas: [
-        { id: 'cliente_ideal', tipo: 'texto', texto: 'Descreva seu cliente ideal', ajuda: 'Idade, momento de vida, profissão, o que valoriza, quanto pode investir.', obrig: true },
+        { id: 'cliente_ideal', tipo: 'texto', texto: 'Descreva seu cliente ideal', ajuda: 'Idade, momento de vida, profissão, o que valoriza, quanto pode investir.', obrig: true,
+          P: { texto: 'Descreva seu paciente ideal' } },
         { id: 'dor', tipo: 'texto', texto: 'Que problema ou desejo leva essa pessoa até você?', obrig: true },
-        { id: 'objecoes', tipo: 'texto', texto: 'O que faz alguém hesitar antes de fechar com você?', ajuda: 'Preço, desconfiança, falta de tempo, não entender o serviço…' },
-        { id: 'como_chega', tipo: 'chips', texto: 'Como os clientes chegam até você hoje?', opcoes: ['Indicação', 'Instagram', 'Google', 'Anúncios', 'Parcerias', 'Convênio', 'Passando na frente'], outro: true },
+        { id: 'objecoes', tipo: 'texto', texto: 'O que faz alguém hesitar antes de fechar com você?', ajuda: 'Preço, desconfiança, falta de tempo, não entender o serviço…',
+          P: { texto: 'O que faz alguém hesitar antes de fechar um plano com você?' } },
+        { id: 'como_chega', tipo: 'chips', texto: 'Como os clientes chegam até você hoje?', opcoes: ['Indicação', 'Instagram', 'Google', 'Anúncios', 'Parcerias', 'Convênio', 'Passando na frente'], outro: true,
+          P: { texto: 'Como os pacientes chegam até você hoje?', opcoes: ['Indicação de pacientes', 'Indicação de médicos ou colegas', 'Instagram', 'Google', 'Anúncios', 'Convênio', 'Parcerias (academias, estúdios)'] } },
+        { id: 'indicacao', tipo: 'texto', texto: 'Quando um paciente te indica, o que você gostaria que ele dissesse sobre você?', perfil: 'pessoal' },
         { id: 'nao_atrair', tipo: 'texto', texto: 'Tem algum público que você não quer atrair?' }
       ]
     },
@@ -293,48 +327,86 @@
         { id: 'adjetivos', tipo: 'chips', texto: 'Escolha até 5 palavras que a marca precisa transmitir', max: 5, obrig: true,
           opcoes: ['Confiança', 'Acolhimento', 'Sofisticação', 'Leveza', 'Energia', 'Autoridade', 'Cuidado', 'Inovação', 'Proximidade', 'Elegância', 'Alegria', 'Calma', 'Precisão', 'Feminilidade', 'Força', 'Natureza'], outro: true },
         { id: 'percepcao', tipo: 'texto', texto: 'Ao ver sua marca, o que você quer que a pessoa pense ou sinta?', obrig: true },
-        { id: 'concorrentes', tipo: 'texto', texto: 'Cite concorrentes ou profissionais da sua área que você acompanha', ajuda: 'Pode colar o @ ou o link. Diga o que admira e o que não faria igual.' }
+        { id: 'concorrentes', tipo: 'texto', texto: 'Cite concorrentes ou profissionais da sua área que você acompanha', ajuda: 'Pode colar o @ ou o link. Diga o que admira e o que não faria igual.',
+          P: { texto: 'Profissionais (da sua área ou não) que você acompanha e admira', ajuda: 'Pode colar o @. Diga o que admira e o que não faria igual.' } }
       ]
     },
     {
       id: 'marca', titulo: 'A marca', hint: 'Agora sobre a identidade visual em si.', so: 'marca',
+      P: { titulo: 'Sua marca', hint: 'Agora sobre a identidade visual: logo, cores e onde ela vai viver.' },
       perguntas: [
-        { id: 'nome_marca', tipo: 'linha', texto: 'Como o nome deve aparecer na marca, exatamente?', ajuda: 'Ex.: "Dra. Ana Souza", "Ana Souza Fisioterapia", "Studio Ana".', obrig: true },
+        { id: 'nome_marca', tipo: 'linha', texto: 'Como o nome deve aparecer na marca, exatamente?', ajuda: 'Ex.: "Dra. Ana Souza", "Ana Souza Fisioterapia", "Studio Ana".', obrig: true,
+          P: { texto: 'Como seu nome deve aparecer na marca, exatamente?', ajuda: 'Com ou sem "Dra.", nome completo ou só nome e sobrenome, com a profissão junto ou não. Ex.: "Dra. Ana Souza", "Ana Souza · Fisioterapia".' } },
         { id: 'situacao', tipo: 'escolha', texto: 'Qual é a situação da marca hoje?', opcoes: ['Não tenho marca', 'Tenho e quero renovar', 'Tenho e quero recomeçar do zero'], obrig: true },
         { id: 'manter', tipo: 'texto', texto: 'Da marca atual, o que você quer manter?', ajuda: 'Cores, símbolo, nome, alguma forma… Se não tem marca, pule.' },
         { id: 'mudar', tipo: 'texto', texto: 'E o que incomoda ou precisa mudar? Por quê?' },
-        { id: 'tipo_logo', tipo: 'chips', texto: 'Que tipo de logo você imagina?', ajuda: 'Pode marcar mais de um ou deixar em aberto.', opcoes: ['Símbolo + nome', 'Só o nome escrito', 'Iniciais (monograma)', 'Selo ou emblema', 'Deixo com você'] },
+        { id: 'tipo_logo', tipo: 'chips', texto: 'Que tipo de logo você imagina?', ajuda: 'Pode marcar mais de um ou deixar em aberto.', opcoes: ['Símbolo + nome', 'Só o nome escrito', 'Iniciais (monograma)', 'Selo ou emblema', 'Deixo com você'],
+          P: { opcoes: ['Assinatura (meu nome escrito)', 'Iniciais (monograma)', 'Símbolo + nome', 'Selo ou emblema', 'Deixo com você'] } },
         { id: 'cores_sim', tipo: 'linha', texto: 'Cores que você gosta ou quer manter' },
         { id: 'cores_nao', tipo: 'linha', texto: 'Cores que você não quer de jeito nenhum' },
         { id: 'aplicacoes', tipo: 'chips', texto: 'Onde a marca vai aparecer?', ajuda: 'Isso define o universo visual: o que vamos desenhar além do logo.',
-          opcoes: ['Instagram', 'Site', 'Fachada ou placa', 'Consultório ou loja (ambiente)', 'Cartão de visita', 'Receituário ou papelaria', 'Jaleco ou uniforme', 'Embalagem, caixa ou kit', 'Brindes', 'Apresentações', 'Sessão de fotos'], outro: true, obrig: true },
-        { id: 'refs_marca', tipo: 'texto', texto: 'Marcas que você admira (de qualquer área) e por quê', ajuda: 'Links do Instagram, Pinterest ou site. Pode ser marca de roupa, café, clínica…', min: 96 },
-        { id: 'evitar', tipo: 'texto', texto: 'Tem algo que você não quer de jeito nenhum na marca?', ajuda: 'Um símbolo batido da área, um estilo, uma marca que não quer parecer.' }
+          opcoes: ['Instagram', 'Site', 'Fachada ou placa', 'Consultório ou loja (ambiente)', 'Cartão de visita', 'Receituário ou papelaria', 'Jaleco ou uniforme', 'Embalagem, caixa ou kit', 'Brindes', 'Apresentações', 'Sessão de fotos'], outro: true, obrig: true,
+          P: { opcoes: ['Instagram', 'Site', 'Consultório (ambiente e decoração)', 'Placa ou fachada', 'Jaleco ou uniforme', 'Cartão de visita', 'Receituário, atestado e papelaria', 'Caixa ou kit para o paciente', 'Brindes', 'Aulas, palestras e apresentações', 'Sessão de fotos'] } },
+        { id: 'refs_marca', tipo: 'texto', texto: 'Marcas que você admira (de qualquer área) e por quê', ajuda: 'Links do Instagram, Pinterest ou site. Pode ser marca de roupa, café, clínica…', min: 96,
+          P: { texto: 'Marcas e perfis que você admira (de qualquer área) e por quê', ajuda: 'Links do Instagram, Pinterest ou site. Pode ser outro profissional, marca de roupa, café, hotel…' } },
+        { id: 'evitar', tipo: 'texto', texto: 'Tem algo que você não quer de jeito nenhum na marca?', ajuda: 'Um símbolo batido da área, um estilo, uma marca que não quer parecer.',
+          P: { ajuda: 'Um símbolo batido da profissão, um estilo, um colega ou marca com quem não quer parecer.' } }
       ]
     },
     {
       id: 'site', titulo: 'O site', hint: 'Para quem vai visitar e o que essa pessoa precisa fazer lá.', so: 'site',
+      P: { titulo: 'Seu site' },
       perguntas: [
         { id: 'objetivo_site', tipo: 'escolha', texto: 'Qual é o objetivo principal do site?', opcoes: ['Agendar consultas ou atendimentos', 'Captar contatos (WhatsApp)', 'Apresentar meu trabalho e gerar autoridade', 'Vender online', 'Divulgar um curso ou evento'], outro: true, obrig: true },
         { id: 'acao', tipo: 'linha', texto: 'Qual ação o visitante deve fazer antes de sair?', ajuda: 'Ex.: chamar no WhatsApp, agendar, comprar, se inscrever.', obrig: true },
-        { id: 'paginas', tipo: 'chips', texto: 'O que o site precisa ter?', opcoes: ['Sobre mim', 'Serviços ou tratamentos', 'Depoimentos', 'Antes e depois', 'Perguntas frequentes', 'Blog ou artigos', 'Galeria de fotos', 'Localização e mapa', 'Equipe', 'Convênios aceitos', 'Loja'], outro: true },
+        { id: 'paginas', tipo: 'chips', texto: 'O que o site precisa ter?', opcoes: ['Sobre mim', 'Serviços ou tratamentos', 'Depoimentos', 'Antes e depois', 'Perguntas frequentes', 'Blog ou artigos', 'Galeria de fotos', 'Localização e mapa', 'Equipe', 'Convênios aceitos', 'Loja'], outro: true,
+          P: { opcoes: ['Minha história e formação', 'Tratamentos e planos', 'Para quem é cada tratamento', 'Depoimentos de pacientes', 'Perguntas frequentes', 'Artigos ou conteúdos', 'Fotos do consultório', 'Localização e mapa', 'Convênios aceitos', 'Cursos ou palestras'] } },
         { id: 'integracoes', tipo: 'chips', texto: 'Precisa se conectar com algo?', opcoes: ['Botão de WhatsApp', 'Agenda online', 'Instagram', 'Google Maps', 'Formulário de contato', 'Pixel ou anúncios (Meta/Google)', 'Pagamento'], outro: true },
-        { id: 'conteudo', tipo: 'chips', texto: 'O que você já tem pronto?', opcoes: ['Textos', 'Fotos profissionais', 'Vídeos', 'Logo em arquivo', 'Depoimentos de clientes', 'Nada ainda'] },
+        { id: 'conteudo', tipo: 'chips', texto: 'O que você já tem pronto?', opcoes: ['Textos', 'Fotos profissionais', 'Vídeos', 'Logo em arquivo', 'Depoimentos de clientes', 'Nada ainda'],
+          P: { opcoes: ['Textos', 'Fotos profissionais minhas', 'Fotos do consultório', 'Vídeos', 'Logo em arquivo', 'Depoimentos de pacientes', 'Nada ainda'] } },
         { id: 'dominio', tipo: 'escolha', texto: 'Já tem um domínio (endereço .com.br)?', opcoes: ['Sim', 'Não', 'Não sei'], obrig: true },
-        { id: 'dominio_qual', tipo: 'linha', texto: 'Qual endereço tem ou gostaria de ter?' },
+        { id: 'dominio_qual', tipo: 'linha', texto: 'Qual endereço tem ou gostaria de ter?', P: { ajuda: 'Normalmente é o seu nome. Ex.: draanasouza.com.br.' } },
         { id: 'refs_site', tipo: 'texto', texto: 'Sites que você gosta e o que chama sua atenção neles', ajuda: 'Cole os links. Pode ser de qualquer área.', min: 96 }
+      ]
+    },
+    {
+      id: 'links', titulo: 'Página de links', hint: 'A página que fica no link da bio do Instagram: poucos botões, direto ao ponto.', so: 'links',
+      P: { titulo: 'Sua página de links' },
+      perguntas: [
+        { id: 'links_objetivo', tipo: 'escolha', texto: 'O que a pessoa deve fazer ao chegar na página?', obrig: true,
+          opcoes: ['Agendar pelo WhatsApp', 'Conhecer os serviços', 'Ir até o local', 'Acompanhar meus conteúdos'], outro: true,
+          P: { opcoes: ['Agendar pelo WhatsApp', 'Conhecer os tratamentos e planos', 'Ir até o consultório', 'Acompanhar meus conteúdos'] } },
+        { id: 'links_botoes', tipo: 'chips', texto: 'Quais botões a página precisa ter?', ajuda: 'Menos é mais: o ideal é de 4 a 6.', obrig: true,
+          opcoes: ['WhatsApp', 'Localização (Google Maps)', 'Serviços', 'Avaliações no Google', 'Agenda online', 'YouTube ou TikTok', 'Site', 'Materiais gratuitos', 'Cursos ou eventos'], outro: true,
+          P: { opcoes: ['Agendar pelo WhatsApp', 'Localização do consultório', 'Tratamentos e planos', 'Avaliações no Google', 'Agenda online', 'Convênios aceitos', 'YouTube ou TikTok', 'Conteúdos ou materiais gratuitos', 'Cursos ou palestras'] } },
+        { id: 'links_principal', tipo: 'linha', texto: 'Qual é o botão mais importante?', ajuda: 'Ele fica em destaque, no topo da página.', obrig: true },
+        { id: 'links_whats', tipo: 'texto', texto: 'Que mensagem já deve vir escrita quando a pessoa clicar no WhatsApp?', min: 64,
+          ajuda: 'Ex.: "Olá! Vim pelo Instagram e quero agendar uma avaliação." Se não souber, eu sugiro.' },
+        { id: 'links_urls', tipo: 'texto', texto: 'Cole aqui os links que já existem', ajuda: 'Agenda online, Google Maps, avaliações, YouTube, o que for entrar na página.', min: 96 },
+        { id: 'links_endereco', tipo: 'texto', texto: 'Endereço e horários de atendimento', ajuda: 'Se tiver mais de um local, coloque todos.', min: 64 },
+        { id: 'links_refs', tipo: 'texto', texto: 'Alguma página de links que você gosta?', ajuda: 'Cole o @ do perfil ou o link.' }
       ]
     },
     {
       id: 'final', titulo: 'Prazos e materiais', hint: 'Últimos detalhes para organizar o projeto.',
       perguntas: [
         { id: 'prazo', tipo: 'linha', texto: 'Tem alguma data importante?', ajuda: 'Inauguração, lançamento, evento, mudança de consultório…' },
+        { id: 'fotos', tipo: 'escolha', texto: 'Você tem fotos profissionais recentes?', perfil: 'pessoal', opcoes: ['Sim, recentes', 'Tenho, mas antigas', 'Não tenho'] },
         { id: 'aprovacao', tipo: 'linha', texto: 'Além de você, quem participa das decisões e aprovações?' },
         { id: 'materiais', tipo: 'texto', texto: 'Link de uma pasta com materiais', ajuda: 'Google Drive, Dropbox ou WeTransfer com logo atual, fotos, referências, prints. Se preferir, me mande no WhatsApp.', min: 64 },
         { id: 'extra', tipo: 'texto', texto: 'Algo mais que eu precise saber?' }
       ]
     }
   ];
+
+  /* Perfil da marca: ?perfil=pessoal troca os textos e inclui as perguntas sobre a pessoa */
+  var PESSOAL = new URLSearchParams(location.search).get('perfil') === 'pessoal';
+  function noPerfil(x) { return !x.perfil || x.perfil === (PESSOAL ? 'pessoal' : 'negocio'); }
+  ETAPAS = ETAPAS.filter(noPerfil).map(function (e) {
+    var e2 = Object.assign({}, e, PESSOAL && e.P ? e.P : {});
+    e2.perguntas = e.perguntas.filter(noPerfil).map(function (q) { return Object.assign({}, q, PESSOAL && q.P ? q.P : {}); });
+    return e2;
+  });
 
   var p = new URLSearchParams(location.search);
   var tipoAtual = TIPOS[p.get('tipo')] ? p.get('tipo') : null;
@@ -346,7 +418,7 @@
   document.getElementById('ano').textContent = new Date().getFullYear();
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
-  function visivel(e) { return !e.so || (tipoAtual === 'marca-site') || tipoAtual === e.so; }
+  function visivel(e) { return !e.so || tipoAtual.split('-').indexOf(e.so) > -1; }
 
   function titulo(q) {
     return esc(q.texto) + (q.obrig ? '' : '<span class="opc">opcional</span>');
@@ -405,9 +477,16 @@
     if (p.get('cliente')) form.cliente.value = p.get('cliente');
     if (p.get('nome')) form.nome.value = p.get('nome');
     restaurar();
+    /* Situação já conhecida pelo link (?situacao=renovar|zero|nova): marca a resposta e esconde a pergunta */
+    var SIT = { nova: 'Não tenho marca', renovar: 'Tenho e quero renovar', zero: 'Tenho e quero recomeçar do zero' }[p.get('situacao')];
+    if (SIT) {
+      var sq = form.querySelector('.q[data-id="situacao"]');
+      var so = sq && sq.querySelector('input[value="' + SIT + '"]');
+      if (so) { so.checked = true; sq.hidden = true; }
+    }
     form.hidden = false;
     document.getElementById('escolha-tipo').hidden = true;
-    var chips = ['<span class="svc">' + TIPOS[tipoAtual] + '</span>'];
+    var chips = ['<span class="svc">' + TIPOS[tipoAtual] + (PESSOAL ? ' · marca pessoal' : '') + '</span>'];
     if (p.get('cliente')) chips.push('<span>' + esc(p.get('cliente')) + '</span>');
     var ctx = document.getElementById('ctx'); ctx.innerHTML = chips.join(''); ctx.hidden = false;
     ir(Math.min(atual, etapasAtivas.length - 1), true);
@@ -546,7 +625,7 @@
   function enviarEmail(d) {
     var body = {
       access_key: WEB3FORMS_KEY,
-      subject: 'Briefing · ' + TIPOS[tipoAtual] + ' · ' + d.cliente,
+      subject: 'Briefing · ' + TIPOS[tipoAtual] + (PESSOAL ? ' (marca pessoal)' : '') + ' · ' + d.cliente,
       from_name: 'Briefing do site',
       'Projeto': TIPOS[tipoAtual], 'Cliente': d.cliente, 'Nome': d.nome, 'Contato': d.contato
     };
