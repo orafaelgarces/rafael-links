@@ -33,7 +33,6 @@
 <style>
 /* Página de links: mesma linguagem da home (rótulos de pontos, linhas, títulos leves, verde-limão), em formato de lista. */
 .lk { position: relative; padding: clamp(116px, 14vw, 168px) 0 clamp(64px, 9vw, 120px); }
-.lk__linhas { position: absolute; inset: 0 0 auto 0; height: min(620px, 80svh); pointer-events: none; background: repeating-linear-gradient(to bottom, transparent 0 43px, rgba(255,255,255,.035) 43px 44px); -webkit-mask-image: linear-gradient(#000 20%, transparent); mask-image: linear-gradient(#000 20%, transparent); }
 .lk__grid { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 7vw, 112px); align-items: start; }
 .js .up { opacity: 0; translate: 0 22px; transition: opacity .9s var(--ease), translate .9s var(--ease); transition-delay: calc(var(--i, 0) * 90ms + 60ms); }
 .js.ready .up { opacity: 1; translate: 0 0; }
@@ -159,7 +158,6 @@ footer { padding-top: clamp(26px, 4vw, 40px); }
 
 
 <main id="conteudo" class="lk" tabindex="-1">
-  <div class="lk__linhas" aria-hidden="true"></div>
   <div class="wrap lk__grid">
 
     <header class="id">
