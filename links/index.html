@@ -33,10 +33,16 @@
 <style>
 /* Página de links: mesma linguagem da home (rótulos de pontos, linhas, títulos leves, verde-limão), em formato de lista. */
 .lk { position: relative; padding: clamp(116px, 14vw, 168px) 0 clamp(64px, 9vw, 120px); }
-.lk__linhas { position: absolute; inset: 0 0 auto 0; height: min(620px, 80svh); pointer-events: none; background: repeating-linear-gradient(to bottom, transparent 0 43px, rgba(255,255,255,.075) 43px 44px); -webkit-mask-image: linear-gradient(#000 20%, transparent); mask-image: linear-gradient(#000 20%, transparent); }
+.lk__linhas { position: absolute; inset: 0 0 auto 0; height: min(620px, 80svh); pointer-events: none; background: repeating-linear-gradient(to bottom, transparent 0 43px, rgba(255,255,255,.035) 43px 44px); -webkit-mask-image: linear-gradient(#000 20%, transparent); mask-image: linear-gradient(#000 20%, transparent); }
 .lk__grid { position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 7vw, 112px); align-items: start; }
 .js .up { opacity: 0; translate: 0 22px; transition: opacity .9s var(--ease), translate .9s var(--ease); transition-delay: calc(var(--i, 0) * 90ms + 60ms); }
 .js.ready .up { opacity: 1; translate: 0 0; }
+
+/* seletor de idioma no lugar do menu */
+.idioma { gap: 2px; padding: 5px; }
+.idioma button { padding: 9px 14px; border: 0; border-radius: 999px; background: none; font: inherit; font-size: 12px; font-weight: 500; letter-spacing: .12em; color: #9b9ba3; cursor: pointer; transition: color .2s, background .2s; }
+.idioma button:hover { color: #fff; }
+.idioma button.on { background: #f5f5f3; color: #0b0c10; cursor: default; }
 
 /* quem é */
 .id { position: sticky; top: 112px; }
@@ -58,15 +64,14 @@
 /* blocos da direita */
 .bloco + .bloco { margin-top: clamp(46px, 6vw, 76px); }
 .rows { margin-top: 18px; border-top: 1px solid var(--line); }
-.row { display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: 0 14px; width: 100%; padding: 20px 0; border: 0; border-bottom: 1px solid var(--line); background: none; text-align: left; cursor: pointer; }
-.row > i { font-style: normal; font-size: 11px; font-weight: 500; letter-spacing: .16em; color: var(--gray); font-variant-numeric: tabular-nums; transition: color .25s; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 0 14px; width: 100%; padding: 20px 0; border: 0; border-bottom: 1px solid var(--line); background: none; text-align: left; cursor: pointer; }
 .row__t { display: block; transition: translate .4s var(--ease); }
 .row b { display: block; font-weight: 400; font-size: clamp(1.5rem, 2.5vw, 2rem); letter-spacing: -.035em; line-height: 1.1; transition: color .25s; }
 .row small { display: block; margin-top: 5px; font-size: 14.5px; color: var(--gray); text-wrap: balance; }
 .seta { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; transition: background .25s, color .25s, border-color .25s, rotate .4s var(--ease); }
 .seta svg { width: 16px; height: 16px; }
 .row:hover .row__t, .row:focus-visible .row__t { translate: 10px 0; }
-.row:hover b, .row:hover > i, .row:focus-visible b { color: var(--accent); }
+.row:hover b, .row:focus-visible b { color: var(--accent); }
 .row:hover .seta, .row:focus-visible .seta { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 
 /* stack: abre dentro da própria linha */
@@ -78,7 +83,7 @@
 .painel > div { overflow: hidden; visibility: hidden; transition: visibility 0s .5s; }
 .aberto + .painel { grid-template-rows: 1fr; }
 .aberto + .painel > div { visibility: visible; transition-delay: 0s; }
-.st { display: grid; grid-template-columns: 110px minmax(0, 1fr) 16px; align-items: center; gap: 12px; padding: 13px 0 13px 60px; font-size: 15.5px; border-top: 1px solid rgba(255,255,255,.06); transition: color .25s; }
+.st { display: grid; grid-template-columns: 110px minmax(0, 1fr) 16px; align-items: center; gap: 12px; padding: 13px 0; font-size: 15.5px; border-top: 1px solid rgba(255,255,255,.06); transition: color .25s; }
 .st:first-child { border-top: 0; } .st:last-child { padding-bottom: 20px; }
 .st__p { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gray); }
 .st__i { display: flex; align-items: center; gap: 10px; min-width: 0; }
@@ -122,10 +127,11 @@ footer { padding-top: clamp(26px, 4vw, 40px); }
 @media (max-width: 560px) {
   .lk { padding-top: 104px; }
   .id__foto { width: 80px; height: 80px; border-radius: 22px; margin-top: 26px; }
-  .id__cta .btn { flex: 1 1 0; padding: 0 16px; }
-  .row { grid-template-columns: 40px minmax(0, 1fr) auto; padding: 18px 0; }
+  .id__cta .btn { flex: 1 1 auto; padding: 0 18px; }
+  .id__cta .btn svg { flex: none; }   /* a seta do botão não some quando falta largura */
+  .row { padding: 18px 0; }
   .seta { width: 40px; height: 40px; }
-  .st { grid-template-columns: 84px minmax(0, 1fr) 14px; padding-left: 0; font-size: 15px; }
+  .st { grid-template-columns: 84px minmax(0, 1fr) 14px; font-size: 15px; }
   .case { aspect-ratio: 4 / 3; padding: 20px; }
   .livros { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 }
@@ -147,38 +153,10 @@ footer { padding-top: clamp(26px, 4vw, 40px); }
 <div class="pillbar">
   <div class="wrap">
     <a class="pill brand" href="/" aria-label="Rafael Garcês, início" data-i="marca"><svg><use href="#r"/></svg>Rafael Garcês</a>
-    <div class="pill">
-      <button class="pill__lang" type="button" data-idioma aria-label="Idioma: português. Mudar para inglês" data-i="lang">PT</button>
-      <button class="pill__menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
-      <a class="pill__cta" href="/#contato" data-i="contato">Contato</a>
-    </div>
+    <div class="pill idioma" role="group" aria-label="Idioma" data-i="idioma"><button type="button" data-idioma="pt" aria-label="Português">PT</button><button type="button" data-idioma="en" aria-label="English">EN</button></div>
   </div>
 </div>
 
-<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu principal" data-i="menu" hidden>
-  <div class="wrap menu__in">
-    <div class="menu__top">
-      <a class="pill brand" href="/" data-fecha><svg><use href="#r"/></svg>Rafael Garcês</a>
-      <button class="pill menu__x" type="button" data-fecha data-i="fechar">Fechar</button>
-    </div>
-    <p class="eyebrow"><span class="dmx" aria-hidden="true"></span><span data-i="nav">Navegação</span></p>
-    <nav class="menu__nav" aria-label="Principal">
-      <a href="/#sobre" data-fecha><span data-i="sobre">Sobre</span><i>(01)</i></a>
-      <a href="/#projetos" data-fecha><span data-i="projetos">Projetos</span><i>(02)</i></a>
-      <a href="/#servicos" data-fecha><span data-i="servicos">Serviços</span><i>(03)</i></a>
-      <a href="/#processo" data-fecha><span data-i="processo">Processo</span><i>(04)</i></a>
-      <a href="/#duvidas" data-fecha><span data-i="perguntas">Perguntas</span><i>(05)</i></a>
-      <a href="/#contato" data-fecha><span data-i="contato">Contato</span><i>(06)</i></a>
-    </nav>
-    <div class="menu__social">
-      <a href="https://www.instagram.com/orafaelgarces/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor"/></svg>Instagram</a>
-      <a href="https://www.linkedin.com/in/rafael-garc%C3%AAs-893775180/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.75h4V21H3V9.75Zm6.5 0h3.8v1.6h.06c.53-1 1.83-1.9 3.76-1.9 4.02 0 4.38 2.45 4.38 5.63V21h-4v-5.2c0-1.24-.02-2.84-1.73-2.84-1.73 0-2 1.35-2 2.75V21h-4V9.75Z"/></svg>LinkedIn</a>
-      <a href="https://www.behance.net/orafaelgarces" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.969 16.927a2.561 2.561 0 0 0 1.901.677 2.501 2.501 0 0 0 1.531-.475c.362-.235.636-.584.779-.99h2.585a5.091 5.091 0 0 1-1.9 2.896 5.292 5.292 0 0 1-3.091.88 5.839 5.839 0 0 1-2.284-.433 4.871 4.871 0 0 1-1.723-1.211 5.657 5.657 0 0 1-1.08-1.874 7.057 7.057 0 0 1-.383-2.393c-.005-.8.129-1.595.396-2.349a5.313 5.313 0 0 1 5.088-3.604 4.87 4.87 0 0 1 2.376.563c.661.362 1.231.87 1.668 1.485a6.2 6.2 0 0 1 .943 2.133c.194.821.263 1.666.205 2.508h-7.699c-.063.79.184 1.574.688 2.187ZM6.947 4.084a8.065 8.065 0 0 1 1.928.198 4.29 4.29 0 0 1 1.49.638c.418.303.748.711.958 1.182.241.579.357 1.203.341 1.83a3.506 3.506 0 0 1-.506 1.961 3.726 3.726 0 0 1-1.503 1.287 3.588 3.588 0 0 1 2.027 1.437c.464.747.697 1.615.67 2.494a4.593 4.593 0 0 1-.423 2.032 3.945 3.945 0 0 1-1.163 1.413 5.114 5.114 0 0 1-1.683.807 7.135 7.135 0 0 1-1.928.259H0V4.084h6.947Zm-.235 12.9c.308.004.616-.029.916-.099a2.18 2.18 0 0 0 .766-.332c.228-.158.411-.371.534-.619.142-.317.208-.663.191-1.009a2.08 2.08 0 0 0-.642-1.715 2.618 2.618 0 0 0-1.696-.505h-3.54v4.279h3.471Zm13.635-5.967a2.13 2.13 0 0 0-1.654-.619 2.336 2.336 0 0 0-1.163.259 2.474 2.474 0 0 0-.738.62 2.359 2.359 0 0 0-.396.792c-.074.239-.12.485-.137.734h4.769a3.239 3.239 0 0 0-.679-1.785l-.002-.001Zm-13.813-.648a2.254 2.254 0 0 0 1.423-.433c.399-.355.607-.88.56-1.413a1.916 1.916 0 0 0-.178-.891 1.298 1.298 0 0 0-.495-.533 1.851 1.851 0 0 0-.711-.274 3.966 3.966 0 0 0-.835-.073H3.241v3.631h3.293v-.014ZM21.62 5.122h-5.976v1.527h5.976V5.122Z"/></svg>Behance</a>
-      <span class="menu__lang"><button type="button" data-idioma="pt" aria-label="Português">PT</button><button type="button" data-idioma="en" aria-label="English">EN</button></span>
-    </div>
-    <div class="menu__meta"><span><span data-relogio>--:--</span> · <span data-i="cidade">Teresina, Brasil</span></span><span data-i="tres">Marcas · Sites · Sistemas</span></div>
-  </div>
-</div>
 
 <main id="conteudo" class="lk" tabindex="-1">
   <div class="lk__linhas" aria-hidden="true"></div>
@@ -201,10 +179,10 @@ footer { padding-top: clamp(26px, 4vw, 40px); }
       <section class="bloco reveal" aria-labelledby="t-links">
         <p class="eyebrow" id="t-links"><span class="dmx" aria-hidden="true"></span><span data-i="eb-links">Links</span></p>
         <div class="rows">
-      <a class="row" href="/"><i>(01)</i><span class="row__t"><b data-i="l1">Site e portfólio</b><small data-i="l1s">Quem sou, serviços e processo</small></span><span class="seta" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
-      <a class="row" href="/#projetos"><i>(02)</i><span class="row__t"><b data-i="projetos">Projetos</b><small data-i="l2s">Marcas e sites que já desenvolvi</small></span><span class="seta" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
-      <a class="row" href="/#servicos"><i>(03)</i><span class="row__t"><b data-i="servicos">Serviços</b><small data-i="l3s">Marcas, sites, apps e sistemas</small></span><span class="seta" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
-          <button class="row" type="button" id="stack" aria-expanded="false" aria-controls="stack-painel"><i>(04)</i><span class="row__t"><b>Stack</b><small data-i="l4s">O que eu uso no dia a dia</small></span><span class="seta" aria-hidden="true"><span class="mais"></span></span></button>
+      <a class="row" href="/"><span class="row__t"><b data-i="l1">Site e portfólio</b><small data-i="l1s">Quem sou, serviços e processo</small></span><span class="seta" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
+      <a class="row" href="/#projetos"><span class="row__t"><b data-i="projetos">Projetos</b><small data-i="l2s">Marcas e sites que já desenvolvi</small></span><span class="seta" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
+      <a class="row" href="/#servicos"><span class="row__t"><b data-i="servicos">Serviços</b><small data-i="l3s">Marcas, sites, apps e sistemas</small></span><span class="seta" aria-hidden="true"><svg><use href="#arrow"/></svg></span></a>
+          <button class="row" type="button" id="stack" aria-expanded="false" aria-controls="stack-painel"><span class="row__t"><b>Stack</b><small data-i="l4s">O que eu uso no dia a dia</small></span><span class="seta" aria-hidden="true"><span class="mais"></span></span></button>
           <div class="painel" id="stack-painel"><div>
           <a class="st" href="https://www.apple.com/br/macbook-air/" target="_blank" rel="noopener"><span class="st__p" data-i="p-maquina">Máquina</span><span class="st__i"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg><span>MacBook Air M4</span></span><svg class="st__s" aria-hidden="true"><use href="#arrow"/></svg></a>
           <a class="st" href="https://br.arzopa.com/products/arzopa-z1rc-2k-monitor-portatil-brilliante-qhd-500nits-8bit-tela?variant=45967527444724&amp;country=BR&amp;currency=BRL" target="_blank" rel="noopener"><span class="st__p">Monitor</span><span class="st__i"><img src="/midia/links/monitor.png" width="40" height="40" alt="" loading="lazy"><span data-i="i-monitor">Arzopa 16" Portátil</span></span><svg class="st__s" aria-hidden="true"><use href="#arrow"/></svg></a>
@@ -255,7 +233,7 @@ footer { padding-top: clamp(26px, 4vw, 40px); }
 
 <script>
 /* textos desta página em inglês (menu e rodapé ficam no site.js) */
-window.T_EN = {"_titulo": "Links | Rafael Garcês", "_descricao": "Rafael Garcês' links: website, work, services, WhatsApp and social profiles. Brands, websites and systems.", "pular": "Skip to content", "eb-hero": "Brands, websites and systems", "h1a": "Brands that are hard to ignore.", "h1b": "Websites and systems to match.", "foto": {"alt": "Photo of Rafael Garcês"}, "status": "Available for new projects", "cta-links": {"h": "Start a project <svg aria-hidden=\"true\"><use href=\"#arrow\"/></svg>", "href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20came%20from%20your%20links%20page%20and%20I%27d%20like%20to%20talk%20about%20a%20project."}, "ver-site": "View the website", "eb-links": "Links", "l1": "Website and portfolio", "l1s": "About me, services and process", "l2s": "Brands and websites I've designed", "l3s": "Brands, websites, apps and systems", "l4s": "What I use day to day", "eb-case": "Featured case", "ver": "View project ↗", "case-tags": "Website · Landing page · Responsive design", "alt-case": {"alt": "Loja MaiPhone landing page"}, "p-maquina": "Machine", "i-monitor": "Arzopa 16\" Portable", "eb-lendo": "Currently reading", "comprar": "Buy here ↗", "b1": "Show Your Work!", "b2": "Steal Like an Artist", "b1alt": {"alt": "Cover of Show Your Work!, by Austin Kleon"}, "b2alt": {"alt": "Cover of Steal Like an Artist, by Austin Kleon"}, "b1l": {"aria-label": "Buy Show Your Work! on Amazon"}, "b2l": {"aria-label": "Buy Steal Like an Artist on Amazon"}};
+window.T_EN = {"_titulo": "Links | Rafael Garcês", "_descricao": "Rafael Garcês' links: website, work, services, WhatsApp and social profiles. Brands, websites and systems.", "pular": "Skip to content", "idioma": {"aria-label": "Language"}, "eb-hero": "Brands, websites and systems", "h1a": "Brands that are hard to ignore.", "h1b": "Websites and systems to match.", "foto": {"alt": "Photo of Rafael Garcês"}, "status": "Available for new projects", "cta-links": {"h": "Start a project <svg aria-hidden=\"true\"><use href=\"#arrow\"/></svg>", "href": "https://wa.me/5598982340912?text=Hi%2C%20Rafael%21%20I%20came%20from%20your%20links%20page%20and%20I%27d%20like%20to%20talk%20about%20a%20project."}, "ver-site": "View the website", "eb-links": "Links", "l1": "Website and portfolio", "l1s": "About me, services and process", "l2s": "Brands and websites I've designed", "l3s": "Brands, websites, apps and systems", "l4s": "What I use day to day", "eb-case": "Featured case", "ver": "View project ↗", "case-tags": "Website · Landing page · Responsive design", "alt-case": {"alt": "Loja MaiPhone landing page"}, "p-maquina": "Machine", "i-monitor": "Arzopa 16\" Portable", "eb-lendo": "Currently reading", "comprar": "Buy here ↗", "b1": "Show Your Work!", "b2": "Steal Like an Artist", "b1alt": {"alt": "Cover of Show Your Work!, by Austin Kleon"}, "b2alt": {"alt": "Cover of Steal Like an Artist, by Austin Kleon"}, "b1l": {"aria-label": "Buy Show Your Work! on Amazon"}, "b2l": {"aria-label": "Buy Steal Like an Artist on Amazon"}};
 </script>
 <script src="/assets/site.js"></script>
 <script>
