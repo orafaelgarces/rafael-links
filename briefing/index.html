@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Briefing | Rafael Garcês</title>
+<meta name="description" content="Briefing para criação de marca e site. Suas respostas guiam todo o projeto.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 76 143 145'%3E%3Cpath fill='%23131720' d='M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+  (function () {
+    var saved = null;
+    try { saved = localStorage.getItem('rg_theme'); } catch (e) {}
+    var theme = saved || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', theme);
+  })();
+</script>
+<style>
+  @font-face {
+    font-family: "Satoshi";
+    src: url("/assets/fonts/Satoshi-Variable.woff2") format("woff2");
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* ---------- Tokens (mesmos do /feedback) ---------- */
+  :root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --paper: #ffffff;
+    --paper-raised: #ffffff;
+    --paper-raised-hover: #f7f7f8;
+    --ink: #131720;
+    --ink-soft: #6b7280;
+    --ink-faint: #9ca3af;
+    --border: #e3e4e8;
+    --field: #ffffff;
+    --accent-gradient: linear-gradient(135deg, #cad589, #ddff22);
+    --accent: #d3ea55;
+    --accent-ink: #10160a;
+    --accent-wash: rgba(221, 255, 34, 0.2);
+    --warn: #c2410c;
+    --font: "Satoshi", sans-serif;
+    --text-label: 0.75rem;
+    --text-meta: 0.875rem;
+    --text-body: 1rem;
+    --text-lead: 1.125rem;
+    --text-card: 1.5rem;
+    --text-section: 2rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0b0b0d; --paper-raised: #0b0b0d; --paper-raised-hover: #16171a;
+      --ink: #f5f5f7; --ink-soft: #9a9ea6; --ink-faint: #6b6f76; --border: #26272b; --field: #101114;
+      --warn: #fb923c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0b0b0d; --paper-raised: #0b0b0d; --paper-raised-hover: #16171a;
+    --ink: #f5f5f7; --ink-soft: #9a9ea6; --ink-faint: #6b6f76; --border: #26272b; --field: #101114;
+    --warn: #fb923c;
+  }
+  @media (max-width: 640px) { :root { --text-card: 1.25rem; --text-section: 1.75rem; } }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--font); font-size: var(--text-body); line-height: 1.5;
+    -webkit-font-smoothing: antialiased; padding: 56px 16px 80px;
+  }
+  a { color: inherit; }
+  button, input, textarea { font-family: var(--font); font-size: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+  [hidden] { display: none !important; }
+
+  .page { width: 100%; max-width: 680px; margin: 0 auto; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); margin-bottom: 40px; text-decoration: none; }
+  .brand svg { width: 22px; height: 22px; }
+  .brand span { font-weight: 700; letter-spacing: -0.01em; }
+  .section-label { font-size: var(--text-label); font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); margin: 0 0 12px; }
+  h1 { font-size: var(--text-section); font-weight: 600; line-height: 1.15; letter-spacing: -0.025em; margin: 0 0 12px; text-wrap: balance; }
+  .lead { color: var(--ink-soft); margin: 0 0 20px; max-width: 50ch; text-wrap: pretty; }
+  .ctx { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 28px; }
+  .lead + .ctx { margin-top: 0; }
+  .ctx span { display: inline-flex; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; font-size: var(--text-meta); font-weight: 600; }
+  .ctx span.svc { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
+
+  /* ---------- Etapas ---------- */
+  .steps { display: flex; gap: 6px; margin: 0 0 20px; }
+  .steps i { flex: 1; height: 4px; border-radius: 99px; background: var(--border); transition: background 0.3s var(--ease-out); }
+  .steps i.on { background: var(--ink); }
+  .steps i.now { background: var(--accent); }
+  .step-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin: 0 0 6px; font-size: var(--text-meta); color: var(--ink-soft); }
+  .saved { font-size: var(--text-label); color: var(--ink-faint); transition: opacity 0.3s; }
+
+  .card { background: var(--paper-raised); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 16px; }
+  @media (max-width: 480px) { .card { padding: 20px 16px; } }
+  .card > h2 { font-size: var(--text-card); font-weight: 600; letter-spacing: -0.015em; margin: 0 0 4px; text-wrap: balance; }
+  .card > .hint { color: var(--ink-soft); font-size: var(--text-meta); margin: 0 0 8px; text-wrap: pretty; }
+
+  /* ---------- Perguntas ---------- */
+  .q { padding: 20px 0; border-top: 1px solid var(--border); }
+  .q:first-of-type { border-top: 0; }
+  .q:last-child { padding-bottom: 0; }
+  .q-title { display: block; font-weight: 600; margin: 0 0 4px; text-wrap: pretty; }
+  .q-title .opc { font-weight: 500; color: var(--ink-faint); font-size: var(--text-meta); margin-left: 6px; }
+  .q-help { display: block; color: var(--ink-soft); font-size: var(--text-meta); margin: 0 0 12px; text-wrap: pretty; }
+  .q-title + .input, .q-title + textarea, .q-title + .choice, .q-title + .scale { margin-top: 10px; }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; float: left; width: 100%; }
+  fieldset > :not(legend) { clear: both; }
+
+  .input, textarea {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px;
+    background: var(--field); color: var(--ink);
+    transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+  }
+  .input:focus, textarea:focus { outline: none; border-color: var(--ink-faint); box-shadow: 0 0 0 3px var(--accent-wash); }
+  textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .row-2 > .q:nth-of-type(2) { border-top: 0; }
+  @media (max-width: 560px) { .row-2 { grid-template-columns: 1fr; } .row-2 > .q:nth-of-type(2) { border-top: 1px solid var(--border); } }
+
+  /* Chips (escolha única ou múltipla) */
+  .choice { display: flex; gap: 8px; flex-wrap: wrap; }
+  .opt { position: relative; }
+  .opt input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
+  .opt label {
+    display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 16px;
+    border: 1px solid var(--border); border-radius: 999px; background: var(--paper-raised);
+    font-weight: 600; font-size: 0.9375rem; cursor: pointer; user-select: none;
+    transition: background 0.16s var(--ease-out), border-color 0.16s var(--ease-out), transform 0.16s var(--ease-out);
+  }
+  .opt label:active { transform: scale(0.96); }
+  .opt input:checked + label { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
+  .opt input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (hover: hover) and (pointer: fine) { .opt input:not(:checked) + label:hover { background: var(--paper-raised-hover); border-color: var(--ink-faint); } }
+  .outro { margin-top: 10px; }
+
+  /* Escala entre dois polos */
+  .scale { display: grid; gap: 8px; }
+  .scale-opts { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .scale-opts .opt label { width: 100%; justify-content: center; padding: 0; height: 40px; border-radius: 10px; }
+  .scale-opts .opt label span { width: 8px; height: 8px; border-radius: 99px; background: currentColor; opacity: 0.35; }
+  .scale-opts .opt input:checked + label span { opacity: 1; }
+  .scale-ends { display: flex; justify-content: space-between; gap: 12px; font-size: var(--text-meta); font-weight: 600; }
+  .scale-ends span:last-child { text-align: right; }
+
+  .q.is-invalid .q-title { color: var(--warn); }
+  .q.is-invalid .input, .q.is-invalid textarea { border-color: var(--warn); }
+
+  /* ---------- Navegação ---------- */
+  .nav { display: flex; gap: 10px; margin-top: 8px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 22px; border-radius: 999px; border: 1px solid transparent;
+    font-weight: 600; cursor: pointer; text-decoration: none;
+    transition: transform 0.16s var(--ease-out), opacity 0.16s var(--ease-out), background 0.16s var(--ease-out);
+  }
+  .btn:active { transform: scale(0.98); }
+  .btn[disabled] { opacity: 0.6; cursor: progress; }
+  .btn-primary { background: var(--accent-gradient); color: var(--accent-ink); flex: 1; }
+  .btn-outline { background: transparent; border-color: var(--border); color: var(--ink); }
+  .btn svg { width: 16px; height: 16px; }
+  .error { color: var(--warn); font-size: var(--text-meta); margin: 12px 0 0; }
+  .fine { font-size: var(--text-meta); color: var(--ink-soft); text-align: center; margin: 16px 0 0; text-wrap: pretty; }
+
+  /* Escolha do tipo */
+  .tipos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+  @media (max-width: 560px) { .tipos { grid-template-columns: 1fr; } }
+  .tipo input { position: absolute; opacity: 0; pointer-events: none; }
+  .tipo { position: relative; }
+  .tipo label { display: grid; gap: 4px; height: 100%; padding: 16px; border: 1px solid var(--border); border-radius: 16px; cursor: pointer; transition: border-color 0.18s, box-shadow 0.18s, background 0.18s; }
+  .tipo .name { font-weight: 600; }
+  .tipo .kind { font-size: var(--text-meta); color: var(--ink-soft); }
+  .tipo input:checked + label { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+  .tipo input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* Fim */
+  .done { text-align: center; padding: 40px 24px; }
+  .done .mark { width: 56px; height: 56px; margin: 0 auto 20px; display: grid; place-items: center; border-radius: 999px; background: var(--accent-gradient); color: var(--accent-ink); }
+  .done .mark svg { width: 24px; height: 24px; }
+  .done h2 { font-size: var(--text-card); margin: 0 0 8px; }
+  .done p { color: var(--ink-soft); margin: 0 auto 24px; max-width: 42ch; text-wrap: pretty; }
+
+  .enter { animation: rise 0.32s var(--ease-out) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  .q.is-invalid { animation: nudge 0.28s var(--ease-out); }
+  @keyframes nudge { 30% { transform: translateX(-4px); } 60% { transform: translateX(3px); } }
+  @media (prefers-reduced-motion: reduce) { .enter, .q.is-invalid { animation: none; } }
+
+  .foot { margin-top: 40px; text-align: center; font-size: var(--text-meta); color: var(--ink-faint); }
+</style>
+
+<body>
+<main class="page">
+  <a class="brand" href="/" aria-label="Rafael Garcês, voltar ao site">
+    <svg viewBox="0 84.139 127.445 128.682" fill="currentColor" aria-hidden="true"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>
+    <span>Rafael Garcês</span>
+  </a>
+
+  <div id="intro">
+    <p class="section-label">Briefing</p>
+    <h1 id="titulo">Vamos começar pelo que só você sabe</h1>
+    <p class="lead" id="lead">Este formulário é a base de todo o projeto. Responda com calma e com suas palavras: não existe resposta certa. Ele salva sozinho neste aparelho, então dá pra parar e voltar depois.</p>
+    <div class="ctx" id="ctx" hidden></div>
+  </div>
+
+  <section class="card enter" id="escolha-tipo" hidden>
+    <h2>O que vamos criar?</h2>
+    <p class="hint">As perguntas mudam conforme o projeto.</p>
+    <div class="tipos" role="radiogroup" aria-label="Tipo de projeto">
+      <div class="tipo"><input type="radio" name="tipo" id="t-marca" value="marca"><label for="t-marca"><span class="name">Marca</span><span class="kind">Identidade visual e universo da marca</span></label></div>
+      <div class="tipo"><input type="radio" name="tipo" id="t-site" value="site"><label for="t-site"><span class="name">Site</span><span class="kind">Site ou página de apresentação</span></label></div>
+      <div class="tipo"><input type="radio" name="tipo" id="t-marca-site" value="marca-site"><label for="t-marca-site"><span class="name">Marca e site</span><span class="kind">Os dois, um a partir do outro</span></label></div>
+    </div>
+  </section>
+
+  <form id="form" novalidate hidden>
+    <div class="step-meta"><span id="step-count"></span><span class="saved" id="saved" aria-live="polite"></span></div>
+    <div class="steps" id="steps" aria-hidden="true"></div>
+    <div id="etapas"></div>
+    <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
+    <div class="nav">
+      <button class="btn btn-outline" type="button" id="voltar">Voltar</button>
+      <button class="btn btn-primary" type="submit" id="avancar">Continuar</button>
+    </div>
+    <p class="error" id="erro" role="alert" hidden></p>
+    <p class="fine">Suas respostas vão só para mim e não são publicadas.</p>
+  </form>
+
+  <section class="card done enter" id="done" hidden>
+    <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg></div>
+    <h2>Recebi seu briefing!</h2>
+    <p>Vou ler tudo com atenção e te chamo para alinharmos os próximos passos. Se lembrar de algo depois, é só me mandar no WhatsApp.</p>
+    <a class="btn btn-outline" id="whats-done" target="_blank" rel="noopener">Falar no WhatsApp</a>
+  </section>
+
+  <p class="foot">© <span id="ano"></span> Rafael Garcês</p>
+</main>
+
+<script src="/assets/vendor/supabase.js"></script>
+<script>
+  var WEB3FORMS_KEY = 'f8afe617-8023-42e8-89e6-3f7f21cd5118';
+  var SUPABASE_URL = 'https://qgyiuhdyqaxpqhkzgbmq.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_itIfz5BmcGJ0eUqBO3G5Pg_dQGu0NjJ';
+  var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: false } }) : null;
+  var WHATSAPP = '5598982340912';
+
+  var TIPOS = { 'marca': 'Marca', 'site': 'Site', 'marca-site': 'Marca e site' };
+
+  /* ===== Perguntas =====
+     tipo: linha | texto | chips (várias) | escolha (uma) | escala (entre dois polos)
+     so: em quais projetos aparece ('marca', 'site'); sem "so" = sempre.
+     obrig: obrigatória. outro: chips com campo "Outro". */
+  var ETAPAS = [
+    {
+      id: 'voce', titulo: 'Você e o negócio', hint: 'O básico para eu conhecer quem está por trás da marca.',
+      perguntas: [
+        { id: 'nome', tipo: 'linha', texto: 'Seu nome', obrig: true, auto: 'name', par: true },
+        { id: 'cliente', tipo: 'linha', texto: 'Nome da marca ou do negócio', obrig: true, auto: 'organization', par: true },
+        { id: 'whatsapp', tipo: 'linha', texto: 'WhatsApp', obrig: true, auto: 'tel', inputmode: 'tel', par: true },
+        { id: 'email', tipo: 'linha', texto: 'E-mail', auto: 'email', inputmode: 'email', par: true },
+        { id: 'area', tipo: 'linha', texto: 'Área de atuação ou especialidade', ajuda: 'Ex.: fisioterapia pélvica, advocacia trabalhista, loja de roupas.', obrig: true },
+        { id: 'cidade', tipo: 'linha', texto: 'Cidade e forma de atendimento', ajuda: 'Ex.: São Luís, consultório próprio e domiciliar.' },
+        { id: 'registro', tipo: 'linha', texto: 'Registro profissional que precisa aparecer', ajuda: 'Área da saúde, direito e outras reguladas: CREFITO, CRM, OAB, RQE… Deixe em branco se não se aplica.' },
+        { id: 'canais', tipo: 'texto', texto: 'Onde a marca está hoje', ajuda: 'Cole os links do Instagram, site, Google Meu Negócio, o que tiver.', min: 64 },
+        { id: 'historia', tipo: 'texto', texto: 'Conte a história do negócio', ajuda: 'Como começou, há quanto tempo existe, o que mudou até aqui.', obrig: true },
+        { id: 'servicos', tipo: 'texto', texto: 'Quais são os principais serviços ou produtos?', ajuda: 'Se tiver um carro-chefe, diga qual.', obrig: true },
+        { id: 'diferencial', tipo: 'texto', texto: 'Por que alguém escolhe você e não outro profissional?', ajuda: 'O que os clientes elogiam, o que você faz diferente.', obrig: true },
+        { id: 'futuro', tipo: 'texto', texto: 'Onde você quer que o negócio esteja daqui a 2 ou 3 anos?' }
+      ]
+    },
+    {
+      id: 'publico', titulo: 'Quem você atende', hint: 'Marca boa fala com alguém específico. Pense no cliente que você gostaria de ter mais.',
+      perguntas: [
+        { id: 'cliente_ideal', tipo: 'texto', texto: 'Descreva seu cliente ideal', ajuda: 'Idade, momento de vida, profissão, o que valoriza, quanto pode investir.', obrig: true },
+        { id: 'dor', tipo: 'texto', texto: 'Que problema ou desejo leva essa pessoa até você?', obrig: true },
+        { id: 'objecoes', tipo: 'texto', texto: 'O que faz alguém hesitar antes de fechar com você?', ajuda: 'Preço, desconfiança, falta de tempo, não entender o serviço…' },
+        { id: 'como_chega', tipo: 'chips', texto: 'Como os clientes chegam até você hoje?', opcoes: ['Indicação', 'Instagram', 'Google', 'Anúncios', 'Parcerias', 'Convênio', 'Passando na frente'], outro: true },
+        { id: 'nao_atrair', tipo: 'texto', texto: 'Tem algum público que você não quer atrair?' }
+      ]
+    },
+    {
+      id: 'personalidade', titulo: 'Personalidade da marca', hint: 'Como a marca deve soar e parecer. Marque o ponto entre os dois extremos que mais combina.',
+      perguntas: [
+        { id: 'p_classico', tipo: 'escala', texto: 'Estilo', polos: ['Clássico', 'Moderno'] },
+        { id: 'p_serio', tipo: 'escala', texto: 'Tom', polos: ['Sério', 'Descontraído'] },
+        { id: 'p_minimal', tipo: 'escala', texto: 'Visual', polos: ['Minimalista', 'Expressivo'] },
+        { id: 'p_acessivel', tipo: 'escala', texto: 'Posição', polos: ['Acessível', 'Exclusivo'] },
+        { id: 'p_delicado', tipo: 'escala', texto: 'Presença', polos: ['Delicado', 'Forte'] },
+        { id: 'p_tecnico', tipo: 'escala', texto: 'Linguagem', polos: ['Técnico', 'Acolhedor'] },
+        { id: 'adjetivos', tipo: 'chips', texto: 'Escolha até 5 palavras que a marca precisa transmitir', max: 5, obrig: true,
+          opcoes: ['Confiança', 'Acolhimento', 'Sofisticação', 'Leveza', 'Energia', 'Autoridade', 'Cuidado', 'Inovação', 'Proximidade', 'Elegância', 'Alegria', 'Calma', 'Precisão', 'Feminilidade', 'Força', 'Natureza'], outro: true },
+        { id: 'percepcao', tipo: 'texto', texto: 'Ao ver sua marca, o que você quer que a pessoa pense ou sinta?', obrig: true },
+        { id: 'concorrentes', tipo: 'texto', texto: 'Cite concorrentes ou profissionais da sua área que você acompanha', ajuda: 'Pode colar o @ ou o link. Diga o que admira e o que não faria igual.' }
+      ]
+    },
+    {
+      id: 'marca', titulo: 'A marca', hint: 'Agora sobre a identidade visual em si.', so: 'marca',
+      perguntas: [
+        { id: 'nome_marca', tipo: 'linha', texto: 'Como o nome deve aparecer na marca, exatamente?', ajuda: 'Ex.: "Dra. Ana Souza", "Ana Souza Fisioterapia", "Studio Ana".', obrig: true },
+        { id: 'situacao', tipo: 'escolha', texto: 'Qual é a situação da marca hoje?', opcoes: ['Não tenho marca', 'Tenho e quero renovar', 'Tenho e quero recomeçar do zero'], obrig: true },
+        { id: 'manter', tipo: 'texto', texto: 'Da marca atual, o que você quer manter?', ajuda: 'Cores, símbolo, nome, alguma forma… Se não tem marca, pule.' },
+        { id: 'mudar', tipo: 'texto', texto: 'E o que incomoda ou precisa mudar? Por quê?' },
+        { id: 'tipo_logo', tipo: 'chips', texto: 'Que tipo de logo você imagina?', ajuda: 'Pode marcar mais de um ou deixar em aberto.', opcoes: ['Símbolo + nome', 'Só o nome escrito', 'Iniciais (monograma)', 'Selo ou emblema', 'Deixo com você'] },
+        { id: 'cores_sim', tipo: 'linha', texto: 'Cores que você gosta ou quer manter' },
+        { id: 'cores_nao', tipo: 'linha', texto: 'Cores que você não quer de jeito nenhum' },
+        { id: 'aplicacoes', tipo: 'chips', texto: 'Onde a marca vai aparecer?', ajuda: 'Isso define o universo visual: o que vamos desenhar além do logo.',
+          opcoes: ['Instagram', 'Site', 'Fachada ou placa', 'Consultório ou loja (ambiente)', 'Cartão de visita', 'Receituário ou papelaria', 'Jaleco ou uniforme', 'Embalagem, caixa ou kit', 'Brindes', 'Apresentações', 'Sessão de fotos'], outro: true, obrig: true },
+        { id: 'refs_marca', tipo: 'texto', texto: 'Marcas que você admira (de qualquer área) e por quê', ajuda: 'Links do Instagram, Pinterest ou site. Pode ser marca de roupa, café, clínica…', min: 96 },
+        { id: 'evitar', tipo: 'texto', texto: 'Tem algo que você não quer de jeito nenhum na marca?', ajuda: 'Um símbolo batido da área, um estilo, uma marca que não quer parecer.' }
+      ]
+    },
+    {
+      id: 'site', titulo: 'O site', hint: 'Para quem vai visitar e o que essa pessoa precisa fazer lá.', so: 'site',
+      perguntas: [
+        { id: 'objetivo_site', tipo: 'escolha', texto: 'Qual é o objetivo principal do site?', opcoes: ['Agendar consultas ou atendimentos', 'Captar contatos (WhatsApp)', 'Apresentar meu trabalho e gerar autoridade', 'Vender online', 'Divulgar um curso ou evento'], outro: true, obrig: true },
+        { id: 'acao', tipo: 'linha', texto: 'Qual ação o visitante deve fazer antes de sair?', ajuda: 'Ex.: chamar no WhatsApp, agendar, comprar, se inscrever.', obrig: true },
+        { id: 'paginas', tipo: 'chips', texto: 'O que o site precisa ter?', opcoes: ['Sobre mim', 'Serviços ou tratamentos', 'Depoimentos', 'Antes e depois', 'Perguntas frequentes', 'Blog ou artigos', 'Galeria de fotos', 'Localização e mapa', 'Equipe', 'Convênios aceitos', 'Loja'], outro: true },
+        { id: 'integracoes', tipo: 'chips', texto: 'Precisa se conectar com algo?', opcoes: ['Botão de WhatsApp', 'Agenda online', 'Instagram', 'Google Maps', 'Formulário de contato', 'Pixel ou anúncios (Meta/Google)', 'Pagamento'], outro: true },
+        { id: 'conteudo', tipo: 'chips', texto: 'O que você já tem pronto?', opcoes: ['Textos', 'Fotos profissionais', 'Vídeos', 'Logo em arquivo', 'Depoimentos de clientes', 'Nada ainda'] },
+        { id: 'dominio', tipo: 'escolha', texto: 'Já tem um domínio (endereço .com.br)?', opcoes: ['Sim', 'Não', 'Não sei'], obrig: true },
+        { id: 'dominio_qual', tipo: 'linha', texto: 'Qual endereço tem ou gostaria de ter?' },
+        { id: 'refs_site', tipo: 'texto', texto: 'Sites que você gosta e o que chama sua atenção neles', ajuda: 'Cole os links. Pode ser de qualquer área.', min: 96 }
+      ]
+    },
+    {
+      id: 'final', titulo: 'Prazos e materiais', hint: 'Últimos detalhes para organizar o projeto.',
+      perguntas: [
+        { id: 'prazo', tipo: 'linha', texto: 'Tem alguma data importante?', ajuda: 'Inauguração, lançamento, evento, mudança de consultório…' },
+        { id: 'aprovacao', tipo: 'linha', texto: 'Além de você, quem participa das decisões e aprovações?' },
+        { id: 'materiais', tipo: 'texto', texto: 'Link de uma pasta com materiais', ajuda: 'Google Drive, Dropbox ou WeTransfer com logo atual, fotos, referências, prints. Se preferir, me mande no WhatsApp.', min: 64 },
+        { id: 'extra', tipo: 'texto', texto: 'Algo mais que eu precise saber?' }
+      ]
+    }
+  ];
+
+  var p = new URLSearchParams(location.search);
+  var tipoAtual = TIPOS[p.get('tipo')] ? p.get('tipo') : null;
+  var etapasAtivas = [], atual = 0;
+  var CHAVE = 'briefing:' + (p.get('cliente') || '') + ':';
+  var form = document.getElementById('form');
+  var wrap = document.getElementById('etapas');
+  var erro = document.getElementById('erro');
+  document.getElementById('ano').textContent = new Date().getFullYear();
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function visivel(e) { return !e.so || (tipoAtual === 'marca-site') || tipoAtual === e.so; }
+
+  function titulo(q) {
+    return esc(q.texto) + (q.obrig ? '' : '<span class="opc">opcional</span>');
+  }
+  function ajuda(q) { return q.ajuda ? '<span class="q-help" id="h-' + q.id + '">' + esc(q.ajuda) + '</span>' : ''; }
+
+  function htmlPergunta(q) {
+    var d = q.ajuda ? ' aria-describedby="h-' + q.id + '"' : '';
+    var req = q.obrig ? ' data-obrig="1"' : '';
+    if (q.tipo === 'linha') {
+      return '<div class="q" data-id="' + q.id + '"' + req + '><label class="q-title" for="' + q.id + '">' + titulo(q) + '</label>' + ajuda(q) +
+        '<input class="input" id="' + q.id + '" name="' + q.id + '" type="text"' + (q.auto ? ' autocomplete="' + q.auto + '"' : '') + (q.inputmode ? ' inputmode="' + q.inputmode + '"' : '') + d + '></div>';
+    }
+    if (q.tipo === 'texto') {
+      return '<div class="q" data-id="' + q.id + '"' + req + '><label class="q-title" for="' + q.id + '">' + titulo(q) + '</label>' + ajuda(q) +
+        '<textarea id="' + q.id + '" name="' + q.id + '"' + (q.min ? ' style="min-height:' + q.min + 'px"' : '') + d + '></textarea></div>';
+    }
+    if (q.tipo === 'chips' || q.tipo === 'escolha') {
+      var t = q.tipo === 'chips' ? 'checkbox' : 'radio';
+      var h = '<div class="q" data-id="' + q.id + '"' + req + (q.max ? ' data-max="' + q.max + '"' : '') + '><fieldset><legend class="q-title">' + titulo(q) + '</legend>' + ajuda(q) + '<div class="choice">';
+      var ops = q.opcoes.concat(q.outro ? ['Outro'] : []);
+      ops.forEach(function (op, k) {
+        var id = q.id + '-' + k;
+        h += '<div class="opt"><input type="' + t + '" name="' + q.id + '" id="' + id + '" value="' + esc(op) + '"><label for="' + id + '">' + esc(op) + '</label></div>';
+      });
+      h += '</div>' + (q.outro ? '<input class="input outro" name="' + q.id + '__outro" aria-label="Outro: qual?" placeholder="Qual?" hidden>' : '') + '</fieldset></div>';
+      return h;
+    }
+    if (q.tipo === 'escala') {
+      var s = '<div class="q" data-id="' + q.id + '"><fieldset><legend class="q-title">' + esc(q.texto) + '</legend><div class="scale"><div class="scale-opts">';
+      for (var v = 1; v <= 5; v++) {
+        var sid = q.id + '-' + v;
+        var rot = v === 1 ? q.polos[0] : v === 5 ? q.polos[1] : v === 3 ? 'Meio-termo' : (v < 3 ? 'Mais ' + q.polos[0].toLowerCase() : 'Mais ' + q.polos[1].toLowerCase());
+        s += '<div class="opt"><input type="radio" name="' + q.id + '" id="' + sid + '" value="' + v + '"><label for="' + sid + '" aria-label="' + esc(rot) + '"><span></span></label></div>';
+      }
+      return s + '</div><div class="scale-ends"><span>' + esc(q.polos[0]) + '</span><span>' + esc(q.polos[1]) + '</span></div></div></fieldset></div>';
+    }
+    return '';
+  }
+
+  function montar() {
+    etapasAtivas = ETAPAS.filter(visivel);
+    var html = '';
+    etapasAtivas.forEach(function (e, i) {
+      html += '<section class="card" data-etapa="' + i + '" hidden><h2>' + esc(e.titulo) + '</h2><p class="hint">' + esc(e.hint) + '</p>';
+      var pend = [];
+      e.perguntas.forEach(function (q) {
+        if (q.par) { pend.push(q); if (pend.length === 2) { html += '<div class="row-2">' + pend.map(htmlPergunta).join('') + '</div>'; pend = []; } return; }
+        html += htmlPergunta(q);
+      });
+      html += '</section>';
+    });
+    wrap.innerHTML = html;
+    document.getElementById('steps').innerHTML = etapasAtivas.map(function () { return '<i></i>'; }).join('');
+    /* Link do Rafael já traz o cliente */
+    if (p.get('cliente')) form.cliente.value = p.get('cliente');
+    if (p.get('nome')) form.nome.value = p.get('nome');
+    restaurar();
+    form.hidden = false;
+    document.getElementById('escolha-tipo').hidden = true;
+    var chips = ['<span class="svc">' + TIPOS[tipoAtual] + '</span>'];
+    if (p.get('cliente')) chips.push('<span>' + esc(p.get('cliente')) + '</span>');
+    var ctx = document.getElementById('ctx'); ctx.innerHTML = chips.join(''); ctx.hidden = false;
+    ir(Math.min(atual, etapasAtivas.length - 1), true);
+  }
+
+  function ir(i, semRolar) {
+    atual = i;
+    Array.prototype.forEach.call(wrap.children, function (s, k) {
+      s.hidden = k !== i;
+      if (k === i) { s.classList.remove('enter'); void s.offsetWidth; s.classList.add('enter'); }
+    });
+    Array.prototype.forEach.call(document.getElementById('steps').children, function (b, k) {
+      b.className = k < i ? 'on' : k === i ? 'now' : '';
+    });
+    document.getElementById('step-count').textContent = 'Etapa ' + (i + 1) + ' de ' + etapasAtivas.length + ' · ' + etapasAtivas[i].titulo;
+    document.getElementById('voltar').hidden = i === 0 && !!p.get('tipo');
+    var ultimo = i === etapasAtivas.length - 1;
+    document.getElementById('avancar').innerHTML = ultimo ? 'Enviar briefing' : 'Continuar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+    document.getElementById('intro').querySelector('.lead').hidden = i > 0;
+    erro.hidden = true;
+    salvar();
+    if (!semRolar) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ---------- Rascunho salvo no aparelho ---------- */
+  function estado() {
+    var o = {};
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.name || el.name === 'botcheck') return;
+      if (el.type === 'checkbox' || el.type === 'radio') { if (el.checked) (o[el.name] = o[el.name] || []).push(el.value); }
+      else if (el.value) o[el.name] = el.value;
+    });
+    return o;
+  }
+  var tSalvo;
+  function salvar() {
+    try { localStorage.setItem(CHAVE + tipoAtual, JSON.stringify({ etapa: atual, v: estado() })); } catch (e) { return; }
+    var s = document.getElementById('saved'); s.textContent = 'Rascunho salvo'; clearTimeout(tSalvo);
+    tSalvo = setTimeout(function () { s.textContent = ''; }, 1600);
+  }
+  function restaurar() {
+    var r = null;
+    try { r = JSON.parse(localStorage.getItem(CHAVE + tipoAtual) || 'null'); } catch (e) {}
+    if (!r) return;
+    Object.keys(r.v).forEach(function (n) {
+      var v = r.v[n];
+      var els = form.querySelectorAll('[name="' + n + '"]');
+      Array.prototype.forEach.call(els, function (el) {
+        if (el.type === 'checkbox' || el.type === 'radio') el.checked = v.indexOf(el.value) > -1;
+        else if (!(n === 'cliente' && p.get('cliente'))) el.value = v;
+      });
+    });
+    form.querySelectorAll('.outro').forEach(atualizarOutro);
+    atual = r.etapa || 0;
+  }
+  function atualizarOutro(campo) {
+    var nome = campo.name.replace('__outro', '');
+    var marcado = form.querySelector('input[name="' + nome + '"][value="Outro"]:checked');
+    campo.hidden = !marcado;
+  }
+
+  form.addEventListener('change', function (e) {
+    var q = e.target.closest('.q');
+    if (q) {
+      q.classList.remove('is-invalid');
+      var max = Number(q.getAttribute('data-max'));
+      if (max && e.target.checked && q.querySelectorAll('input[type=checkbox]:checked').length > max) {
+        e.target.checked = false;
+        erro.textContent = 'Escolha no máximo ' + max + '. Desmarque uma para trocar.'; erro.hidden = false;
+      }
+      var outro = q.querySelector('.outro');
+      if (outro) { atualizarOutro(outro); if (e.target.value === 'Outro' && e.target.checked) outro.focus(); }
+    }
+    salvar();
+  });
+  var tDig;
+  form.addEventListener('input', function (e) {
+    var q = e.target.closest('.q'); if (q) q.classList.remove('is-invalid');
+    clearTimeout(tDig); tDig = setTimeout(salvar, 500);
+  });
+
+  function preenchida(q) {
+    var id = q.getAttribute('data-id');
+    var marcados = form.querySelectorAll('input[name="' + id + '"]:checked');
+    if (marcados.length) return true;
+    var campo = form.querySelector('[name="' + id + '"]:not([type=checkbox]):not([type=radio])');
+    return !!(campo && campo.value.trim());
+  }
+
+  function validarEtapa() {
+    var sec = wrap.children[atual], primeiro = null;
+    sec.querySelectorAll('.q[data-obrig]').forEach(function (q) {
+      if (preenchida(q)) return;
+      q.classList.remove('is-invalid'); void q.offsetWidth; q.classList.add('is-invalid');
+      primeiro = primeiro || q;
+    });
+    if (primeiro) {
+      erro.textContent = 'Faltou responder algumas perguntas. Elas estão marcadas em laranja.'; erro.hidden = false;
+      primeiro.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var f = primeiro.querySelector('input:not([type=radio]):not([type=checkbox]), textarea'); if (f) f.focus({ preventScroll: true });
+      return false;
+    }
+    return true;
+  }
+
+  /* ---------- Coleta e envio ---------- */
+  function coletar() {
+    var fd = new FormData(form), linhas = [];
+    etapasAtivas.forEach(function (e) {
+      e.perguntas.forEach(function (q) {
+        var v;
+        if (q.tipo === 'chips' || q.tipo === 'escolha') {
+          v = fd.getAll(q.id).map(function (x) { return x === 'Outro' ? 'Outro: ' + ((fd.get(q.id + '__outro') || '').trim() || '?') : x; }).join(', ');
+        } else if (q.tipo === 'escala') {
+          var n = Number(fd.get(q.id));
+          v = n ? n + '/5 (' + q.polos[0] + ' 1 · ' + q.polos[1] + ' 5)' : '';
+        } else v = (fd.get(q.id) || '').toString().trim();
+        linhas.push({ etapa: e.titulo, id: q.id, texto: q.tipo === 'escala' ? q.texto + ': ' + q.polos.join(' ↔ ') : q.texto, valor: v });
+      });
+    });
+    return {
+      nome: (fd.get('nome') || '').trim(), cliente: (fd.get('cliente') || '').trim(),
+      contato: [fd.get('whatsapp'), fd.get('email')].filter(Boolean).join(' · '),
+      linhas: linhas
+    };
+  }
+
+  function enviarBanco(d) {
+    if (!sb) return Promise.reject(new Error('sem banco'));
+    var dados = {};
+    d.linhas.forEach(function (l) { if (l.valor) dados[l.id] = { s: l.etapa, t: l.texto, v: l.valor }; });
+    return sb.from('briefings').insert({ tipo: tipoAtual, cliente: d.cliente, nome: d.nome, contato: d.contato, dados: dados })
+      .then(function (r) { if (r.error) throw r.error; });
+  }
+
+  function enviarEmail(d) {
+    var body = {
+      access_key: WEB3FORMS_KEY,
+      subject: 'Briefing · ' + TIPOS[tipoAtual] + ' · ' + d.cliente,
+      from_name: 'Briefing do site',
+      'Projeto': TIPOS[tipoAtual], 'Cliente': d.cliente, 'Nome': d.nome, 'Contato': d.contato
+    };
+    var n = 0, etapa = '';
+    d.linhas.forEach(function (l) {
+      if (['nome', 'cliente', 'whatsapp', 'email'].indexOf(l.id) > -1) return;
+      if (l.etapa !== etapa) { etapa = l.etapa; body['━━ ' + etapa.toUpperCase()] = '━━━━━━━━'; }
+      n++;
+      body[String(n).padStart(2, '0') + ' · ' + l.texto] = l.valor || '—';
+    });
+    return fetch('https://api.web3forms.com/submit', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(body)
+    }).then(function (r) { return r.json(); }).then(function (j) { if (!j.success) throw new Error(j.message || 'erro'); });
+  }
+
+  function textoWhats(d) {
+    var t = ['*Briefing · ' + TIPOS[tipoAtual] + '*', 'Cliente: ' + d.cliente, 'Nome: ' + d.nome, ''], etapa = '';
+    d.linhas.forEach(function (l) {
+      if (!l.valor || ['nome', 'cliente'].indexOf(l.id) > -1) return;
+      if (l.etapa !== etapa) { etapa = l.etapa; t.push('', '*' + etapa + '*'); }
+      t.push(l.texto + '\n→ ' + l.valor);
+    });
+    return t.join('\n');
+  }
+
+  function enviar() {
+    var d = coletar(), btn = document.getElementById('avancar');
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    Promise.allSettled([enviarBanco(d), enviarEmail(d)]).then(function (r) {
+      if (r[0].status === 'fulfilled' || r[1].status === 'fulfilled') {
+        try { localStorage.removeItem(CHAVE + tipoAtual); } catch (e) {}
+        form.hidden = true;
+        document.getElementById('intro').hidden = true;
+        document.getElementById('whats-done').href = 'https://wa.me/' + WHATSAPP;
+        document.getElementById('done').hidden = false;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      btn.disabled = false; btn.textContent = 'Enviar briefing';
+      erro.textContent = 'Não consegui enviar agora. Seu rascunho continua salvo. Você também pode mandar pelo WhatsApp: ';
+      var a = document.createElement('a');
+      a.href = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(textoWhats(d));
+      a.target = '_blank'; a.rel = 'noopener'; a.textContent = 'abrir WhatsApp com as respostas';
+      erro.appendChild(a); erro.hidden = false;
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (form.botcheck.checked) return;
+    if (!validarEtapa()) return;
+    if (atual < etapasAtivas.length - 1) ir(atual + 1); else enviar();
+  });
+  document.getElementById('voltar').addEventListener('click', function () {
+    if (atual > 0) return ir(atual - 1);
+    salvar(); form.hidden = true; document.getElementById('ctx').hidden = true;
+    document.getElementById('escolha-tipo').hidden = false;
+  });
+
+  document.querySelectorAll('input[name="tipo"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      tipoAtual = r.value; atual = 0;
+      var u = new URLSearchParams(location.search); u.set('tipo', tipoAtual);
+      history.replaceState(null, '', location.pathname + '?' + u.toString());
+      montar();
+    });
+  });
+
+  if (tipoAtual) montar(); else document.getElementById('escolha-tipo').hidden = false;
+</script>
+</body>
+</html>
