@@ -140,6 +140,24 @@
   .gate { max-width: 440px; margin: 10vh auto 0; }
   .gate p { margin: 0 0 20px; }
   .error { color: var(--bad); font-size: var(--text-meta); margin: 10px 0 0; }
+  /* Briefings */
+  .bf-list { display: grid; gap: 12px; }
+  .bf { border: 1px solid var(--border); border-radius: 16px; padding: 16px 18px; background: var(--paper-raised); }
+  .bf.novo { border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink) inset; }
+  .bf-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 12px; align-items: baseline; }
+  .bf-top b { font-size: 1.0625rem; }
+  .bf .meta { color: var(--ink-soft); font-size: var(--text-meta); margin-top: 2px; }
+  .bf .acts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .bf .acts button, .bf .acts a { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--border); background: transparent; font-weight: 600; font-size: var(--text-meta); cursor: pointer; color: inherit; text-decoration: none; }
+  .bf .acts .danger { color: #c2410c; }
+  .bf-st { display: inline-flex; padding: 3px 10px; border-radius: 999px; font-size: var(--text-label); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; border: 1px solid var(--border); color: var(--ink-soft); }
+  .bf-st.enviado { background: var(--accent-gradient, #d3ea55); color: #10160a; border-color: transparent; }
+  .bf-st.iniciado { border-color: var(--ink-soft); color: var(--ink); }
+  .bf-resp { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 6px; }
+  .bf-resp h4 { margin: 16px 0 6px; font-size: var(--text-label); text-transform: uppercase; letter-spacing: .08em; color: var(--ink-faint); }
+  .bf-resp dl { margin: 0; }
+  .bf-resp dt { font-weight: 600; margin-top: 10px; text-wrap: pretty; }
+  .bf-resp dd { margin: 2px 0 0; color: var(--ink-soft); white-space: pre-wrap; overflow-wrap: anywhere; }
   .empty { color: var(--ink-faint); text-align: center; padding: 24px 0; font-size: var(--text-meta); }
 
   /* Abas do painel */
@@ -399,6 +417,7 @@
   <main id="painel" hidden>
     <div class="tabs" role="tablist" aria-label="Seções do painel">
       <button class="tab" role="tab" id="tab-clientes" aria-selected="true" aria-controls="view-clientes" type="button">Clientes<span class="count" id="tab-clientes-count"></span></button>
+      <button class="tab" role="tab" id="tab-briefings" aria-selected="false" aria-controls="view-briefings" type="button">Briefings<span class="count" id="tab-briefings-count"></span></button>
       <button class="tab" role="tab" id="tab-financeiro" aria-selected="false" aria-controls="view-financeiro" type="button">Financeiro</button>
       <button class="tab" role="tab" id="tab-demandas" aria-selected="false" aria-controls="view-demandas" type="button" hidden>Demandas<span class="count" id="tab-demandas-count"></span></button>
       <button class="tab" role="tab" id="tab-geral" aria-selected="false" aria-controls="view-geral" type="button">CSAT</button>
@@ -565,6 +584,23 @@
       </div>
       <div id="cli-head"></div>
       <div class="board" id="board"></div>
+    </section>
+
+    <!-- Briefings de marca e site -->
+    <section id="view-briefings" role="tabpanel" aria-labelledby="tab-briefings" hidden>
+      <section class="card">
+        <div class="clients-head">
+          <div>
+            <h2 style="margin:0 0 4px">Briefings</h2>
+            <p class="muted small" style="margin:0">Quem recebeu o link, quem começou e quem já enviou. Você recebe aviso no WhatsApp quando o cliente começa e quando envia.</p>
+          </div>
+          <a class="btn" href="/briefing/novo/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Novo briefing
+          </a>
+        </div>
+        <div class="bf-list" id="bf-list" style="margin-top:16px"></div>
+      </section>
     </section>
 
     <!-- Perguntas do formulário -->
@@ -849,6 +885,7 @@
       });
       $('gate').hidden = true; $('painel').hidden = false; $('top-actions').hidden = false;
       popularClientes(); renderTudo(); renderClientes(); renderDemandas(); iniciarPerguntas();
+      carregarBriefings();
       return carregarFin();
     }).catch(function (err) {
       mostrarGate(/jwt|token|expired/i.test(err.message) ? 'Sessão expirada. Entre de novo.' : 'Não consegui carregar os dados. Detalhe: ' + err.message);
@@ -1055,11 +1092,71 @@
   });
   (function () { var d = new Date(); $('g-mes').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); montarLink(); })();
 
+  /* ---------- Briefings (migração 008) ----------
+     Carregado à parte: se a tabela ainda não existir, o resto do painel funciona. */
+  var briefings = [], bfAberto = {};
+  var BF_TIPO = { 'marca': 'Marca', 'site': 'Site', 'marca-site': 'Marca e site', 'links': 'Página de links', 'marca-links': 'Marca e página de links' };
+  var BF_PERFIL = { medico: 'Médico(a)', fisio: 'Fisioterapeuta', nutri: 'Nutricionista', psico: 'Psicólogo(a)', dentista: 'Dentista', enfermagem: 'Enfermeiro(a)', fono: 'Fonoaudiólogo(a)', educador: 'Educador físico', pessoal: 'Marca pessoal', negocio: 'Empresa' };
+  var BF_ST = { convidado: 'Link enviado', iniciado: 'Respondendo', enviado: 'Enviado' };
+  function quando(iso) { return iso ? new Date(iso).toLocaleString('pt-BR', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' }) : ''; }
+  function carregarBriefings() {
+    var box = $('bf-list');
+    return sb.from('briefings').select('*').order('atualizado_em', { ascending: false }).limit(300).then(function (r) {
+      if (r.error) { box.innerHTML = '<p class="empty">A tabela de briefings ainda não existe no banco (migração 008).</p>'; return; }
+      briefings = r.data || []; renderBriefings();
+    });
+  }
+  function renderBriefings() {
+    var box = $('bf-list');
+    var novos = briefings.filter(function (b) { return b.status === 'enviado' && !b.lido; }).length;
+    $('tab-briefings-count').textContent = novos ? String(novos) : '';
+    if (!briefings.length) { box.innerHTML = '<p class="empty">Nenhum briefing ainda. Gere o primeiro em "Novo briefing".</p>'; return; }
+    var ordem = { enviado: 0, iniciado: 1, convidado: 2 };
+    var lista = briefings.slice().sort(function (a, b) { return (ordem[a.status] - ordem[b.status]) || (a.atualizado_em < b.atualizado_em ? 1 : -1); });
+    box.innerHTML = lista.map(function (b) {
+      var quandoTxt = b.status === 'enviado' ? 'Enviado em ' + quando(b.enviado_em) : b.status === 'iniciado' ? 'Parou na etapa ' + b.etapa + ' · ' + quando(b.atualizado_em) : 'Link gerado em ' + quando(b.created_at);
+      var resp = '';
+      if (bfAberto[b.id]) {
+        var porEtapa = {}, ordemEtapas = [];
+        Object.keys(b.dados || {}).forEach(function (k) { var d = b.dados[k]; if (!porEtapa[d.s]) { porEtapa[d.s] = []; ordemEtapas.push(d.s); } porEtapa[d.s].push(d); });
+        resp = '<div class="bf-resp">' + (ordemEtapas.length ? ordemEtapas.map(function (s) {
+          return '<h4>' + esc(s) + '</h4><dl>' + porEtapa[s].map(function (d) { return '<dt>' + esc(d.t) + '</dt><dd>' + esc(d.v) + '</dd>'; }).join('') + '</dl>';
+        }).join('') : '<p class="empty">Ainda sem respostas.</p>') + '</div>';
+      }
+      return '<article class="bf' + (b.status === 'enviado' && !b.lido ? ' novo' : '') + '" data-id="' + esc(b.id) + '">' +
+        '<div class="bf-top"><b>' + esc(b.cliente) + '</b><span class="bf-st ' + b.status + '">' + (BF_ST[b.status] || b.status) + (b.status === 'enviado' && !b.lido ? ' · novo' : '') + '</span></div>' +
+        '<div class="meta">' + esc(BF_TIPO[b.tipo] || b.tipo) + (b.perfil ? ' · ' + esc(BF_PERFIL[b.perfil] || b.perfil) : '') + (b.contato ? ' · ' + esc(b.contato) : '') + '</div>' +
+        '<div class="meta">' + quandoTxt + '</div>' +
+        '<div class="acts">' +
+          (b.status !== 'convidado' ? '<button type="button" data-bf="ver">' + (bfAberto[b.id] ? 'Fechar respostas' : 'Ver respostas') + '</button>' : '') +
+          (b.status === 'enviado' ? '<button type="button" data-bf="lido">' + (b.lido ? 'Marcar como novo' : 'Marcar como lido') + '</button>' : '') +
+          (b.link && b.status !== 'enviado' ? '<button type="button" data-bf="link">Copiar link</button>' : '') +
+          '<button type="button" class="danger" data-bf="del">Excluir</button>' +
+        '</div>' + resp + '</article>';
+    }).join('');
+  }
+  $('bf-list').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-bf]'); if (!btn) return;
+    var id = btn.closest('.bf').getAttribute('data-id');
+    var b = briefings.filter(function (x) { return x.id === id; })[0]; if (!b) return;
+    var acao = btn.getAttribute('data-bf');
+    if (acao === 'ver') { bfAberto[id] = !bfAberto[id]; renderBriefings(); return; }
+    if (acao === 'link') { (navigator.clipboard ? navigator.clipboard.writeText(b.link) : Promise.reject()).then(function () { btn.textContent = 'Copiado!'; }, function () { prompt('Copie o link:', b.link); }); return; }
+    if (acao === 'lido') {
+      sb.from('briefings').update({ lido: !b.lido }).eq('id', id).then(ok).then(function () { b.lido = !b.lido; renderBriefings(); }).catch(function (err) { alert(err.message); });
+      return;
+    }
+    if (acao === 'del') {
+      if (!confirm('Excluir o briefing de ' + b.cliente + '? As respostas somem do painel (o e-mail continua na sua caixa).')) return;
+      sb.from('briefings').delete().eq('id', id).then(ok).then(function () { briefings = briefings.filter(function (x) { return x.id !== id; }); renderBriefings(); }).catch(function (err) { alert(err.message); });
+    }
+  });
+
   /* ---------- Abas ---------- */
   /* Central de demandas desligada (out/2026, a pedido do Rafael). Dados, link de aprovação
      e código continuam; para religar, true aqui e tirar o hidden do botão #tab-demandas. */
   var MODULO_DEMANDAS = false;
-  var ABAS = ['clientes', 'financeiro', 'demandas', 'geral', 'perguntas'].filter(function (a) { return a !== 'demandas' || MODULO_DEMANDAS; });
+  var ABAS = ['clientes', 'briefings', 'financeiro', 'demandas', 'geral', 'perguntas'].filter(function (a) { return a !== 'demandas' || MODULO_DEMANDAS; });
   function mostrarAba(id) {
     if (ABAS.indexOf(id) < 0) id = 'clientes';
     ABAS.forEach(function (a) {

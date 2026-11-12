@@ -430,6 +430,13 @@
   var tipoAtual = TIPOS[p.get('tipo')] ? p.get('tipo') : null;
   var etapasAtivas = [], atual = 0;
   var CHAVE = 'briefing:' + (p.get('cliente') || '') + ':';
+  /* Id do briefing no banco: vem do link (?b=, quando gerado logado) ou do rascunho; senão, um novo */
+  function novoId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) { var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 3 | 8)).toString(16); });
+  }
+  var BID = /^[0-9a-f-]{36}$/i.test(p.get('b') || '') ? p.get('b') : null;
+  var PERFIL_ID = p.get('prof') && PROF ? p.get('prof') : (PESSOAL ? 'pessoal' : 'negocio');
   var form = document.getElementById('form');
   var wrap = document.getElementById('etapas');
   var erro = document.getElementById('erro');
@@ -543,7 +550,8 @@
   }
   var tSalvo;
   function salvar() {
-    try { localStorage.setItem(CHAVE + tipoAtual, JSON.stringify({ etapa: atual, v: estado() })); } catch (e) { return; }
+    if (!BID) BID = novoId();
+    try { localStorage.setItem(CHAVE + tipoAtual, JSON.stringify({ etapa: atual, v: estado(), id: BID })); } catch (e) { return; }
     var s = document.getElementById('saved'); s.textContent = 'Rascunho salvo'; clearTimeout(tSalvo);
     tSalvo = setTimeout(function () { s.textContent = ''; }, 1600);
   }
@@ -551,6 +559,7 @@
     var r = null;
     try { r = JSON.parse(localStorage.getItem(CHAVE + tipoAtual) || 'null'); } catch (e) {}
     if (!r) return;
+    if (!BID && r.id) BID = r.id;
     Object.keys(r.v).forEach(function (n) {
       var v = r.v[n];
       var els = form.querySelectorAll('[name="' + n + '"]');
@@ -634,12 +643,17 @@
     };
   }
 
-  function enviarBanco(d) {
+  /* Grava pelo banco (função briefing_salvar): a cada etapa concluída (status "iniciado",
+     que avisa o Rafael no WhatsApp na primeira vez) e no envio final ("enviado"). */
+  function enviarBanco(d, final) {
     if (!sb) return Promise.reject(new Error('sem banco'));
+    if (!BID) BID = novoId();
     var dados = {};
     d.linhas.forEach(function (l) { if (l.valor) dados[l.id] = { s: l.etapa, t: l.texto, v: l.valor }; });
-    return sb.from('briefings').insert({ tipo: tipoAtual, cliente: d.cliente, nome: d.nome, contato: d.contato, dados: dados })
-      .then(function (r) { if (r.error) throw r.error; });
+    return sb.rpc('briefing_salvar', {
+      p_id: BID, p_tipo: tipoAtual, p_perfil: PERFIL_ID, p_cliente: d.cliente || p.get('cliente') || '—', p_nome: d.nome, p_contato: d.contato,
+      p_dados: dados, p_etapa: atual + 1, p_enviar: !!final
+    }).then(function (r) { if (r.error) throw r.error; });
   }
 
   function enviarEmail(d) {
@@ -674,7 +688,7 @@
   function enviar() {
     var d = coletar(), btn = document.getElementById('avancar');
     btn.disabled = true; btn.textContent = 'Enviando…';
-    Promise.allSettled([enviarBanco(d), enviarEmail(d)]).then(function (r) {
+    Promise.allSettled([enviarBanco(d, true), enviarEmail(d)]).then(function (r) {
       if (r[0].status === 'fulfilled' || r[1].status === 'fulfilled') {
         try { localStorage.removeItem(CHAVE + tipoAtual); } catch (e) {}
         form.hidden = true;
@@ -697,7 +711,10 @@
     e.preventDefault();
     if (form.botcheck.checked) return;
     if (!validarEtapa()) return;
-    if (atual < etapasAtivas.length - 1) ir(atual + 1); else enviar();
+    if (atual < etapasAtivas.length - 1) {
+      enviarBanco(coletar(), false).catch(function () {}); /* progresso: falhar aqui não atrapalha o cliente */
+      ir(atual + 1);
+    } else enviar();
   });
   document.getElementById('voltar').addEventListener('click', function () {
     if (atual > 0) return ir(atual - 1);

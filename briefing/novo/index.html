@@ -112,6 +112,8 @@
     <p class="ok" id="ok" aria-live="polite"></p>
   </section>
 
+  <p class="lead small" id="conexao" style="font-size:.875rem;margin:-4px 0 16px"></p>
+
   <section class="card">
     <h2>Enviados neste aparelho</h2>
     <ul class="hist" id="hist"></ul>
@@ -119,7 +121,15 @@
   </section>
 </main>
 
+<script src="/assets/vendor/supabase.js"></script>
 <script>
+  /* Logado no /gestao (mesmo navegador)? Então cada link gerado vira um convite na aba Briefings,
+     e o briefing do cliente atualiza esse mesmo registro (?b=id). Sem login, o link funciona igual. */
+  var sb = window.supabase && window.supabase.createClient
+    ? window.supabase.createClient('https://qgyiuhdyqaxpqhkzgbmq.supabase.co', 'sb_publishable_itIfz5BmcGJ0eUqBO3G5Pg_dQGu0NjJ', { auth: { persistSession: true, autoRefreshToken: true } })
+    : null;
+  var logado = false, bid = null;
+  function novoId() { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : null; }
   /* Mesmas chaves de profissão do /briefing/ (PROFISSOES lá). Mudar nos dois. */
   var PROFS = [
     ['medico', 'Médico(a)'], ['fisio', 'Fisioterapeuta'], ['nutri', 'Nutricionista'], ['psico', 'Psicólogo(a)'],
@@ -156,6 +166,7 @@
     else if (prof !== 'negocio') q.set('prof', prof);
     if (temMarca && sit) q.set('situacao', sit);
     q.set('cliente', nome);
+    if (logado) { if (!bid) bid = novoId(); if (bid) q.set('b', bid); }
     var link = BASE + '?' + q.toString().replace(/\+/g, '%20');
     var texto = 'Olá, ' + nome + '! Tudo bem?\n\n' +
       'Aqui está o formulário de briefing ' + ROTULO[tipo] + '. Ele é a base de todo o projeto: tudo o que eu criar vai partir das suas respostas.\n\n' +
@@ -166,7 +177,7 @@
     document.getElementById('abrir').href = link;
     if (!msgEditada) document.getElementById('msg').value = texto;
     atualizarEnvio();
-    return { nome: nome, link: link, tipo: tipo };
+    return { nome: nome, link: link, tipo: tipo, prof: prof };
   }
   function atualizarEnvio() {
     var num = f.whats.value.replace(/\D/g, '');
@@ -184,8 +195,16 @@
 
   /* Histórico só neste aparelho (não guarda o WhatsApp do cliente) */
   function lerHist() { try { return JSON.parse(localStorage.getItem('briefings-enviados') || '[]'); } catch (e) { return []; } }
+  var registrados = {};
   function registrar() {
     var d = montar(); if (!d) return;
+    if (logado && bid && !registrados[bid]) {
+      registrados[bid] = true;
+      sb.from('briefings').insert({ id: bid, status: 'convidado', tipo: d.tipo, perfil: d.prof, cliente: d.nome, link: d.link,
+        contato: f.whats.value.trim() || null }).then(function (r) {
+        if (r.error) { registrados[bid] = false; document.getElementById('conexao').textContent = 'Não consegui registrar no painel: ' + r.error.message + '. O link funciona mesmo assim.'; }
+      });
+    }
     var h = lerHist().filter(function (x) { return x.link !== d.link; });
     h.unshift({ nome: d.nome, link: d.link, tipo: TIPOS.filter(function (t) { return t[0] === d.tipo; })[0][1], em: new Date().toISOString() });
     try { localStorage.setItem('briefings-enviados', JSON.stringify(h.slice(0, 30))); } catch (e) {}
@@ -219,6 +238,14 @@
   document.getElementById('copiar-link').addEventListener('click', function () { copiar(document.getElementById('link').textContent, 'Link copiado'); registrar(); });
   document.getElementById('enviar').addEventListener('click', registrar);
   pintarHist(); montar();
+  /* Depois de copiar ou enviar, o próximo cliente ganha um id novo */
+  f.addEventListener('input', function (e) { if (e.target.name === 'nome' && bid && registrados[bid]) { bid = null; montar(); } });
+  var cx = document.getElementById('conexao');
+  if (sb) sb.auth.getSession().then(function (r) {
+    logado = !!(r.data && r.data.session);
+    cx.textContent = logado ? 'Conectado ao painel: cada link gerado aparece na aba Briefings do /gestao.' : 'Para acompanhar quem respondeu no painel, entre antes no /gestao neste navegador.';
+    if (logado) montar();
+  }).catch(function () {});
 </script>
 </body>
 </html>
