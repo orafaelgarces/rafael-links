@@ -400,11 +400,29 @@
   ];
 
   /* Perfil da marca: ?perfil=pessoal troca os textos e inclui as perguntas sobre a pessoa */
-  var PESSOAL = new URLSearchParams(location.search).get('perfil') === 'pessoal';
+  /* Profissão da saúde: ?prof=medico|fisio|… ajusta o conselho e os exemplos (e já implica marca pessoal).
+     A mesma lista existe em /briefing/novo/ (gerador de links): mudar nos dois. */
+  var PROFISSOES = {
+    medico: { conselho: 'CRM (e RQE, se tiver especialidade)', ex: 'Ex.: dermatologista com foco em estética e tricologia.' },
+    fisio: { conselho: 'CREFITO', ex: 'Ex.: fisioterapeuta com foco em pilates clínico e dor lombar.' },
+    nutri: { conselho: 'CRN', ex: 'Ex.: nutricionista esportiva com foco em emagrecimento.' },
+    psico: { conselho: 'CRP', ex: 'Ex.: psicóloga clínica, terapia cognitivo-comportamental.' },
+    dentista: { conselho: 'CRO (e especialidade registrada)', ex: 'Ex.: dentista com foco em harmonização e lentes.' },
+    enfermagem: { conselho: 'COREN', ex: 'Ex.: enfermeira estomaterapeuta, curativos e feridas.' },
+    fono: { conselho: 'CRFa', ex: 'Ex.: fonoaudióloga com foco em voz e motricidade orofacial.' },
+    educador: { conselho: 'CREF', ex: 'Ex.: personal trainer com foco em idosos e reabilitação.' }
+  };
+  var PROF = PROFISSOES[new URLSearchParams(location.search).get('prof')] || null;
+  var PESSOAL = new URLSearchParams(location.search).get('perfil') === 'pessoal' || !!PROF;
   function noPerfil(x) { return !x.perfil || x.perfil === (PESSOAL ? 'pessoal' : 'negocio'); }
   ETAPAS = ETAPAS.filter(noPerfil).map(function (e) {
     var e2 = Object.assign({}, e, PESSOAL && e.P ? e.P : {});
-    e2.perguntas = e.perguntas.filter(noPerfil).map(function (q) { return Object.assign({}, q, PESSOAL && q.P ? q.P : {}); });
+    e2.perguntas = e.perguntas.filter(noPerfil).map(function (q) {
+      var q2 = Object.assign({}, q, PESSOAL && q.P ? q.P : {});
+      if (PROF && q.id === 'registro') { q2.texto = 'Seu registro no ' + PROF.conselho; q2.ajuda = 'Número e estado, do jeito que precisa aparecer na marca e na página. O conselho exige.'; q2.obrig = true; }
+      if (PROF && q.id === 'area') q2.ajuda = PROF.ex;
+      return q2;
+    });
     return e2;
   });
 

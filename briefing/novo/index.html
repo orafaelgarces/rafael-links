@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Novo briefing | Rafael Garcês</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-8 76 143 145'%3E%3Cpath fill='%23131720' d='M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face { font-family: "Satoshi"; src: url("/assets/fonts/Satoshi-Variable.woff2") format("woff2"); font-weight: 300 900; font-display: swap; }
+  :root {
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --paper: #0b0b0d; --raised: #101114; --hover: #16171a;
+    --ink: #f5f5f7; --soft: #9a9ea6; --faint: #6b6f76; --border: #26272b;
+    --accent-gradient: linear-gradient(135deg, #cad589, #ddff22); --accent: #d3ea55; --accent-ink: #10160a; --wash: rgba(221,255,34,.18);
+    --font: "Satoshi", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--font); -webkit-font-smoothing: antialiased; padding: 48px 16px 80px; }
+  button, input, textarea, select { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+  [hidden] { display: none !important; }
+  .page { max-width: 680px; margin: 0 auto; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; margin-bottom: 36px; font-weight: 700; }
+  .brand svg { width: 22px; height: 22px; }
+  .label { font-size: .75rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); margin: 0 0 10px; }
+  h1 { font-size: 2rem; font-weight: 600; letter-spacing: -.025em; line-height: 1.15; margin: 0 0 8px; text-wrap: balance; }
+  .lead { color: var(--soft); margin: 0 0 28px; text-wrap: pretty; }
+  .card { background: var(--raised); border: 1px solid var(--border); border-radius: 20px; padding: 24px; margin-bottom: 16px; }
+  @media (max-width: 480px) { .card { padding: 20px 16px; } }
+  .q { padding: 18px 0; border-top: 1px solid var(--border); }
+  .q:first-child { border-top: 0; padding-top: 0; }
+  .q:last-child { padding-bottom: 0; }
+  .q-title { display: block; font-weight: 600; margin-bottom: 4px; }
+  .q-help { display: block; color: var(--soft); font-size: .875rem; margin-bottom: 10px; text-wrap: pretty; }
+  .input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: var(--paper); transition: border-color .15s, box-shadow .15s; }
+  .input:focus { outline: none; border-color: var(--faint); box-shadow: 0 0 0 3px var(--wash); }
+  textarea.input { min-height: 150px; resize: vertical; line-height: 1.5; }
+  .choice { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .opt { position: relative; }
+  .opt input { position: absolute; opacity: 0; pointer-events: none; }
+  .opt label { display: inline-flex; align-items: center; min-height: 40px; padding: 8px 16px; border: 1px solid var(--border); border-radius: 999px; font-weight: 600; font-size: .9375rem; cursor: pointer; user-select: none; transition: background .16s var(--ease-out), border-color .16s, transform .16s; }
+  .opt label:active { transform: scale(.96); }
+  .opt input:checked + label { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; }
+  .opt input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (hover: hover) { .opt input:not(:checked) + label:hover { background: var(--hover); border-color: var(--faint); } }
+  .link { display: block; word-break: break-all; padding: 12px 14px; border-radius: 12px; background: var(--paper); border: 1px dashed var(--border); color: var(--soft); font-size: .875rem; margin: 10px 0 0; }
+  .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+  @media (max-width: 480px) { .btns { grid-template-columns: 1fr; } }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 18px; border-radius: 999px; border: 1px solid var(--border); background: transparent; font-weight: 600; cursor: pointer; text-decoration: none; color: var(--ink); transition: transform .16s var(--ease-out), background .16s; }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: var(--accent-gradient); color: var(--accent-ink); border-color: transparent; grid-column: 1 / -1; }
+  .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+  .ok { color: var(--accent); font-size: .875rem; min-height: 1.5em; margin: 10px 0 0; text-align: center; }
+  .hist { list-style: none; margin: 0; padding: 0; }
+  .hist li { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--border); }
+  .hist li:first-child { border-top: 0; padding-top: 0; }
+  .hist b { display: block; font-weight: 600; }
+  .hist small { color: var(--faint); }
+  .hist button { flex: none; padding: 8px 14px; font-size: .875rem; }
+  .vazio { color: var(--faint); margin: 0; font-size: .9375rem; }
+  h2 { font-size: 1.125rem; margin: 0 0 14px; }
+</style>
+<body>
+<main class="page">
+  <a class="brand" href="/" aria-label="Rafael Garcês, voltar ao site">
+    <svg viewBox="0 84.139 127.445 128.682" fill="currentColor" aria-hidden="true"><path d="M42.0692 84.139V127.446H0V212.821H42.0692V168.277C77.9518 168.277 85.3758 195.499 85.3758 212.821H127.445C127.445 147.243 70.5278 128.683 42.0692 127.446H127.445V84.139H42.0692Z"/></svg>
+    <span>Rafael Garcês</span>
+  </a>
+  <p class="label">Uso interno</p>
+  <h1>Novo briefing</h1>
+  <p class="lead">Preencha o básico do cliente e mande o link pronto. O formulário já chega adaptado à profissão e ao projeto.</p>
+
+  <form class="card" id="f" autocomplete="off">
+    <div class="q">
+      <label class="q-title" for="nome">Nome do cliente</label>
+      <span class="q-help">Como aparece hoje. Ex.: Dra. Dalila Leão.</span>
+      <input class="input" id="nome" name="nome" required>
+    </div>
+    <div class="q">
+      <span class="q-title" id="l-prof">Profissão</span>
+      <div class="choice" role="radiogroup" aria-labelledby="l-prof" id="prof"></div>
+    </div>
+    <div class="q">
+      <span class="q-title" id="l-tipo">Projeto</span>
+      <div class="choice" role="radiogroup" aria-labelledby="l-tipo" id="tipo"></div>
+    </div>
+    <div class="q" id="q-sit">
+      <span class="q-title" id="l-sit">A marca hoje</span>
+      <span class="q-help">Se você já sabe, a pergunta some do formulário.</span>
+      <div class="choice" role="radiogroup" aria-labelledby="l-sit" id="sit"></div>
+    </div>
+    <div class="q">
+      <label class="q-title" for="whats">WhatsApp do cliente <span style="color:var(--faint);font-weight:500;font-size:.875rem">opcional</span></label>
+      <span class="q-help">Com DDD. Libera o botão que abre a conversa com a mensagem pronta.</span>
+      <input class="input" id="whats" name="whats" inputmode="tel" placeholder="(98) 99999-9999">
+    </div>
+  </form>
+
+  <section class="card" id="saida" hidden>
+    <h2>Pronto para enviar</h2>
+    <label class="q-title" for="msg">Mensagem</label>
+    <span class="q-help">Pode editar antes de mandar.</span>
+    <textarea class="input" id="msg"></textarea>
+    <span class="link" id="link"></span>
+    <div class="btns">
+      <a class="btn btn-primary" id="enviar" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+      <button class="btn" type="button" id="copiar-msg">Copiar mensagem</button>
+      <button class="btn" type="button" id="copiar-link">Copiar só o link</button>
+      <a class="btn" id="abrir" target="_blank" rel="noopener" style="grid-column:1/-1">Ver o formulário como o cliente</a>
+    </div>
+    <p class="ok" id="ok" aria-live="polite"></p>
+  </section>
+
+  <section class="card">
+    <h2>Enviados neste aparelho</h2>
+    <ul class="hist" id="hist"></ul>
+    <p class="vazio" id="vazio">Nenhum ainda. As respostas chegam no seu e-mail com o assunto "Briefing".</p>
+  </section>
+</main>
+
+<script>
+  /* Mesmas chaves de profissão do /briefing/ (PROFISSOES lá). Mudar nos dois. */
+  var PROFS = [
+    ['medico', 'Médico(a)'], ['fisio', 'Fisioterapeuta'], ['nutri', 'Nutricionista'], ['psico', 'Psicólogo(a)'],
+    ['dentista', 'Dentista'], ['enfermagem', 'Enfermeiro(a)'], ['fono', 'Fonoaudiólogo(a)'], ['educador', 'Educador físico'],
+    ['pessoal', 'Outra área (marca pessoal)'], ['negocio', 'Empresa ou negócio']
+  ];
+  var TIPOS = [['marca-links', 'Marca + página de links'], ['marca', 'Só marca'], ['marca-site', 'Marca + site'], ['links', 'Só página de links'], ['site', 'Só site']];
+  var SITS = [['', 'Perguntar'], ['renovar', 'Renovar a atual'], ['zero', 'Recomeçar do zero'], ['nova', 'Ainda não tem']];
+  var ROTULO = { 'marca-links': 'da sua marca e da sua página de links', 'marca': 'da sua marca', 'marca-site': 'da sua marca e do seu site', 'links': 'da sua página de links', 'site': 'do seu site' };
+  var BASE = location.origin + '/briefing/';
+
+  function chips(id, lista, nome, padrao) {
+    document.getElementById(id).innerHTML = lista.map(function (o, i) {
+      var k = nome + '-' + i;
+      return '<div class="opt"><input type="radio" name="' + nome + '" id="' + k + '" value="' + o[0] + '"' + (o[0] === padrao ? ' checked' : '') + '><label for="' + k + '">' + o[1] + '</label></div>';
+    }).join('');
+  }
+  chips('prof', PROFS, 'prof', 'medico');
+  chips('tipo', TIPOS, 'tipo', 'marca-links');
+  chips('sit', SITS, 'sit', '');
+
+  var f = document.getElementById('f');
+  var val = function (n) { var el = f.querySelector('[name="' + n + '"]:checked'); return el ? el.value : ''; };
+  var msgEditada = false;
+
+  function montar() {
+    var nome = f.nome.value.trim(), prof = val('prof'), tipo = val('tipo'), sit = val('sit');
+    var temMarca = tipo.indexOf('marca') === 0;
+    document.getElementById('q-sit').hidden = !temMarca;
+    if (!nome) { document.getElementById('saida').hidden = true; return null; }
+    var q = new URLSearchParams();
+    q.set('tipo', tipo);
+    if (prof === 'pessoal') q.set('perfil', 'pessoal');
+    else if (prof !== 'negocio') q.set('prof', prof);
+    if (temMarca && sit) q.set('situacao', sit);
+    q.set('cliente', nome);
+    var link = BASE + '?' + q.toString().replace(/\+/g, '%20');
+    var texto = 'Olá, ' + nome + '! Tudo bem?\n\n' +
+      'Aqui está o formulário de briefing ' + ROTULO[tipo] + '. Ele é a base de todo o projeto: tudo o que eu criar vai partir das suas respostas.\n\n' +
+      'Leva uns 30 a 40 minutos e salva sozinho, então dá para responder com calma e voltar depois:\n' + link + '\n\n' +
+      'Qualquer dúvida, é só me chamar por aqui.';
+    document.getElementById('saida').hidden = false;
+    document.getElementById('link').textContent = link;
+    document.getElementById('abrir').href = link;
+    if (!msgEditada) document.getElementById('msg').value = texto;
+    atualizarEnvio();
+    return { nome: nome, link: link, tipo: tipo };
+  }
+  function atualizarEnvio() {
+    var num = f.whats.value.replace(/\D/g, '');
+    if (num && num.length <= 11) num = '55' + num;
+    var a = document.getElementById('enviar');
+    var ok = num.length >= 12;
+    a.setAttribute('aria-disabled', ok ? 'false' : 'true');
+    a.textContent = ok ? 'Enviar no WhatsApp' : 'Enviar no WhatsApp (preencha o número)';
+    a.href = ok ? 'https://wa.me/' + num + '?text=' + encodeURIComponent(document.getElementById('msg').value) : '#';
+  }
+
+  f.addEventListener('input', function (e) { if (e.target.name === 'nome' || e.target.type === 'radio') msgEditada = false; montar(); });
+  f.addEventListener('change', function () { msgEditada = false; montar(); });
+  document.getElementById('msg').addEventListener('input', function () { msgEditada = true; atualizarEnvio(); });
+
+  /* Histórico só neste aparelho (não guarda o WhatsApp do cliente) */
+  function lerHist() { try { return JSON.parse(localStorage.getItem('briefings-enviados') || '[]'); } catch (e) { return []; } }
+  function registrar() {
+    var d = montar(); if (!d) return;
+    var h = lerHist().filter(function (x) { return x.link !== d.link; });
+    h.unshift({ nome: d.nome, link: d.link, tipo: TIPOS.filter(function (t) { return t[0] === d.tipo; })[0][1], em: new Date().toISOString() });
+    try { localStorage.setItem('briefings-enviados', JSON.stringify(h.slice(0, 30))); } catch (e) {}
+    pintarHist();
+  }
+  function pintarHist() {
+    var h = lerHist(), ul = document.getElementById('hist');
+    document.getElementById('vazio').hidden = h.length > 0;
+    ul.innerHTML = '';
+    h.forEach(function (x) {
+      var li = document.createElement('li');
+      var info = document.createElement('div');
+      var b = document.createElement('b'); b.textContent = x.nome;
+      var s = document.createElement('small'); s.textContent = x.tipo + ' · ' + new Date(x.em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+      info.appendChild(b); info.appendChild(s);
+      var btn = document.createElement('button'); btn.className = 'btn'; btn.type = 'button'; btn.textContent = 'Copiar link';
+      btn.addEventListener('click', function () { copiar(x.link, 'Link copiado'); });
+      li.appendChild(info); li.appendChild(btn); ul.appendChild(li);
+    });
+  }
+  function copiar(t, aviso) {
+    var ok = document.getElementById('ok');
+    (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(function () { ok.textContent = aviso; }, function () {
+      var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); ok.textContent = aviso; } catch (e) { ok.textContent = 'Não consegui copiar: selecione o texto e copie.'; }
+      ta.remove();
+    });
+    setTimeout(function () { ok.textContent = ''; }, 2200);
+  }
+  document.getElementById('copiar-msg').addEventListener('click', function () { copiar(document.getElementById('msg').value, 'Mensagem copiada'); registrar(); });
+  document.getElementById('copiar-link').addEventListener('click', function () { copiar(document.getElementById('link').textContent, 'Link copiado'); registrar(); });
+  document.getElementById('enviar').addEventListener('click', registrar);
+  pintarHist(); montar();
+</script>
+</body>
+</html>
