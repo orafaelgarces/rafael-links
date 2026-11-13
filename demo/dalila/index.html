@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#E9EBEE">
+<title>Espaço Dalila Leão</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+  /* Layout: app de celular (máx. 460px) no estilo das referências: fundo cinza-perolado, cartões muito arredondados com sombra macia,
+     cartão-herói em degradê céu/água com brilho, botões pílula pretos e barra de navegação flutuante com botão redondo.
+     Medalhas: metais no 1º mês, pedras no 2º, estrelas depois. */
+  :root {
+    --bg: #E9EBEE; --card: #FBFBFC; --card-2: #F2F3F5; --ink: #111418; --soft: #6B717A; --line: rgba(17,20,24,.07);
+    --brand: #1F6F8B; --brand-2: #E3EEF2; --on-brand: #FFFFFF; --pill: #111418; --on-pill: #FFFFFF;
+    --hero-1: #4C8FE0; --hero-2: #79C3E8; --hero-3: #C9EEF0; --glow: #FFD36B;
+    --ok: #1F8A55; --ok-bg: #DDF3E6; --warn: #B4570F; --warn-bg: #FCEBDC; --lime: #E4F77A;
+    --shadow: 0 1px 1px rgba(17,20,24,.03), 0 10px 30px -12px rgba(17,20,24,.18);
+    --display: "Inter Tight", "Inter", system-ui, sans-serif; --body: "Inter", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #0E1013; --card: #181B20; --card-2: #20242A; --ink: #F2F4F6; --soft: #99A0A9; --line: rgba(255,255,255,.07);
+    --brand: #7CC4DD; --brand-2: #1C2C33; --on-brand: #0B1418; --pill: #F2F4F6; --on-pill: #0E1013;
+    --hero-1: #2C5FA8; --hero-2: #3C8DB5; --hero-3: #5DB3B8; --glow: #F2B84B;
+    --ok: #6FD39C; --ok-bg: #16281F; --warn: #F2A65A; --warn-bg: #2E2216;
+    --shadow: 0 1px 1px rgba(0,0,0,.3), 0 14px 34px -14px rgba(0,0,0,.7); color-scheme: dark } }
+  :root[data-theme="dark"] {
+    --bg: #0E1013; --card: #181B20; --card-2: #20242A; --ink: #F2F4F6; --soft: #99A0A9; --line: rgba(255,255,255,.07);
+    --brand: #7CC4DD; --brand-2: #1C2C33; --on-brand: #0B1418; --pill: #F2F4F6; --on-pill: #0E1013;
+    --hero-1: #2C5FA8; --hero-2: #3C8DB5; --hero-3: #5DB3B8; --glow: #F2B84B;
+    --ok: #6FD39C; --ok-bg: #16281F; --warn: #F2A65A; --warn-bg: #2E2216;
+    --shadow: 0 1px 1px rgba(0,0,0,.3), 0 14px 34px -14px rgba(0,0,0,.7); color-scheme: dark }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); margin: 0; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: var(--display); letter-spacing: -0.02em; margin: 0; text-wrap: balance; font-weight: 600; }
+  p { text-wrap: pretty; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  :focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 10px; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: #111418; }
+
+  /* Barra de demonstração (só no protótipo) */
+  .demo { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: #111418; color: #F2F4F6;
+    display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; justify-content: center;
+    padding-block: 8px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); font-size: 13px; }
+  .demo span { opacity: .6; }
+  .demo button { border: 1px solid rgba(242,244,246,.3); background: transparent; border-radius: 999px; padding: 4px 12px; color: inherit; }
+  .demo button[aria-pressed="true"] { background: #F2F4F6; color: #111418; border-color: transparent; }
+  .demo .sim { border-color: #E4F77A; color: #E4F77A; }
+
+  .wrap { max-width: 460px; margin: 0 auto; padding-block: 18px 130px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .wrap.wide { max-width: 980px; padding-bottom: 60px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 20px; box-shadow: var(--shadow); }
+  .muted { color: var(--soft); }
+  .small { font-size: 13px; }
+  .btn { border: 0; border-radius: 999px; padding: 15px 22px; background: var(--pill); color: var(--on-pill); font-weight: 600; width: 100%; box-shadow: 0 10px 24px -10px rgba(17,20,24,.5); display: inline-flex; justify-content: center; align-items: center; gap: 8px; }
+  .btn.ghost { background: var(--card-2); color: var(--ink); box-shadow: none; }
+  .field { display: grid; gap: 6px; margin-bottom: 14px; }
+  .field label { font-weight: 600; font-size: 13px; color: var(--soft); }
+  .field small { color: var(--soft); font-size: 12px; }
+  .field input, .field select, .field textarea { padding: 14px 16px; border-radius: 18px; border: 1px solid transparent; background: var(--card-2); color: var(--ink); font: inherit; width: 100%; transition: border-color .15s, background .15s; }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--brand); background: var(--card); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  @media (max-width: 400px) { .row2 { grid-template-columns: 1fr; } }
+  .sec { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; font-weight: 600; margin: 26px 4px 12px; font-family: var(--display); }
+  .sec a, .sec button { font: 500 13px var(--body); color: var(--soft); text-decoration: underline; text-underline-offset: 3px; background: none; border: 0; padding: 0; }
+  .chip { display: inline-block; white-space: nowrap; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 99px; background: var(--card-2); color: var(--soft); }
+  .chip.ok { background: var(--ok-bg); color: var(--ok); }
+  .chip.warn { background: var(--warn-bg); color: var(--warn); }
+  .chip.lime { background: var(--lime); color: #2A3300; }
+  .label-pill { display: inline-block; padding: 5px 14px; border-radius: 99px; border: 1px solid rgba(255,255,255,.55); background: rgba(255,255,255,.18); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; backdrop-filter: blur(6px); }
+
+  /* Login */
+  .login { display: grid; gap: 16px; padding-top: 8px; }
+  .login-hero { border-radius: 32px; padding: 26px 22px 30px; color: #fff; background: radial-gradient(circle at 18% 12%, var(--glow) 0, transparent 26%), linear-gradient(165deg, var(--hero-1), var(--hero-2) 60%, var(--hero-3)); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+  .login-hero h1 { font-size: 30px; line-height: 1.1; margin: 46px 0 8px; color: #fff; }
+  .login-hero p { margin: 0; opacity: .9; }
+  .mark { width: 48px; height: 48px; border-radius: 16px; background: rgba(255,255,255,.22); border: 1px solid rgba(255,255,255,.5); color: #fff; display: grid; place-items: center; font-family: var(--display); font-weight: 700; backdrop-filter: blur(6px); }
+
+  /* Herói da tela inicial */
+  .hero { position: relative; border-radius: 34px; padding: 18px 20px 58px; color: #fff; overflow: hidden; box-shadow: var(--shadow);
+    background: radial-gradient(circle at 16% 14%, var(--glow) 0, rgba(255,211,107,.35) 9%, transparent 24%), radial-gradient(ellipse at 80% 92%, rgba(255,255,255,.55), transparent 45%), linear-gradient(170deg, var(--hero-1), var(--hero-2) 58%, var(--hero-3)); }
+  .hero-top { display: flex; justify-content: space-between; align-items: center; }
+  .who { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.35); padding: 4px 12px 4px 4px; border-radius: 99px; backdrop-filter: blur(6px); }
+  .who .avatar { width: 30px; height: 30px; font-size: 12px; }
+  .icon-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(255,255,255,.4); background: rgba(255,255,255,.2); color: #fff; display: grid; place-items: center; font-weight: 700; }
+  .hero-mid { text-align: center; margin-top: 16px; }
+  .big { font: 300 76px/1 var(--display); letter-spacing: -0.04em; margin: 14px 0 4px; font-variant-numeric: tabular-nums; }
+  .big small { font-size: 34px; opacity: .75; }
+  .arc { display: block; width: 100%; height: 70px; margin-top: 6px; }
+  .medal-dock { display: flex; justify-content: center; gap: 8px; margin: -36px 0 0; position: relative; z-index: 2; }
+  .medal-dock .md { --size: 58px; filter: drop-shadow(0 8px 14px rgba(17,20,24,.22)); }
+  .medal-dock .md.metal .shape, .medal-dock .md.off .shape { box-shadow: 0 0 0 4px var(--card), inset 0 0 0 4px rgba(255,255,255,.35), inset 0 -6px 12px rgba(0,0,0,.15); }
+  .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .mini { padding: 16px; border-radius: 26px; }
+  .mini h3 { font-size: 13px; font-weight: 500; font-family: var(--body); letter-spacing: 0; color: var(--ink); display: flex; justify-content: space-between; gap: 6px; }
+  .mini .n { font: 500 30px/1.1 var(--display); letter-spacing: -0.03em; margin: 12px 0 2px; font-variant-numeric: tabular-nums; }
+  .grad-bar { height: 10px; border-radius: 99px; background: var(--card-2); position: relative; overflow: hidden; margin-top: 8px; }
+  .grad-bar i { position: absolute; inset: 0 auto 0 0; border-radius: 99px; background: linear-gradient(90deg, #6FD3A0, #79C3E8, #4C8FE0); }
+  .grad-bar.gold i { background: linear-gradient(90deg, #F1D9A4, #E0AE1E, #B87333); }
+
+  .avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--brand-2); color: var(--brand); display: grid; place-items: center; font-weight: 700; flex: none; overflow: hidden; border: 0; padding: 0; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .avatar.xl { width: 112px; height: 112px; font-size: 34px; box-shadow: 0 0 0 6px var(--card), var(--shadow); }
+
+  .bar { height: 8px; border-radius: 99px; background: var(--card-2); overflow: hidden; }
+  .bar i { display: block; height: 100%; background: linear-gradient(90deg, #79C3E8, #4C8FE0); border-radius: 99px; transition: width .5s ease; }
+
+  /* Medalhas */
+  .md { --size: 64px; width: var(--size); height: var(--size); flex: none; display: grid; place-items: center; position: relative; }
+  .md .shape { width: 100%; height: 100%; display: grid; place-items: center; background: var(--g); color: rgba(255,255,255,.96);
+    font: 700 calc(var(--size) * .34) var(--display); text-shadow: 0 1px 2px rgba(0,0,0,.25); }
+  .md.metal .shape { border-radius: 50%; box-shadow: inset 0 0 0 calc(var(--size) * .07) rgba(255,255,255,.35), inset 0 -6px 12px rgba(0,0,0,.18); }
+  .md.gem .shape { clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%); }
+  .md.star .shape { clip-path: polygon(50% 0, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+  .md.off .shape { background: var(--card-2); color: var(--soft); text-shadow: none; }
+  .md.off.metal .shape { box-shadow: inset 0 0 0 1px var(--line); }
+  .md.off::after { content: ""; position: absolute; right: -2px; bottom: -2px; width: 22px; height: 22px; border-radius: 50%; background: var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B717A' stroke-width='2.4' stroke-linecap='round'%3E%3Crect x='5' y='11' width='14' height='9' rx='2'/%3E%3Cpath d='M8 11V8a4 4 0 0 1 8 0v3'/%3E%3C/svg%3E") center/12px no-repeat; box-shadow: 0 2px 6px rgba(0,0,0,.12); }
+  .md.big { --size: 128px; }
+  .fase { margin-bottom: 22px; }
+  .fase-hero { border-radius: 30px; padding: 20px; color: #fff; margin-bottom: 12px; box-shadow: var(--shadow); }
+  .fase-hero h2 { font-size: 20px; color: #fff; }
+  .fase-hero p { margin: 4px 0 0; opacity: .9; font-size: 13px; }
+  .fase-hero .chip { background: rgba(0,0,0,.22); color: #fff; }
+  .f1 { background: radial-gradient(circle at 85% 0%, rgba(255,240,190,.8), transparent 40%), linear-gradient(150deg, #C99A4E, #E0AE1E 55%, #F1D9A4); }
+  .f2 { background: radial-gradient(circle at 85% 0%, rgba(255,255,255,.6), transparent 40%), linear-gradient(150deg, #5F2E9E, #2F6FDE 50%, #4FB3D9); }
+  .f3 { background: radial-gradient(circle at 20% 0%, rgba(255,246,200,.5), transparent 40%), linear-gradient(160deg, #0F1A3A, #2A3F7A 60%, #4C6FBF); }
+  .fase-h { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+  .mgrid { display: grid; gap: 10px; }
+  .mitem { display: flex; gap: 14px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 12px 16px 12px 12px; box-shadow: var(--shadow); }
+  .mitem .md { --size: 54px; }
+  .mitem .t { flex: 1; min-width: 0; }
+  .mitem .t b { display: block; font-family: var(--display); }
+  .mitem .bar { height: 6px; margin-top: 8px; }
+  .mitem.locked .t b { color: var(--soft); }
+  .estrelas { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 12px; }
+  .estrela { text-align: center; font-size: 12px; }
+  .estrela .md { --size: 50px; margin: 0 auto 6px; }
+
+  /* Atendimentos */
+  .list { display: grid; gap: 10px; }
+  .at { display: flex; gap: 14px; align-items: center; text-align: left; width: 100%; background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 12px 16px 12px 12px; box-shadow: var(--shadow); }
+  .at .d { width: 54px; height: 54px; flex: none; border-radius: 50%; display: grid; place-content: center; text-align: center; background: var(--card-2); font-family: var(--display); font-weight: 600; font-size: 18px; line-height: 1; }
+  .at .d small { display: block; font: 600 10px var(--body); text-transform: uppercase; color: var(--soft); margin-top: 2px; }
+  .at.new .d { background: linear-gradient(160deg, var(--hero-1), var(--hero-2)); color: #fff; }
+  .at.new .d small { color: rgba(255,255,255,.85); }
+  .at .t { flex: 1; min-width: 0; }
+  .at .t b { display: block; font-family: var(--display); font-size: 16px; }
+  .at .go { width: 36px; height: 36px; border-radius: 50%; background: var(--card-2); display: grid; place-items: center; flex: none; }
+  .back { border: 0; background: var(--card); padding: 8px 14px 8px 10px; border-radius: 99px; color: var(--ink); font-weight: 600; margin-bottom: 14px; box-shadow: var(--shadow); }
+  .at-hero { border-radius: 32px; padding: 22px; color: #fff; margin-bottom: 14px; box-shadow: var(--shadow); background: radial-gradient(circle at 88% 10%, rgba(255,255,255,.45), transparent 35%), linear-gradient(160deg, var(--hero-1), var(--hero-2) 70%, var(--hero-3)); }
+  .at-hero h1 { font-size: 26px; color: #fff; line-height: 1.15; margin-top: 12px; }
+  .at-hero p { margin: 6px 0 0; opacity: .9; }
+  .note { background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.35); border-radius: 20px; padding: 12px 14px; margin-top: 16px; font-size: 14px; backdrop-filter: blur(6px); }
+  .ex { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: center; background: var(--card); border: 1px solid var(--line); border-radius: 26px; padding: 10px; box-shadow: var(--shadow); }
+  .thumb { aspect-ratio: 4/5; max-width: 100%; border-radius: 20px; background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.45), transparent 40%), linear-gradient(160deg, var(--hero-1), var(--hero-3)); display: grid; place-items: center; border: 0; color: #fff; position: relative; }
+  .thumb span { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.3); border: 1px solid rgba(255,255,255,.6); display: grid; place-items: center; backdrop-filter: blur(4px); }
+  .thumb svg { width: 16px; height: 16px; }
+  .thumb.feito { background: linear-gradient(160deg, #3DAA78, #8FD9B2); }
+  .ex .t { min-width: 0; display: grid; gap: 4px; }
+  .ex .t b { font-family: var(--display); }
+  .acts { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; align-items: center; }
+  .done-btn { border: 0; background: var(--pill); color: var(--on-pill); border-radius: 99px; padding: 8px 14px; font-weight: 600; font-size: 13px; }
+  .done-btn[aria-pressed="true"] { background: var(--ok-bg); color: var(--ok); }
+  .dor-btn { border: 0; background: var(--card-2); border-radius: 99px; padding: 8px 12px; font-size: 13px; color: var(--warn); font-weight: 600; }
+
+  /* Navegação flutuante */
+  .tabbar { position: fixed; left: 0; right: 0; bottom: calc(14px + env(safe-area-inset-bottom, 0px)); z-index: 15; display: flex; justify-content: center; pointer-events: none;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  .tabbar > div { display: flex; gap: 10px; width: 100%; max-width: 428px; pointer-events: auto; }
+  .tabs { flex: 1; display: flex; justify-content: space-around; background: color-mix(in srgb, var(--card) 86%, transparent); backdrop-filter: blur(16px); border: 1px solid var(--line); border-radius: 99px; padding: 6px; box-shadow: 0 16px 34px -14px rgba(17,20,24,.35); }
+  .tabs button { flex: 1; border: 0; background: transparent; padding: 10px 0; border-radius: 99px; display: grid; justify-items: center; color: var(--soft); }
+  .tabs button svg { width: 24px; height: 24px; }
+  .tabs button[aria-current="page"] { color: var(--ink); }
+  .tabs button[aria-current="page"] svg { fill: currentColor; fill-opacity: .12; }
+  .fab { width: 64px; height: 64px; border-radius: 50%; border: 0; background: var(--pill); color: var(--on-pill); display: grid; place-items: center; box-shadow: 0 16px 30px -10px rgba(17,20,24,.55); flex: none; }
+  .fab svg { width: 22px; height: 22px; }
+
+  /* Player */
+  .modal { position: fixed; inset: 0; background: rgba(10,12,15,.55); backdrop-filter: blur(6px); display: grid; place-items: center; z-index: 40; padding: 16px; }
+  .player { width: min(420px, 100%); background: #000; border-radius: 30px; overflow: hidden; color: #fff; }
+  .screen { aspect-ratio: 9/14; max-height: 70vh; width: 100%; display: grid; place-items: center; background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.25), transparent 40%), linear-gradient(160deg, #2C5FA8, #0E1C2A); text-align: center; padding: 20px; }
+  .ctrl { display: flex; gap: 10px; align-items: center; padding: 14px 16px; }
+  .ctrl .tl { flex: 1; height: 4px; background: #333; border-radius: 9px; overflow: hidden; }
+  .ctrl .tl i { display: block; height: 100%; width: 0; background: #fff; }
+  .ctrl button { background: #fff; color: #000; border: 0; border-radius: 99px; padding: 8px 14px; font-weight: 600; }
+
+  /* Conquista */
+  .win { width: min(380px, 100%); background: var(--card); border-radius: 34px; padding: 30px 22px 22px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 30px 60px -20px rgba(0,0,0,.5); }
+  .win .md { margin: 6px auto 18px; filter: drop-shadow(0 14px 22px rgba(17,20,24,.25)); }
+  .win h2 { font-size: 24px; margin-bottom: 6px; }
+  .win .rays { position: absolute; inset: -45% -45% auto; height: 380px; background: repeating-conic-gradient(from 0deg, var(--brand-2) 0 8deg, transparent 8deg 22deg); opacity: .8; }
+  .win > *:not(.rays):not(.confete) { position: relative; }
+  .confete { position: absolute; top: -12px; width: 8px; height: 14px; border-radius: 2px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .win { animation: pop .5s cubic-bezier(.2,1.4,.4,1); } @keyframes pop { from { transform: scale(.82); opacity: 0; } }
+    .win .rays { animation: spin 22s linear infinite; } @keyframes spin { to { transform: rotate(360deg); } }
+    .confete { animation: cai 1.9s ease-in forwards; } @keyframes cai { to { transform: translateY(540px) rotate(540deg); opacity: .15; } }
+    .toast { animation: up .35s ease; } @keyframes up { from { transform: translate(-50%, 20px); opacity: 0; } }
+    .hero .sol { animation: pulsa 4s ease-in-out infinite; } @keyframes pulsa { 50% { transform: scale(1.06); } }
+  }
+
+  /* Toast */
+  .toast { position: fixed; left: 50%; bottom: calc(100px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: min(420px, calc(100% - 32px));
+    background: var(--pill); color: var(--on-pill); border-radius: 24px; padding: 14px 16px; display: flex; gap: 12px; align-items: center; z-index: 50; box-shadow: 0 18px 40px -12px rgba(0,0,0,.45); }
+  .toast .m { width: 38px; height: 38px; flex: none; border-radius: 50%; display: grid; place-items: center; font-weight: 700; background: var(--lime); color: #2A3300; }
+
+  /* Perfil */
+  .perfil-hero { border-radius: 34px; padding: 22px 20px 70px; color: #fff; text-align: center; box-shadow: var(--shadow); background: radial-gradient(circle at 80% 10%, rgba(255,255,255,.4), transparent 35%), linear-gradient(170deg, var(--hero-1), var(--hero-2) 60%, var(--hero-3)); }
+  .perfil-hero h1 { font-size: 22px; color: #fff; }
+  .foto { display: grid; justify-items: center; gap: 10px; margin: -62px 0 16px; position: relative; }
+  .foto .pick { display: inline-flex; gap: 8px; }
+  .foto label.link { background: var(--pill); color: var(--on-pill); border-radius: 99px; padding: 8px 14px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .foto input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .foto .dor-btn { color: var(--soft); }
+
+  /* Painel da Dra. */
+  .adm-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+  .adm-top h1 { font-size: 30px; letter-spacing: -0.03em; }
+  .grid2 { display: grid; grid-template-columns: 1.15fr 1fr; gap: 16px; align-items: start; }
+  @media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+  .kpis { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  @media (max-width: 620px) { .kpis { grid-template-columns: 1fr 1fr; } .kpis .kpi:first-child { grid-column: 1 / -1; } }
+  .kpi { border-radius: 28px; padding: 18px 20px; }
+  .kpi b { display: block; font: 300 44px/1.05 var(--display); letter-spacing: -0.04em; font-variant-numeric: tabular-nums; margin: 6px 0 2px; }
+  .kpi.hot { color: #fff; border: 0; background: radial-gradient(circle at 90% 0%, rgba(255,255,255,.45), transparent 40%), linear-gradient(160deg, var(--hero-1), var(--hero-2) 70%, var(--hero-3)); }
+  .kpi.hot .muted { color: rgba(255,255,255,.85); }
+  .kpi.warm { color: #3A1E05; border: 0; background: radial-gradient(circle at 70% 30%, #FFE7C2, transparent 50%), linear-gradient(160deg, #FDB07A, #F7D9A8); }
+  .kpi.warm .muted { color: rgba(58,30,5,.75); }
+  .pac { display: grid; gap: 8px; padding: 14px; border-radius: 22px; background: var(--card-2); }
+  .pacs { display: grid; gap: 10px; margin-top: 12px; }
+  .pac-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .pac-h .who2 { display: flex; gap: 10px; align-items: center; min-width: 0; }
+  .pac-h .avatar { width: 40px; height: 40px; font-size: 13px; }
+  .pac b { font-family: var(--display); }
+  .alerta { background: var(--warn-bg); color: var(--warn); border-radius: 14px; padding: 10px 12px; font-size: 13px; font-weight: 500; }
+  .vrow { display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-radius: 16px; background: var(--card-2); font-size: 14px; margin-top: 8px; }
+  .vrow span:first-child { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .drop { border: 1.5px dashed color-mix(in srgb, var(--soft) 40%, transparent); border-radius: 22px; padding: 18px; text-align: center; color: var(--soft); }
+</style>
+</head>
+<body>
+
+<div class="demo" role="group" aria-label="Demonstração">
+  <span>Protótipo · ver como:</span>
+  <button type="button" id="v-pac" aria-pressed="true">Paciente</button>
+  <button type="button" id="v-adm" aria-pressed="false">Dra. Dalila</button>
+  <button type="button" class="sim" id="v-sim">Simular +1 semana</button>
+  <button type="button" id="v-reset">Recomeçar</button>
+</div>
+
+<main id="app"></main>
+<nav class="tabbar" id="tabbar" hidden><div>
+  <div class="tabs">
+    <button type="button" data-tab="home" aria-label="Início"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg></button>
+    <button type="button" data-tab="medalhas" aria-label="Medalhas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M8.5 10 6 3h4l2 4 2-4h4l-2.5 7"/></svg></button>
+    <button type="button" data-tab="perfil" aria-label="Perfil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
+  </div>
+  <button type="button" class="fab" id="fab" aria-label="Fazer o próximo exercício"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button>
+</div></nav>
+<div id="layer"></div>
+
+<script>
+  /* ===== Trilha de medalhas =====
+     Semana cumprida = paciente atingiu a meta de dias que a Dra. definiu (padrão 4 dias).
+     Medalha conquistada nunca é perdida; semana não cumprida só não conta (sem punição). */
+  var G = {
+    latao: 'radial-gradient(circle at 35% 30%, #F1D9A4, #B08D57 60%, #7A5E33)',
+    cobre: 'radial-gradient(circle at 35% 30%, #F4C3A1, #B87333 60%, #7C4520)',
+    bronze: 'radial-gradient(circle at 35% 30%, #EBC59A, #A86F3B 60%, #6E451F)',
+    prata: 'radial-gradient(circle at 35% 30%, #FFFFFF, #AEB6BC 60%, #737C82)',
+    ouro: 'radial-gradient(circle at 35% 30%, #FFF2B3, #E0AE1E 60%, #9C7208)',
+    quartzo: 'linear-gradient(150deg, #FFE3EC, #E8A9C0 55%, #B67892)',
+    ametista: 'linear-gradient(150deg, #E3CCFF, #9B5DE5 55%, #5F2E9E)',
+    esmeralda: 'linear-gradient(150deg, #C9F5DD, #2FB673 55%, #13724A)',
+    safira: 'linear-gradient(150deg, #CFE2FF, #2F6FDE 55%, #173E8C)',
+    diamante: 'linear-gradient(150deg, #FFFFFF, #9FE3F7 45%, #4FB3D9 75%, #2A7FA8)',
+    estrela: 'linear-gradient(150deg, #FFF6C8, #F5C542 55%, #C98E00)'
+  };
+  var TRILHA = [
+    { id: 'latao', nome: 'Latão', forma: 'metal', mes: 1, letra: '1', regra: 'Fazer o primeiro exercício', ok: function (c) { return c.feitos >= 1; }, prog: function (c) { return [Math.min(c.feitos, 1), 1, 'exercício']; },
+      frase: 'Todo tratamento começa com um primeiro movimento. Você já deu o seu!' },
+    { id: 'cobre', nome: 'Cobre', forma: 'metal', mes: 1, letra: '2', regra: 'Concluir todos os vídeos de um atendimento', ok: function (c) { return c.atComp >= 1; }, prog: function (c) { return [Math.min(c.atComp, 1), 1, 'atendimento']; },
+      frase: 'Atendimento completo! É assim que o resultado aparece.' },
+    { id: 'bronze', nome: 'Bronze', forma: 'metal', mes: 1, letra: '3', regra: 'Cumprir a meta da primeira semana', ok: function (c) { return c.semanas >= 1; }, prog: function (c) { return [Math.min(c.semanas, 1), 1, 'semana']; },
+      frase: 'Primeira semana cumprida. Constância é o seu novo hábito.' },
+    { id: 'prata', nome: 'Prata', forma: 'metal', mes: 1, letra: '4', regra: 'Cumprir 2 semanas', ok: function (c) { return c.semanas >= 2; }, prog: function (c) { return [Math.min(c.semanas, 2), 2, 'semanas']; },
+      frase: 'Duas semanas firmes. Seu corpo já sente a diferença.' },
+    { id: 'ouro', nome: 'Ouro', forma: 'metal', mes: 1, letra: '5', regra: 'Fechar o 1º mês (4 semanas cumpridas)', ok: function (c) { return c.semanas >= 4; }, prog: function (c) { return [Math.min(c.semanas, 4), 4, 'semanas']; },
+      frase: 'Mês completo! Poucos chegam até aqui. Você chegou.' },
+    { id: 'quartzo', nome: 'Quartzo', forma: 'gem', mes: 2, letra: '6', regra: '1ª semana do 2º mês cumprida', ok: function (c) { return c.semanas >= 5; }, prog: function (c) { return [Math.max(0, Math.min(c.semanas - 4, 1)), 1, 'semana']; },
+      frase: 'Começou o segundo mês com o pé direito. Agora é coleção de pedras preciosas.' },
+    { id: 'ametista', nome: 'Ametista', forma: 'gem', mes: 2, letra: '7', regra: '6 semanas cumpridas no total', ok: function (c) { return c.semanas >= 6; }, prog: function (c) { return [Math.max(0, Math.min(c.semanas - 4, 2)), 2, 'semanas do 2º mês']; },
+      frase: 'Seis semanas de cuidado com você. Que orgulho!' },
+    { id: 'esmeralda', nome: 'Esmeralda', forma: 'gem', mes: 2, letra: '8', regra: '3 atendimentos concluídos', ok: function (c) { return c.atComp >= 3; }, prog: function (c) { return [Math.min(c.atComp, 3), 3, 'atendimentos']; },
+      frase: 'Três atendimentos completos. Você leva o tratamento a sério.' },
+    { id: 'safira', nome: 'Safira', forma: 'gem', mes: 2, letra: '9', regra: '7 semanas cumpridas no total', ok: function (c) { return c.semanas >= 7; }, prog: function (c) { return [Math.max(0, Math.min(c.semanas - 4, 3)), 3, 'semanas do 2º mês']; },
+      frase: 'Falta só uma semana para o diamante. Não para agora!' },
+    { id: 'diamante', nome: 'Diamante', forma: 'gem', mes: 2, letra: '10', regra: 'Fechar o 2º mês (8 semanas cumpridas)', ok: function (c) { return c.semanas >= 8; }, prog: function (c) { return [Math.max(0, Math.min(c.semanas - 4, 4)), 4, 'semanas do 2º mês']; },
+      frase: 'Dois meses seguidos. Você é diamante: raro e resistente.' }
+  ];
+  /* Depois do diamante: uma estrela nova a cada 2 semanas cumpridas */
+  var ESTRELAS = ['Vega', 'Sirius', 'Rigel', 'Antares', 'Altair', 'Polaris', 'Aldebaran', 'Canopus', 'Arcturus', 'Betelgeuse', 'Capella', 'Spica'];
+  function estrelasGanhas(c) { return Math.max(0, Math.floor((c.semanas - 8) / 2)); }
+
+  function inicial() {
+    return {
+      logado: false, view: 'pac', tab: 'home', tela: 'home', aberto: null,
+      perfil: { nome: 'Mariana Costa Ribeiro', chamado: 'Mari', nasc: '1991-03-14', fone: '(98) 98888-1234', objetivo: 'Voltar a correr sem dor lombar', foto: '' },
+      meta: 4, semana: [true, true, false, false, false, false, false], semanas: 0, extraAt: 0, dor: [],
+      ganhas: {},
+      atendimentos: [
+        { id: 'a3', dia: '11', mes: 'nov', titulo: 'Fortalecimento de core', obs: 'Faça 1 vez ao dia, de preferência pela manhã. Se sentir dor aguda, pare e toque em "Senti dor".', ex: [
+          { n: 'Ponte de glúteo', dur: '1:40', series: '3 séries de 12', feito: false },
+          { n: 'Prancha com apoio no joelho', dur: '1:20', series: '3 × 20 segundos', feito: false },
+          { n: 'Dead bug', dur: '1:55', series: '3 séries de 10', feito: false },
+          { n: 'Alongamento do piriforme', dur: '1:10', series: '30 segundos cada lado', feito: false }
+        ] },
+        { id: 'a2', dia: '04', mes: 'nov', titulo: 'Mobilidade de quadril', obs: 'Movimentos lentos, sem forçar.', ex: [
+          { n: 'Rotação de quadril em quatro apoios', dur: '1:30', series: '2 séries de 10', feito: true },
+          { n: 'Gato e camelo', dur: '1:05', series: '2 séries de 8', feito: true },
+          { n: 'Abertura em borboleta', dur: '1:15', series: '40 segundos', feito: false }
+        ] },
+        { id: 'a1', dia: '28', mes: 'out', titulo: 'Avaliação e respiração', obs: 'Respiração diafragmática antes de dormir.', ex: [
+          { n: 'Respiração diafragmática', dur: '2:00', series: '5 minutos', feito: false },
+          { n: 'Liberação com bolinha', dur: '1:30', series: '1 minuto cada lado', feito: false }
+        ] }
+      ],
+      pacientes: [
+        { nome: 'João Pedro Lima', ini: 'JL', ultimo: '10/nov', adesao: 95, medalhas: 10, estrelas: 2, meta: 5 },
+        { nome: 'Carla Menezes', ini: 'CM', ultimo: '06/nov', adesao: 40, medalhas: 3, estrelas: 0, meta: 3, dor: 'Relatou dor no "Agachamento livre" em 09/nov' },
+        { nome: 'Rita Albuquerque', ini: 'RA', ultimo: '03/nov', adesao: 88, medalhas: 7, estrelas: 0, meta: 4 }
+      ]
+    };
+  }
+  var S;
+  try { S = JSON.parse(localStorage.getItem('dalila-proto-v2') || 'null'); } catch (e) { S = null; }
+  if (!S) S = inicial();
+  function salvar() { try { localStorage.setItem('dalila-proto-v2', JSON.stringify(S)); } catch (e) {} }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function contagem() {
+    var feitos = 0, total = 0, atComp = S.extraAt;
+    S.atendimentos.forEach(function (a) { var f = a.ex.filter(function (x) { return x.feito; }).length; feitos += f; total += a.ex.length; if (f === a.ex.length) atComp++; });
+    return { feitos: feitos, total: total, atComp: atComp, semanas: S.semanas, dias: S.semana.filter(Boolean).length };
+  }
+  function iniciais(n) { var p = String(n || '').trim().split(/\s+/); return ((p[0] || '')[0] || '') + ((p.length > 1 ? p[p.length - 1][0] : '') || ''); }
+  function avatar(cls) { return '<span class="avatar ' + (cls || '') + '">' + (S.perfil.foto ? '<img src="' + S.perfil.foto + '" alt="">' : esc(iniciais(S.perfil.nome).toUpperCase())) + '</span>'; }
+  function medalha(m, on, cls) { return '<span class="md ' + m.forma + (on ? '' : ' off') + ' ' + (cls || '') + '" style="--g:' + G[m.id] + '" aria-hidden="true"><span class="shape">' + (on ? m.letra : '') + '</span></span>'; }
+  function estrelaMd(nome, on, cls) { return '<span class="md star' + (on ? '' : ' off') + ' ' + (cls || '') + '" style="--g:' + G.estrela + '" aria-hidden="true"><span class="shape"></span></span>'; }
+  function proxima(c) { for (var i = 0; i < TRILHA.length; i++) if (!TRILHA[i].ok(c)) return TRILHA[i]; return null; }
+
+  var app = document.getElementById('app'), layer = document.getElementById('layer'), tabbar = document.getElementById('tabbar');
+  var PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  function render() {
+    document.getElementById('v-pac').setAttribute('aria-pressed', S.view === 'pac');
+    document.getElementById('v-adm').setAttribute('aria-pressed', S.view === 'adm');
+    document.getElementById('v-sim').hidden = S.view !== 'pac' || !S.logado;
+    tabbar.hidden = S.view !== 'pac' || !S.logado;
+    if (S.view === 'adm') return renderAdm();
+    if (!S.logado) return renderLogin();
+    /* Botão redondo: abre o próximo exercício pendente */
+  document.getElementById('fab').addEventListener('click', function () {
+    for (var i = 0; i < S.atendimentos.length; i++) { var a = S.atendimentos[i]; for (var j = 0; j < a.ex.length; j++) if (!a.ex[j].feito) { abrirAt(a.id); return tocar(a, j); } }
+    toast('★', 'Tudo em dia!', 'Você fez todos os exercícios. Aguarde o próximo atendimento.');
+  });
+  tabbar.querySelectorAll('[data-tab]').forEach(function (b) { if (b.getAttribute('data-tab') === S.tab) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current'); });
+    if (S.tab === 'medalhas') return renderMedalhas();
+    if (S.tab === 'perfil') return renderPerfil();
+    if (S.tela === 'at') return renderAt();
+    renderHome();
+  }
+
+  function renderLogin() {
+    app.className = 'wrap';
+    app.innerHTML = '<div class="login"><div class="login-hero"><div class="mark">DL</div><h1>Seus exercícios, sempre com você</h1><p>Os vídeos que a Dra. Dalila Leão preparou para cada atendimento, no seu celular.</p></div>' +
+      '<form class="card" id="f-login"><div class="field"><label for="l-email">E-mail</label><input id="l-email" type="email" value="mari@exemplo.com" autocomplete="username"></div>' +
+      '<div class="field"><label for="l-senha">Senha</label><input id="l-senha" type="password" value="exemplo123" autocomplete="current-password"></div>' +
+      '<button class="btn" type="submit">Entrar <span aria-hidden="true">→</span></button><p class="muted small" style="margin:12px 0 0;text-align:center">Esqueceu a senha? Fale com a clínica.</p></form></div>';
+    document.getElementById('f-login').addEventListener('submit', function (e) { e.preventDefault(); S.logado = true; salvar(); render(); });
+  }
+
+  /* Arco da semana: um ponto por dia, sobe conforme a meta é cumprida (inspirado no arco do sol) */
+  function arco(c) {
+    var w = 400, h = 70, pts = [];
+    for (var i = 0; i < 7; i++) { var x = 20 + i * 60, y = 58 - Math.sin(Math.PI * i / 6) * 46; pts.push([x, y]); }
+    var d = 'M' + pts.map(function (p) { return p[0] + ' ' + p[1].toFixed(1); }).join(' L');
+    var hoje = (new Date().getDay() + 6) % 7, dots = '';
+    pts.forEach(function (p, i) {
+      var on = S.semana[i];
+      dots += '<circle cx="' + p[0] + '" cy="' + p[1].toFixed(1) + '" r="' + (i === hoje ? 9 : 5) + '" fill="' + (on ? '#FFFFFF' : 'rgba(255,255,255,.28)') + '" stroke="' + (i === hoje ? 'rgba(255,255,255,.9)' : 'none') + '" stroke-width="2"/>';
+      dots += '<text x="' + p[0] + '" y="' + (p[1] + 22).toFixed(1) + '" text-anchor="middle" font-size="11" font-family="Inter, sans-serif" fill="rgba(255,255,255,.85)">' + 'STQQSSD'[i] + '</text>';
+    });
+    return '<svg class="arc" viewBox="0 -4 ' + w + ' ' + (h + 18) + '" preserveAspectRatio="none" aria-label="Dias com exercício nesta semana"><path d="' + d + '" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="1.5" stroke-dasharray="4 6"/>' + dots + '</svg>';
+  }
+
+  function renderHome() {
+    app.className = 'wrap';
+    var c = contagem(), pct = Math.round(c.feitos / c.total * 100);
+    var nx = proxima(c), ganhasN = TRILHA.filter(function (m) { return m.ok(c); }).length, est = estrelasGanhas(c);
+    var fase = nx ? TRILHA.filter(function (m) { return m.mes === nx.mes; }) : TRILHA.filter(function (m) { return m.mes === 2; });
+    var nxT, nxP, nxS;
+    if (nx) { var pp = nx.prog(c); nxT = nx.nome; nxP = Math.round(pp[0] / pp[1] * 100); nxS = pp[0] + ' de ' + pp[1] + ' ' + pp[2]; }
+    else { nxT = 'Estrela ' + ESTRELAS[est % ESTRELAS.length]; nxP = ((S.semanas - 8) % 2) * 50; nxS = 'a cada 2 semanas cumpridas'; }
+    var nome = S.perfil.chamado || S.perfil.nome.split(' ')[0];
+    app.innerHTML = '<section class="hero"><div class="hero-top"><button type="button" class="who" id="go-perfil">' + avatar() + esc(nome) + '</button><button type="button" class="icon-btn" id="go-med" aria-label="Ver medalhas">' + ganhasN + '</button></div>' +
+      '<div class="hero-mid"><span class="label-pill">Sua semana</span><div class="big">' + c.dias + '<small>/' + S.meta + '</small></div><div style="opacity:.92">' + frase(c) + '</div></div>' + arco(c) + '</section>' +
+      '<div class="medal-dock">' + fase.map(function (m) { return medalha(m, m.ok(c)); }).join('') + '</div>' +
+      '<div class="duo"><div class="card mini"><h3>Próxima medalha <span aria-hidden="true">🏅</span></h3><div class="n" style="font-size:22px">' + esc(nxT) + '</div><span class="muted small">' + esc(nxS) + '</span><div class="grad-bar gold"><i style="width:' + nxP + '%"></i></div></div>' +
+      '<div class="card mini"><h3>Exercícios do mês <span aria-hidden="true">↗</span></h3><div class="n">' + pct + '%</div><span class="muted small">' + c.feitos + ' de ' + c.total + ' feitos</span><div class="grad-bar"><i style="width:' + pct + '%"></i></div></div></div>' +
+      '<div class="sec"><span>Seus atendimentos</span><span class="muted small" style="font-weight:500">' + S.atendimentos.length + ' no total</span></div><div class="list">' + S.atendimentos.map(function (a, i) {
+        var feitos = a.ex.filter(function (x) { return x.feito; }).length, ok = feitos === a.ex.length;
+        return '<button type="button" class="at' + (i === 0 ? ' new' : '') + '" data-at="' + a.id + '"><div class="d">' + a.dia + '<small>' + a.mes + '</small></div><div class="t"><b>' + esc(a.titulo) + '</b><span class="muted small">' + a.ex.length + ' vídeos</span> <span class="chip' + (ok ? ' ok' : i === 0 ? ' lime' : '') + '">' + (ok ? 'Concluído' : i === 0 && !feitos ? 'Novo' : feitos + ' de ' + a.ex.length) + '</span></div><span class="go" aria-hidden="true">→</span></button>';
+      }).join('') + '</div>';
+    app.querySelectorAll('[data-at]').forEach(function (b) { b.addEventListener('click', function () { abrirAt(b.getAttribute('data-at')); }); });
+    document.getElementById('go-med').addEventListener('click', function () { irTab('medalhas'); });
+    document.getElementById('go-perfil').addEventListener('click', function () { irTab('perfil'); });
+  }
+  function abrirAt(id) { S.tab = 'home'; S.tela = 'at'; S.aberto = id; salvar(); render(); window.scrollTo(0, 0); }
+  function frase(c) {
+    if (c.dias >= S.meta) return 'Meta cumprida! Cada dia a mais é bônus.';
+    var falta = S.meta - c.dias;
+    if (c.dias === 0) return 'Que tal começar hoje?';
+    return 'Faltam ' + falta + (falta === 1 ? ' dia' : ' dias') + ' para a meta da Dra. Dalila';
+  }
+
+  function renderAt() {
+    app.className = 'wrap';
+    var a = S.atendimentos.filter(function (x) { return x.id === S.aberto; })[0];
+    var feitos = a.ex.filter(function (x) { return x.feito; }).length;
+    app.innerHTML = '<button type="button" class="back" id="voltar">← Atendimentos</button>' +
+      '<section class="at-hero"><span class="label-pill">' + a.dia + ' de ' + a.mes + ' · ' + feitos + ' de ' + a.ex.length + ' feitos</span><h1>' + esc(a.titulo) + '</h1>' +
+      '<div class="note"><b>Orientação da Dra. Dalila</b><br>' + esc(a.obs) + '</div></section>' +
+      '<div class="list">' + a.ex.map(function (x, i) {
+        var doeu = S.dor.indexOf(a.id + i) > -1;
+        return '<div class="ex"><button type="button" class="thumb' + (x.feito ? ' feito' : '') + '" data-play="' + i + '" aria-label="Assistir ' + esc(x.n) + '"><span>' + (x.feito ? '✓' : PLAY) + '</span></button>' +
+          '<div class="t"><span class="muted small">Exercício ' + (i + 1) + ' · ' + x.dur + '</span><b>' + esc(x.n) + '</b><span class="muted small">' + x.series + '</span>' +
+          '<div class="acts"><button type="button" class="done-btn" data-done="' + i + '" aria-pressed="' + x.feito + '">' + (x.feito ? '✓ Feito hoje' : 'Marcar como feito') + '</button>' +
+          (doeu ? '<span class="chip warn">Dra. avisada</span>' : '<button type="button" class="dor-btn" data-dor="' + i + '">Senti dor</button>') + '</div></div></div>';
+      }).join('') + '</div>';
+    document.getElementById('voltar').addEventListener('click', function () { S.tela = 'home'; salvar(); render(); });
+    app.querySelectorAll('[data-play]').forEach(function (b) { b.addEventListener('click', function () { tocar(a, +b.getAttribute('data-play')); }); });
+    app.querySelectorAll('[data-done]').forEach(function (b) { b.addEventListener('click', function () { marcar(a, +b.getAttribute('data-done')); }); });
+    app.querySelectorAll('[data-dor]').forEach(function (b) { b.addEventListener('click', function () {
+      S.dor.push(a.id + b.getAttribute('data-dor')); salvar(); render();
+      toast('!', 'A Dra. Dalila foi avisada', 'Pare esse exercício por hoje. Ele conta como feito, sem perder nada da sua sequência.');
+    }); });
+  }
+
+  function tocar(a, i) {
+    var x = a.ex[i];
+    layer.innerHTML = '<div class="modal" id="mdl"><div class="player" role="dialog" aria-label="' + esc(x.n) + '"><div class="screen"><div><div style="font:600 18px var(--display)">' + esc(x.n) + '</div><p style="opacity:.8">Aqui entra o vídeo gravado pela Dra. Dalila (' + x.dur + ')</p></div></div>' +
+      '<div class="ctrl"><button type="button" id="pp">Pausar</button><div class="tl"><i id="tl"></i></div><button type="button" id="fim">Concluí</button><button type="button" id="fechar" aria-label="Fechar">✕</button></div></div></div>';
+    var p = 0, rod = true, t = setInterval(function () { if (rod && p < 100) { p += 2; var el = document.getElementById('tl'); if (el) el.style.width = p + '%'; } }, 120);
+    function fechar() { clearInterval(t); layer.innerHTML = ''; }
+    document.getElementById('pp').addEventListener('click', function () { rod = !rod; this.textContent = rod ? 'Pausar' : 'Continuar'; });
+    document.getElementById('fechar').addEventListener('click', fechar);
+    document.getElementById('mdl').addEventListener('click', function (e) { if (e.target.id === 'mdl') fechar(); });
+    document.getElementById('fim').addEventListener('click', function () { fechar(); if (!x.feito) marcar(a, i); });
+  }
+
+  var tToast;
+  function toast(letra, titulo, texto) {
+    clearTimeout(tToast);
+    document.querySelectorAll('.toast').forEach(function (t) { t.remove(); });
+    var el = document.createElement('div'); el.className = 'toast'; el.setAttribute('role', 'status');
+    el.innerHTML = '<div class="m">' + letra + '</div><div><b>' + esc(titulo) + '</b><br><span style="opacity:.85">' + esc(texto) + '</span></div>';
+    document.body.appendChild(el);
+    tToast = setTimeout(function () { el.remove(); }, 4200);
+  }
+
+  /* Tela de conquista: uma por vez, em fila */
+  var fila = [];
+  function comemorar(itens) { fila = fila.concat(itens); if (!document.getElementById('win')) proximaComemoracao(); }
+  function proximaComemoracao() {
+    var it = fila.shift(); if (!it) { layer.innerHTML = ''; return; }
+    var cores = ['#E9C46A', '#2F5D57', '#7FBDB2', '#E76F51', '#9B5DE5', '#4FB3D9'], conf = '';
+    for (var i = 0; i < 18; i++) conf += '<i class="confete" style="left:' + (5 + i * 5.2) + '%;background:' + cores[i % cores.length] + ';animation-delay:' + (i % 6) * 0.08 + 's"></i>';
+    var visual = it.tipo === 'estrela' ? estrelaMd(it.nome, true, 'big') : medalha(it.m, true, 'big');
+    var titulo = it.tipo === 'estrela' ? 'Estrela ' + it.nome : 'Medalha de ' + it.m.nome;
+    var sub = it.tipo === 'estrela' ? 'Mais 2 semanas cumpridas. Sua constelação está crescendo.' : it.m.frase;
+    var ord = it.tipo === 'estrela' ? 'Coleção de estrelas' : 'Medalha ' + it.m.letra + ' de 10';
+    layer.innerHTML = '<div class="modal" id="win-bg"><div class="win" id="win" role="dialog" aria-label="' + esc(titulo) + '"><div class="rays"></div>' + conf +
+      '<p class="muted small" style="margin:0;text-transform:uppercase;letter-spacing:.08em;font-weight:600">' + ord + '</p>' + visual +
+      '<h2>' + esc(titulo) + '!</h2><p class="muted" style="margin:0 0 18px">' + esc(sub) + '</p><button type="button" class="btn" id="win-ok">' + (fila.length ? 'Próxima conquista' : 'Continuar') + '</button></div></div>';
+    document.getElementById('win-ok').addEventListener('click', proximaComemoracao);
+  }
+  function conferirConquistas() {
+    var c = contagem(), novas = [];
+    TRILHA.forEach(function (m) { if (m.ok(c) && !S.ganhas[m.id]) { S.ganhas[m.id] = hojeTxt(); novas.push({ tipo: 'medalha', m: m }); } });
+    var est = estrelasGanhas(c);
+    for (var i = 0; i < est; i++) { var k = 'estrela' + i; if (!S.ganhas[k]) { S.ganhas[k] = hojeTxt(); novas.push({ tipo: 'estrela', nome: ESTRELAS[i % ESTRELAS.length] }); } }
+    salvar();
+    return novas;
+  }
+  function hojeTxt() { return new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }); }
+
+  function marcar(a, i) {
+    var x = a.ex[i]; x.feito = !x.feito;
+    var hoje = (new Date().getDay() + 6) % 7; if (x.feito) S.semana[hoje] = true;
+    salvar(); render();
+    if (!x.feito) return;
+    var novas = conferirConquistas();
+    if (novas.length) return comemorar(novas);
+    var restam = a.ex.filter(function (e) { return !e.feito; }).length;
+    var frases = ['Mais um feito. Seu corpo agradece!', 'Constância é o que traz resultado.', 'Ótimo! Faltam ' + restam + ' para fechar este atendimento.', 'Cada repetição conta. Continue assim!'];
+    toast('✓', 'Exercício concluído', frases[contagem().feitos % frases.length]);
+  }
+
+  function irTab(t) { S.tab = t; if (t === 'home') S.tela = 'home'; salvar(); render(); window.scrollTo(0, 0); }
+
+  function renderMedalhas() {
+    app.className = 'wrap';
+    var c = contagem(), est = estrelasGanhas(c);
+    function bloco(mes, titulo, sub, cls) {
+      var lista = TRILHA.filter(function (m) { return m.mes === mes; }), n = lista.filter(function (m) { return m.ok(c); }).length;
+      return '<section class="fase"><div class="fase-hero ' + cls + '"><div class="fase-h"><h2>' + titulo + '</h2><span class="chip">' + n + ' de ' + lista.length + '</span></div><p>' + sub + '</p></div><div class="mgrid">' +
+        lista.map(function (m) {
+          var on = m.ok(c), p = m.prog(c);
+          return '<div class="mitem' + (on ? '' : ' locked') + '">' + medalha(m, on) + '<div class="t"><b>' + m.nome + '</b><span class="muted small">' + esc(m.regra) + '</span>' +
+            (on ? '<div class="small" style="color:var(--ok);font-weight:600">Conquistada' + (S.ganhas[m.id] ? ' em ' + S.ganhas[m.id] : '') + '</div>' : '<div class="bar"><i style="width:' + Math.round(p[0] / p[1] * 100) + '%"></i></div><div class="muted small">' + p[0] + ' de ' + p[1] + ' ' + p[2] + '</div>') + '</div></div>';
+        }).join('') + '</div></section>';
+    }
+    var est12 = ESTRELAS.slice(0, Math.max(6, est + 2));
+    app.innerHTML = '<h1 style="font-size:24px;margin-bottom:4px">Suas medalhas</h1><p class="muted" style="margin:0 0 18px">Uma semana conta quando você faz exercícios em ' + S.meta + ' dias (meta definida pela Dra. Dalila). Medalha conquistada é sua para sempre.</p>' +
+      bloco(1, '1º mês · Metais', 'Cinco medalhas para criar o hábito.', 'f1') +
+      bloco(2, '2º mês · Pedras preciosas', 'Continue firme até o diamante.', 'f2') +
+      '<section class="fase"><div class="fase-hero f3"><div class="fase-h"><h2>Depois do diamante · Estrelas</h2><span class="chip">' + est + '</span></div><p>Uma estrela nova a cada 2 semanas cumpridas, sem fim.</p></div>' +
+      '<div class="card estrelas">' + est12.map(function (n, i) { var on = i < est; return '<div class="estrela">' + estrelaMd(n, on) + '<span class="' + (on ? '' : 'muted') + '">' + n + '</span></div>'; }).join('') + '</div></section>';
+  }
+
+  function renderPerfil() {
+    app.className = 'wrap';
+    var P = S.perfil;
+    app.innerHTML = '<section class="perfil-hero"><span class="label-pill">Meu perfil</span><h1 style="margin-top:12px">' + esc(P.nome) + '</h1></section>' +
+      '<div class="foto">' + avatar('xl') + '<div class="pick"><label class="link" for="p-foto">' + (P.foto ? 'Trocar foto' : 'Adicionar foto') + '</label>' + (P.foto ? '<button type="button" class="dor-btn" id="p-tirar">Remover</button>' : '') + '</div><input id="p-foto" type="file" accept="image/*"></div>' +
+      '<form class="card" id="f-perfil">' +
+      '<div class="field"><label for="p-nome">Nome completo</label><input id="p-nome" value="' + esc(P.nome) + '" autocomplete="name"></div>' +
+      '<div class="field"><label for="p-chamado">Como prefere ser chamada(o)</label><input id="p-chamado" value="' + esc(P.chamado) + '"><small>É assim que o app vai te cumprimentar.</small></div>' +
+      '<div class="row2"><div class="field"><label for="p-nasc">Nascimento</label><input id="p-nasc" type="date" value="' + esc(P.nasc) + '"></div>' +
+      '<div class="field"><label for="p-fone">WhatsApp</label><input id="p-fone" inputmode="tel" value="' + esc(P.fone) + '"></div></div>' +
+      '<div class="field"><label for="p-obj">Meu objetivo com o tratamento</label><textarea id="p-obj" rows="2">' + esc(P.objetivo) + '</textarea><small>A Dra. Dalila também vê isso.</small></div>' +
+      '<button class="btn" type="submit">Salvar perfil</button></form>' +
+      '<button class="btn ghost" type="button" id="sair" style="margin-top:12px">Sair</button>';
+    document.getElementById('p-foto').addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        var img = new Image();
+        img.onload = function () {
+          var s = 256, cv = document.createElement('canvas'); cv.width = cv.height = s;
+          var lado = Math.min(img.width, img.height), ctx = cv.getContext('2d');
+          ctx.drawImage(img, (img.width - lado) / 2, (img.height - lado) / 2, lado, lado, 0, 0, s, s);
+          S.perfil.foto = cv.toDataURL('image/jpeg', 0.85); salvar(); render(); toast('✓', 'Foto atualizada', 'Ficou ótima!');
+        };
+        img.src = r.result;
+      };
+      r.readAsDataURL(f);
+    });
+    var tirar = document.getElementById('p-tirar'); if (tirar) tirar.addEventListener('click', function () { S.perfil.foto = ''; salvar(); render(); });
+    document.getElementById('f-perfil').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var nome = document.getElementById('p-nome').value.trim().replace(/\s+/g, ' ').toLowerCase().replace(/(^|\s)(\S)/g, function (m, a, b) { return a + b.toUpperCase(); }).replace(/\s(Da|De|Do|Das|Dos|E)\s/g, function (m) { return m.toLowerCase(); });
+      S.perfil.nome = nome || S.perfil.nome;
+      S.perfil.chamado = document.getElementById('p-chamado').value.trim();
+      S.perfil.nasc = document.getElementById('p-nasc').value; S.perfil.fone = document.getElementById('p-fone').value.trim();
+      S.perfil.objetivo = document.getElementById('p-obj').value.trim();
+      salvar(); render(); toast('✓', 'Perfil salvo', 'Seus dados foram atualizados.');
+    });
+    document.getElementById('sair').addEventListener('click', function () { S.logado = false; S.tab = 'home'; salvar(); render(); });
+  }
+
+  function renderAdm() {
+    app.className = 'wrap wide';
+    var c = contagem(), me = { nome: S.perfil.nome, ini: iniciais(S.perfil.nome).toUpperCase(), ultimo: '11/nov', adesao: Math.round(c.feitos / c.total * 100), medalhas: TRILHA.filter(function (m) { return m.ok(c); }).length, estrelas: estrelasGanhas(c), meta: S.meta, dor: S.dor.length ? 'Relatou dor em ' + S.dor.length + ' exercício(s) esta semana' : '', foto: S.perfil.foto };
+    var todos = [me].concat(S.pacientes);
+    var media = Math.round(todos.reduce(function (s, p) { return s + p.adesao; }, 0) / todos.length);
+    app.innerHTML = '<div class="adm-top"><div><p class="muted" style="margin:0">Painel da</p><h1>Dra. Dalila Leão</h1></div><span class="avatar">DL</span></div>' +
+      '<div class="kpis"><div class="card kpi hot"><span class="muted">Exercícios feitos no mês</span><b>' + media + '%</b><span class="muted small">média dos ' + todos.length + ' pacientes</span></div><div class="card kpi"><span class="muted">Pacientes ativos</span><b>' + todos.length + '</b><span class="muted small">de 15 no plano</span></div><div class="card kpi warm"><span class="muted">Relatos de dor</span><b>' + todos.filter(function (p) { return p.dor; }).length + '</b><span class="muted small">para ver hoje</span></div></div>' +
+      '<div class="grid2"><section class="card"><h2 style="font-size:18px">Pacientes</h2><div class="pacs">' + todos.map(function (p, i) {
+        return '<div class="pac"><div class="pac-h"><div class="who2"><span class="avatar">' + (p.foto ? '<img src="' + p.foto + '" alt="">' : p.ini) + '</span><div style="min-width:0"><b>' + esc(p.nome) + '</b><div class="muted small">Último atendimento ' + p.ultimo + ' · meta ' + p.meta + ' dias/semana</div></div></div>' +
+          '<span class="chip' + (p.adesao >= 80 ? ' ok' : p.adesao < 50 ? ' warn' : '') + '">' + p.adesao + '% feito</span></div>' +
+          '<div class="muted small">🏅 ' + p.medalhas + ' de 10 medalhas' + (p.estrelas ? ' · ★ ' + p.estrelas + ' estrelas' : '') + '</div>' +
+          (p.dor ? '<div class="alerta">' + esc(p.dor) + '</div>' : '') + '</div>';
+      }).join('') + '</div><button class="btn ghost" type="button" id="add-pac" style="margin-top:12px">+ Cadastrar paciente (gera login e senha)</button></section>' +
+      '<section class="card"><h2 style="font-size:18px;margin-bottom:14px">Novo atendimento</h2><form id="f-at">' +
+      '<div class="field"><label for="a-pac">Paciente</label><select id="a-pac">' + todos.map(function (p) { return '<option>' + esc(p.nome) + '</option>'; }).join('') + '</select></div>' +
+      '<div class="field"><label for="a-tit">Título do atendimento</label><input id="a-tit" value="Estabilidade de tornozelo"></div>' +
+      '<div class="field"><label for="a-obs">Orientação para o paciente</label><textarea id="a-obs" rows="2">Faça em dias alternados, descalço.</textarea></div>' +
+      '<div class="field"><label for="a-meta">Meta de dias por semana</label><select id="a-meta"><option>3</option><option selected>4</option><option>5</option><option>6</option></select><small>Define quando a semana conta para as medalhas.</small></div>' +
+      '<p class="small muted" style="font-weight:600;margin:0 0 6px">Vídeos</p><div class="drop">Escolha da sua biblioteca de exercícios ou envie novos<br><small>4 a 5 vídeos de 1 a 2 minutos</small></div>' +
+      '<div id="vlist"><div class="vrow"><span>Equilíbrio unipodal</span><span class="chip">Da biblioteca</span></div><div class="vrow"><span>Elevação de calcanhar</span><span class="chip">Da biblioteca</span></div><div class="vrow"><span>alfabeto-com-o-pe.mp4</span><span class="chip ok">Enviado</span></div></div>' +
+      '<button class="btn" type="submit" style="margin-top:12px">Publicar para o paciente</button></form></section></div>';
+    document.getElementById('f-at').addEventListener('submit', function (e) { e.preventDefault(); toast('✓', 'Atendimento publicado', 'O paciente já pode ver os vídeos no celular. (Simulação do protótipo)'); });
+    document.getElementById('add-pac').addEventListener('click', function () { toast('+', 'Paciente cadastrado', 'Login e senha gerados para enviar ao paciente. (Simulação do protótipo)'); });
+  }
+
+  /* Demonstração: simula uma semana inteira cumprida para mostrar a trilha */
+  document.getElementById('v-sim').addEventListener('click', function () {
+    S.semanas++; if (S.semanas % 2 === 0) S.extraAt++;
+    S.semana = [true, true, true, true, S.meta > 4, false, false];
+    S.atendimentos.forEach(function (a) { a.ex.forEach(function (x) { if (S.semanas >= 1) x.feito = x.feito || S.semanas > 1; }); });
+    if (S.semanas === 1) S.atendimentos[2].ex.forEach(function (x) { x.feito = true; });
+    salvar(); render();
+    var novas = conferirConquistas();
+    if (novas.length) comemorar(novas); else toast('✓', 'Semana ' + S.semanas + ' cumprida', 'Continue para a próxima conquista.');
+  });
+  tabbar.querySelectorAll('[data-tab]').forEach(function (b) { b.addEventListener('click', function () { irTab(b.getAttribute('data-tab')); }); });
+  document.getElementById('v-pac').addEventListener('click', function () { S.view = 'pac'; salvar(); render(); });
+  document.getElementById('v-adm').addEventListener('click', function () { S.view = 'adm'; salvar(); render(); });
+  document.getElementById('v-reset').addEventListener('click', function () { var v = S.view; S = inicial(); S.view = v; layer.innerHTML = ''; fila = []; salvar(); render(); });
+  render();
+</script>
+
+</body>
+</html>
