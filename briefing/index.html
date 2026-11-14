@@ -367,14 +367,42 @@
       perguntas: [
         { id: 'objetivo_site', tipo: 'escolha', texto: 'Qual é o objetivo principal do site?', opcoes: ['Agendar consultas ou atendimentos', 'Captar contatos (WhatsApp)', 'Apresentar meu trabalho e gerar autoridade', 'Vender online', 'Divulgar um curso ou evento'], outro: true, obrig: true },
         { id: 'acao', tipo: 'linha', texto: 'Qual ação o visitante deve fazer antes de sair?', ajuda: 'Ex.: chamar no WhatsApp, agendar, comprar, se inscrever.', obrig: true },
-        { id: 'paginas', tipo: 'chips', texto: 'O que o site precisa ter?', opcoes: ['Sobre mim', 'Serviços ou tratamentos', 'Depoimentos', 'Antes e depois', 'Perguntas frequentes', 'Blog ou artigos', 'Galeria de fotos', 'Localização e mapa', 'Equipe', 'Convênios aceitos', 'Loja'], outro: true,
+        { id: 'site_atual', tipo: 'escolha', texto: 'Você já tem um site hoje?', opcoes: ['Não tenho', 'Tenho e quero refazer', 'Tenho e quero só melhorar'], obrig: true },
+        { id: 'site_atual_obs', tipo: 'texto', texto: 'Se tem, cole o link e conte o que não funciona nele', ajuda: 'Visual datado, não aparece no Google, difícil de atualizar, ninguém chama pelo site…' },
+        { id: 'visitante', tipo: 'texto', texto: 'Quem vai visitar o site e de onde essa pessoa vem?', ajuda: 'Do Instagram, do Google, de um anúncio, de uma indicação… e o que ela procura ao chegar.', obrig: true,
+          P: { texto: 'Quem vai visitar seu site e de onde essa pessoa vem?', ajuda: 'Do Instagram, do Google, de um anúncio, indicada por outro profissional… e o que ela procura ao chegar.' } },
+        { id: 'duvidas', tipo: 'texto', texto: 'Quais perguntas as pessoas fazem antes de fechar com você?', ajuda: 'Preço, prazo, onde fica, como funciona, formas de pagamento… O site responde isso antes do WhatsApp.',
+          P: { texto: 'Quais perguntas os pacientes fazem antes de marcar?', ajuda: 'Valor da consulta, convênio, onde fica, como é a primeira sessão… O site responde isso antes do WhatsApp.' } },
+        { id: 'busca', tipo: 'linha', texto: 'Como alguém procuraria o seu serviço no Google?', ajuda: 'Ex.: "loja de móveis planejados em São Luís". Isso guia os textos para aparecer nas buscas.',
+          P: { ajuda: 'Ex.: "fisioterapeuta pélvica em São Luís". Isso guia os textos para aparecer nas buscas.' } },
+        { id: 'identidade_site', tipo: 'escolha', texto: 'E a identidade visual?', opcoes: ['Tenho marca com manual (cores e fontes definidas)', 'Tenho só o logo', 'Não tenho ou estou fazendo junto com o site'], obrig: true }
+      ]
+    },
+    {
+      id: 'site_conteudo', titulo: 'Páginas e conteúdo', hint: 'O que entra no site e quem prepara cada parte.', so: 'site',
+      perguntas: [
+        { id: 'paginas', tipo: 'chips', texto: 'O que o site precisa ter?', opcoes: ['Sobre', 'Serviços ou produtos', 'Para quem é cada serviço', 'Depoimentos', 'Portfólio ou casos', 'Perguntas frequentes', 'Blog ou artigos', 'Galeria de fotos', 'Equipe', 'Localização e mapa', 'Loja'], outro: true, obrig: true,
           P: { opcoes: ['Minha história e formação', 'Tratamentos e planos', 'Para quem é cada tratamento', 'Depoimentos de pacientes', 'Perguntas frequentes', 'Artigos ou conteúdos', 'Fotos do consultório', 'Localização e mapa', 'Convênios aceitos', 'Cursos ou palestras'] } },
-        { id: 'integracoes', tipo: 'chips', texto: 'Precisa se conectar com algo?', opcoes: ['Botão de WhatsApp', 'Agenda online', 'Instagram', 'Google Maps', 'Formulário de contato', 'Pixel ou anúncios (Meta/Google)', 'Pagamento'], outro: true },
-        { id: 'conteudo', tipo: 'chips', texto: 'O que você já tem pronto?', opcoes: ['Textos', 'Fotos profissionais', 'Vídeos', 'Logo em arquivo', 'Depoimentos de clientes', 'Nada ainda'],
+        { id: 'destaque', tipo: 'linha', texto: 'Se o visitante só ler uma coisa, qual deve ser?', ajuda: 'A frase ou o serviço que precisa aparecer primeiro.' },
+        { id: 'textos', tipo: 'escolha', texto: 'Quem escreve os textos?', opcoes: ['Eu mando os textos prontos', 'Quero que você escreva a partir deste briefing', 'Tenho uma parte e preciso de ajuda com o resto'], obrig: true },
+        { id: 'conteudo', tipo: 'chips', texto: 'O que você já tem pronto?', opcoes: ['Textos', 'Fotos profissionais', 'Fotos do espaço ou dos produtos', 'Vídeos', 'Logo em arquivo', 'Depoimentos de clientes', 'Nada ainda'],
           P: { opcoes: ['Textos', 'Fotos profissionais minhas', 'Fotos do consultório', 'Vídeos', 'Logo em arquivo', 'Depoimentos de pacientes', 'Nada ainda'] } },
+        { id: 'idiomas', tipo: 'escolha', texto: 'Em quais idiomas?', opcoes: ['Só português', 'Português e inglês', 'Português e espanhol'], outro: true },
+        { id: 'refs_site', tipo: 'texto', texto: 'Sites que você gosta e o que chama sua atenção neles', ajuda: 'Cole os links. Pode ser de qualquer área.', min: 96 },
+        { id: 'evitar_site', tipo: 'texto', texto: 'Tem algo que você não quer no site?', ajuda: 'Um estilo, um tipo de foto, algo que viu em concorrentes e não gostou.' }
+      ]
+    },
+    {
+      id: 'site_tecnico', titulo: 'Domínio e funcionamento', hint: 'A parte técnica. Se não souber alguma resposta, marque "Não sei" que eu resolvo.', so: 'site',
+      perguntas: [
         { id: 'dominio', tipo: 'escolha', texto: 'Já tem um domínio (endereço .com.br)?', opcoes: ['Sim', 'Não', 'Não sei'], obrig: true },
-        { id: 'dominio_qual', tipo: 'linha', texto: 'Qual endereço tem ou gostaria de ter?', P: { ajuda: 'Normalmente é o seu nome. Ex.: draanasouza.com.br.' } },
-        { id: 'refs_site', tipo: 'texto', texto: 'Sites que você gosta e o que chama sua atenção neles', ajuda: 'Cole os links. Pode ser de qualquer área.', min: 96 }
+        { id: 'dominio_qual', tipo: 'linha', texto: 'Qual endereço tem ou gostaria de ter?', ajuda: 'Ex.: suamarca.com.br.', P: { ajuda: 'Normalmente é o seu nome. Ex.: draanasouza.com.br.' } },
+        { id: 'acesso', tipo: 'escolha', texto: 'Quem tem acesso ao domínio e ao site atual?', ajuda: 'Login do Registro.br, da hospedagem ou de quem fez o site antigo.', opcoes: ['Eu mesmo', 'Outra pessoa ou empresa', 'Não sei', 'Ainda não tenho nada disso'] },
+        { id: 'integracoes', tipo: 'chips', texto: 'O site precisa se conectar com algo?', opcoes: ['Botão de WhatsApp', 'Agenda online', 'Formulário de contato', 'Instagram', 'Google Maps', 'Pixel de anúncios (Meta ou Google)', 'Google Analytics', 'Pagamento online', 'Área de membros ou curso'], outro: true },
+        { id: 'sistemas', tipo: 'linha', texto: 'Usa algum sistema ou agenda hoje?', ajuda: 'Ex.: Google Agenda, Calendly, Doctoralia, iClinic, Hotmart, loja virtual…' },
+        { id: 'email_prof', tipo: 'escolha', texto: 'Quer e-mail com o seu domínio (voce@suamarca.com.br)?', opcoes: ['Sim', 'Não', 'Já tenho'] },
+        { id: 'atualizacao', tipo: 'escolha', texto: 'Depois de pronto, com que frequência o site vai mudar?', opcoes: ['Quase nunca', 'Algumas vezes por ano', 'Toda semana (blog, novidades, produtos)'], obrig: true },
+        { id: 'quem_atualiza', tipo: 'escolha', texto: 'E quem cuida dessas atualizações?', opcoes: ['Eu ou alguém da minha equipe', 'Quero que você cuide', 'Ainda não sei'] }
       ]
     },
     {
