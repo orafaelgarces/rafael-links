@@ -107,8 +107,8 @@ section{padding:clamp(72px,11vw,140px) 0;border-top:1px solid var(--line);positi
 .pal i:hover:after{content:attr(data-h);position:absolute;bottom:4px;left:6px;font-size:10px;font-style:normal;color:#fff;mix-blend-mode:difference}
 .hexes{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--gray);font-variant-numeric:tabular-nums}
 /* big palette */
-.bigpal{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:48px}
-@media (max-width:720px){.bigpal{grid-template-columns:repeat(3,1fr)}}
+.bigpal{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:48px}
+@media (max-width:720px){.bigpal{grid-template-columns:repeat(2,1fr)}}
 .sw{border-radius:18px;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;font-size:12px;transform:translateY(30px);opacity:0;transition:.9s var(--ease)}
 .in .sw{transform:none;opacity:1}
 .sw b{font-size:15px;display:block;letter-spacing:-.01em}
@@ -270,7 +270,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
 <section id="s4" data-s><div class="wrap">
   <div class="kick rv"><b>04</b> As 9 referências</div>
   <h2 class="h2 rv">O que cada perfil que você mandou ensina.</h2>
-  <p class="lead rv">Você mesma notou dois grupos: as mais <b style="color:var(--ink)">chiques e arrumadas</b> e as mais <b style="color:var(--ink)">leves e fluidas</b>. A paleta de cada card mostra as cores que mais aparecem nas 12 publicações mais recentes do perfil.</p>
+  <p class="lead rv">Você mesma notou dois grupos: as mais <b style="color:var(--ink)">chiques e arrumadas</b> e as mais <b style="color:var(--ink)">leves e fluidas</b>. Cada card traz até 4 cores do perfil: a base do feed e, marcada com ●, a cor de destaque.</p>
   <div class="filters rv" id="filters">
     <button class="on" data-f="all">Todas</button>
     <button data-f="chique">Chiques e arrumadas</button>
@@ -317,12 +317,12 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
 <!-- 6 PALETA -->
 <section id="s6" data-s><div class="wrap">
   <div class="kick rv"><b>07</b> Paleta das referências</div>
-  <h2 class="h2 rv">Todas falam a língua do nude e da terra.</h2>
-  <p class="lead rv">Somando os 9 feeds, as cores dominantes são off-white, areia, caramelo, terra e um quase-preto. Nenhuma usa verde.</p>
+  <h2 class="h2 rv">Base neutra, uma cor que é só delas.</h2>
+  <p class="lead rv">Quase todas montam o feed sobre a mesma base: off-white, nude, caramelo e um quase-preto. O que faz cada uma ser reconhecida é <b style="color:var(--ink)">uma única cor de destaque</b>, que aparece pouco, mas sempre: no texto, na roupa, nas capas dos destaques.</p>
   <div class="bigpal" id="bigpal"></div>
   <div class="compare rv" id="compare"></div>
   <div class="g2">
-    <div class="card rv"><span class="tag">Leitura</span><p>As 9 estão no mesmo território visual: tons de pele, nude, terra e contraste com preto. A sofisticação delas vem mais da foto (luz natural, enquadramento, roupa) do que de uma cor de marca. O seu feed atual já está nesse território.</p></div>
+    <div class="card rv"><span class="tag">Leitura</span><p>Marcella e Débora não têm cor de destaque: a marca delas está na foto e na luz. As outras sete escolheram uma cor e repetem sempre. O seu feed hoje já tem a base neutra; a cor de destaque é uma conversa para a etapa da marca.</p></div>
   </div>
 </div></section>
 
@@ -453,26 +453,26 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
     <div class="step rv d2"><div><h3>Gravar o primeiro mês</h3><p>2 Reels e 2 carrosséis, com os 3 posts fixados, numa gravação de 1 hora.</p></div></div>
     <div class="step rv d3"><div><h3>Identidade visual</h3><p>Com o posicionamento fechado, partimos para a nova marca.</p></div></div>
   </div>
-  <p class="note2 rv">As paletas mostram as cores das fotos recentes de cada perfil (pele, cabelo, cenário), não a identidade oficial de cada marca.</p>
+  <p class="note2 rv">Cada paleta junta as cores que dominam as publicações recentes do perfil e, quando existe, a cor de destaque que se repete nos textos, nas roupas e nas capas dos destaques.</p>
 </div></section>
 
 <footer><div class="wrap">Rafael Garcês · Posicionamento Dra. Dalila Leão · novembro de 2026</div></footer>
 
 <script>
 const REFS=[
- {n:"Marcella Salomão",h:"marcellasalomao",f:"41 mil",a:"Harmonização facial · Cuiabá",g:"chique",bio:"Te entrego uma BELEZA SUBLIME®",k:"Estética minimalista e um conceito com nome próprio.",x:"Pode soar distante, como você mesma notou.",v:"Retratos editoriais quentes e em P&B, antes e depois com legenda pequena em itálico, frase-conceito \"Beleza natural é não ter procedimentos\". Destaques de viagem.",p:[["#d1cbc5",20],["#886c55",19],["#1e1613",18],["#5e422e",17],["#cd9a78",14],["#9f9c9b",12]]},
- {n:"Camila Dias",h:"camilaamd",f:"216 mil",a:"Harmonização facial",g:"leve",bio:"transformando vidas há 10 anos através da HOF",k:"Storytelling ligado à vida pessoal, mais personalidade.",x:"Estética colorida e tom de venda de curso.",v:"A filha tem destaque próprio e até a história de saúde dela vira conteúdo. Frase manuscrita sobre fundo creme, selfie espontânea. Personalidade forte, mas com exposição da família maior do que você quer.",p:[["#967b69",23],["#e3ded8",23],["#695448",21],["#c9a88e",17],["#2a201e",14],["#eeeeea",2]]},
- {n:"Ana Luiza Libório",h:"analuliborio",f:"90 mil",a:"Dentística · Maringá",g:"leve",bio:"Odontologia com propósito 🦋",k:"Propósito resumido em uma frase de bio.",x:"Base rosada, justo o tom que você quer tirar.",v:"Editorial em P&B (lupas, \"The art of hands\"), frase com a borboleta como símbolo próprio, destaques de livros e viagens. Um símbolo pequeno que vira assinatura.",p:[["#90706f",23],["#6d4944",18],["#080809",16],["#bba6a7",16],["#f2e8f3",15],["#372a27",12]]},
- {n:"Mariana Georges",h:"dra.mariana",f:"172 mil",a:"Reestruturação facial",g:"chique",bio:"GeorgesMethod® Worldwide",k:"Método com nome e contraste forte de preto e terra.",x:"Foco em formar colegas, não em paciente.",v:"Moda e eventos de gala, capas dos destaques todas iguais em marrom (Cursos, Alunas, Pacientes, Clinic, Palco). O extremo do \"chique\": serve a padronização, não o glamour.",p:[["#110d0c",20],["#95705f",18],["#694b3e",18],["#b6a49b",16],["#362a25",15],["#e7e8e9",13]]},
- {n:"Débora Tonetti",h:"dradebora.tonetti",f:"63 mil",a:"Saúde da mulher",g:"leve",bio:"Médica, mulher, muitas.",k:"Lifestyle e reflexão integrados à profissão.",x:"A vida pessoal pesa mais do que você quer.",v:"O feed mais editorial das 9: posts só de texto em caixa-alta fina sobre fundo taupe e oliva, P&B no centro cirúrgico, velas, consultório claro. Reflexão com calmaria.",p:[["#ad9e8e",23],["#826e5b",20],["#e5ded8",17],["#4f3c2d",17],["#130f0c",15],["#cdb9ac",8]]},
- {n:"Giovanna Borelli",h:"giovannaborellii",f:"137 mil",a:"Odontologia · Americana-SP",g:"leve",bio:"“Porque Dele, por Ele e para Ele são todas as coisas”",k:"Fé numa linha da bio, feed profissional. Um bom modelo para você.",x:"Feed clínico colorido (rosa e azul de bancada); a fé fica só na bio.",v:"Capas dos destaques em aquarela nude, consultório com cardápio de café da marca, frase curta branca sobre preto. O cuidado com detalhe é o que serve.",p:[["#c09596",23],["#8f7267",21],["#534436",19],["#e1d1cc",14],["#0d0a0a",13],["#a0c9e2",10]]},
- {n:"Ana Carolina Maluf",h:"anacarolinamaluf",f:"55 mil",a:"Medicina · Goiânia",g:"chique",bio:"SAÚDE • EMAGRECIMENTO • MENOPAUSA • LIPEDEMA",k:"Especialidades claras na bio e presença elegante.",x:"Bio em caixa-alta, mais dura que o seu tom.",v:"Hoje o feed é quase todo família (batizado, bebê), com educativo por cima de foto (\"3 suplementos para quem usa Mounjaro\"). Capas dos destaques em verde-sálvia: prova de que o verde suave fica sofisticado.",p:[["#bca29a",21],["#7a7474",18],["#604136",16],["#281b17",16],["#dbd9da",15],["#a47155",14]]},
- {n:"Renata Giacometti",h:"renatagiacometti",f:"350 mil",a:"Pediatria · São Paulo",g:"leve",bio:"Mãe · Médica · Pediatra. Cuidado que respeita a individualidade",k:"Fala direto com mães, exatamente o seu público prioritário.",x:"Maternidade em primeiro plano, que você quer dosar.",v:"Destaques úteis para mães (Lancheira, Receitas, Desmame), frases em letra cursiva sobre creme, série \"Quando a pediatra vira mãe\". Conteúdo que a mãe salva.",p:[["#f1dfc8",35],["#b5b0aa",18],["#b68c6c",16],["#847162",15],["#684938",9],["#382117",8]]},
- {n:"Taiz Campbell",h:"dra.taizcampbell",f:"918 mil",a:"Medicina estética",g:"chique",bio:"Quiet Beauty® · Aesthetic medicine beyond procedures",k:"Luxo silencioso: sofisticação sem exagero.",x:"Escala global e inglês, longe da realidade local.",v:"Serviços com nome (Daycare®, Quiet Beauty®), tipografia serifada elegante (\"Seu tempo. Sua beleza. Nosso cuidado.\"), destaques \"outfits\" e \"kids\": família e estilo organizados por tema.",p:[["#c3ada3",22],["#1d0f11",17],["#4a3135",17],["#7f5b3f",15],["#a1896e",15],["#eae3d8",13]]}
+ {n:"Marcella Salomão",h:"marcellasalomao",f:"41 mil",a:"Harmonização facial · Cuiabá",g:"chique",bio:"Te entrego uma BELEZA SUBLIME®",k:"Estética minimalista e um conceito com nome próprio.",x:"Pode soar distante, como você mesma notou.",v:"Retratos editoriais quentes e em P&B, antes e depois com legenda pequena em itálico, frase-conceito \"Beleza natural é não ter procedimentos\". Destaques de viagem.",p:[["#d8c8b6", "Creme"], ["#b5937c", "Caramelo"], ["#725949", "Cacau"], ["#281b17", "Quase-preto"]]},
+ {n:"Camila Dias",h:"camilaamd",f:"216 mil",a:"Harmonização facial",g:"leve",bio:"transformando vidas há 10 anos através da HOF",k:"Storytelling ligado à vida pessoal, mais personalidade.",x:"Estética colorida e tom de venda de curso.",v:"A filha tem destaque próprio e até a história de saúde dela vira conteúdo. Frase manuscrita sobre fundo creme, selfie espontânea. Personalidade forte, mas com exposição da família maior do que você quer.",p:[["#e3ded8", "Off-white"], ["#b49a8c", "Nude"], ["#28201f", "Quase-preto"], ["#7854a2", "Lilás", 1]]},
+ {n:"Ana Luiza Libório",h:"analuliborio",f:"90 mil",a:"Dentística · Maringá",g:"leve",bio:"Odontologia com propósito 🦋",k:"Propósito resumido em uma frase de bio.",x:"Base rosada, justo o tom que você quer tirar.",v:"Editorial em P&B (lupas, \"The art of hands\"), frase com a borboleta como símbolo próprio, destaques de livros e viagens. Um símbolo pequeno que vira assinatura.",p:[["#cdcbc8", "Cinza claro"], ["#795045", "Terra rosada"], ["#1c191a", "Preto"], ["#b0558a", "Rosa", 1]]},
+ {n:"Mariana Georges",h:"dra.mariana",f:"172 mil",a:"Reestruturação facial",g:"chique",bio:"GeorgesMethod® Worldwide",k:"Método com nome e contraste forte de preto e terra.",x:"Foco em formar colegas, não em paciente.",v:"Moda e eventos de gala, capas dos destaques todas iguais em marrom (Cursos, Alunas, Pacientes, Clinic, Palco). O extremo do \"chique\": serve a padronização, não o glamour.",p:[["#dad3cb", "Areia"], ["#7c5d4c", "Cacau"], ["#2c211c", "Quase-preto"], ["#841c23", "Vermelho", 1]]},
+ {n:"Débora Tonetti",h:"dradebora.tonetti",f:"63 mil",a:"Saúde da mulher",g:"leve",bio:"Médica, mulher, muitas.",k:"Lifestyle e reflexão integrados à profissão.",x:"A vida pessoal pesa mais do que você quer.",v:"O feed mais editorial das 9: posts só de texto em caixa-alta fina sobre fundo taupe e oliva, P&B no centro cirúrgico, velas, consultório claro. Reflexão com calmaria.",p:[["#d7d2c8", "Linho"], ["#b1a699", "Taupe"], ["#81705e", "Fendi"], ["#423328", "Café"]]},
+ {n:"Giovanna Borelli",h:"giovannaborellii",f:"137 mil",a:"Odontologia · Americana-SP",g:"leve",bio:"“Porque Dele, por Ele e para Ele são todas as coisas”",k:"Fé numa linha da bio, feed profissional. Um bom modelo para você.",x:"Feed clínico colorido (rosa e azul de bancada); a fé fica só na bio.",v:"Capas dos destaques em aquarela nude, consultório com cardápio de café da marca, frase curta branca sobre preto. O cuidado com detalhe é o que serve.",p:[["#d2c2c4", "Rosé"], ["#c77c8a", "Rosa", 1], ["#4091ca", "Azul", 1], ["#1c1718", "Preto"]]},
+ {n:"Ana Carolina Maluf",h:"anacarolinamaluf",f:"55 mil",a:"Medicina · Goiânia",g:"chique",bio:"SAÚDE • EMAGRECIMENTO • MENOPAUSA • LIPEDEMA",k:"Especialidades claras na bio e presença elegante.",x:"Bio em caixa-alta, mais dura que o seu tom.",v:"Hoje o feed é quase todo família (batizado, bebê), com educativo por cima de foto (\"3 suplementos para quem usa Mounjaro\"). Capas dos destaques em verde-sálvia: prova de que o verde suave fica sofisticado.",p:[["#cec3bc", "Nude claro"], ["#98877c", "Taupe"], ["#271f1b", "Quase-preto"], ["#617a77", "Sálvia", 1]]},
+ {n:"Renata Giacometti",h:"renatagiacometti",f:"350 mil",a:"Pediatria · São Paulo",g:"leve",bio:"Mãe · Médica · Pediatra. Cuidado que respeita a individualidade",k:"Fala direto com mães, exatamente o seu público prioritário.",x:"Maternidade em primeiro plano, que você quer dosar.",v:"Destaques úteis para mães (Lancheira, Receitas, Desmame), frases em letra cursiva sobre creme, série \"Quando a pediatra vira mãe\". Conteúdo que a mãe salva.",p:[["#efe5d2", "Creme"], ["#c3ab94", "Nude"], ["#98653c", "Caramelo"], ["#c87e68", "Terracota", 1]]},
+ {n:"Taiz Campbell",h:"dra.taizcampbell",f:"918 mil",a:"Medicina estética",g:"chique",bio:"Quiet Beauty® · Aesthetic medicine beyond procedures",k:"Luxo silencioso: sofisticação sem exagero.",x:"Escala global e inglês, longe da realidade local.",v:"Serviços com nome (Daycare®, Quiet Beauty®), tipografia serifada elegante (\"Seu tempo. Sua beleza. Nosso cuidado.\"), destaques \"outfits\" e \"kids\": família e estilo organizados por tema.",p:[["#d8d0cc", "Off-white"], ["#ad9181", "Nude"], ["#2d1e1a", "Quase-preto"], ["#78232d", "Vinho", 1]]}
 ];
 const DALILA=[["#d2c5c3",22],["#bea497",21],["#987e6d",19],["#6a5346",14],["#f0e9e8",14],["#252025",11]];
-const BIG=[["#e5ded8","Off-white"],["#c9b3a4","Areia"],["#a1846f","Caramelo"],["#694b3e","Terra"],["#2a201e","Quase-preto"],["#9f9c9b","Cinza quente"]];
-const palHTML=p=>'<div class="pal">'+p.map(([c,w])=>`<i style="background:${c}" data-w="${w}" data-h="${c}"></i>`).join('')+'</div>';
+const BIG=[["#7854a2","Lilás · Camila"],["#b0558a","Rosa · Ana Luiza"],["#c77c8a","Rosa · Giovanna"],["#841c23","Vermelho · Mariana"],["#78232d","Vinho · Taiz"],["#c87e68","Terracota · Renata"],["#617a77","Sálvia · Maluf"]];
+const palHTML=p=>'<div class="pal">'+p.map(x=>`<i style="background:${x[0]}" data-w="${typeof x[1]==='number'?x[1]:100/p.length}" data-h="${x[0]}"></i>`).join('')+'</div>';
 document.getElementById('refs').innerHTML=REFS.map((r,i)=>`<article class="ref rv d${i%3+1}" data-g="${r.g}">
 <div class="top"><div><h3>${r.n}</h3><a class="h" href="https://www.instagram.com/${r.h}/" target="_blank" rel="noopener">@${r.h}</a></div><div class="f"><b>${r.f}</b>seguidores</div></div>
 <span class="chip">${r.g==='chique'?'Chique e arrumada':'Leve e fluida'} · ${r.a}</span>
@@ -481,9 +481,9 @@ document.getElementById('refs').innerHTML=REFS.map((r,i)=>`<article class="ref r
 <p class="k x"><b>Deixar:</b> ${r.x}</p>
 ${r.v?`<p class="k" style="font-size:14px;color:var(--gray)"><b style="color:var(--ink)">No feed:</b> ${r.v}</p>`:''}
 ${palHTML(r.p)}
-<div class="hexes">${r.p.map(([c,w])=>`<span>${c} · ${w}%</span>`).join('')}</div><a class="go" href="https://www.instagram.com/${r.h}/" target="_blank" rel="noopener">Abrir o perfil no Instagram ↗</a></article>`).join('');
+<div class="hexes">${r.p.map(x=>`<span>${x[2]?'<b style="color:var(--hl)">●</b> ':''}${x[1]} ${x[0].toUpperCase()}</span>`).join('')}</div>${r.p.some(x=>x[2])?'':'<span class="hexes" style="margin-top:-6px">Sem cor de destaque: a marca está na foto.</span>'}<a class="go" href="https://www.instagram.com/${r.h}/" target="_blank" rel="noopener">Abrir o perfil no Instagram ↗</a></article>`).join('');
 document.getElementById('bigpal').innerHTML=BIG.map(([c,n],i)=>{const l=parseInt(c.slice(1,3),16)>150;return `<div class="sw" style="background:${c};color:${l?'#1a1410':'#f5efe8'};transition-delay:${i*.08}s"><b>${n}</b>${c}</div>`}).join('');
-document.getElementById('compare').innerHTML='<span>Feed da Dalila hoje</span>'+palHTML(DALILA)+'<span>Média das 9 referências</span>'+palHTML([["#e3ded8",19],["#bca29a",17],["#8f7267",19],["#5e422e",17],["#1e1613",16],["#9f9c9b",12]]);
+document.getElementById('compare').innerHTML='<span>O seu feed hoje</span>'+palHTML(DALILA);
 document.getElementById('bigpal').classList.add('rv');
 /* filters */
 document.getElementById('filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));const f=b.dataset.f;document.querySelectorAll('.ref').forEach(r=>r.classList.toggle('off',f!=='all'&&r.dataset.g!==f))});
