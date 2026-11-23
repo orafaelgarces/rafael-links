@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0b0c10">
+<title>Posicionamento Dra. Dalila</title>
+<style>
+@font-face{font-family:"Satoshi";src:url("/assets/fonts/Satoshi-Variable.woff2") format("woff2");font-weight:300 900;font-display:swap}
+:root{--bg:#0b0c10;--bg2:#121318;--ink:#f5f5f3;--gray:#8b8b94;--line:rgba(255,255,255,.11);--accent:#d3ea55;--accent-ink:#10160a;--hl:#d3ea55;--ease:cubic-bezier(.2,.7,.1,1);--pad:clamp(16px,4.4vw,56px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#ffffff;--bg2:#f4f4f1;--ink:#0b0c10;--gray:#6f6f78;--line:#e4e4e8;--hl:#7d9a0c}}
+:root[data-theme="light"]{--bg:#ffffff;--bg2:#f4f4f1;--ink:#0b0c10;--gray:#6f6f78;--line:#e4e4e8;--hl:#7d9a0c}
+:root[data-theme="dark"]{--bg:#0b0c10;--bg2:#121318;--ink:#f5f5f3;--gray:#8b8b94;--line:rgba(255,255,255,.11);--hl:#d3ea55}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;overflow-x:clip}
+.hero{max-width:none}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Satoshi",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+section{padding:clamp(72px,11vw,140px) 0;border-top:1px solid var(--line);position:relative}
+.kick{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:22px}
+.kick b{color:var(--hl);font-weight:600}
+.h2{font-size:clamp(34px,5.6vw,68px)}
+.lead{font-size:clamp(18px,2vw,22px);color:var(--gray);max-width:760px;margin-top:22px}
+.hl{color:var(--hl)}
+/* progress */
+.bar{position:fixed;top:0;left:0;height:3px;background:var(--hl);width:0;z-index:20;transition:width .1s linear}
+.nav{position:fixed;right:16px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:15}
+.nav a{width:8px;height:8px;border-radius:50%;background:var(--line);display:block;transition:.3s var(--ease)}
+.nav a.on{background:var(--hl);transform:scale(1.4)}
+@media (max-width:720px){.nav{display:none}}
+/* hero */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;border-top:0;padding-top:80px;overflow:hidden}
+.hero h1{font-size:clamp(48px,10.5vw,148px);letter-spacing:-.05em}
+.hero h1 .ln{display:block;overflow:hidden}
+.hero h1 .ln span{display:inline-block;transform:translateY(110%);animation:up 1.1s var(--ease) forwards}
+.hero h1 .ln:nth-child(2) span{animation-delay:.12s}
+.hero h1 .ln:nth-child(3) span{animation-delay:.24s}
+@keyframes up{to{transform:none}}
+.hero .meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:44px;color:var(--gray);font-size:15px;opacity:0;animation:fade 1s .7s forwards}
+.hero .meta b{color:var(--ink);font-weight:600;display:block;font-size:13px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:2px}
+@keyframes fade{to{opacity:1}}
+.orb{position:absolute;right:-12vw;top:12vh;width:56vw;max-width:720px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 35%,color-mix(in srgb,var(--hl) 38%,transparent),transparent 62%);filter:blur(30px);opacity:.55;animation:float 12s ease-in-out infinite;pointer-events:none}
+@keyframes float{50%{transform:translate(-4vw,6vh) scale(1.08)}}
+.scroll{margin-top:60px;font-size:13px;color:var(--gray);display:flex;align-items:center;gap:10px;opacity:0;animation:fade 1s 1.1s forwards}
+.scroll i{width:1px;height:38px;background:var(--line);position:relative;overflow:hidden}
+.scroll i:after{content:"";position:absolute;left:0;top:-40%;width:1px;height:40%;background:var(--hl);animation:drip 1.8s infinite}
+@keyframes drip{to{top:100%}}
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.08s}.rv.d2{transition-delay:.16s}.rv.d3{transition-delay:.24s}.rv.d4{transition-delay:.32s}
+/* grids & cards */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:48px}
+@media (max-width:860px){.g3,.g2{grid-template-columns:1fr}}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:28px}
+.card h3{font-size:22px;letter-spacing:-.02em;margin-bottom:12px}
+.card p,.card li{color:var(--gray);font-size:16px}
+.card ul{margin:0;padding-left:18px}
+.card li+li{margin-top:6px}
+.tag{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);margin-bottom:14px;font-weight:600}
+.quote{font-size:clamp(24px,3.4vw,40px);font-weight:600;letter-spacing:-.025em;line-height:1.18;max-width:980px;text-wrap:balance}
+.quote small{display:block;margin-top:16px;font-size:14px;color:var(--gray);font-weight:500;letter-spacing:.02em}
+/* sliders */
+.scales{margin-top:48px;display:grid;gap:26px}
+.sc{display:grid;grid-template-columns:150px 1fr 150px;align-items:center;gap:18px;font-size:15px;color:var(--gray)}
+.sc span:last-child{text-align:right}
+.track{height:2px;background:var(--line);position:relative;border-radius:2px}
+.track .fill{position:absolute;left:0;top:0;height:2px;background:var(--hl);width:0;transition:width 1.4s var(--ease)}
+.track .dot{position:absolute;top:50%;left:0;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--hl);box-shadow:0 0 0 6px color-mix(in srgb,var(--hl) 20%,transparent);transition:left 1.4s var(--ease)}
+.track .note{position:absolute;top:-30px;font-size:12px;color:var(--ink);transform:translateX(-50%);white-space:nowrap;opacity:0;transition:opacity .6s 1s,left 1.4s var(--ease)}
+.in .track .note{opacity:1}
+@media (max-width:640px){.sc{grid-template-columns:1fr 1fr;row-gap:10px}.sc .track{grid-column:1/-1;grid-row:2}.sc span:last-child{grid-row:1;grid-column:2}}
+/* tensions */
+.tens{display:grid;gap:12px;margin-top:48px}
+.ten{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px;padding:24px 28px;border:1px solid var(--line);border-radius:22px;background:var(--bg2)}
+.ten .a{font-weight:600;font-size:clamp(18px,2.2vw,24px);letter-spacing:-.02em}
+.ten .b{text-align:right;font-weight:600;font-size:clamp(18px,2.2vw,24px);letter-spacing:-.02em}
+.ten .mid{font-size:13px;color:var(--hl);text-align:center;max-width:220px;line-height:1.3}
+.ten .mid:before{content:"";display:block;width:64px;height:1px;background:var(--hl);margin:0 auto 10px}
+@media (max-width:640px){.ten{grid-template-columns:1fr;text-align:left;gap:8px}.ten .b{text-align:left}.ten .mid{text-align:left;max-width:none}.ten .mid:before{margin:0 0 10px}}
+/* refs */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:36px}
+.filters button{font:inherit;font-size:14px;padding:9px 16px;border-radius:99px;border:1px solid var(--line);background:transparent;color:var(--ink);cursor:pointer;transition:.25s}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.refs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}
+@media (max-width:1000px){.refs{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.refs{grid-template-columns:1fr}}
+.ref{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:24px;display:flex;flex-direction:column;gap:14px;transition:opacity .4s,transform .4s var(--ease)}
+.ref.off{opacity:.18;transform:scale(.98)}
+.ref .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.ref h3{font-size:20px;letter-spacing:-.02em}
+.ref .h{font-size:14px;color:var(--gray);text-decoration:none}
+.ref .h:hover{color:var(--hl)}
+.ref .f{font-size:13px;color:var(--gray);white-space:nowrap;text-align:right}
+.ref .f b{display:block;color:var(--ink);font-size:18px;letter-spacing:-.02em}
+.ref .bio{font-size:14px;color:var(--gray);border-left:2px solid var(--line);padding-left:12px;font-style:italic}
+.ref .k{font-size:15px}
+.ref .k b{color:var(--hl);font-weight:600}
+.ref .k.x b{color:var(--gray)}
+.chip{font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:99px;border:1px solid var(--line);color:var(--gray);align-self:flex-start}
+.pal{display:flex;height:44px;border-radius:12px;overflow:hidden;margin-top:auto}
+.pal i{display:block;height:100%;width:0;transition:width 1.2s var(--ease);position:relative}
+.pal i:hover:after{content:attr(data-h);position:absolute;bottom:4px;left:6px;font-size:10px;font-style:normal;color:#fff;mix-blend-mode:difference}
+.hexes{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11px;color:var(--gray);font-variant-numeric:tabular-nums}
+/* big palette */
+.bigpal{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:48px}
+@media (max-width:720px){.bigpal{grid-template-columns:repeat(3,1fr)}}
+.sw{border-radius:18px;aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:flex-end;padding:14px;font-size:12px;transform:translateY(30px);opacity:0;transition:.9s var(--ease)}
+.in .sw{transform:none;opacity:1}
+.sw b{font-size:15px;display:block;letter-spacing:-.01em}
+.compare{display:grid;grid-template-columns:200px 1fr;gap:14px 24px;align-items:center;margin-top:40px}
+.compare span{font-size:15px;color:var(--gray)}
+@media (max-width:640px){.compare{grid-template-columns:1fr;gap:6px}.compare .pal{margin-bottom:14px}}
+/* statement */
+.stmt{font-size:clamp(26px,3.8vw,48px);font-weight:600;letter-spacing:-.03em;line-height:1.16;max-width:1040px;text-wrap:balance}
+.stmt .w{opacity:.14;transition:opacity .5s}
+.stmt .w.on{opacity:1}
+.big{font-size:clamp(56px,11vw,150px);letter-spacing:-.055em;line-height:.95}
+/* pillars */
+.pil{display:grid;gap:14px;margin-top:48px}
+.p{display:grid;grid-template-columns:90px 1fr 2fr;gap:24px;align-items:start;padding:26px 0;border-top:1px solid var(--line)}
+.p .n{font-size:clamp(34px,4vw,52px);font-weight:700;letter-spacing:-.04em;color:var(--hl);line-height:1}
+.p h3{font-size:24px;letter-spacing:-.02em}
+.p h3 small{display:block;font-size:14px;color:var(--gray);font-weight:500;letter-spacing:0;margin-top:6px}
+.p p{color:var(--gray)}
+.p .ex{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+.p .ex span{font-size:13px;padding:6px 11px;border-radius:99px;background:var(--bg2);border:1px solid var(--line);color:var(--ink)}
+@media (max-width:760px){.p{grid-template-columns:1fr;gap:10px}}
+/* do / dont */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+@media (max-width:760px){.dd{grid-template-columns:1fr}}
+.dd ul{list-style:none;margin:0;padding:0}
+.dd li{padding:12px 0;border-top:1px solid var(--line);color:var(--ink);font-size:16px;display:flex;gap:12px}
+.dd li:before{content:"+";color:var(--hl);font-weight:700}
+.dd .no li:before{content:"–";color:var(--gray)}
+.dd .no li{color:var(--gray)}
+/* phone bio */
+.phone{max-width:380px;border:1px solid var(--line);border-radius:34px;padding:26px 22px;background:var(--bg2)}
+.phone .hd{display:flex;gap:16px;align-items:center}
+.phone .av{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#d8cbbe,#8a6f5c);display:grid;place-items:center;font-weight:700;color:#fff;font-size:24px;letter-spacing:-.04em;flex:none}
+.phone .nm{font-weight:700;font-size:15px}
+.phone .bio2{margin-top:14px;font-size:14px;line-height:1.5}
+.phone .bio2 .lk{color:#6b9bd1}
+.phone .hl2{display:flex;gap:12px;margin-top:18px;overflow:hidden}
+.phone .hl2 div{text-align:center;font-size:11px;color:var(--gray);flex:none}
+.phone .hl2 i{display:block;width:52px;height:52px;border-radius:50%;border:1px solid var(--line);margin:0 auto 6px;background:var(--bg)}
+.bioflex{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:start;margin-top:48px}
+@media (max-width:860px){.bioflex{grid-template-columns:1fr}}
+.steps{counter-reset:s;display:grid;gap:12px;margin-top:48px}
+.step{counter-increment:s;display:grid;grid-template-columns:64px 1fr;gap:18px;padding:24px;border:1px solid var(--line);border-radius:22px;background:var(--bg2)}
+.step:before{content:counter(s,decimal-leading-zero);font-size:28px;font-weight:700;color:var(--hl);letter-spacing:-.03em}
+.step h3{font-size:21px;margin-bottom:6px;letter-spacing:-.02em}
+.step p{color:var(--gray);font-size:16px}
+.note2{font-size:13px;color:var(--gray);margin-top:22px;max-width:760px}
+.pill{font-size:14px;padding:8px 14px;border-radius:99px;border:1px solid var(--line);background:var(--bg)}
+.series{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:32px}
+@media (max-width:1000px){.series{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.series{grid-template-columns:1fr}}
+.se{border:1px solid var(--line);border-radius:22px;padding:22px;background:var(--bg2);display:flex;flex-direction:column;gap:10px;min-height:220px;transition:border-color .3s,transform .4s var(--ease)}
+.se:hover{border-color:var(--hl);transform:translateY(-4px)}
+.se b{font-size:21px;letter-spacing:-.02em;line-height:1.1}
+.se span{color:var(--gray);font-size:15px}
+.se em{margin-top:auto;font-style:normal;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl)}
+.month{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+@media (max-width:900px){.month{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.month{grid-template-columns:1fr}}
+.wk{border-top:2px solid var(--hl);padding-top:16px;display:flex;flex-direction:column;gap:10px}
+.wk b{font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.wk span{font-size:15px;color:var(--gray);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.tbl{width:100%;border-collapse:collapse;margin-top:40px;font-size:15px}
+.tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 calc(var(--pad)*-1);padding:0 var(--pad)}
+.tbl th{text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);font-weight:600;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--gray);min-width:140px}
+.tbl td:first-child{color:var(--ink);font-weight:600;min-width:150px}
+.tbl tr.me td{background:color-mix(in srgb,var(--hl) 10%,transparent);color:var(--ink)}
+.lv{display:inline-flex;gap:3px;vertical-align:middle;margin-right:6px}.lv i{width:7px;height:7px;border-radius:50%;background:var(--line)}.lv i.on{background:var(--hl)}
+.map{position:relative;aspect-ratio:16/10;border:1px solid var(--line);border-radius:22px;background:var(--bg2);margin-top:40px;overflow:hidden}
+@media (max-width:640px){.map{aspect-ratio:4/5}}
+.map .ax{position:absolute;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--gray)}
+.map .hz{position:absolute;left:6%;right:6%;top:50%;height:1px;background:var(--line)}
+.map .vt{position:absolute;top:8%;bottom:8%;left:50%;width:1px;background:var(--line)}
+.map .pt{position:absolute;transform:translate(-50%,-50%) scale(.4);opacity:0;transition:transform .8s var(--ease),opacity .6s;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:13px;white-space:nowrap}
+.map.in .pt{transform:translate(-50%,-50%) scale(1);opacity:1}
+.map .pt i{width:12px;height:12px;border-radius:50%;background:var(--ink);opacity:.75}
+.map .pt.me i{width:18px;height:18px;background:var(--hl);opacity:1;box-shadow:0 0 0 8px color-mix(in srgb,var(--hl) 22%,transparent);animation:pulse 2.4s infinite}
+.map .pt.me{font-weight:700;color:var(--hl)}
+@keyframes pulse{50%{box-shadow:0 0 0 14px color-mix(in srgb,var(--hl) 8%,transparent)}}
+@media (max-width:640px){.map .pt{font-size:11px}}
+@media (max-width:640px){.tblw{margin:0;padding:0;overflow:visible}.tbl thead{display:none}.tbl,.tbl tbody,.tbl tr{display:block}.tbl tr{border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px;background:var(--bg2)}.tbl td{display:block;border:0;padding:3px 0;min-width:0}.tbl td:first-child{font-size:17px;padding-bottom:6px}.tbl td[data-l]:not(:first-child):before{content:attr(data-l) ": ";color:var(--ink);font-weight:600;font-size:13px}}
+footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);font-size:14px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv,.sw{opacity:1;transform:none}.hero h1 .ln span{transform:none}.hero .meta,.scroll{opacity:1}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar"></div>
+<nav class="nav" id="nav"></nav>
+
+<header class="hero wrap" id="s0" data-s>
+  <div class="orb"></div>
+  <div class="kick"><b>●</b> Posicionamento · Rafael Garcês</div>
+  <h1><span class="ln"><span>Dra. Dalila Leão:</span></span><span class="ln"><span>como ela deve</span></span><span class="ln"><span class="hl">se comunicar.</span></span></h1>
+  <div class="meta">
+    <div><b>Projeto</b>Marca pessoal · renovação</div>
+    <div><b>Etapa</b>Análise e posicionamento</div>
+    <div><b>Base</b>briefing, 2 áudios, 9 referências</div>
+    <div><b>Ordem</b>ela, referências, posicionamento</div>
+  </div>
+  <div class="scroll"><i></i>Role para ver a análise</div>
+</header>
+
+<!-- 1 PONTO DE PARTIDA -->
+<section id="s1" data-s><div class="wrap">
+  <div class="kick rv"><b>01</b> Ponto de partida</div>
+  <h2 class="h2 rv">Quem ela é hoje, nas palavras dela.</h2>
+  <div class="g3">
+    <div class="card rv d1"><span class="tag">Quem atende</span><h3>Coluna, escoliose e postura</h3><p>Atende de crianças a idosos. Quer focar em <b style="color:var(--ink)">crianças e adolescentes</b> e, nos adultos, prefere o público feminino. Chegam por indicação de pacientes e médicos, Instagram e Google.</p></div>
+    <div class="card rv d2"><span class="tag">Como atende</span><h3>Avaliação de 1h30 a 2h</h3><p>Ouve o histórico, entende a rotina, faz testes e monta um plano sob medida, de 8 atendimentos em diante, com exercícios para casa. "Ouço muito o que ele quer, não só o que a ciência fala."</p></div>
+    <div class="card rv d3"><span class="tag">Autoridade</span><h3>SEAS, Mulligan, SBE</h3><p>Pós em Traumato-Ortopedia, pós-graduanda em Prescrição de Exercícios, formação SEAS para escoliose, Conceito Mulligan, Pilates e membro da Sociedade Brasileira de Escoliose.</p></div>
+  </div>
+  <div class="g2">
+    <div class="card rv"><span class="tag">O que ela quer que digam</span><p class="quote" style="font-size:clamp(22px,2.6vw,30px)">"Que é competente e humana."<small>Pessoas próximas: calma, dedicada e família.</small></p></div>
+    <div class="card rv d1"><span class="tag">Onde quer chegar</span><p class="quote" style="font-size:clamp(22px,2.6vw,30px)">"Me tornar cada vez mais referência na minha área."<small>Hoje: 2.723 seguidores, 474 posts, bio só técnica.</small></p></div>
+  </div>
+</div></section>
+
+<!-- 2 PERSONALIDADE -->
+<section id="s2" data-s><div class="wrap">
+  <div class="kick rv"><b>02</b> Personalidade da marca</div>
+  <h2 class="h2 rv">O briefing já desenha o tom.</h2>
+  <p class="lead rv">Respostas dela nas escalas de 1 a 5. O ponto fica onde ela marcou.</p>
+  <div class="scales rv" id="scales">
+    <div class="sc"><span>Minimalista</span><div class="track" data-v="1"><i class="fill"></i><i class="dot"></i></div><span>Expressivo</span></div>
+    <div class="sc"><span>Sério</span><div class="track" data-v="3"><i class="fill"></i><i class="dot"></i></div><span>Descontraído</span></div>
+    <div class="sc"><span>Técnico</span><div class="track" data-v="4"><i class="fill"></i><i class="dot"></i></div><span>Acolhedor</span></div>
+    <div class="sc"><span>Clássico</span><div class="track" data-v="3"><i class="fill"></i><i class="dot"></i></div><span>Moderno</span></div>
+    <div class="sc"><span>Delicado</span><div class="track" data-v="3"><i class="fill"></i><i class="dot"></i></div><span>Forte</span></div>
+    <div class="sc"><span>Acessível</span><div class="track" data-v="4"><i class="fill"></i><i class="dot"></i></div><span>Exclusivo</span></div>
+    <div class="sc"><span>Só profissional</span><div class="track" data-v="3"><i class="fill"></i><i class="dot"></i></div><span>Vida pessoal</span></div>
+  </div>
+  <div class="g2">
+    <div class="card rv"><span class="tag">5 palavras que escolheu</span><h3 style="font-size:clamp(22px,2.6vw,30px);line-height:1.25">Confiança · Acolhimento · Sofisticação · Autoridade · Cuidado</h3></div>
+    <div class="card rv d1"><span class="tag">O que ela não quer</span><p>Nada exagerado, polêmico, com muito humor ou informação rasa. Nada de cores vivas, nem escuro pesado. O rosa sai, porque "está deixando infantilizado". O verde fica, "sem deixar muito apagado".</p></div>
+  </div>
+</div></section>
+
+<!-- 3 TENSÕES -->
+<section id="s3" data-s><div class="wrap">
+  <div class="kick rv"><b>03</b> O que os áudios revelam</div>
+  <h2 class="h2 rv">Quatro equilíbrios que a marca precisa segurar.</h2>
+  <p class="lead rv">Ela mesma disse: "acho que vou dar um pouquinho de trabalho pra ti". O trabalho está em achar o meio de cada par.</p>
+  <div class="tens">
+    <div class="ten rv"><div class="a">Minimalista</div><div class="mid">limpo, mas com personalidade, sem ficar distante</div><div class="b">Com personalidade</div></div>
+    <div class="ten rv d1"><div class="a">Chique e arrumada</div><div class="mid">sofisticação com leveza e calmaria</div><div class="b">Leve e fluida</div></div>
+    <div class="ten rv d2"><div class="a">Profissional</div><div class="mid">a vida aparece em recortes que voltam para o trabalho</div><div class="b">Pessoal</div></div>
+    <div class="ten rv d3"><div class="a">Fé presente</div><div class="mid">uma linha sutil, nunca uma série de devocionais</div><div class="b">Fé guardada</div></div>
+  </div>
+  <div class="g2">
+    <div class="card rv"><span class="tag">Entra no feed</span><p>Pilates, academia, vôlei e velocity (ligam a vida dela ao tema postura). Viagens, aniversário da filha, estudo, o dia a dia de trabalho.</p></div>
+    <div class="card rv d1"><span class="tag">Fica de fora</span><p>Intimidade. A imagem da filha em excesso. Devocional diário "igual a todo mundo". Exposição que não converse com o trabalho.</p></div>
+  </div>
+</div></section>
+
+<!-- 4 REFERÊNCIAS -->
+<section id="s4" data-s><div class="wrap">
+  <div class="kick rv"><b>04</b> As 9 referências</div>
+  <h2 class="h2 rv">O que cada perfil ensina.</h2>
+  <p class="lead rv">A própria Dalila notou dois grupos: as mais <b style="color:var(--ink)">chiques e arrumadas</b> e as mais <b style="color:var(--ink)">leves e fluidas</b>. A paleta de cada card vem das 12 publicações mais recentes do perfil (cores dominantes, lidas em 23/11).</p>
+  <div class="filters rv" id="filters">
+    <button class="on" data-f="all">Todas</button>
+    <button data-f="chique">Chiques e arrumadas</button>
+    <button data-f="leve">Leves e fluidas</button>
+  </div>
+  <div class="refs" id="refs"></div>
+</div></section>
+
+<!-- 4B COMUNICAÇÃO -->
+<section id="s4b" data-s><div class="wrap">
+  <div class="kick rv"><b>05</b> Como cada uma se comunica</div>
+  <h2 class="h2 rv">Tom, quanto mostram da vida e com quem falam.</h2>
+  <p class="lead rv">Lado a lado, as diferenças ficam claras. As bolinhas medem quanto da vida pessoal aparece no feed, de 1 a 5.</p>
+  <div class="tblw rv"><table class="tbl"><thead><tr><th>Perfil</th><th>Tom</th><th>Vida pessoal</th><th>O que mais aparece</th><th>Assinatura</th><th>Fala com</th></tr></thead><tbody><tr><td>Marcella Salomão</td><td>Sofisticado, quase poético</td><td><span class="lv"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></td><td>Retrato editorial, antes e depois</td><td>Beleza Sublime®</td><td>Pacientes e alunas</td></tr><tr><td>Camila Dias</td><td>Emocional e descontraído</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Selfie, antes e depois, frase manuscrita</td><td>A própria história</td><td>Pacientes e alunas</td></tr><tr><td>Ana Luiza Libório</td><td>Inspirador, de propósito</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td>Editorial P&B, caso clínico, frase</td><td>Borboleta e "propósito"</td><td>Colegas (cursos)</td></tr><tr><td>Mariana Georges</td><td>Glamour e autoridade</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td>Moda, eventos, antes e depois</td><td>GeorgesMethod®</td><td>Alunas</td></tr><tr><td>Débora Tonetti</td><td>Reflexivo e calmo</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td>Frase em fundo neutro, vídeo falado</td><td>"Médica, mulher, muitas."</td><td>Mulheres</td></tr><tr><td>Giovanna Borelli</td><td>Técnico e caprichoso</td><td><span class="lv"><i class="on"></i><i></i><i></i><i></i><i></i></span></td><td>Caso clínico, consultório</td><td>Versículo na bio</td><td>Pacientes e colegas</td></tr><tr><td>Ana Carolina Maluf</td><td>Próximo e educativo</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>Família + dica escrita sobre a foto</td><td>Especialidades na bio</td><td>Mulheres</td></tr><tr><td>Renata Giacometti</td><td>Maternal e prático</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td>Dica em frase, rotina de mãe</td><td>"Quando a pediatra vira mãe"</td><td>Mães</td></tr><tr><td>Taiz Campbell</td><td>Elegante e aspiracional</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td>Tipografia, retrato, frase</td><td>Quiet Beauty®, Daycare®</td><td>Pacientes premium e colegas</td></tr><tr class="me"><td>Dalila (onde quer estar)</td><td>Calmo, acolhedor e preciso</td><td><span class="lv"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td>Explicação curta, bastidor do cuidado, vida em recortes</td><td>A definir (seção 09)</td><td>Mães e mulheres com dor</td></tr></tbody></table></div>
+  <h3 class="rv" style="font-size:clamp(24px,3vw,34px);margin-top:72px">O mapa</h3>
+  <p class="lead rv" style="margin-top:10px">Na horizontal, quanto da vida pessoal aparece. Na vertical, do mais chique e arrumado ao mais leve e fluido, os dois grupos que a própria Dalila notou.</p>
+  <div class="map rv" id="map"><div class="hz"></div><div class="vt"></div>
+    <span class="ax" style="left:3%;top:50%;transform:translateY(-140%)">Só profissional</span>
+    <span class="ax" style="right:3%;top:50%;transform:translateY(-140%)">Muito pessoal</span>
+    <span class="ax" style="left:50%;top:3%;transform:translateX(-50%)">Chique e arrumada</span>
+    <span class="ax" style="left:50%;bottom:3%;transform:translateX(-50%)">Leve e fluida</span>
+    <div class="pt" style="left:22%;top:28%;transition-delay:0.00s"><i></i>Marcella</div><div class="pt" style="left:82%;top:72%;transition-delay:0.07s"><i></i>Camila</div><div class="pt" style="left:45%;top:52%;transition-delay:0.14s"><i></i>Ana Luiza</div><div class="pt" style="left:55%;top:14%;transition-delay:0.21s"><i></i>Mariana</div><div class="pt" style="left:70%;top:62%;transition-delay:0.28s"><i></i>Débora</div><div class="pt" style="left:18%;top:58%;transition-delay:0.35s"><i></i>Giovanna</div><div class="pt" style="left:88%;top:34%;transition-delay:0.42s"><i></i>Maluf</div><div class="pt" style="left:80%;top:84%;transition-delay:0.49s"><i></i>Renata</div><div class="pt" style="left:48%;top:22%;transition-delay:0.56s"><i></i>Taiz</div><div class="pt me" style="left:52%;top:46%;transition-delay:.8s"><i></i>Dalila</div>
+  </div>
+  <p class="rv" style="color:var(--gray);font-size:15px;margin-top:16px">A Dalila fica no centro: um pouco de cada grupo e vida pessoal no meio (3 de 5, como ela marcou). Ninguém das 9 está exatamente ali, e esse espaço é a oportunidade.</p>
+</div></section>
+
+<!-- 5 PADRÕES -->
+<section id="s5" data-s><div class="wrap">
+  <div class="kick rv"><b>06</b> Padrões</div>
+  <h2 class="h2 rv">O que as 9 têm em comum.</h2>
+  <div class="g2">
+    <div class="card rv"><span class="tag">1 · Um conceito com nome</span><h3>Beleza Sublime®, Quiet Beauty®, GeorgesMethod®</h3><p>As mais fortes dão nome ao jeito de cuidar. Vira assinatura, aparece na bio e nos conteúdos. A Dalila ainda não tem o dela.</p></div>
+    <div class="card rv d1"><span class="tag">2 · Profissão primeiro, vida em recortes</span><h3>"Médica, mulher, muitas."</h3><p>A vida pessoal entra como tempero: viagem, treino, família. Quase nunca a intimidade. É o mesmo limite que a Dalila pediu.</p></div>
+    <div class="card rv d2"><span class="tag">3 · Fé em uma linha</span><h3>"Porque Dele, por Ele e para Ele…"</h3><p>A Giovanna Borelli abre a bio com um versículo e o feed segue profissional. É exatamente a fé sutil que a Dalila descreveu.</p></div>
+    <div class="card rv d3"><span class="tag">4 · Bio que diz para quem é</span><h3>"Cuidado que respeita a individualidade"</h3><p>A Renata Giacometti fala direto com mães. O "personalizado" da Dalila cabe numa frase assim.</p></div>
+  </div>
+  <div class="g2" style="margin-top:16px">
+    <div class="card rv"><span class="tag">5 · Frase como post</span><h3>Texto puro, fundo neutro</h3><p>Débora, Taiz e Camila alternam fotos com posts só de frase (tipografia fina ou serifada sobre creme, taupe ou preto). Dá respiro ao grid e vira o lugar natural da frase da marca.</p></div>
+    <div class="card rv d1"><span class="tag">6 · Destaques por tema</span><h3>"outfits", "kids", "viagens"</h3><p>A vida pessoal fica organizada nos destaques, não espalhada no feed. Para a Dalila: Pilates, Estudos e Consultório, sem um destaque só da filha.</p></div>
+  </div>
+  <p class="quote rv" style="margin-top:64px">A diferença: <span class="hl">quase todas vendem curso</span>. A Dalila vende cuidado ao paciente. O conteúdo dela fala com a mãe e com a paciente, não com colegas de profissão.</p>
+</div></section>
+
+<!-- 6 PALETA -->
+<section id="s6" data-s><div class="wrap">
+  <div class="kick rv"><b>07</b> Paleta das referências</div>
+  <h2 class="h2 rv">Todas falam a língua do nude e da terra.</h2>
+  <p class="lead rv">Somando os 9 feeds, as cores dominantes são off-white, areia, caramelo, terra e um quase-preto. Nenhuma usa verde.</p>
+  <div class="bigpal" id="bigpal"></div>
+  <div class="compare rv" id="compare"></div>
+  <div class="g2">
+    <div class="card rv"><span class="tag">Leitura</span><p>As 9 estão no mesmo território visual: tons de pele, nude, terra e contraste com preto. A sofisticação delas vem mais da foto (luz natural, enquadramento, roupa) do que de uma cor de marca. O feed atual da Dalila já está nesse território.</p></div>
+  </div>
+</div></section>
+
+<!-- 7 PÚBLICO -->
+<section id="s7" data-s><div class="wrap">
+  <div class="kick rv"><b>08</b> Para quem a marca fala</div>
+  <h2 class="h2 rv">Dois públicos, uma mesma promessa.</h2>
+  <div class="g2">
+    <div class="card rv"><span class="tag">Prioridade · quem decide</span><h3>A mãe de criança ou adolescente com escoliose</h3><ul><li>Descobriu a curva na escola ou no pediatra e está com medo de colete e cirurgia.</li><li>Quer alguém que explique com calma e acompanhe de perto.</li><li>Decide por confiança e indicação. Pesquisa no Google e no Instagram.</li></ul></div>
+    <div class="card rv d1"><span class="tag">Segundo público</span><h3>A mulher de 30 a 55 anos com dor na coluna</h3><ul><li>Rotina cheia, já tentou "fisioterapia de aparelho".</li><li>Valoriza um lugar bonito, atendimento sem pressa e resultado.</li><li>Pratica ou quer praticar atividade física sem dor.</li></ul></div>
+  </div>
+  <div class="card rv" style="margin-top:16px"><span class="tag">As duas objeções que o conteúdo precisa vencer</span><div class="g2" style="margin-top:6px"><div><h3>Preço</h3><p>Mostrar o que existe numa avaliação de 2 horas e por que um plano sob medida rende mais do que sessões soltas.</p></div><div><h3>Tempo</h3><p>Mostrar que o tratamento continua em casa com exercícios curtos e acompanhados. A plataforma de exercícios reforça isso no futuro.</p></div></div></div>
+</div></section>
+
+<!-- 8 POSICIONAMENTO -->
+<section id="s8" data-s><div class="wrap">
+  <div class="kick rv"><b>09</b> Posicionamento</div>
+  <h2 class="h2 rv">Em uma frase, quem ela é para quem.</h2>
+  <p class="stmt" id="stmt" style="margin-top:48px">Para mães de crianças e adolescentes com escoliose e para mulheres que convivem com dor na coluna em Teresina, a Dra. Dalila Leão é a fisioterapeuta que une ciência e acolhimento num tratamento sob medida, porque escuta a história de cada paciente antes de traçar o plano.</p>
+  <p class="lead rv" style="margin-top:28px">Essa é a declaração interna, para guiar o conteúdo. Ela não aparece assim no perfil. O que aparece é uma frase curta, para escolher com a Dra.:</p>
+  <div class="g2">
+    <div class="card rv"><span class="tag">Sugestão principal</span><h3 style="font-size:clamp(24px,2.6vw,32px);margin:4px 0 14px">Cuidado que alinha.</h3><p>Duas leituras: alinhar a coluna e alinhar o tratamento à vida de cada paciente. Curta e calma, serve para a mãe e para a mulher com dor.</p></div>
+    <div class="card rv d1"><span class="tag">Alternativa</span><h3 style="font-size:clamp(24px,2.6vw,32px);margin:4px 0 14px">Coluna em boas mãos.</h3><p>Fala de confiança e do toque da fisioterapia manual (Mulligan). Bem direta, mas mais comum.</p></div>
+    <div class="card rv d2"><span class="tag">Alternativa</span><h3 style="font-size:clamp(24px,2.6vw,32px);margin:4px 0 14px">Postura para a vida toda.</h3><p>Conversa com a mãe, porque a escoliose aparece no crescimento, e com prevenção. Mais educativa que emocional.</p></div>
+    <div class="card rv d3"><span class="tag">Alternativa</span><h3 style="font-size:clamp(24px,2.6vw,32px);margin:4px 0 14px">Tudo começa na escuta.</h3><p>Leva a avaliação de 2 horas para a frente. Humana, mas não diz a especialidade.</p></div>
+  </div>
+  <p class="note2 rv">"Ciência que escuta", da versão anterior, saiu da lista. Vale levar as quatro para a conversa e ver qual ela fala com naturalidade.</p>
+</div></section>
+
+<!-- 9 CONCEITO DESDOBRADO -->
+<section id="s8b" data-s><div class="wrap">
+  <div class="kick rv"><b>10</b> Como ela se comunica</div>
+  <h2 class="h2 rv">História, frase e séries fixas.</h2>
+  <div class="card rv" style="margin-top:48px;padding:clamp(28px,5vw,56px)">
+    <span class="tag">História de origem · o post fixado nº 1</span>
+    <p class="quote" style="font-size:clamp(22px,3vw,36px)">Ela escolheu cuidar de coluna porque precisou cuidar da própria. "Hoje não só ajudo os pacientes como também eles me ajudam a cuidar da minha coluna e postura."<small>Está no briefing e quase nenhuma referência tem algo assim: a fisioterapeuta que também é paciente da própria área. É o elo verdadeiro entre a vida (Pilates, vôlei, academia) e o trabalho.</small></p>
+  </div>
+  <div class="g2">
+    <div class="card rv"><span class="tag">Manifesto</span><p style="color:var(--ink);font-size:clamp(17px,1.8vw,20px);line-height:1.6">Toda coluna tem uma história.<br>Antes de qualquer exercício, eu escuto a sua:<br>a rotina, a dor, o medo, o que você espera.<br>Depois vem a ciência, com o método certo<br>e um plano que é só seu.</p></div>
+    <div class="card rv d1"><span class="tag">Frase para dizer em 10 segundos</span><p class="quote" style="font-size:clamp(22px,2.6vw,30px)">"Eu trato a coluna com ciência, mas começo escutando você."<small>Para o primeiro Reels, a palestra, o cartão de visita e quando perguntarem "o que você faz?".</small></p></div>
+  </div>
+  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Cinco séries fixas</h3>
+  <p class="lead rv" style="margin-top:12px">Nome fixo e capa no mesmo padrão. A pessoa reconhece no feed e volta para ver a próxima.</p>
+  <div class="series">
+    <div class="se rv"><b>Mãe, repare</b><span>Sinais de escoliose e postura que a mãe pode notar em casa. Fala com o público prioritário.</span><em>Reels · carrossel</em></div>
+    <div class="se rv d1"><b>Coluna em 1 minuto</b><span>Uma dúvida, uma resposta, com termo técnico traduzido.</span><em>Reels</em></div>
+    <div class="se rv d2"><b>Por dentro da avaliação</b><span>As 2 horas explicadas por partes: histórico, testes, plano. Responde à objeção de preço.</span><em>Carrossel · stories</em></div>
+    <div class="se rv d3"><b>Eu também cuido da minha</b><span>Pilates, vôlei, academia, postura no avião. A vida dela sempre com uma dica no fim.</span><em>Foto · Reels</em></div>
+    <div class="se rv d4"><b>Histórias de coluna</b><span>Evolução e depoimentos com autorização, dentro das normas do COFFITO.</span><em>Vídeo · carrossel</em></div>
+  </div>
+  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Os 3 fixados</h3>
+  <div class="g3" style="margin-top:24px">
+    <div class="card rv"><span class="tag">1 · Quem cuida</span><h3>"Por que eu escolhi cuidar de colunas"</h3><p>A história de origem, em vídeo, com as fotos novas.</p></div>
+    <div class="card rv d1"><span class="tag">2 · Para a mãe</span><h3>"Escoliose em crianças: o que toda mãe precisa saber"</h3><p>Carrossel salvável, com a abordagem SEAS e a SBE como prova.</p></div>
+    <div class="card rv d2"><span class="tag">3 · Como funciona</span><h3>"Da avaliação ao plano sob medida"</h3><p>Os passos do tratamento, com o CTA "Agende sua avaliação".</p></div>
+  </div>
+  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Primeiro mês, 3 posts por semana</h3>
+  <div class="month">
+    <div class="wk rv"><b>Semana 1</b><span>Por que eu escolhi cuidar de colunas</span><span>Mãe, repare: o teste do "abaixar para frente"</span><span>Eu também cuido da minha: Pilates</span></div>
+    <div class="wk rv d1"><b>Semana 2</b><span>Coluna em 1 minuto: escoliose tem cura?</span><span>Por dentro da avaliação: por que leva 2 horas</span><span>Frase: "Toda coluna tem uma história"</span></div>
+    <div class="wk rv d2"><b>Semana 3</b><span>Mãe, repare: mochila e postura na escola</span><span>Histórias de coluna: primeiro depoimento</span><span>Consultório: o espaço e o kit do paciente</span></div>
+    <div class="wk rv d3"><b>Semana 4</b><span>Coluna em 1 minuto: dor lombar e celular</span><span>O que é a abordagem SEAS</span><span>Eu também cuido da minha: vôlei e rotina</span></div>
+  </div>
+  <div class="g2">
+    <div class="card rv"><span class="tag">Destaques úteis (ideia da Renata)</span><p>Escoliose · Mochila e postura · Avaliação · Resultados · Consultório · Sobre mim. Capas iguais e simples, como a Mariana e a Maluf fazem.</p></div>
+    <div class="card rv d1"><span class="tag">Uma frase recorrente (ideia da Ana Luiza)</span><p>A Ana Luiza repete o "propósito" em bio, frases e legendas. Para a Dalila, a frase escolhida acima fecha os Reels e as legendas, sempre igual.</p></div>
+  </div>
+</div></section>
+
+<!-- 10 PILARES -->
+<section id="s9" data-s><div class="wrap">
+  <div class="kick rv"><b>11</b> Pilares de conteúdo</div>
+  <h2 class="h2 rv">O que postar, e em que proporção.</h2>
+  <div class="pil">
+    <div class="p rv"><div class="n">35%</div><h3>Coluna explicada<small>Autoridade</small></h3><div><p>Escoliose na infância, sinais que a mãe pode notar em casa, o que é a abordagem SEAS, mitos sobre postura e dor.</p><div class="ex"><span>Reels de 30 a 60 s</span><span>Carrossel educativo</span><span>"3 sinais de escoliose"</span></div></div></div>
+    <div class="p rv d1"><div class="n">25%</div><h3>Por dentro do cuidado<small>Método</small></h3><div><p>Como é a avaliação de 2 horas, os testes, o plano, a evolução semana a semana, o consultório e o kit do paciente.</p><div class="ex"><span>Bastidores</span><span>"Um dia de avaliação"</span><span>Stories diários</span></div></div></div>
+    <div class="p rv d2"><div class="n">20%</div><h3>Quem cuida<small>Personalidade</small></h3><div><p>Pilates, vôlei, academia, viagens, estudo e congressos. A família em recortes, sem expor a filha. A fé numa linha, quando fizer sentido.</p><div class="ex"><span>Foto no Pilates + dica de postura</span><span>Viagem + coluna no avião</span></div></div></div>
+    <div class="p rv d3"><div class="n">20%</div><h3>Resultados e vozes<small>Prova</small></h3><div><p>Depoimentos, histórias de evolução e indicações de médicos, sempre com autorização e dentro das normas do conselho (COFFITO) para imagem de paciente.</p><div class="ex"><span>Depoimento em vídeo</span><span>"A história da M., 12 anos"</span></div></div></div>
+  </div>
+</div></section>
+
+<!-- 10 TOM -->
+<section id="s10" data-s><div class="wrap">
+  <div class="kick rv"><b>12</b> Tom de voz</div>
+  <h2 class="h2 rv">Calma, precisa, perto.</h2>
+  <div class="dd">
+    <div class="card rv"><span class="tag">A Dalila é</span><ul><li>Explica como quem tem tempo para ouvir</li><li>Usa termo técnico e logo traduz</li><li>Frases curtas, sem gritar em caixa-alta</li><li>Fala com a mãe e com a paciente, no "você"</li><li>Mostra a vida quando ela ensina algo</li></ul></div>
+    <div class="card rv d1 no"><span class="tag" style="color:var(--gray)">A Dalila não é</span><ul class="no"><li>Polêmica para ganhar alcance</li><li>Humor forçado e trends sem relação</li><li>Informação rasa ou promessa de milagre</li><li>Fria e cheia de jargão</li><li>Devocional diário e exposição da intimidade</li></ul></div>
+  </div>
+</div></section>
+
+<!-- 11 BIO -->
+<section id="s11" data-s><div class="wrap">
+  <div class="kick rv"><b>13</b> Na prática</div>
+  <h2 class="h2 rv">Como o perfil passa a se apresentar.</h2>
+  <div class="bioflex">
+    <div class="phone rv">
+      <div class="hd"><div class="av">DL</div><div><div class="nm">dalilaleaoo</div><div style="font-size:13px;color:var(--gray)">Dalila Leão | Escoliose e Postura</div></div></div>
+      <div class="bio2">Fisioterapeuta · Escoliose, postura e dor na coluna<br>Crianças, adolescentes e mulheres · tratamento sob medida<br>Teresina · Membro @sbescoliose · Crefito 250472-F<br>↓ Agende sua avaliação<br><span class="lk">link da página de links</span></div>
+      <div class="hl2"><div><i></i>Escoliose</div><div><i></i>Mochila</div><div><i></i>Avaliação</div><div><i></i>Resultados</div><div><i></i>Sobre mim</div></div>
+    </div>
+    <div class="g2" style="margin-top:0">
+      <div class="card rv d1"><span class="tag">Nome do perfil</span><p>O Instagram usa esse campo na busca. Hoje está "Fisioterapeuta Teresina". Sugestão: <b style="color:var(--ink)">"Escoliose e Postura"</b>, que é o que a mãe digita e já diz a especialidade. Alternativa: "Dra. Dalila Leão • Fisioterapeuta", como ela escreveu no briefing.</p></div>
+      <div class="card rv d2"><span class="tag">Página de links</span><p>Botão principal "Agendar pelo WhatsApp" com a mensagem "Vim pelo Instagram e quero agendar a avaliação com a Dra. Dalila Leão" (a secretaria já sabe de quem é). Depois: localização e conteúdos gratuitos.</p></div>
+      <div class="card rv d3"><span class="tag">Fé sutil (opcional)</span><p>Se ela quiser, um versículo curto como última linha da bio ou numa legenda especial. Nunca como série.</p></div>
+      <div class="card rv d4"><span class="tag">Registro</span><p>Crefito e SBE na bio reforçam a autoridade sem precisar dizer "sou referência".</p></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 12 PRÓXIMOS -->
+<section id="s12" data-s><div class="wrap">
+  <div class="kick rv"><b>14</b> Próximos passos</div>
+  <h2 class="h2 rv">Da análise para a conversa com ela.</h2>
+  <div class="steps">
+    <div class="step rv"><div><h3>Conversar com a Dra.</h3><p>Validar os dois públicos, o limite do que é pessoal (filha, fé) e escolher a frase entre as quatro.</p></div></div>
+    <div class="step rv d1"><div><h3>Ajustar nome e bio</h3><p>Nome do perfil, bio e destaques no formato acima.</p></div></div>
+    <div class="step rv d2"><div><h3>Fixar os 3 posts e começar as séries</h3><p>Primeiro mês com 3 posts por semana, como no plano.</p></div></div>
+    <div class="step rv d3"><div><h3>Identidade visual, em outra etapa</h3><p>Fica separada desta análise e parte do posicionamento escolhido.</p></div></div>
+  </div>
+  <p class="note2 rv">Paletas tiradas automaticamente das 12 publicações mais recentes de cada perfil em 23/11/2026. Refletem as fotos (pele, cabelo, cenário), não a identidade oficial de cada marca.</p>
+</div></section>
+
+<footer><div class="wrap">Rafael Garcês · Posicionamento Dra. Dalila Leão · novembro de 2026</div></footer>
+
+<script>
+const REFS=[
+ {n:"Marcella Salomão",h:"marcellasalomao",f:"41 mil",a:"Harmonização facial · Cuiabá",g:"chique",bio:"Te entrego uma BELEZA SUBLIME®",k:"Estética minimalista e um conceito com nome próprio.",x:"Pode soar distante, como a própria Dalila notou.",v:"Retratos editoriais quentes e em P&B, antes e depois com legenda pequena em itálico, frase-conceito \"Beleza natural é não ter procedimentos\". Destaques de viagem.",p:[["#d1cbc5",20],["#886c55",19],["#1e1613",18],["#5e422e",17],["#cd9a78",14],["#9f9c9b",12]]},
+ {n:"Camila Dias",h:"camilaamd",f:"216 mil",a:"Harmonização facial",g:"leve",bio:"transformando vidas há 10 anos através da HOF",k:"Storytelling ligado à vida pessoal, mais personalidade.",x:"Estética colorida e tom de venda de curso.",v:"A filha tem destaque próprio e até a história de saúde dela vira conteúdo. Frase manuscrita sobre fundo creme, selfie espontânea. Personalidade forte, mas com exposição da família maior do que a Dalila quer.",p:[["#967b69",23],["#e3ded8",23],["#695448",21],["#c9a88e",17],["#2a201e",14],["#eeeeea",2]]},
+ {n:"Ana Luiza Libório",h:"analuliborio",f:"90 mil",a:"Dentística · Maringá",g:"leve",bio:"Odontologia com propósito 🦋",k:"Propósito resumido em uma frase de bio.",x:"Base rosada, justo o tom que a Dalila quer tirar.",v:"Editorial em P&B (lupas, \"The art of hands\"), frase com a borboleta como símbolo próprio, destaques de livros e viagens. Um símbolo pequeno que vira assinatura.",p:[["#90706f",23],["#6d4944",18],["#080809",16],["#bba6a7",16],["#f2e8f3",15],["#372a27",12]]},
+ {n:"Mariana Georges",h:"dra.mariana",f:"172 mil",a:"Reestruturação facial",g:"chique",bio:"GeorgesMethod® Worldwide",k:"Método com nome e contraste forte de preto e terra.",x:"Foco em formar colegas, não em paciente.",v:"Moda e eventos de gala, capas dos destaques todas iguais em marrom (Cursos, Alunas, Pacientes, Clinic, Palco). O extremo do \"chique\": serve a padronização, não o glamour.",p:[["#110d0c",20],["#95705f",18],["#694b3e",18],["#b6a49b",16],["#362a25",15],["#e7e8e9",13]]},
+ {n:"Débora Tonetti",h:"dradebora.tonetti",f:"63 mil",a:"Saúde da mulher",g:"leve",bio:"Médica, mulher, muitas.",k:"Lifestyle e reflexão integrados à profissão.",x:"Vida pessoal tem mais peso do que a Dalila quer.",v:"O feed mais editorial das 9: posts só de texto em caixa-alta fina sobre fundo taupe e oliva, P&B no centro cirúrgico, velas, consultório claro. Reflexão com calmaria.",p:[["#ad9e8e",23],["#826e5b",20],["#e5ded8",17],["#4f3c2d",17],["#130f0c",15],["#cdb9ac",8]]},
+ {n:"Giovanna Borelli",h:"giovannaborellii",f:"137 mil",a:"Odontologia · Americana-SP",g:"leve",bio:"“Porque Dele, por Ele e para Ele são todas as coisas”",k:"Fé numa linha da bio, feed profissional. Modelo para a Dalila.",x:"Feed clínico colorido (rosa e azul de bancada); a fé fica só na bio.",v:"Capas dos destaques em aquarela nude, consultório com cardápio de café da marca, frase curta branca sobre preto. O cuidado com detalhe é o que serve.",p:[["#c09596",23],["#8f7267",21],["#534436",19],["#e1d1cc",14],["#0d0a0a",13],["#a0c9e2",10]]},
+ {n:"Ana Carolina Maluf",h:"anacarolinamaluf",f:"55 mil",a:"Medicina · Goiânia",g:"chique",bio:"SAÚDE • EMAGRECIMENTO • MENOPAUSA • LIPEDEMA",k:"Especialidades claras na bio e presença elegante.",x:"Bio em caixa-alta, mais dura que o tom da Dalila.",v:"Hoje o feed é quase todo família (batizado, bebê), com educativo por cima de foto (\"3 suplementos para quem usa Mounjaro\"). Capas dos destaques em verde-sálvia: prova de que o verde suave fica sofisticado.",p:[["#bca29a",21],["#7a7474",18],["#604136",16],["#281b17",16],["#dbd9da",15],["#a47155",14]]},
+ {n:"Renata Giacometti",h:"renatagiacometti",f:"350 mil",a:"Pediatria · São Paulo",g:"leve",bio:"Mãe · Médica · Pediatra. Cuidado que respeita a individualidade",k:"Fala direto com mães, exatamente o público prioritário da Dalila.",x:"Maternidade em primeiro plano, que a Dalila quer dosar.",v:"Destaques úteis para mães (Lancheira, Receitas, Desmame), frases em letra cursiva sobre creme, série \"Quando a pediatra vira mãe\". Conteúdo que a mãe salva.",p:[["#f1dfc8",35],["#b5b0aa",18],["#b68c6c",16],["#847162",15],["#684938",9],["#382117",8]]},
+ {n:"Taiz Campbell",h:"dra.taizcampbell",f:"918 mil",a:"Medicina estética",g:"chique",bio:"Quiet Beauty® · Aesthetic medicine beyond procedures",k:"Luxo silencioso: sofisticação sem exagero.",x:"Escala global e inglês, longe da realidade local.",v:"Serviços com nome (Daycare®, Quiet Beauty®), tipografia serifada elegante (\"Seu tempo. Sua beleza. Nosso cuidado.\"), destaques \"outfits\" e \"kids\": família e estilo organizados por tema.",p:[["#c3ada3",22],["#1d0f11",17],["#4a3135",17],["#7f5b3f",15],["#a1896e",15],["#eae3d8",13]]}
+];
+const DALILA=[["#d2c5c3",22],["#bea497",21],["#987e6d",19],["#6a5346",14],["#f0e9e8",14],["#252025",11]];
+const BIG=[["#e5ded8","Off-white"],["#c9b3a4","Areia"],["#a1846f","Caramelo"],["#694b3e","Terra"],["#2a201e","Quase-preto"],["#9f9c9b","Cinza quente"]];
+const palHTML=p=>'<div class="pal">'+p.map(([c,w])=>`<i style="background:${c}" data-w="${w}" data-h="${c}"></i>`).join('')+'</div>';
+document.getElementById('refs').innerHTML=REFS.map((r,i)=>`<article class="ref rv d${i%3+1}" data-g="${r.g}">
+<div class="top"><div><h3>${r.n}</h3><a class="h" href="https://www.instagram.com/${r.h}/" target="_blank" rel="noopener">@${r.h}</a></div><div class="f"><b>${r.f}</b>seguidores</div></div>
+<span class="chip">${r.g==='chique'?'Chique e arrumada':'Leve e fluida'} · ${r.a}</span>
+<p class="bio">"${r.bio}"</p>
+<p class="k"><b>Levar:</b> ${r.k}</p>
+<p class="k x"><b>Deixar:</b> ${r.x}</p>
+${r.v?`<p class="k" style="font-size:14px;color:var(--gray)"><b style="color:var(--ink)">No feed:</b> ${r.v}</p>`:''}
+${palHTML(r.p)}
+<div class="hexes">${r.p.map(([c,w])=>`<span>${c} · ${w}%</span>`).join('')}</div></article>`).join('');
+document.getElementById('bigpal').innerHTML=BIG.map(([c,n],i)=>{const l=parseInt(c.slice(1,3),16)>150;return `<div class="sw" style="background:${c};color:${l?'#1a1410':'#f5efe8'};transition-delay:${i*.08}s"><b>${n}</b>${c}</div>`}).join('');
+document.getElementById('compare').innerHTML='<span>Feed da Dalila hoje</span>'+palHTML(DALILA)+'<span>Média das 9 referências</span>'+palHTML([["#e3ded8",19],["#bca29a",17],["#8f7267",19],["#5e422e",17],["#1e1613",16],["#9f9c9b",12]]);
+document.getElementById('bigpal').classList.add('rv');
+/* filters */
+document.getElementById('filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.querySelectorAll('#filters button').forEach(x=>x.classList.toggle('on',x===b));const f=b.dataset.f;document.querySelectorAll('.ref').forEach(r=>r.classList.toggle('off',f!=='all'&&r.dataset.g!==f))});
+document.querySelectorAll('.tbl').forEach(t=>{const h=[...t.querySelectorAll('th')].map(x=>x.textContent);t.querySelectorAll('tr').forEach(r=>[...r.children].forEach((c,i)=>{if(c.tagName==='TD')c.dataset.l=h[i]}))});
+/* statement words */
+const st=document.getElementById('stmt');st.innerHTML=st.textContent.split(' ').map(w=>`<span class="w">${w}</span>`).join(' ');
+const words=[...st.querySelectorAll('.w')];
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const t=e.target;t.classList.add('in');
+ t.querySelectorAll&&t.querySelectorAll('.pal i').forEach(i=>i.style.width=i.dataset.w+'%');
+ if(t.classList.contains('pal'))t.querySelectorAll('i').forEach(i=>i.style.width=i.dataset.w+'%');
+ if(t.id==='scales')t.querySelectorAll('.track').forEach((tr,k)=>{const v=(tr.dataset.v-1)/4*100;setTimeout(()=>{tr.querySelector('.fill').style.width=v+'%';tr.querySelector('.dot').style.left=v+'%'},k*120)});
+ io.unobserve(t)}),{threshold:.18});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+/* scroll: bar, nav, statement */
+const secs=[...document.querySelectorAll('[data-s]')];const nav=document.getElementById('nav');
+nav.innerHTML=secs.map(s=>`<a href="#${s.id}" aria-label="Ir para a seção"></a>`).join('');const dots=[...nav.children];
+function onScroll(){const h=document.documentElement;document.getElementById('bar').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+ let cur=0;secs.forEach((s,i)=>{if(s.getBoundingClientRect().top<innerHeight*.45)cur=i});dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+ const r=st.getBoundingClientRect();const p=Math.min(1,Math.max(0,(innerHeight*.85-r.top)/(r.height+innerHeight*.35)));const n=Math.round(p*words.length);words.forEach((w,i)=>w.classList.toggle('on',i<n))}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)words.forEach(w=>w.classList.add('on'));
+</script>
+</body>
+</html>
