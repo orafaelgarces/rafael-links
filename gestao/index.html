@@ -660,7 +660,7 @@
         <div class="clients-head">
           <div>
             <h2 style="margin:0 0 4px">Briefings</h2>
-            <p class="muted small" style="margin:0">Quem recebeu o link, quem começou e quem já enviou. Você recebe aviso no WhatsApp quando o cliente começa e quando envia.</p>
+            <p class="muted small" style="margin:0">Quem recebeu o link, quem começou e quem já enviou. Quando o cliente envia, as respostas também chegam no seu e-mail.</p>
           </div>
           <a class="btn" href="/briefing/novo/" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
@@ -1224,9 +1224,25 @@
           (b.status !== 'convidado' ? '<button type="button" data-bf="ver">' + (bfAberto[b.id] ? 'Fechar respostas' : 'Ver respostas') + '</button>' : '') +
           (b.status === 'enviado' ? '<button type="button" data-bf="lido">' + (b.lido ? 'Marcar como novo' : 'Marcar como lido') + '</button>' : '') +
           (b.link && b.status !== 'enviado' ? '<button type="button" data-bf="link">Copiar link</button>' : '') +
+          (Object.keys(b.dados || {}).length ? '<button type="button" data-bf="copiar">Copiar respostas</button><button type="button" data-bf="baixar">Baixar (.txt)</button>' : '') +
           '<button type="button" class="danger" data-bf="del">Excluir</button>' +
         '</div>' + resp + '</article>';
     }).join('');
+  }
+  /* Respostas em texto corrido, agrupadas por etapa, para copiar ou baixar */
+  function textoBriefing(b) {
+    var porEtapa = {}, ordemEtapas = [];
+    Object.keys(b.dados || {}).forEach(function (k) { var d = b.dados[k]; if (!porEtapa[d.s]) { porEtapa[d.s] = []; ordemEtapas.push(d.s); } porEtapa[d.s].push(d); });
+    var cab = ['BRIEFING · ' + (b.cliente || ''),
+      (BF_TIPO[b.tipo] || b.tipo) + (b.perfil ? ' · ' + (BF_PERFIL[b.perfil] || b.perfil) : ''),
+      b.status === 'enviado' ? 'Enviado em ' + quando(b.enviado_em) : 'Ainda não enviado (parou na etapa ' + b.etapa + ')'];
+    if (b.nome) cab.push('Respondido por: ' + b.nome);
+    if (b.contato) cab.push('Contato: ' + b.contato);
+    return cab.join('\n') + '\n' + ordemEtapas.map(function (st) {
+      return '\n\n== ' + String(st).toUpperCase() + ' ==\n' + porEtapa[st].map(function (d) {
+        return '\n' + d.t + '\n' + (Array.isArray(d.v) ? d.v.join(', ') : d.v);
+      }).join('\n');
+    }).join('') + '\n';
   }
   $('bf-list').addEventListener('click', function (e) {
     var btn = e.target.closest('[data-bf]'); if (!btn) return;
@@ -1234,6 +1250,20 @@
     var b = briefings.filter(function (x) { return x.id === id; })[0]; if (!b) return;
     var acao = btn.getAttribute('data-bf');
     if (acao === 'ver') { bfAberto[id] = !bfAberto[id]; renderBriefings(); return; }
+    if (acao === 'copiar') {
+      var txt = textoBriefing(b);
+      (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(function () { btn.textContent = 'Copiado!'; setTimeout(function () { btn.textContent = 'Copiar respostas'; }, 1800); }, function () { prompt('Copie as respostas:', txt); });
+      return;
+    }
+    if (acao === 'baixar') {
+      var arq = new Blob([textoBriefing(b)], { type: 'text/plain;charset=utf-8' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(arq);
+      a.download = 'Briefing - ' + String(b.cliente || 'cliente').replace(/[\\/:*?"<>|]/g, '') + '.txt';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      return;
+    }
     if (acao === 'link') { (navigator.clipboard ? navigator.clipboard.writeText(b.link) : Promise.reject()).then(function () { btn.textContent = 'Copiado!'; }, function () { prompt('Copie o link:', b.link); }); return; }
     if (acao === 'lido') {
       sb.from('briefings').update({ lido: !b.lido }).eq('id', id).then(ok).then(function () { b.lido = !b.lido; renderBriefings(); }).catch(function (err) { alert(err.message); });
