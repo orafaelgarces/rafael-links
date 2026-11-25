@@ -170,6 +170,7 @@ section{padding:clamp(72px,11vw,140px) 0;border-top:1px solid var(--line);positi
 @media (max-width:560px){.month{grid-template-columns:1fr}}
 .wk{border-top:2px solid var(--hl);padding-top:16px;display:flex;flex-direction:column;gap:10px}
 .wk b{font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+.mh{margin:40px 0 0;font-size:22px;letter-spacing:-.02em}.wk em{font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block}.wk .fo em{color:var(--gray)}.series.s4{grid-template-columns:repeat(4,1fr)}@media (max-width:1000px){.series.s4{grid-template-columns:1fr 1fr}}@media (max-width:560px){.series.s4{grid-template-columns:1fr}}.se i{display:block;margin-top:10px;font-style:normal;color:var(--ink)}
 .wk span{font-size:15px;color:var(--gray);padding-bottom:10px;border-bottom:1px solid var(--line)}
 .tbl{width:100%;border-collapse:collapse;margin-top:40px;font-size:15px}
 .tblw{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 calc(var(--pad)*-1);padding:0 var(--pad)}
@@ -317,12 +318,12 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
 <!-- 6 PALETA -->
 <section id="s6" data-s><div class="wrap">
   <div class="kick rv"><b>07</b> Paleta das referências</div>
-  <h2 class="h2 rv">Base neutra, uma cor que é só delas.</h2>
-  <p class="lead rv">Quase todas montam o feed sobre a mesma base: off-white, nude, caramelo e um quase-preto. O que faz cada uma ser reconhecida é <b style="color:var(--ink)">uma única cor de destaque</b>, que aparece pouco, mas sempre: no texto, na roupa, nas capas dos destaques.</p>
+  <h2 class="h2 rv">Base neutra e um toque de cor.</h2>
+  <p class="lead rv">Quase todas montam o feed sobre a mesma base: off-white, nude, caramelo e um quase-preto. O que muda é a <b style="color:var(--ink)">cor de destaque</b>, que aparece em parte das publicações: no texto, na roupa, nas capas dos destaques.</p>
   <div class="bigpal" id="bigpal"></div>
   <div class="compare rv" id="compare"></div>
   <div class="g2">
-    <div class="card rv"><span class="tag">Leitura</span><p>Marcella e Débora não têm cor de destaque: a marca delas está na foto e na luz. As outras sete escolheram uma cor e repetem sempre. O seu feed hoje já tem a base neutra; a cor de destaque é uma conversa para a etapa da marca.</p></div>
+    <div class="card rv"><span class="tag">Leitura</span><p>Marcella e Débora ficam na base: a marca delas está na foto e na luz. A cor é mais assumida na Camila (lilás) e na Maluf (sálvia nas capas). Na Giovanna, o rosa e o azul vêm dos materiais da clínica. O seu feed hoje já tem a base neutra; a cor de destaque é uma conversa para a etapa da marca.</p></div>
   </div>
 </div></section>
 
@@ -357,13 +358,13 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
   <div class="kick rv"><b>10</b> Como você vai se comunicar</div>
   <h2 class="h2 rv">História, frase e séries fixas.</h2>
   <div class="card rv" style="margin-top:48px;border-color:color-mix(in srgb,var(--hl) 45%,var(--line))">
-    <span class="tag">O que já fazemos juntos</span>
+    <span class="tag">O seu ritmo</span>
     <div class="g3" style="margin-top:6px">
-      <div><p class="big" style="font-size:clamp(56px,7vw,88px)">4</p><p>posts por mês produzidos comigo, com 1 hora de gravação</p></div>
-      <div><p class="big" style="font-size:clamp(56px,7vw,88px)">2</p><p>Reels: onde você aparece, explica e cria proximidade</p></div>
-      <div><p class="big" style="font-size:clamp(56px,7vw,88px)">2</p><p>carrosséis: conteúdo que a mãe salva e manda para alguém</p></div>
+      <div><p class="big" style="font-size:clamp(56px,7vw,88px)">2</p><p>publicações por semana, no mínimo: uma nossa e uma foto sua</p></div>
+      <div><p class="big" style="font-size:clamp(56px,7vw,88px)">4</p><p>posts por mês produzidos comigo: 2 Reels e 2 carrosséis, com 1 hora de gravação</p></div>
+      <div><p class="big" style="font-size:clamp(56px,7vw,88px)">4</p><p>fotos profissionais suas por mês, uma por semana, sem produção</p></div>
     </div>
-    <p style="margin-top:22px">Esses 4 posts são a vitrine do posicionamento: é neles que entram a história, as séries e a frase da marca. Entre eles, você mesma publica fotos, sem produção: Pilates, consultório, um estudo, uma viagem, sempre com uma legenda que volta para o cuidado com a coluna. E completa pelos stories, com a rotina e os bastidores.</p>
+    <p style="margin-top:22px">São 8 publicações por mês. Os 4 posts que fazemos juntos são a vitrine do posicionamento. As suas fotos mostram você trabalhando: na clínica, avaliando, estudando ou no Pilates, com uma legenda que volta para o cuidado com a coluna. Os stories completam com a rotina.</p>
   </div>
   <div class="card rv" style="margin-top:48px;padding:clamp(28px,5vw,56px)">
     <span class="tag">História de origem · o post fixado nº 1</span>
@@ -373,31 +374,53 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
     <div class="card rv"><span class="tag">Manifesto</span><p style="color:var(--ink);font-size:clamp(17px,1.8vw,20px);line-height:1.6">Toda coluna tem uma história.<br>Antes de qualquer exercício, eu escuto a sua:<br>a rotina, a dor, o medo, o que você espera.<br>Depois vem a ciência, com o método certo<br>e um plano que é só seu.</p></div>
     <div class="card rv d1"><span class="tag">Frase para dizer em 10 segundos</span><p class="quote" style="font-size:clamp(22px,2.6vw,30px)">"Eu trato a coluna com ciência, mas começo escutando você."<small>Para o primeiro Reels, a palestra, o cartão de visita e quando perguntarem "o que você faz?".</small></p></div>
   </div>
-  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Cinco séries fixas</h3>
-  <p class="lead rv" style="margin-top:12px">Nome fixo e capa no mesmo padrão. Quem segue reconhece no feed e volta para ver a próxima.</p>
-  <div class="series">
-    <div class="se rv"><b>Mãe, repare</b><span>Sinais de escoliose e postura que a mãe pode notar em casa. Fala com o público prioritário.</span><em>Reels · carrossel</em></div>
-    <div class="se rv d1"><b>Coluna em 1 minuto</b><span>Uma dúvida, uma resposta, com termo técnico traduzido.</span><em>Reels</em></div>
-    <div class="se rv d2"><b>Por dentro da avaliação</b><span>As 2 horas explicadas por partes: histórico, testes, plano. Responde à objeção de preço.</span><em>Carrossel · stories</em></div>
-    <div class="se rv d3"><b>Eu também cuido da minha</b><span>Pilates, vôlei, academia, postura no avião. A sua vida, sempre com uma dica no fim.</span><em>Foto · Reels</em></div>
-    <div class="se rv d4"><b>Histórias de coluna</b><span>Evolução e depoimentos com autorização, dentro das normas do COFFITO.</span><em>Vídeo · carrossel</em></div>
+  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Quatro séries fixas</h3>
+  <p class="lead rv" style="margin-top:12px">Cada série tem uma função e um lugar certo no mês. Assim você nunca começa do zero e quem segue sabe o que esperar.</p>
+  <div class="series s4">
+    <div class="se rv"><b>Mãe, repare</b><span>Um sinal de escoliose ou postura que a mãe consegue notar em casa, e quando procurar avaliação. <i>Função: atrair o seu público prioritário.</i></span><em>1 carrossel por mês</em></div>
+    <div class="se rv d1"><b>Coluna em 1 minuto</b><span>Uma dúvida real de paciente, respondida sem jargão. <i>Função: mostrar autoridade com proximidade.</i></span><em>1 a 2 Reels por mês</em></div>
+    <div class="se rv d2"><b>Por dentro do cuidado</b><span>Como você trabalha: a avaliação, os testes, o plano, o SEAS. <i>Função: mostrar o valor e responder à objeção de preço.</i></span><em>1 carrossel por mês</em></div>
+    <div class="se rv d3"><b>Na prática</b><span>A sua foto da semana: na clínica, estudando, no Pilates. <i>Função: mostrar quem cuida, sem expor a intimidade.</i></span><em>1 foto por semana</em></div>
   </div>
+  <p class="lead rv" style="margin-top:24px;font-size:17px"><b style="color:var(--ink)">Histórias de coluna</b> vira um especial, não uma série: entra só quando houver um paciente que queira contar a sua evolução, com autorização e dentro das normas do COFFITO.</p>
   <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Os 3 fixados</h3>
   <div class="g3" style="margin-top:24px">
     <div class="card rv"><span class="tag">1 · Quem cuida</span><h3>"Por que eu escolhi cuidar de colunas"</h3><p>A história de origem, em Reels.</p></div>
-    <div class="card rv d1"><span class="tag">2 · Para a mãe</span><h3>"Escoliose em crianças: o que toda mãe precisa saber"</h3><p>Carrossel para salvar, com a abordagem SEAS e a SBE como prova.</p></div>
-    <div class="card rv d2"><span class="tag">3 · Como funciona</span><h3>"Da avaliação ao plano sob medida"</h3><p>Carrossel com os passos do tratamento e o convite "Agende sua avaliação".</p></div>
+    <div class="card rv d1"><span class="tag">2 · Para a mãe</span><h3>"Mãe, repare: escoliose em crianças"</h3><p>Carrossel para salvar, com a abordagem SEAS e a SBE como prova.</p></div>
+    <div class="card rv d2"><span class="tag">3 · Como funciona</span><h3>"Por dentro do cuidado: da avaliação ao plano"</h3><p>Carrossel com os passos do tratamento e o convite "Agende sua avaliação".</p></div>
   </div>
-  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Os próximos 4 meses, 2 Reels e 2 carrosséis por mês</h3>
-  <p class="lead rv" style="margin-top:12px">Os 3 posts fixados saem já no primeiro mês. Entre um post e outro, entram as suas fotos.</p>
+  <h3 class="rv" style="font-size:clamp(26px,3.4vw,40px);margin-top:80px">Os próximos 4 meses, 2 publicações por semana</h3>
+  <p class="lead rv" style="margin-top:12px">Em cada semana, um post nosso e uma foto sua. Os 3 fixados saem no primeiro mês.</p>
+  <h4 class="rv mh">Mês 1</h4>
   <div class="month">
-    <div class="wk rv"><b>Mês 1</b><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Por que eu escolhi cuidar de colunas</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Mãe, repare: o teste do "abaixar para frente"</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>Escoliose em crianças: o que toda mãe precisa saber</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>Da avaliação ao plano sob medida</span></div>
-    <div class="wk rv d1"><b>Mês 2</b><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Coluna em 1 minuto: escoliose tem cura?</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Eu também cuido da minha: Pilates</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>Por dentro da avaliação: por que leva 2 horas</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>Mochila e postura na escola</span></div>
-    <div class="wk rv d2"><b>Mês 3</b><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Histórias de coluna: primeiro depoimento</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Coluna em 1 minuto: dor lombar e celular</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>O que é a abordagem SEAS</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>5 mitos sobre postura</span></div>
-    <div class="wk rv d3"><b>Mês 4</b><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Mãe, repare: um ombro mais alto que o outro</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Reels</em>Eu também cuido da minha: vôlei e rotina</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>Colete, exercício ou cirurgia: como a gente decide</span><span><em style="font-style:normal;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hl);display:block">Carrossel</em>Histórias de coluna: a evolução de uma paciente</span></div>
+    <div class="wk rv"><b>Semana 1</b><span><em>Reels</em>Por que eu escolhi cuidar de colunas</span><span class="fo"><em>Foto sua</em>Você na clínica, pronta para atender</span></div>
+    <div class="wk rv"><b>Semana 2</b><span><em>Carrossel</em>Mãe, repare: escoliose em crianças, o que toda mãe precisa saber</span><span class="fo"><em>Foto sua</em>Suas mãos durante uma avaliação</span></div>
+    <div class="wk rv"><b>Semana 3</b><span><em>Reels</em>Coluna em 1 minuto: escoliose tem cura?</span><span class="fo"><em>Foto sua</em>Você no Pilates</span></div>
+    <div class="wk rv"><b>Semana 4</b><span><em>Carrossel</em>Por dentro do cuidado: da avaliação ao plano sob medida</span><span class="fo"><em>Foto sua</em>Um canto do consultório</span></div>
+  </div>
+  <h4 class="rv mh">Mês 2</h4>
+  <div class="month">
+    <div class="wk rv"><b>Semana 1</b><span><em>Reels</em>Coluna em 1 minuto: dor lombar e celular</span><span class="fo"><em>Foto sua</em>Você estudando para a pós</span></div>
+    <div class="wk rv"><b>Semana 2</b><span><em>Carrossel</em>Mãe, repare: a mochila da escola e a postura</span><span class="fo"><em>Foto sua</em>Um instrumento do seu dia a dia</span></div>
+    <div class="wk rv"><b>Semana 3</b><span><em>Reels</em>Coluna em 1 minuto: toda dor nas costas é postura?</span><span class="fo"><em>Foto sua</em>Você na academia ou no vôlei</span></div>
+    <div class="wk rv"><b>Semana 4</b><span><em>Carrossel</em>Por dentro do cuidado: por que a avaliação leva 2 horas</span><span class="fo"><em>Foto sua</em>Você explicando um exame</span></div>
+  </div>
+  <h4 class="rv mh">Mês 3</h4>
+  <div class="month">
+    <div class="wk rv"><b>Semana 1</b><span><em>Reels</em>Coluna em 1 minuto: posso fazer exercício com dor?</span><span class="fo"><em>Foto sua</em>Você entre um atendimento e outro</span></div>
+    <div class="wk rv"><b>Semana 2</b><span><em>Carrossel</em>Mãe, repare: um ombro mais alto que o outro</span><span class="fo"><em>Foto sua</em>Seus livros e anotações</span></div>
+    <div class="wk rv"><b>Semana 3</b><span><em>Reels</em>Coluna em 1 minuto: escoliose sempre precisa de colete?</span><span class="fo"><em>Foto sua</em>Você no Pilates</span></div>
+    <div class="wk rv"><b>Semana 4</b><span><em>Carrossel</em>Por dentro do cuidado: o que é a abordagem SEAS</span><span class="fo"><em>Foto sua</em>Você montando um plano</span></div>
+  </div>
+  <h4 class="rv mh">Mês 4</h4>
+  <div class="month">
+    <div class="wk rv"><b>Semana 1</b><span><em>Reels</em>Coluna em 1 minuto: dormir de lado faz mal?</span><span class="fo"><em>Foto sua</em>Você na clínica</span></div>
+    <div class="wk rv"><b>Semana 2</b><span><em>Carrossel</em>Mãe, repare: o estirão de crescimento</span><span class="fo"><em>Foto sua</em>Um curso ou congresso</span></div>
+    <div class="wk rv"><b>Semana 3</b><span><em>Reels</em>Especial: Histórias de coluna, se houver autorização</span><span class="fo"><em>Foto sua</em>Você em movimento</span></div>
+    <div class="wk rv"><b>Semana 4</b><span><em>Carrossel</em>Por dentro do cuidado: os exercícios de casa</span><span class="fo"><em>Foto sua</em>Sua equipe ou seu espaço</span></div>
   </div>
   <div class="g2">
-    <div class="card rv"><span class="tag">Destaques úteis (ideia da Renata)</span><p>Escoliose · Mochila e postura · Avaliação · Resultados · Consultório · Sobre mim. Capas iguais e simples, como a Mariana e a Maluf fazem.</p></div>
+    <div class="card rv"><span class="tag">Destaques úteis (ideia da Renata)</span><p><b style="color:var(--ink)">Sobre mim:</b> sua história e formação. <b style="color:var(--ink)">Avaliação:</b> como funciona e como agendar. <b style="color:var(--ink)">Escoliose:</b> o que é e como você trata. <b style="color:var(--ink)">Para mães:</b> sinais, mochila da escola e postura. <b style="color:var(--ink)">Consultório:</b> o espaço e como chegar. Capas iguais e simples.</p></div>
     <div class="card rv d1"><span class="tag">Uma frase recorrente (ideia da Ana Luiza)</span><p>A Ana Luiza repete o "propósito" em bio, frases e legendas. No seu caso, a frase que a gente escolher fecha os Reels e as legendas, sempre igual.</p></div>
   </div>
 </div></section>
@@ -409,8 +432,8 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
   <div class="pil">
     <div class="p rv"><div class="n">35%</div><h3>Coluna explicada<small>Autoridade</small></h3><div><p>Escoliose na infância, sinais que a mãe pode notar em casa, o que é a abordagem SEAS, mitos sobre postura e dor.</p><div class="ex"><span>Reels de 30 a 60 s</span><span>Carrossel educativo</span><span>"3 sinais de escoliose"</span></div></div></div>
     <div class="p rv d1"><div class="n">25%</div><h3>Por dentro do cuidado<small>Método</small></h3><div><p>Como é a avaliação de 2 horas, os testes, o plano, a evolução semana a semana, o consultório e o kit do paciente.</p><div class="ex"><span>Bastidores</span><span>"Um dia de avaliação"</span><span>Stories diários</span></div></div></div>
-    <div class="p rv d2"><div class="n">20%</div><h3>Quem cuida<small>Personalidade</small></h3><div><p>Pilates, vôlei, academia, viagens, estudo e congressos. A família em recortes, sem expor a sua filha. A fé numa linha, quando fizer sentido.</p><div class="ex"><span>Foto no Pilates + dica de postura</span><span>Viagem + coluna no avião</span></div></div></div>
-    <div class="p rv d3"><div class="n">20%</div><h3>Resultados e vozes<small>Prova</small></h3><div><p>Depoimentos, histórias de evolução e indicações de médicos, sempre com autorização e dentro das normas do conselho (COFFITO) para imagem de paciente.</p><div class="ex"><span>Depoimento em vídeo</span><span>"A história da M., 12 anos"</span></div></div></div>
+    <div class="p rv d2"><div class="n">20%</div><h3>Quem cuida<small>Personalidade</small></h3><div><p>Pilates, vôlei, academia, viagens, estudo e congressos. A família em recortes, sem expor a sua filha. A fé numa linha, quando fizer sentido.</p><div class="ex"><span>Foto da semana: na clínica, estudando, no Pilates</span><span>Viagem + coluna no avião</span></div></div></div>
+    <div class="p rv d3"><div class="n">20%</div><h3>Resultados e vozes<small>Prova</small></h3><div><p>Depoimentos, histórias de evolução e indicações de médicos, sempre com autorização e dentro das normas do conselho (COFFITO) para imagem de paciente.</p><div class="ex"><span>Depoimento em vídeo</span><span>Só com autorização</span></div></div></div>
   </div>
 </div></section>
 
@@ -431,8 +454,8 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
   <div class="bioflex">
     <div class="phone rv">
       <div class="hd"><div class="av">DL</div><div><div class="nm">dalilaleaoo</div><div style="font-size:13px;color:var(--gray)">Dalila Leão | Escoliose e Postura</div></div></div>
-      <div class="bio2">Fisioterapeuta · Escoliose, postura e dor na coluna<br>Crianças, adolescentes e mulheres · tratamento sob medida<br>Teresina · Membro @sbescoliose · Crefito 250472-F<br>↓ Agende sua avaliação<br><span class="lk">link da página de links</span></div>
-      <div class="hl2"><div><i></i>Escoliose</div><div><i></i>Mochila</div><div><i></i>Avaliação</div><div><i></i>Resultados</div><div><i></i>Sobre mim</div></div>
+      <div class="bio2">Fisioterapeuta · Escoliose, postura e dor<br>Crianças, adolescentes e mulheres<br>Teresina · Membro @sbescoliose · Crefito 250472-F<br>↓ Agende sua avaliação<br><span class="lk">link da página de links</span></div>
+      <div class="hl2"><div><i></i>Sobre mim</div><div><i></i>Avaliação</div><div><i></i>Escoliose</div><div><i></i>Para mães</div><div><i></i>Consultório</div></div>
     </div>
     <div class="g2" style="margin-top:0">
       <div class="card rv d1"><span class="tag">Nome do perfil</span><p>O Instagram usa esse campo na busca. Hoje está "Fisioterapeuta Teresina". Sugestão: <b style="color:var(--ink)">"Escoliose e Postura"</b>, que é o que a mãe digita e já diz a especialidade. Alternativa: "Dra. Dalila Leão • Fisioterapeuta", como você escreveu no briefing.</p></div>
@@ -450,7 +473,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
   <div class="steps">
     <div class="step rv"><div><h3>Validar com você</h3><p>Os dois públicos, o limite do que é pessoal (filha, fé) e a frase entre as quatro.</p></div></div>
     <div class="step rv d1"><div><h3>Ajustar nome e bio</h3><p>Nome do perfil, bio e destaques no formato acima.</p></div></div>
-    <div class="step rv d2"><div><h3>Gravar o primeiro mês</h3><p>2 Reels e 2 carrosséis, com os 3 posts fixados, numa gravação de 1 hora.</p></div></div>
+    <div class="step rv d2"><div><h3>Gravar o primeiro mês</h3><p>2 Reels e 2 carrosséis, com os 3 fixados, numa gravação de 1 hora. E você separa 4 fotos suas, uma por semana.</p></div></div>
     <div class="step rv d3"><div><h3>Identidade visual</h3><p>Com o posicionamento fechado, partimos para a nova marca.</p></div></div>
   </div>
   <p class="note2 rv">Cada paleta junta as cores que dominam as publicações recentes do perfil e, quando existe, a cor de destaque que se repete nos textos, nas roupas e nas capas dos destaques.</p>
@@ -462,7 +485,7 @@ footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--gray);fo
 const REFS=[
  {n:"Marcella Salomão",h:"marcellasalomao",f:"41 mil",a:"Harmonização facial · Cuiabá",g:"chique",bio:"Te entrego uma BELEZA SUBLIME®",k:"Estética minimalista e um conceito com nome próprio.",x:"Pode soar distante, como você mesma notou.",v:"Retratos editoriais quentes e em P&B, antes e depois com legenda pequena em itálico, frase-conceito \"Beleza natural é não ter procedimentos\". Destaques de viagem.",p:[["#d8c8b6", "Creme"], ["#b5937c", "Caramelo"], ["#725949", "Cacau"], ["#281b17", "Quase-preto"]]},
  {n:"Camila Dias",h:"camilaamd",f:"216 mil",a:"Harmonização facial",g:"leve",bio:"transformando vidas há 10 anos através da HOF",k:"Storytelling ligado à vida pessoal, mais personalidade.",x:"Estética colorida e tom de venda de curso.",v:"A filha tem destaque próprio e até a história de saúde dela vira conteúdo. Frase manuscrita sobre fundo creme, selfie espontânea. Personalidade forte, mas com exposição da família maior do que você quer.",p:[["#e3ded8", "Off-white"], ["#b49a8c", "Nude"], ["#28201f", "Quase-preto"], ["#7854a2", "Lilás", 1]]},
- {n:"Ana Luiza Libório",h:"analuliborio",f:"90 mil",a:"Dentística · Maringá",g:"leve",bio:"Odontologia com propósito 🦋",k:"Propósito resumido em uma frase de bio.",x:"Base rosada, justo o tom que você quer tirar.",v:"Editorial em P&B (lupas, \"The art of hands\"), frase com a borboleta como símbolo próprio, destaques de livros e viagens. Um símbolo pequeno que vira assinatura.",p:[["#cdcbc8", "Cinza claro"], ["#795045", "Terra rosada"], ["#1c191a", "Preto"], ["#b0558a", "Rosa", 1]]},
+ {n:"Ana Luiza Libório",h:"analuliborio",f:"90 mil",a:"Dentística · Maringá",g:"leve",bio:"Odontologia com propósito 🦋",k:"Propósito resumido em uma frase de bio.",x:"Base rosada, justo o tom que você quer tirar.",v:"Editorial em P&B (lupas, \"The art of hands\"), frase com a borboleta como símbolo próprio, destaques de livros e viagens. Um símbolo pequeno que vira assinatura.",p:[["#cdcbc8", "Cinza claro"], ["#795045", "Terra rosada"], ["#1c191a", "Preto"], ["#a95286", "Rosa", 1]]},
  {n:"Mariana Georges",h:"dra.mariana",f:"172 mil",a:"Reestruturação facial",g:"chique",bio:"GeorgesMethod® Worldwide",k:"Método com nome e contraste forte de preto e terra.",x:"Foco em formar colegas, não em paciente.",v:"Moda e eventos de gala, capas dos destaques todas iguais em marrom (Cursos, Alunas, Pacientes, Clinic, Palco). O extremo do \"chique\": serve a padronização, não o glamour.",p:[["#dad3cb", "Areia"], ["#7c5d4c", "Cacau"], ["#2c211c", "Quase-preto"], ["#841c23", "Vermelho", 1]]},
  {n:"Débora Tonetti",h:"dradebora.tonetti",f:"63 mil",a:"Saúde da mulher",g:"leve",bio:"Médica, mulher, muitas.",k:"Lifestyle e reflexão integrados à profissão.",x:"A vida pessoal pesa mais do que você quer.",v:"O feed mais editorial das 9: posts só de texto em caixa-alta fina sobre fundo taupe e oliva, P&B no centro cirúrgico, velas, consultório claro. Reflexão com calmaria.",p:[["#d7d2c8", "Linho"], ["#b1a699", "Taupe"], ["#81705e", "Fendi"], ["#423328", "Café"]]},
  {n:"Giovanna Borelli",h:"giovannaborellii",f:"137 mil",a:"Odontologia · Americana-SP",g:"leve",bio:"“Porque Dele, por Ele e para Ele são todas as coisas”",k:"Fé numa linha da bio, feed profissional. Um bom modelo para você.",x:"Feed clínico colorido (rosa e azul de bancada); a fé fica só na bio.",v:"Capas dos destaques em aquarela nude, consultório com cardápio de café da marca, frase curta branca sobre preto. O cuidado com detalhe é o que serve.",p:[["#d2c2c4", "Rosé"], ["#c77c8a", "Rosa", 1], ["#4091ca", "Azul", 1], ["#1c1718", "Preto"]]},
@@ -471,7 +494,7 @@ const REFS=[
  {n:"Taiz Campbell",h:"dra.taizcampbell",f:"918 mil",a:"Medicina estética",g:"chique",bio:"Quiet Beauty® · Aesthetic medicine beyond procedures",k:"Luxo silencioso: sofisticação sem exagero.",x:"Escala global e inglês, longe da realidade local.",v:"Serviços com nome (Daycare®, Quiet Beauty®), tipografia serifada elegante (\"Seu tempo. Sua beleza. Nosso cuidado.\"), destaques \"outfits\" e \"kids\": família e estilo organizados por tema.",p:[["#d8d0cc", "Off-white"], ["#ad9181", "Nude"], ["#2d1e1a", "Quase-preto"], ["#78232d", "Vinho", 1]]}
 ];
 const DALILA=[["#d2c5c3",22],["#bea497",21],["#987e6d",19],["#6a5346",14],["#f0e9e8",14],["#252025",11]];
-const BIG=[["#7854a2","Lilás · Camila"],["#b0558a","Rosa · Ana Luiza"],["#c77c8a","Rosa · Giovanna"],["#841c23","Vermelho · Mariana"],["#78232d","Vinho · Taiz"],["#c87e68","Terracota · Renata"],["#617a77","Sálvia · Maluf"]];
+const BIG=[["#7854a2","Lilás · Camila"],["#a95286","Rosa · Ana Luiza"],["#c77c8a","Rosa · Giovanna"],["#841c23","Vermelho · Mariana"],["#78232d","Vinho · Taiz"],["#c87e68","Terracota · Renata"],["#617a77","Sálvia · Maluf"]];
 const palHTML=p=>'<div class="pal">'+p.map(x=>`<i style="background:${x[0]}" data-w="${typeof x[1]==='number'?x[1]:100/p.length}" data-h="${x[0]}"></i>`).join('')+'</div>';
 document.getElementById('refs').innerHTML=REFS.map((r,i)=>`<article class="ref rv d${i%3+1}" data-g="${r.g}">
 <div class="top"><div><h3>${r.n}</h3><a class="h" href="https://www.instagram.com/${r.h}/" target="_blank" rel="noopener">@${r.h}</a></div><div class="f"><b>${r.f}</b>seguidores</div></div>
