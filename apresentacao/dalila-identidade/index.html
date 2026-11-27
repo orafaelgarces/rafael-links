@@ -321,8 +321,16 @@ document.getElementById("pilha").innerHTML=MOCKS.map(([f,n,c],i)=>`<figure class
 // ---------- entrada na rolagem ----------
 const Q=new URLSearchParams(location.search), SHOT=Q.has("shot");
 const els=document.querySelectorAll(".rv,.ln,.zoom,.pz");
-if(SHOT||!("IntersectionObserver" in window)) els.forEach(e=>e.classList.add("in"));
-else{ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{threshold:.18,rootMargin:"0px 0px -6% 0px"}); els.forEach(e=>io.observe(e)); }
+// Gatilho por posição: cada elemento entra quando o topo dele passa de 88% da altura da tela.
+// (O IntersectionObserver não enxerga itens escondidos por clip-path e falha em algumas situações.)
+if(SHOT) els.forEach(e=>e.classList.add("in"));
+else{
+  const fila=[...els]; let marcado=false;
+  function checa(){ marcado=false; const h=innerHeight; for(let k=fila.length-1;k>=0;k--){ const r=fila[k].getBoundingClientRect(); if(r.top<h*.88 && r.bottom>-h*.2){ fila[k].classList.add("in"); fila.splice(k,1); } else if(r.bottom<=-h*.2){ fila[k].classList.add("in"); fila.splice(k,1); } }
+    if(!fila.length){ removeEventListener("scroll",pede); removeEventListener("resize",pede); } }
+  function pede(){ if(!marcado){ marcado=true; requestAnimationFrame(checa); setTimeout(()=>{ if(marcado) checa(); },120); } }
+  addEventListener("scroll",pede,{passive:true}); addEventListener("resize",pede); addEventListener("load",checa); checa();
+}
 
 // ---------- animação do logo na abertura ----------
 const stage=document.getElementById("stage"), hint=document.getElementById("hint");
