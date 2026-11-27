@@ -63,9 +63,29 @@ section{position:relative;padding:clamp(72px,11vw,170px) var(--pad)}
 .tipos{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,100px)}
 .frases{display:flex;gap:clamp(30px,5vw,90px);white-space:nowrap;font-size:clamp(30px,5vw,84px);width:max-content;animation:corre 46s linear infinite}
 .frases span:nth-child(odd){color:var(--oliva)}@keyframes corre{to{transform:translateX(-50%)}}
+
+/* universo visual */
+.N{--m:url(assets/vertical.png);aspect-ratio:3940/634;-webkit-mask:var(--m) 0 81.1%/100% auto no-repeat;mask:var(--m) 0 81.1%/100% auto no-repeat}
+.NP{--m:url(assets/vertical.png);aspect-ratio:3940/964;-webkit-mask:var(--m) 0 100%/100% auto no-repeat;mask:var(--m) 0 100%/100% auto no-repeat}
+.selo{position:relative;aspect-ratio:1;display:grid;place-items:center;color:var(--prof)}
+.selo svg{position:absolute;inset:0;width:100%;height:100%;animation:gira 40s linear infinite}
+.selo text{font-family:'Instrument Sans',sans-serif;font-weight:500;letter-spacing:.2em;fill:currentColor}
+@keyframes gira{to{transform:rotate(360deg)}}
+.bola{aspect-ratio:1;border-radius:50%;display:grid;place-items:center}
+.oval{aspect-ratio:3/4;border-radius:50%;border:1.5px solid var(--prof);display:grid;place-items:center}
+.uv{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(34px,6vw,96px) clamp(20px,5vw,90px);align-items:center;justify-items:center;margin-top:clamp(40px,6vw,96px)}
+.uv>*{width:100%;max-width:340px}.uv .w1{grid-column:1/-1;max-width:560px}
+.dots{display:flex;gap:16px;justify-content:center;margin-top:clamp(40px,6vw,90px)}.dots i{width:22px;height:22px;border-radius:50%}
+.el{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(30px,6vw,100px);align-items:center;justify-items:center;margin-top:clamp(40px,6vw,90px)}
+.el>*{width:100%;max-width:300px}
+.padrao{height:min(70svh,640px);padding:0;background:var(--prof);position:relative;overflow:hidden}
+.padrao i{position:absolute;inset:-20%;background:rgba(156,155,120,.6);-webkit-mask:url(assets/padrao.png) 0 0/300px auto repeat;mask:url(assets/padrao.png) 0 0/300px auto repeat;animation:desce 60s linear infinite}
+@keyframes desce{to{transform:translateY(243px)}}
+@media (max-width:820px){.uv{grid-template-columns:repeat(2,1fr)}.uv>*{max-width:150px}.uv .w1{max-width:300px}.el{grid-template-columns:repeat(2,1fr)}.el>*{max-width:140px}.padrao i{-webkit-mask-size:200px auto;mask-size:200px auto}}
+@media (prefers-reduced-motion:reduce){.selo svg,.padrao i{animation:none}}
 /* folhas dos mockups */
 .pilha{position:relative}
-.folha{position:sticky;top:0;height:100svh;overflow:hidden;box-shadow:0 -30px 60px rgba(31,29,27,.22);padding:0}
+.folha{position:sticky;top:0;height:100svh;overflow:hidden;box-shadow:0 -24px 50px rgba(31,29,27,.2);clip-path:inset(-90px 0 0 0);padding:0}
 .folha img{width:100%;height:100%;object-fit:cover}
 .folha figcaption{position:absolute;left:var(--pad);bottom:clamp(20px,4vw,54px);color:#fff;text-shadow:0 2px 24px rgba(0,0,0,.5);font-family:Marcellus,serif;font-size:clamp(24px,3vw,46px);line-height:1.1}
 .folha figcaption small{display:block;font-family:'Instrument Sans',sans-serif;font-size:clamp(11px,.9vw,14px);letter-spacing:.24em;text-transform:uppercase;margin-bottom:8px;opacity:.9}
@@ -78,7 +98,7 @@ footer{font-size:12px;letter-spacing:.2em;text-transform:uppercase;text-align:ce
 @media (max-width:820px){
   .g2,.tipos{grid-template-columns:1fr}.pilares{grid-template-columns:1fr}.uni{grid-template-columns:repeat(2,1fr)}
   .series{grid-template-columns:repeat(2,1fr)}.cores>div{aspect-ratio:1}
-  .folha{position:relative;height:auto;aspect-ratio:3/2;box-shadow:none;margin-bottom:6px}.folha figcaption{font-size:20px;bottom:14px}.folha figcaption small{font-size:9px;margin-bottom:4px}
+  .folha{position:relative;height:auto;aspect-ratio:3/2;box-shadow:none;clip-path:none;margin-bottom:6px}.folha figcaption{font-size:20px;bottom:14px}.folha figcaption small{font-size:9px;margin-bottom:4px}
 }
 @media (prefers-reduced-motion:reduce){.rv,.ln>span,.zoom img{transition:none;transform:none;opacity:1}.frases{animation:none}}
 </style>
@@ -168,8 +188,36 @@ footer{font-size:12px;letter-spacing:.2em;text-transform:uppercase;text-align:ce
 </section>
 
 <section>
-  <div class="k rv">Universo visual</div>
-  <h2 class="rv" style="font-size:clamp(34px,5vw,80px)">Uma marca, várias formas de assinar.</h2>
+  <div class="k rv" style="text-align:center">Universo visual</div>
+  <h2 class="rv" style="font-size:clamp(34px,5vw,80px);text-align:center">Uma marca, várias formas de assinar.</h2>
+  <div class="uv">
+    <i class="mk H w1 rv"></i>
+    <i class="mk NP rv"></i><div class="selo rv" style="color:var(--prof)"><svg viewBox="0 0 200 200"><defs><path id="c" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text font-size="13.5"><textPath href="#c" textLength="498">DALILA LEÃO · FISIOTERAPEUTA · DALILA LEÃO · FISIOTERAPEUTA · </textPath></text></svg></div><i class="mk N rv"></i>
+    <i class="mk M rv" style="max-width:120px"></i><i class="mk F rv" style="max-width:190px"></i><div class="selo rv" style="color:var(--prof)"><svg viewBox="0 0 200 200"><defs><path id="c" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text font-size="13.5"><textPath href="#c" textLength="498">DALILA LEÃO · FISIOTERAPEUTA · DALILA LEÃO · FISIOTERAPEUTA · </textPath></text></svg><i class="mk F" style="width:34%"></i></div>
+    <div class="oval rv" style="max-width:170px"><i class="mk M" style="width:44%"></i></div><i class="mk V rv"></i><div class="bola rv" style="background:var(--terra);max-width:180px"><i class="mk F" style="width:54%;--c:var(--areia)"></i></div>
+  </div>
+  <div class="dots rv"><i style="background:var(--linho);border:1.5px solid var(--areia)"></i><i style="background:var(--areia)"></i><i style="background:var(--oliva)"></i><i style="background:var(--terra)"></i><i style="background:var(--prof)"></i></div>
+</section>
+
+<section class="bg-areia">
+  <div class="k rv" style="text-align:center">Elementos visuais</div>
+  <h2 class="rv" style="font-size:clamp(34px,5vw,80px);text-align:center">Selos, emblemas e a flor.</h2>
+  <div class="el">
+    <div class="selo rv" style="color:var(--prof)"><svg viewBox="0 0 200 200"><defs><path id="c" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text font-size="13"><textPath href="#c" textLength="498">DALILA LEÃO · FISIOTERAPEUTA · ESCOLIOSE E POSTURA · </textPath></text></svg><i class="mk M" style="width:30%"></i></div>
+    <div class="bola rv" style="background:var(--terra)"><i class="mk F" style="width:58%;--c:var(--areia)"></i></div>
+    <div class="bola rv" style="border:1.5px solid var(--prof)"><i class="mk F" style="width:56%"></i></div>
+    <i class="mk F rv" style="--c:var(--oliva)"></i>
+    <div class="selo rv" style="color:var(--terra)"><svg viewBox="0 0 200 200"><defs><path id="c" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0"/></defs><text font-size="13.5"><textPath href="#c" textLength="498">CUIDADO QUE ALINHA · CUIDADO QUE ALINHA · </textPath></text></svg><i class="mk F" style="width:36%;--c:var(--terra)"></i></div>
+    <div class="bola rv" style="background:var(--linho)"><i class="mk F" style="width:56%"></i></div>
+  </div>
+  <p class="rv" style="margin:clamp(34px,5vw,70px) auto 0;text-align:center">A flor é um elemento só: as mãos e o broto aparecem sempre juntos.</p>
+</section>
+
+<section class="padrao" aria-label="Padrão da marca"><i></i></section>
+
+<section>
+  <div class="k rv">Versões</div>
+  <h2 class="rv" style="font-size:clamp(34px,5vw,80px)">Em qualquer fundo da paleta.</h2>
   <div class="uni">
     <div class="rv"><i class="mk V" style="width:70%"></i></div>
     <div class="rv" style="--i:1;background:var(--oliva)"><i class="mk H" style="width:74%;--c:var(--linho)"></i></div>
