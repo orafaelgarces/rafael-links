@@ -83,6 +83,15 @@ section{position:relative;padding:clamp(72px,11vw,170px) var(--pad)}
 @keyframes desce{to{transform:translateY(243px)}}
 @media (max-width:820px){.uv{grid-template-columns:repeat(2,1fr)}.uv>*{max-width:150px}.uv .w1{max-width:300px}.el{grid-template-columns:repeat(2,1fr)}.el>*{max-width:140px}.padrao i{-webkit-mask-size:200px auto;mask-size:200px auto}}
 @media (prefers-reduced-motion:reduce){.selo svg,.padrao i{animation:none}}
+
+/* cores: efeito de quebra-cabeça */
+.pz{overflow:hidden}
+.pz>div{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--r)) scale(.86);transition:transform 1.25s cubic-bezier(.2,.8,.2,1),opacity .7s ease;transition-delay:calc(var(--o)*130ms);will-change:transform}
+.pz.in>div{opacity:1;transform:none}
+.pz>div:nth-child(1){--dx:-46%;--dy:-38%;--r:-9deg;--o:0}.pz>div:nth-child(2){--dx:0%;--dy:-62%;--r:6deg;--o:3}.pz>div:nth-child(3){--dx:48%;--dy:-34%;--r:10deg;--o:1}
+.pz>div:nth-child(4){--dx:-64%;--dy:6%;--r:7deg;--o:5}.pz>div:nth-child(5){--dx:0%;--dy:0%;--r:-14deg;--o:8}.pz>div:nth-child(6){--dx:62%;--dy:-4%;--r:-8deg;--o:4}
+.pz>div:nth-child(7){--dx:-44%;--dy:40%;--r:9deg;--o:2}.pz>div:nth-child(8){--dx:4%;--dy:64%;--r:-6deg;--o:6}.pz>div:nth-child(9){--dx:46%;--dy:38%;--r:-10deg;--o:7}
+@media (prefers-reduced-motion:reduce){.pz>div{opacity:1;transform:none;transition:none}}
 /* folhas dos mockups */
 .pilha{position:relative}
 .folha{position:sticky;top:0;height:100svh;overflow:hidden;box-shadow:0 -24px 50px rgba(31,29,27,.2);clip-path:inset(-90px 0 0 0);padding:0}
@@ -226,15 +235,15 @@ footer{font-size:12px;letter-spacing:.2em;text-transform:uppercase;text-align:ce
   </div>
 </section>
 
-<section class="cores">
+<section class="cores pz">
   <div style="background:var(--oliva);color:var(--linho)"><h3>Oliva Dalila</h3><small>Cor assinatura<br>#9C9B78</small></div>
-  <div class="zoom rv"><img src="assets/cor-oliva.jpg" alt="Ramos de oliveira" loading="lazy"></div>
+  <div class="ft"><img src="assets/cor-oliva.jpg" alt="Ramos de oliveira" loading="lazy"></div>
   <div style="background:var(--prof);color:var(--linho)"><h3>Oliva profunda</h3><small>Fundos e destaques<br>#55573F</small></div>
-  <div class="zoom rv"><img src="assets/cor-linho.jpg" alt="Tecido de linho" loading="lazy"></div>
+  <div class="ft"><img src="assets/cor-linho.jpg" alt="Tecido de linho" loading="lazy"></div>
   <div style="background:var(--terra);color:var(--linho)"><h3>Terra</h3><small>Calor e detalhes<br>#8C6E5A</small></div>
-  <div class="zoom rv"><img src="assets/cor-areia.jpg" alt="Vaso de cerâmica cor de areia" loading="lazy"></div>
+  <div class="ft"><img src="assets/cor-areia.jpg" alt="Vaso de cerâmica cor de areia" loading="lazy"></div>
   <div style="background:var(--areia);color:var(--prof)"><h3>Areia</h3><small>Apoio<br>#DCCDBD</small></div>
-  <div class="zoom rv"><img src="assets/cor-terra.jpg" alt="Tigelas de barro" loading="lazy"></div>
+  <div class="ft"><img src="assets/cor-terra.jpg" alt="Tigelas de barro" loading="lazy"></div>
   <div style="background:var(--linho);color:var(--prof)"><h3>Linho</h3><small>Fundo principal · #F3EEE7<br>Textos em Grafite #1F1D1B</small></div>
 </section>
 
@@ -282,7 +291,7 @@ document.getElementById("pilha").innerHTML=MOCKS.map(([f,n,c],i)=>`<figure class
 
 // ---------- entrada na rolagem ----------
 const Q=new URLSearchParams(location.search), SHOT=Q.has("shot");
-const els=document.querySelectorAll(".rv,.ln,.zoom");
+const els=document.querySelectorAll(".rv,.ln,.zoom,.pz");
 if(SHOT||!("IntersectionObserver" in window)) els.forEach(e=>e.classList.add("in"));
 else{ const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{threshold:.18,rootMargin:"0px 0px -6% 0px"}); els.forEach(e=>io.observe(e)); }
 
