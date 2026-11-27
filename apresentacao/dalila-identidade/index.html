@@ -92,6 +92,13 @@ section{position:relative;padding:clamp(72px,11vw,170px) var(--pad)}
 .pz>div:nth-child(4){--dx:-64%;--dy:6%;--r:7deg;--o:5}.pz>div:nth-child(5){--dx:0%;--dy:0%;--r:-14deg;--o:8}.pz>div:nth-child(6){--dx:62%;--dy:-4%;--r:-8deg;--o:4}
 .pz>div:nth-child(7){--dx:-44%;--dy:40%;--r:9deg;--o:2}.pz>div:nth-child(8){--dx:4%;--dy:64%;--r:-6deg;--o:6}.pz>div:nth-child(9){--dx:46%;--dy:38%;--r:-10deg;--o:7}
 @media (prefers-reduced-motion:reduce){.pz>div{opacity:1;transform:none;transition:none}}
+
+.bts{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;width:100%;margin-top:clamp(34px,5vw,70px)}
+.bt{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:18px 34px;border-radius:999px;text-decoration:none;font-weight:500;font-size:clamp(15px,1.1vw,18px);transition:transform .3s,background .3s,color .3s;min-width:min(100%,290px)}
+.bt small{font-weight:400;font-size:12px;letter-spacing:.06em;opacity:.8}
+.bt.a{background:var(--linho);color:var(--prof)}.bt.b{border:1.5px solid var(--areia);color:var(--linho)}
+.bt:hover{transform:translateY(-3px)}.bt.b:hover{background:var(--areia);color:var(--prof)}
+.bt:focus-visible{outline:2px solid var(--oliva);outline-offset:4px}
 /* folhas dos mockups */
 .pilha{position:relative}
 .folha{position:sticky;top:0;height:100svh;overflow:hidden;box-shadow:0 -24px 50px rgba(31,29,27,.2);clip-path:inset(-90px 0 0 0);padding:0}
@@ -279,6 +286,10 @@ footer{font-size:12px;letter-spacing:.2em;text-transform:uppercase;text-align:ce
 <section class="full bg-prof" style="align-items:center;text-align:center">
   <i class="mk V rv" style="width:min(74vw,620px);--c:var(--linho)"></i>
   <p class="mar rv" style="--i:2;font-size:clamp(26px,3.4vw,60px);color:var(--areia);margin-top:clamp(30px,5vw,80px)">Cuidado que alinha.</p>
+  <div class="bts rv" style="--i:4">
+    <a class="bt a" href="downloads/dalila-leao-identidade-visual.pdf" target="_blank" rel="noopener">Ver a apresentação em PDF<small>41 páginas · 8 MB</small></a>
+    <a class="bt b" href="downloads/dalila-leao-identidade-visual.zip" download>Baixar os materiais da marca<small>Logos, cores, padrão e mockups · 31 MB</small></a>
+  </div>
 </section>
 <footer>Identidade visual · 2026</footer>
 
